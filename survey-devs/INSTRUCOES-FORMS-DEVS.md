@@ -1,6 +1,6 @@
 # Como criar o Microsoft Forms para o Developer Survey
 
-📖 **Navegação:** [🏠 Índice](../README.md) · [« Coleta principal](../coleta/INSTRUCOES-FORMS.md) · Você está aqui · [» Learning Survey](../survey-learning/INSTRUCOES-FORMS-LEARNING.md)
+**`🅱️ SURVEY-DEVS`** · _anônimo_ · 📖 [🏠 Índice](../README.md) · [« Coleta principal](../coleta/INSTRUCOES-FORMS.md) · Você está aqui · [» Learning Survey](../survey-learning/INSTRUCOES-FORMS-LEARNING.md)
 
 > [!IMPORTANT]
 > Survey **anônimo** de **75 perguntas** em 9 seções para entender como os desenvolvedores da sua organização usam GitHub Copilot, modos do Copilot Chat (Ask/Edit/Agent/**Coding Agent**), **Copilot Spaces**, **Microsoft Foundry**, agentes IA + **MCP / A2A**, instructions files, práticas (TDD/SDD com Spec Kit), **personas Agentic DevOps** (System Designer / Agent Operator), governança e segurança (incl. **JIT permissions** e **escopo+red-lines de agents**). Tempo estimado por respondente: **22-28 min**.
@@ -244,6 +244,23 @@ Devs respondem mais um próximo survey se virem que o anterior gerou ação. Ap�
 ---
 
 **Versão:** 1.0 · **Data:** 2026-05-08
+
+---
+
+## Travou em algum desses passos?
+
+<details>
+<summary><strong>FAQ — dúvidas comuns no Developer Survey (anônimo)</strong></summary>
+
+| Sintoma | Causa provável | Como resolver |
+|---|---|---|
+| Excel exportado tem **Email** e **Name** preenchidos | **Anonymous responses** NÃO foi marcado no Forms | Settings do Forms → ✅ **Anonymous responses** → recoletar |
+| Devs reclamam que é longo demais (20-25 min) | Muitas questões marcadas como required | Marque required **apenas em S1** (perfil); demais opcionais |
+| Tenho menos de 5 respondentes | Insights ficam pouco confiáveis | Mínimo absoluto: 3. Ideal: 5+. Ótimo: 15+ — estenda a campanha 1 semana |
+| Skill calcula maturidade mas número parece baixo | Rubrica determinística L0-L4 — reflete realidade | Veja [`RUBRICA-MATURIDADE.md`](RUBRICA-MATURIDADE.md) para entender a escala |
+| Quero pular este survey | Tudo bem — é opcional | Pule direto para o Learning Survey ou só rode o Assessment principal |
+
+</details>
 
 ---
 

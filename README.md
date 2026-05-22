@@ -9,10 +9,10 @@
 
 # Kit AI Maturity Assessment — Auto-serviço com GitHub Copilot
 
+**`🏠 ÍNDICE`** · 📖 Você está aqui · [» Guia passo-a-passo](GUIA-PASSO-A-PASSO.md) · [» Coleta via Forms](coleta/INSTRUCOES-FORMS.md) · [» Wizard](wizard/README.md)
+
 > [!TIP]
 > **Primeira vez aqui?** Vá direto para o [GUIA-PASSO-A-PASSO.md](GUIA-PASSO-A-PASSO.md) ou abra o Copilot Chat e digite `@ai-maturity-assistant` — ele guia você da instalação ao PDF final.
-
-📖 **Navegação:** Você está aqui · [» Guia passo-a-passo](GUIA-PASSO-A-PASSO.md) · [» Coleta via Forms](coleta/INSTRUCOES-FORMS.md) · [» Wizard](wizard/README.md)
 
 > **Para o cliente:** este pacote contém tudo que você precisa para conduzir o **AI Maturity Assessment** sem depender da plataforma web. Você responde um JSON, abre o GitHub Copilot Chat no VS Code, digita um comando, e recebe **planilha, scores, gap analysis, recomendações de estratégia e relatório executivo** em PT-BR.
 
@@ -338,6 +338,23 @@ Você não perde dados — basta upload do JSON quando o app estiver disponível
 ---
 
 **Versão do framework:** 1.0.0 · **Data do kit:** 2026-05-08 · **Idioma:** PT-BR
+
+---
+
+## Travou em algum desses passos?
+
+<details>
+<summary><strong>FAQ — dúvidas comuns no primeiro contato com o kit</strong></summary>
+
+| Sintoma | Causa provável | Como resolver |
+|---|---|---|
+| Não sei qual survey rodar primeiro | Você ainda não decidiu o escopo da consultoria | Use o agente: `@ai-maturity-assistant` apresenta os 4 caminhos (A/B/C/D) e te ajuda a escolher |
+| `@ai-maturity-assistant` não aparece no chat | Copilot Chat não está em **modo Agent** | Clique no dropdown ao lado do ícone do Copilot → escolha **Agent** |
+| `respostas.json.example` funciona como teste real? | Sim — é a Cliente Exemplo S.A. com 46 respostas mockadas | `cp respostas.json.example respostas.json` e rode `/pipeline-completo` |
+| Copilot Free funciona? | Funciona para skills, mas com limites de mensagens | Recomendado **Pro/Business/Enterprise** para fluxo completo |
+| Posso rodar sem WeasyPrint? | Sim, mas não vai gerar PDFs | `make smoke` valida tudo até o `payload.json` sem precisar de WeasyPrint |
+
+</details>
 
 ---
 

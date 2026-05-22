@@ -2,7 +2,7 @@
 
 # Guia Passo-a-Passo · Kit AI Maturity Assessment
 
-📖 **Navegação:** [🏠 Índice](README.md) · Você está aqui · [» Coleta via Forms](coleta/INSTRUCOES-FORMS.md)
+**`📘 GUIA`** · 📖 [🏠 Índice](README.md) · Você está aqui · [» Coleta via Forms](coleta/INSTRUCOES-FORMS.md)
 
 > [!NOTE]
 > Este guia é para você que **nunca usou o kit antes**. Vamos do zero (instalar pré-requisitos) até o relatório executivo na sua mão. **Tempo total estimado: 30–60 minutos** para o assessment principal (15 min setup + 15–45 min preenchendo). Para o fluxo completo dos 3 surveys: **~6 semanas** (incluindo coleta).

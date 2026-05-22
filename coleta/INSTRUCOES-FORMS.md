@@ -1,6 +1,6 @@
 # Como criar o Microsoft Forms para o AI Maturity Assessment
 
-📖 **Navegação:** [🏠 Índice](../README.md) · [« Guia passo-a-passo](../GUIA-PASSO-A-PASSO.md) · Você está aqui · [» Survey-devs](../survey-devs/INSTRUCOES-FORMS-DEVS.md)
+**`🅰️ ASSESSMENT`** · 📖 [🏠 Índice](../README.md) · [« Guia passo-a-passo](../GUIA-PASSO-A-PASSO.md) · Você está aqui · [» Survey-devs](../survey-devs/INSTRUCOES-FORMS-DEVS.md)
 
 > [!TIP]
 > Este guia mostra **3 caminhos** para criar e usar o Microsoft Forms com as 158 questões. Escolha o que melhor se encaixa no tempo disponível e perfil técnico da equipe.
@@ -283,6 +283,24 @@ Toda vez que importar, a skill cria `respostas.json.backup-<timestamp>`. Guarde 
 ---
 
 **Versão:** 1.0 · **Data:** 2026-05-08
+
+---
+
+## Travou em algum desses passos?
+
+<details>
+<summary><strong>FAQ — dúvidas comuns na coleta via Forms</strong></summary>
+
+| Sintoma | Causa provável | Como resolver |
+|---|---|---|
+| **Open in Excel** está desabilitado no Forms | Sua conta não tem licença M365 / Forms está em conta pessoal | Peça a um admin para mover o Forms para a conta organizacional |
+| Tenho múltiplos respondentes — como agregá-los? | Comportamento padrão da skill | `/importar-respostas-excel` faz **média automática** por questão |
+| Os headers das colunas não começam com `P1-C1-Q1:` | Você não seguiu o padrão ao criar o Forms | Edite os títulos das questões no Forms para incluir o ID no começo |
+| Compartilhar Forms com gente de fora da org | Settings do Forms restringe acesso | Settings → **Anyone with the link can respond** |
+| Excel chega com colunas extras (ID, Start time, ...) | Comportamento padrão do Forms | A skill ignora colunas A-E automaticamente |
+| `respostas-forms.xlsx` não é detectado | Arquivo está dentro de `coleta/` em vez da raiz | Mova para a **raiz** do kit |
+
+</details>
 
 ---
 

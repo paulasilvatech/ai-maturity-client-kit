@@ -1,6 +1,6 @@
 # Como criar o Microsoft Forms para o Learning & Growth Survey
 
-📖 **Navegação:** [🏠 Índice](../README.md) · [« Survey-devs](../survey-devs/INSTRUCOES-FORMS-DEVS.md) · Você está aqui · [» Wizard](../wizard/README.md)
+**`🅲️ SURVEY-LEARNING`** · _identificado_ · 📖 [🏠 Índice](../README.md) · [« Survey-devs](../survey-devs/INSTRUCOES-FORMS-DEVS.md) · Você está aqui · [» Wizard](../wizard/README.md)
 
 > [!WARNING]
 > Diferente dos outros 2 surveys, este é **IDENTIFICADO** (nome + email obrigatórios). É 32 perguntas em 7 seções para construir o **roadmap de capacitação personalizado** da equipe — workshops, cohorts, Champions Network, mentoria. Tempo estimado por dev: **5-8 min**.
@@ -256,6 +256,23 @@ Comunique antes de lançar:
 ---
 
 **Versão:** 1.0 · **Data:** 2026-05-08
+
+---
+
+## Travou em algum desses passos?
+
+<details>
+<summary><strong>FAQ — dúvidas comuns no Learning & Growth Survey (identificado)</strong></summary>
+
+| Sintoma | Causa provável | Como resolver |
+|---|---|---|
+| Excel chega sem nome/email | **Anonymous responses** está marcado (este survey precisa ser identificado) | Settings do Forms → ❌ DESmarcar **Anonymous responses** |
+| Como uso o plano para convidar pessoas? | O plano traz nome+email por workshop | Copie lista de inscritos do markdown → cole em Outlook/Teams meeting invite |
+| Champions Network está vazio no plano gerado | Ninguém respondeu "sim" em L6-Q1 | Sem Champions auto-declarados — use ranking por dimensão como proxy |
+| Cohorts estão vazios em algumas dimensões | Menos de 3 respondentes por dimensão | Peça reforço na campanha ou aceite cohorts menores |
+| Posso re-rodar o plano se mais respostas chegarem? | Sim, é idempotente | Re-exporte Excel → `/importar-survey-learning` → `/plano-capacitacao` |
+
+</details>
 
 ---
 

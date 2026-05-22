@@ -1,6 +1,6 @@
 # `wizard/` — Implementation Guide Wizard (Parte 4 do PDF)
 
-📖 **Navegação:** [🏠 Índice](../README.md) · [« Learning Survey](../survey-learning/INSTRUCOES-FORMS-LEARNING.md) · Você está aqui
+**`🧙 WIZARD`** · _Parte 4 personalizada_ · 📖 [🏠 Índice](../README.md) · [« Learning Survey](../survey-learning/INSTRUCOES-FORMS-LEARNING.md) · Você está aqui
 
 Esta pasta tem **3 maneiras** de preencher os 9 inputs estruturados que populam a **Parte 4 do `roadmap_part4.pdf`** (Implementation Guide consolidado: comitês, RACI, ADKAR, quick wins, etc.). Espelha o wizard React da plataforma web (`app/frontend/src/components/dashboard/ImplementationGuideWizard.tsx`).
 
@@ -88,6 +88,24 @@ python3 relatorios/scripts/build_payload_and_render.py   # via CLI
 - Skill que orquestra → [`../.github/skills/wizard-implementacao/SKILL.md`](../.github/skills/wizard-implementacao/SKILL.md)
 - Wizard original (React/TS) que espelhamos → `app/frontend/src/components/dashboard/ImplementationGuideWizard.tsx`
 - Como o JSON entra no PDF → [`../relatorios/templates/roadmap_part4.html.j2`](../relatorios/templates/roadmap_part4.html.j2) (procure por `wiz.`)
+
+---
+
+## Travou em algum desses passos?
+
+<details>
+<summary><strong>FAQ — dúvidas comuns no Wizard</strong></summary>
+
+| Sintoma | Causa provável | Como resolver |
+|---|---|---|
+| `implementation-guide-inputs.json` não entra no PDF | Arquivo está em `wizard/` em vez da raiz | Mova para a **raiz** do kit (mesma pasta de `respostas.json`) |
+| Modo D (auto-fill) falha | Você ainda não rodou `/plano-capacitacao` | Rode o Learning Survey primeiro — ele gera o input do modo D |
+| HTML wizard não salva progresso | `localStorage` desabilitado / modo anônimo | Abra em janela normal ou use o modo B (editar JSON) |
+| Preciso preencher todos os 9 inputs? | Não — modo D preenche 6 deles automaticamente | Você preenche manualmente só **TPO** e **RACI Matrix** |
+| PDF gerado tem placeholders genéricos | Você pulou o wizard | Re-rode `/wizard-implementacao` → `/gerar-relatorio` |
+| Posso editar o JSON depois de gerar? | Sim, e re-renderizar | Edite `implementation-guide-inputs.json` → `make pipeline` |
+
+</details>
 
 ---
 
