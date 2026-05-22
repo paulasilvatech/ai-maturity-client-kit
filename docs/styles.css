@@ -119,6 +119,19 @@ code, pre {
 }
 .chrome__nav a:hover { color: var(--c-blue); }
 
+.chrome__lang {
+  margin-left: 18px;
+  padding-left: 18px;
+  border-left: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+}
+.chrome__lang strong { color: var(--ink); font-weight: 700; }
+.chrome__lang a { color: var(--ink-3); font-weight: 400; }
+.chrome__lang a:hover { color: var(--c-blue); }
+
 @media (max-width: 720px) {
   .chrome__nav { display: none; }
   .chrome__brand-text { font-size: 10px; }
