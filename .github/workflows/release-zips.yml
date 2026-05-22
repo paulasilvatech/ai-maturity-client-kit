@@ -1,0 +1,57 @@
+name: Build per-language ZIPs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'kit-en/**'
+      - 'kit-es/**'
+      - 'README.md'
+      - 'GUIA-PASSO-A-PASSO.md'
+      - 'framework.json'
+      - '.github/workflows/release-zips.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  zip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build 3 ZIPs (PT, EN, ES)
+        run: |
+          mkdir -p dist
+          # PT: full root kit minus dev/output folders
+          zip -r dist/ai-maturity-kit-pt.zip . \
+            -x ".git/*" "kit-en/*" "kit-es/*" "dist/*" "saida/*" \
+               "docs/*" "**/__pycache__/*" "**/.mypy_cache/*" \
+               ".github/workflows/*"
+          # EN: kit-en + shared assets (framework.json, scripts, etc.)
+          zip -r dist/ai-maturity-kit-en.zip kit-en \
+               framework.json relatorios survey-devs survey-learning \
+               wizard formularios coleta referencia \
+               respostas.json.example Makefile scripts \
+            -x "**/__pycache__/*" "**/.mypy_cache/*"
+          # ES: kit-es + shared assets
+          zip -r dist/ai-maturity-kit-es.zip kit-es \
+               framework.json relatorios survey-devs survey-learning \
+               wizard formularios coleta referencia \
+               respostas.json.example Makefile scripts \
+            -x "**/__pycache__/*" "**/.mypy_cache/*"
+          ls -lh dist/
+
+      - name: Publish to "latest" release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest kits (PT · EN · ES)
+          body: |
+            Auto-built kits per language.
+            - `ai-maturity-kit-pt.zip` — kit completo em Português (Brasil)
+            - `ai-maturity-kit-en.zip` — kit with English client docs
+            - `ai-maturity-kit-es.zip` — kit con docs cliente en Español
+          files: dist/*.zip
+          make_latest: true
