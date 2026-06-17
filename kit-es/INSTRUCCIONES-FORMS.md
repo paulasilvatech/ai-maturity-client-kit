@@ -62,7 +62,7 @@ Output: `saida/insights-developer-survey-<FECHA>.md` con métricas de adopción,
 > [!IMPORTANT]
 > Esta encuesta requiere **nombre + email** porque el output incluye listas de inscritos, asignación a cohorts y pares mentor↔mentee. Asegúrate de que los participantes consientan esto previamente.
 
-1. Crea el form usando preguntas de `survey-learning/perguntas-para-forms-learning.md`.
+1. Crea el form usando preguntas de `survey-learning/perguntas-para-forms-learning.es.md` (Español). El banco canónico PT-BR también está disponible en `survey-learning/perguntas-para-forms-learning.md`.
 2. En **Configuración**: requiere **nombre y email** como campos obligatorios. Deshabilita el modo anónimo.
 3. Comparte con todos los desarrolladores que recibirán capacitación (3+ mínimo recomendado).
 4. Exporta como `respostas-survey-learning.xlsx` a la raíz del workspace.
@@ -91,7 +91,12 @@ Esta secuencia hace que el assessment del liderazgo sea **informado por datos** 
 
 ## Traducir las preguntas
 
-Los bancos de preguntas (`coleta/perguntas-para-forms.md`, `survey-devs/perguntas-para-forms-devs.md`, `survey-learning/perguntas-para-forms-learning.md`) están en Portugués (Brasil) porque mapean a los IDs del framework validado en producción. Puedes:
+Los bancos del Assessment y del Developer Survey (`coleta/perguntas-para-forms.md`, `survey-devs/perguntas-para-forms-devs.md`) siguen como canónicos en Portugués (Brasil) porque mapean a IDs validados y necesitan revisión humana para traducciones nativas. El Learning & Growth Survey ya tiene bancos en Inglés y Español:
+
+- `survey-learning/perguntas-para-forms-learning.en.md`
+- `survey-learning/perguntas-para-forms-learning.es.md`
+
+Puedes:
 
 - **Traducir para los respondentes** al copiar en Microsoft Forms — los IDs quedan iguales en el Excel exportado.
 - **Mantener los IDs en PT-BR** en el JSON de salida — los PDFs se renderizan en Español vía `relatorios/i18n/es.json`.

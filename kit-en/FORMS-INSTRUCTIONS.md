@@ -62,7 +62,7 @@ Output: `saida/insights-developer-survey-<DATE>.md` with adoption metrics, gover
 > [!IMPORTANT]
 > This survey requires **name + email** because the output includes attendee lists, cohort assignments, and mentor↔mentee pairs. Make sure participants consent to this in advance.
 
-1. Create the form using questions from `survey-learning/perguntas-para-forms-learning.md`.
+1. Create the form using questions from `survey-learning/perguntas-para-forms-learning.en.md` (English). The canonical PT-BR bank is also available at `survey-learning/perguntas-para-forms-learning.md`.
 2. In **Settings**: require **name and email** as mandatory fields. Disable anonymous mode.
 3. Share with all developers who will receive training (3+ minimum recommended).
 4. Export as `respostas-survey-learning.xlsx` to the workspace root.
@@ -91,7 +91,12 @@ This sequence makes the leadership assessment **data-informed** rather than aspi
 
 ## Translating the questions
 
-The question banks (`coleta/perguntas-para-forms.md`, `survey-devs/perguntas-para-forms-devs.md`, `survey-learning/perguntas-para-forms-learning.md`) are in Portuguese (Brazil) because they map to the validated production framework IDs. You can:
+The Assessment and Developer Survey question banks (`coleta/perguntas-para-forms.md`, `survey-devs/perguntas-para-forms-devs.md`) are still canonical Portuguese (Brazil) because they map to validated framework IDs and need human review for native translations. The Learning & Growth Survey already has English and Spanish banks:
+
+- `survey-learning/perguntas-para-forms-learning.en.md`
+- `survey-learning/perguntas-para-forms-learning.es.md`
+
+You can:
 
 - **Translate for the respondents** when typing into Microsoft Forms — the IDs stay the same in the Excel export.
 - **Keep the IDs in PT-BR** in the JSON output — the PDFs are rendered in English via `relatorios/i18n/en.json`.

@@ -13,7 +13,7 @@ argument-hint: optional path to .xlsx (default: respostas-survey-learning.xlsx a
 
 ## Inputs
 - **Excel**: `respostas-survey-learning.xlsx` at workspace root (default)
-- **`survey-learning/perguntas-para-forms-learning.md`**: schema reference (32 questions in 7 sections)
+- **Question banks**: `survey-learning/perguntas-para-forms-learning.md`, `.en.md`, or `.es.md` as schema/reference files (32 questions in 7 sections). Headers must preserve the `L[1-7]-Q\d+:` IDs.
 
 ## Expected output
 - **`survey-learning/respostas-learning.json`**: structured JSON with all respondents (IDENTIFIED with name+email) and answers
@@ -28,6 +28,8 @@ argument-hint: optional path to .xlsx (default: respostas-survey-learning.xlsx a
 ```
 
 Headers MUST start with `L[1-7]-Q\d+:` pattern.
+
+The import stores raw answer text. `/plano-capacitacao` understands the canonical PT-BR options and the shipped EN/ES Learning Survey options for Champion tiers, mentoring interest, ignored topic options, and "no barrier" options.
 
 ## Procedure
 
@@ -126,7 +128,7 @@ for row_idx in range(2, ws.max_row + 1):
 ```
 
 ## Constraints
-- **NEVER** modify `survey-learning/perguntas-para-forms-learning.md` or template Excel
+- **NEVER** modify the Learning Survey question banks or template Excel unless the user explicitly asks for repository maintenance work
 - **DO NOT** anonymize — this survey is identified by design (need names to invite to workshops)
 - Output to `survey-learning/respostas-learning.json` (not `saida/`) — input for `/plano-capacitacao`
 - Different from `/importar-survey-devs` (anonymous, schema `S[1-9]`); don't confuse
