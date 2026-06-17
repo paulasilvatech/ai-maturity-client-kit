@@ -931,7 +931,7 @@ Agente conduz pelos 3 surveys + assessment + wizard + relatório, **com handoffs
 
 ### 11.4 · Cross-survey validations
 
-Após rodar os 3 + `/gerar-relatorio`, o arquivo **`saida/payload.json`** contém ponteiros estruturados para os artefatos cross-survey. Use esses dados para comparar a maturidade declarada pela liderança com a maturidade comportamental dos devs:
+Após rodar os 3 + `/gerar-relatorio`, o **`score_justification.pdf`** inclui a seção **Sinais Complementares dos Surveys**, e o arquivo **`saida/payload.json`** mantém os ponteiros estruturados para auditoria. Use esses dados para comparar a maturidade declarada pela liderança com a maturidade comportamental dos devs:
 
 ```
 | Capability | Liderança avalia | Survey rubric | Dissonância |
@@ -943,7 +943,7 @@ Após rodar os 3 + `/gerar-relatorio`, o arquivo **`saida/payload.json`** conté
 **Insight:** dissonâncias revelam onde investigar (gap entre estratégia e prática).
 
 > [!NOTE]
-> Os templates PDF atuais ainda não renderizam uma seção dedicada de cross-survey no `score_justification.pdf`. O enriquecimento fica disponível em `saida/payload.json`, e o Learning Survey entra no `roadmap_part4.pdf` quando você roda `/wizard-implementacao` em Mode D antes de `/gerar-relatorio`.
+> Quando `cross_survey_data` existe no payload, o `score_justification.pdf` renderiza a seção **Sinais Complementares dos Surveys**. O Learning Survey também entra no `roadmap_part4.pdf` quando você roda `/wizard-implementacao` em Mode D antes de `/gerar-relatorio`.
 
 ### ✅ Checkpoint 11 (após fluxo dos 3)
 
@@ -952,7 +952,7 @@ Após rodar os 3 + `/gerar-relatorio`, o arquivo **`saida/payload.json`** conté
 - [ ] `saida/plano-capacitacao-*.md` existe
 - [ ] `respostas.json` preenchido informado pelos surveys
 - [ ] `/wizard-implementacao` rodou em Mode D (auto-fill detectou plano)
-- [ ] `/gerar-relatorio` gerou 5 PDFs e `saida/payload.json` contém `cross_survey_data`
+- [ ] `/gerar-relatorio` gerou 5 PDFs, `saida/payload.json` contém `cross_survey_data` e o `score_justification.pdf` inclui a seção de sinais complementares
 - [ ] Apresentou para liderança + devs
 
 ---

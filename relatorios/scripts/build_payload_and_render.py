@@ -65,8 +65,34 @@ def build_payload(kit: Path) -> dict:
     """Merge sample_payload.json (structure) with client data (overrides)."""
     sample = load_json(kit / "relatorios/sample_payload.json")
     payload = copy.deepcopy(sample)
+    _merge_branding(payload)
 
-    # Merge paulasilva-ms branding into existing payload (preserves required fields like platform_name)
+    scores_path = kit / "saida/scores.json"
+    if not scores_path.exists():
+        print("⚠️ saida/scores.json não encontrado — gerando PDFs com dados do sample (Acme).")
+        print("   Para gerar com seus dados, rode /pipeline-completo primeiro.\n")
+        _attach_cross_survey(payload, kit)
+        return payload
+
+    respostas, scores, gaps = _load_client_pipeline_data(kit)
+    meta = respostas.get("metadata", {})
+
+    _apply_locale(payload, meta)
+    _apply_organization(payload, meta)
+    _apply_assessment(payload, scores, meta)
+    _apply_overall_scores(payload, scores)
+    _apply_pillar_scores(payload, scores)
+    _apply_pe_readiness(payload, scores)
+    _apply_capability_scores(payload, scores, respostas)
+    _apply_gap_analysis(payload, gaps)
+    _merge_implementation_guide_inputs(payload, kit / "implementation-guide-inputs.json")
+    _attach_cross_survey(payload, kit)
+
+    return payload
+
+
+def _merge_branding(payload: dict) -> None:
+    """Merge paulasilva-ms branding while preserving sample-only fields."""
     payload.setdefault("branding", {}).update({
         "primary_color": branding.MS_BLUE,
         "author": branding.AUTHOR,
@@ -81,41 +107,33 @@ def build_payload(kit: Path) -> dict:
         "palette_blue": branding.MS_BLUE,
     })
 
-    # ─── INPUTS ─────────────────────────────────────
+
+def _load_client_pipeline_data(kit: Path) -> tuple[dict, dict, dict]:
     respostas_path = kit / "respostas.json"
     scores_path = kit / "saida/scores.json"
     gaps_path = kit / "saida/gaps.json"
-    recs_path = kit / "saida/recomendacoes.json"
-    ig_path = kit / "implementation-guide-inputs.json"
+    return (
+        load_json(respostas_path) if respostas_path.exists() else {},
+        load_json(scores_path),
+        load_json(gaps_path) if gaps_path.exists() else {"gaps": [], "summary": {}},
+    )
 
-    have_client_data = scores_path.exists()
-    if not have_client_data:
-        print("⚠️ saida/scores.json não encontrado — gerando PDFs com dados do sample (Acme).")
-        print("   Para gerar com seus dados, rode /pipeline-completo primeiro.\n")
-        # Cross-survey artifacts may still exist independently — attach them.
-        _attach_cross_survey(payload, kit)
-        return payload
 
-    respostas = load_json(respostas_path) if respostas_path.exists() else {}
-    scores = load_json(scores_path)
-    gaps = load_json(gaps_path) if gaps_path.exists() else {"gaps": [], "summary": {}}
-    recs = load_json(recs_path) if recs_path.exists() else {"ranked_strategies": []}
-
-    meta = respostas.get("metadata", {})
-
-    # ─── LOCALE ─────────────────────────────────────
+def _apply_locale(payload: dict, meta: dict) -> None:
     locale = meta.get("language", "pt-br").lower().replace("_", "-")
     if locale not in ("en", "es", "pt-br"):
         locale = "pt-br"
     payload["locale"] = locale
 
-    # ─── ORGANIZATION (override only known fields) ──
+
+def _apply_organization(payload: dict, meta: dict) -> None:
     org = payload["organization"]
     org["name"] = meta.get("organization") or org["name"]
     if meta.get("respondent_role"):
         org["primary_contact_role"] = meta["respondent_role"]
 
-    # ─── ASSESSMENT ─────────────────────────────────
+
+def _apply_assessment(payload: dict, scores: dict, meta: dict) -> None:
     assess = payload["assessment"]
     assess["id"] = scores.get("metadata", {}).get("respondent", assess.get("id", "—"))
     assess["completed_date"] = meta.get("assessment_date", assess["completed_date"])
@@ -124,15 +142,16 @@ def build_payload(kit: Path) -> dict:
         "framework_version", assess["framework_version"]
     )
 
-    # ─── SCORES.OVERALL ─────────────────────────────
+
+def _apply_overall_scores(payload: dict, scores: dict) -> None:
     overall_score = scores["overall"]["score"]
     payload["scores"]["overall"]["weighted_avg"] = round(overall_score, 2)
     payload["scores"]["overall"]["level_label"] = label_from_score(overall_score)
     target_overall = payload["scores"]["overall"].get("target", 3.0)
     payload["scores"]["overall"]["gap"] = max(0, round(target_overall - overall_score, 2))
 
-    # ─── SCORES.PILLARS ─────────────────────────────
-    # Index sample pillars by id for safe override
+
+def _apply_pillar_scores(payload: dict, scores: dict) -> None:
     sample_pillars_by_id = {p["id"]: p for p in payload["scores"]["pillars"]}
     for p_client in scores.get("pillars", []):
         pid = p_client["id"]
@@ -144,87 +163,88 @@ def build_payload(kit: Path) -> dict:
         target = sample_p.get("target", 3.0)
         sample_p["gap"] = max(0, round(target - p_client["score"], 2))
 
-    # ─── SCORES.PE_READINESS ────────────────────────
+
+def _apply_pe_readiness(payload: dict, scores: dict) -> None:
     pe_score = scores["overall"].get("pe_score")
     if pe_score is not None:
         payload["scores"]["pe_readiness"]["weighted_score"] = round(pe_score, 2)
         payload["scores"]["pe_readiness"]["level"] = label_from_score(pe_score)
 
-    # ─── CAPABILITIES (override scores, keep narrative fields from sample) ─
+
+def _apply_capability_scores(payload: dict, scores: dict, respostas: dict) -> None:
     target_overrides = respostas.get("target_overrides", {})
     sample_caps_by_id = {c.get("id") or c.get("code"): c for c in payload["capabilities"]}
-
     for c_client in scores.get("capabilities", []):
-        cid = c_client["id"]
-        sample_c = sample_caps_by_id.get(cid)
-        if not sample_c:
-            continue
-        score = c_client.get("score")
-        sample_c["current_score"] = round(score, 2) if score is not None else 0.0
-        sample_c["current_level_label"] = label_from_score(score)
-        target = target_overrides.get(cid, DEFAULT_TARGET)
-        sample_c["target_score"] = round(float(target), 2)
-        sample_c["target_level_label"] = label_from_score(float(target))
-        if score is not None:
-            sample_c["gap"] = max(0, round(target - score, 2))
-            ps = c_client.get("weight", 1.0) * (target - score)
-            sample_c["gap_priority"] = priority_from_ps(ps).split(" ")[0]
-        else:
-            sample_c["gap"] = 0
-            sample_c["gap_priority"] = "P3"
+        sample_c = sample_caps_by_id.get(c_client["id"])
+        if sample_c:
+            _apply_single_capability_score(sample_c, c_client, target_overrides)
 
-    # ─── GAP_ANALYSIS (rebuild list from gaps.json, mimic sample structure) ─
-    new_gap_analysis = []
-    for g in gaps.get("gaps", []):
-        # Find existing sample item with same code to inherit recommended_actions
-        existing = next(
-            (gi for gi in payload["gap_analysis"]
-             if gi.get("capability_code") == g["capability_id"]),
-            None,
-        )
-        recommended_actions = (
-            existing.get("recommended_actions", {})
-            if existing
-            else {
-                "h1": "Definir baseline e estabelecer métricas de cobertura.",
-                "h2": "Expandir piloto para >50% das equipes; instrumentar OKRs.",
-                "h3": "Atingir cobertura universal e otimização contínua.",
-            }
-        )
-        new_gap_analysis.append({
-            "pillar_id": g["pillar_id"],
-            "capability_code": g["capability_id"],
-            "capability_name": g["capability_name_pt_br"],
-            "current": round(g["current_score"], 2),
-            "target": round(g["target_level"], 2),
-            "gap": round(g["gap_size"], 2),
-            "priority": g["priority"].split(" ")[0],  # "P0 — Crítico" → "P0"
-            "recommended_actions": recommended_actions,
-        })
+
+def _apply_single_capability_score(sample_c: dict, c_client: dict, target_overrides: dict) -> None:
+    cid = c_client["id"]
+    score = c_client.get("score")
+    sample_c["current_score"] = round(score, 2) if score is not None else 0.0
+    sample_c["current_level_label"] = label_from_score(score)
+    target = target_overrides.get(cid, DEFAULT_TARGET)
+    sample_c["target_score"] = round(float(target), 2)
+    sample_c["target_level_label"] = label_from_score(float(target))
+    if score is None:
+        sample_c["gap"] = 0
+        sample_c["gap_priority"] = "P3"
+        return
+    sample_c["gap"] = max(0, round(target - score, 2))
+    ps = c_client.get("weight", 1.0) * (target - score)
+    sample_c["gap_priority"] = priority_from_ps(ps).split(" ")[0]
+
+
+def _apply_gap_analysis(payload: dict, gaps: dict) -> None:
+    new_gap_analysis = [_gap_payload_entry(payload, gap) for gap in gaps.get("gaps", [])]
     if new_gap_analysis:
         payload["gap_analysis"] = new_gap_analysis
 
-    # ─── IMPLEMENTATION_GUIDE_INPUTS (from wizard) ──
-    if ig_path.exists():
-        ig = load_json(ig_path)
-        wizard_inputs = ig.get("implementation_guide_inputs", {})
-        if wizard_inputs:
-            # Merge: keep sample structure where wizard didn't fill; override what's provided
-            current_ig = payload.get("implementation_guide_inputs", {})
-            for key, value in wizard_inputs.items():
-                if value and (isinstance(value, str) and value.strip()):
-                    # For string fields, parse markdown lists/tables into structured form
-                    # if the sample expects structured data — for now, store as raw markdown.
-                    # Templates handle both cases via wizard_placeholder() macro.
-                    current_ig[f"{key}_raw_markdown"] = value
-            payload["implementation_guide_inputs"] = current_ig
-            print(f"✓ Merged implementation-guide-inputs.json "
-                  f"({ig.get('metadata', {}).get('completion_pct', 0)}% completo)")
 
-    # ─── CROSS-SURVEY DATA (optional) ────────────────
-    _attach_cross_survey(payload, kit)
+def _gap_payload_entry(payload: dict, gap: dict) -> dict:
+    existing = next(
+        (item for item in payload["gap_analysis"]
+         if item.get("capability_code") == gap["capability_id"]),
+        None,
+    )
+    recommended_actions = (
+        existing.get("recommended_actions", {})
+        if existing
+        else {
+            "h1": "Definir baseline e estabelecer métricas de cobertura.",
+            "h2": "Expandir piloto para >50% das equipes; instrumentar OKRs.",
+            "h3": "Atingir cobertura universal e otimização contínua.",
+        }
+    )
+    return {
+        "pillar_id": gap["pillar_id"],
+        "capability_code": gap["capability_id"],
+        "capability_name": gap["capability_name_pt_br"],
+        "current": round(gap["current_score"], 2),
+        "target": round(gap["target_level"], 2),
+        "gap": round(gap["gap_size"], 2),
+        "priority": gap["priority"].split(" ")[0],
+        "recommended_actions": recommended_actions,
+    }
 
-    return payload
+
+def _merge_implementation_guide_inputs(payload: dict, ig_path: Path) -> None:
+    if not ig_path.exists():
+        return
+    ig = load_json(ig_path)
+    wizard_inputs = ig.get("implementation_guide_inputs", {})
+    if not wizard_inputs:
+        return
+
+    current_ig = payload.get("implementation_guide_inputs", {})
+    for key, value in wizard_inputs.items():
+        if isinstance(value, str) and value.strip():
+            current_ig[f"{key}_raw_markdown"] = value
+    payload["implementation_guide_inputs"] = current_ig
+    print(f"✓ Merged implementation-guide-inputs.json "
+          f"({ig.get('metadata', {}).get('completion_pct', 0)}% completo)")
 
 
 def _attach_cross_survey(payload: dict, kit: Path) -> None:
@@ -248,8 +268,8 @@ def collect_cross_survey_data(kit: Path) -> dict | None:
     """Detect optional outputs from the two complementary surveys and
     expose them as ``payload.cross_survey_data`` for downstream consumption.
 
-    The PDF templates may ignore this field; surfacing it in ``payload.json``
-    keeps the data inspectable and unblocks future template iterations.
+    The score justification template renders this field when available, and
+    surfacing it in ``payload.json`` keeps the data inspectable for audits.
     """
     out_dir = kit / "saida"
     if not out_dir.exists():
@@ -257,57 +277,68 @@ def collect_cross_survey_data(kit: Path) -> dict | None:
 
     cross: dict = {"available": False}
 
-    # Latest maturidade-developer-survey-*.json (structured rubric scores)
-    mat_candidates = sorted(out_dir.glob("maturidade-developer-survey-*.json"), reverse=True)
-    if mat_candidates:
-        try:
-            mat = load_json(mat_candidates[0])
-            meta = mat.get("metadata", {}) or {}
-            # Dimensions live at the top level: {"D2": {"team_score": .., "label": ..}, ...}
-            raw_dims = mat.get("dimensions") or {}
-            dims = []
-            for did, entry in raw_dims.items():
-                if not isinstance(entry, dict):
-                    continue
-                score = entry.get("team_score", entry.get("score"))
-                if score is None:
-                    continue
-                dims.append({
-                    "dimension": did,
-                    "name": entry.get("name"),
-                    "score": round(float(score), 2),
-                    "label": entry.get("label") or label_from_score(float(score)),
-                    "respondents": entry.get("respondents_with_score"),
-                })
-            team_overall = mat.get("team_overall", {}) or {}
-            cross["developer_survey_maturity"] = {
-                "source_file": str(mat_candidates[0].relative_to(kit)),
-                "respondents": meta.get("n_respondents") or meta.get("total_respondents"),
-                "overall_score": team_overall.get("score"),
-                "overall_label": team_overall.get("label"),
-                "dimensions": dims,
-            }
-            cross["available"] = True
-        except (json.JSONDecodeError, OSError, ValueError):
-            pass
-
-    # Latest insights-developer-survey-*.md
-    ins_candidates = sorted(out_dir.glob("insights-developer-survey-*.md"), reverse=True)
-    if ins_candidates:
-        cross["developer_survey_insights"] = {
-            "source_file": str(ins_candidates[0].relative_to(kit)),
-        }
+    maturity = _collect_developer_maturity(kit, out_dir)
+    if maturity:
+        cross["developer_survey_maturity"] = maturity
         cross["available"] = True
 
-    # Latest plano-capacitacao-*.md
-    plano_candidates = sorted(out_dir.glob("plano-capacitacao-*.md"), reverse=True)
-    if plano_candidates:
-        cross["learning_plan"] = {
-            "source_file": str(plano_candidates[0].relative_to(kit)),
-        }
+    insights = _latest_artifact(kit, out_dir, "insights-developer-survey-*.md")
+    if insights:
+        cross["developer_survey_insights"] = insights
+        cross["available"] = True
+
+    learning_plan = _latest_artifact(kit, out_dir, "plano-capacitacao-*.md")
+    if learning_plan:
+        cross["learning_plan"] = learning_plan
         cross["available"] = True
 
     return cross if cross["available"] else None
+
+
+def _latest_artifact(kit: Path, out_dir: Path, pattern: str) -> dict | None:
+    candidates = sorted(out_dir.glob(pattern), reverse=True)
+    if not candidates:
+        return None
+    return {"source_file": str(candidates[0].relative_to(kit))}
+
+
+def _collect_developer_maturity(kit: Path, out_dir: Path) -> dict | None:
+    candidates = sorted(out_dir.glob("maturidade-developer-survey-*.json"), reverse=True)
+    if not candidates:
+        return None
+    try:
+        mat = load_json(candidates[0])
+    except (OSError, ValueError):
+        return None
+
+    meta = mat.get("metadata", {}) or {}
+    team_overall = mat.get("team_overall", {}) or {}
+    return {
+        "source_file": str(candidates[0].relative_to(kit)),
+        "respondents": meta.get("n_respondents") or meta.get("total_respondents"),
+        "overall_score": team_overall.get("score"),
+        "overall_label": team_overall.get("label"),
+        "dimensions": _developer_maturity_dimensions(mat.get("dimensions") or {}),
+    }
+
+
+def _developer_maturity_dimensions(raw_dims: dict) -> list[dict]:
+    dims = []
+    for did, entry in raw_dims.items():
+        if not isinstance(entry, dict):
+            continue
+        score = entry.get("team_score", entry.get("score"))
+        if score is None:
+            continue
+        score_float = float(score)
+        dims.append({
+            "dimension": did,
+            "name": entry.get("name"),
+            "score": round(score_float, 2),
+            "label": entry.get("label") or label_from_score(score_float),
+            "respondents": entry.get("respondents_with_score"),
+        })
+    return dims
 
 
 def render_pdfs(payload_path: Path, out_dir: Path, kit: Path) -> int:

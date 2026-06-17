@@ -51,7 +51,7 @@ If `/insights-developer-survey` or `/plano-capacitacao` already ran, the script 
 | `developer_survey_insights` | `saida/insights-developer-survey-<DATE>.md` | Path reference (full markdown stays alongside the PDFs) |
 | `learning_plan` | `saida/plano-capacitacao-<DATE>.md` | Path reference (auto-fill into Part 4 happens via `wizard/scripts/auto_fill_from_plano.py`) |
 
-The data is always written to `saida/payload.json` for inspection. The shipped Jinja2 templates currently do **not** render a dedicated cross-survey section — if you want one, edit `payload.json` and re-render, or extend `relatorios/templates/score_justification.html.j2` with a `{% if payload.cross_survey_data %}` block.
+The data is always written to `saida/payload.json` for inspection. When `payload.cross_survey_data.available` is true, `score_justification.pdf` renders a dedicated "Complementary Survey Signals" section with Developer Survey maturity dimensions and source artifact references.
 
 ## Output (in `saida/`)
 
