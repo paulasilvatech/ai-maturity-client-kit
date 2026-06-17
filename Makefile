@@ -30,6 +30,7 @@ smoke-cross:
 
 validate-docs:
 	@$(PY) -m json.tool docs/content.json >/dev/null
+	@$(PY) scripts/check_language_coverage.py
 	@$(PY) scripts/build_language_kits.py --out dist-validate --clean >/dev/null
 	@rm -rf dist-validate
 	@echo "docs and package sources OK"
