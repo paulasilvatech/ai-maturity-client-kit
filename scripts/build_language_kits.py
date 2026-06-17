@@ -73,7 +73,11 @@ SHARED_CLIENT_ASSETS = [
     # remain unchanged so Microsoft Forms exports keep parsing correctly.
     "coleta/perguntas-para-forms.md",
     "survey-devs/perguntas-para-forms-devs.md",
+    "survey-devs/perguntas-para-forms-devs.en.md",
+    "survey-devs/perguntas-para-forms-devs.es.md",
     "survey-learning/perguntas-para-forms-learning.md",
+    "survey-learning/perguntas-para-forms-learning.en.md",
+    "survey-learning/perguntas-para-forms-learning.es.md",
     # Source docs and references used by translated guides and fallback flows.
     "coleta/INSTRUCOES-FORMS.md",
     "survey-devs/INSTRUCOES-FORMS-DEVS.md",

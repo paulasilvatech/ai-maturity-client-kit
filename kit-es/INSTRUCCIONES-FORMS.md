@@ -36,7 +36,7 @@ Las 3 encuestas HTML en `formularios/` son convenientes para llenado individual,
 
 ### Agrega al kit
 
-```
+```text
 /importar-respostas-excel
 ```
 
@@ -44,13 +44,13 @@ La skill calcula el **promedio simple por pregunta** entre todos los respondente
 
 ## Forma B · Developer Survey (75 preguntas, anónimo)
 
-1. Crea el form usando las preguntas de `survey-devs/perguntas-para-forms-devs.md`.
+1. Crea el form usando preguntas de `survey-devs/perguntas-para-forms-devs.es.md` (Español, runtime-safe). El banco canónico PT-BR también está disponible en `survey-devs/perguntas-para-forms-devs.md`.
 2. En **Configuración**: habilita **respuestas anónimas** (NO requieras email ni login).
 3. Comparte con todos los desarrolladores en alcance (5+ mínimo recomendado).
 4. Exporta como `respostas-survey-devs.xlsx` a la raíz del workspace.
 5. Ejecuta:
 
-```
+```text
 /importar-survey-devs
 /insights-developer-survey
 ```
@@ -68,7 +68,7 @@ Output: `saida/insights-developer-survey-<FECHA>.md` con métricas de adopción,
 4. Exporta como `respostas-survey-learning.xlsx` a la raíz del workspace.
 5. Ejecuta:
 
-```
+```text
 /importar-survey-learning
 /plano-capacitacao
 ```
@@ -79,7 +79,7 @@ Output: `saida/plano-capacitacao-<FECHA>.md` con top 10 temas demandados, cohort
 
 Para engagements de consultoría seria, ejecuta las 3 en este orden:
 
-```
+```text
 1. Encuesta B (devs anónimos)       → baseline comportamental
 2. Encuesta C (devs identificados)  → roadmap de capacitación con inscritos
 3. Encuesta A (liderazgo)           → assessment organizacional informado
@@ -91,22 +91,24 @@ Esta secuencia hace que el assessment del liderazgo sea **informado por datos** 
 
 ## Traducir las preguntas
 
-Los bancos del Assessment y del Developer Survey (`coleta/perguntas-para-forms.md`, `survey-devs/perguntas-para-forms-devs.md`) siguen como canónicos en Portugués (Brasil) porque mapean a IDs validados y necesitan revisión humana para traducciones nativas. El Learning & Growth Survey ya tiene bancos en Inglés y Español:
+El banco del Assessment (`coleta/perguntas-para-forms.md`) sigue como canónico en Portugués (Brasil) porque mapea a IDs validados y necesita revisión humana para traducciones nativas. El Developer Survey y el Learning & Growth Survey ya tienen bancos en Inglés y Español:
 
+- `survey-devs/perguntas-para-forms-devs.en.md`
+- `survey-devs/perguntas-para-forms-devs.es.md`
 - `survey-learning/perguntas-para-forms-learning.en.md`
 - `survey-learning/perguntas-para-forms-learning.es.md`
 
 Puedes:
 
 - **Traducir para los respondentes** al copiar en Microsoft Forms — los IDs quedan iguales en el Excel exportado.
-- **Mantener los IDs en PT-BR** en el JSON de salida — los PDFs se renderizan en Español vía `relatorios/i18n/es.json`.
+- **Mantener los IDs sin cambios** en los títulos de Microsoft Forms y en el JSON de salida — los PDFs se renderizan en Español vía `relatorios/i18n/es.json`.
 
 Si quieres un banco de preguntas totalmente traducido, abre un issue: <https://github.com/paulanunes85/ai-maturity-client-kit/issues/new>
 
 ## ¿Atascado en algún paso?
 
 | Problema | Solución |
-|---|---|
+| --- | --- |
 | Las columnas del Excel no coinciden con los IDs | Verifica que no reordenaste preguntas en Forms — los IDs son posicionales |
 | `/importar-respostas-excel` falla | Asegúrate que el archivo está en la raíz y se llama exactamente `respostas-forms.xlsx` |
 | Faltan respuestas anónimas para encuesta C | La encuesta C requiere nombre+email — re-publica sin modo anónimo |
@@ -114,10 +116,10 @@ Si quieres un banco de preguntas totalmente traducido, abre un issue: <https://g
 
 ## Continuar leyendo
 
-| ⬅ Anterior                       | Siguiente ➡                                            |
-| :------------------------------- | ------------------------------------------------------: |
+| ⬅ Anterior | Siguiente ➡ |
+| :--- | ---: |
 | [📘 Paso a paso](PASO-A-PASO.md) | [🌐 Sitio](https://paulanunes85.github.io/ai-maturity-client-kit/es/) |
 
 ---
 
-**Paula Silva** — Software Global Black Belt | paulasilva@microsoft.com
+**Paula Silva** — Software Global Black Belt | [paulasilva@microsoft.com](mailto:paulasilva@microsoft.com)

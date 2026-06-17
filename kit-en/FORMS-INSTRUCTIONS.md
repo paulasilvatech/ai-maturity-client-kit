@@ -36,7 +36,7 @@ The 3 HTML surveys at `formularios/` are convenient for individual fill, but you
 
 ### Aggregate into the kit
 
-```
+```text
 /importar-respostas-excel
 ```
 
@@ -44,13 +44,13 @@ The skill computes a **simple average per question** across all respondents (sam
 
 ## Form B · Developer Survey (75 questions, anonymous)
 
-1. Create the form using questions from `survey-devs/perguntas-para-forms-devs.md`.
+1. Create the form using questions from `survey-devs/perguntas-para-forms-devs.en.md` (English, runtime-safe). The canonical PT-BR bank is also available at `survey-devs/perguntas-para-forms-devs.md`.
 2. In **Settings**: enable **anonymous responses** (do NOT require email or sign-in).
 3. Share with all developers in scope (5+ minimum recommended).
 4. Export as `respostas-survey-devs.xlsx` to the workspace root.
 5. Run:
 
-```
+```text
 /importar-survey-devs
 /insights-developer-survey
 ```
@@ -68,7 +68,7 @@ Output: `saida/insights-developer-survey-<DATE>.md` with adoption metrics, gover
 4. Export as `respostas-survey-learning.xlsx` to the workspace root.
 5. Run:
 
-```
+```text
 /importar-survey-learning
 /plano-capacitacao
 ```
@@ -79,7 +79,7 @@ Output: `saida/plano-capacitacao-<DATE>.md` with top 10 demanded topics, cohorts
 
 For serious consulting engagements, run all 3 in this order:
 
-```
+```text
 1. Survey B (anonymous devs)    → behavioral baseline
 2. Survey C (identified devs)   → capacitation roadmap with attendees
 3. Survey A (leadership)        → informed organizational assessment
@@ -91,22 +91,24 @@ This sequence makes the leadership assessment **data-informed** rather than aspi
 
 ## Translating the questions
 
-The Assessment and Developer Survey question banks (`coleta/perguntas-para-forms.md`, `survey-devs/perguntas-para-forms-devs.md`) are still canonical Portuguese (Brazil) because they map to validated framework IDs and need human review for native translations. The Learning & Growth Survey already has English and Spanish banks:
+The Assessment question bank (`coleta/perguntas-para-forms.md`) is still canonical Portuguese (Brazil) because it maps to validated framework IDs and needs human review for native translations. The Developer Survey and Learning & Growth Survey already have English and Spanish banks:
 
+- `survey-devs/perguntas-para-forms-devs.en.md`
+- `survey-devs/perguntas-para-forms-devs.es.md`
 - `survey-learning/perguntas-para-forms-learning.en.md`
 - `survey-learning/perguntas-para-forms-learning.es.md`
 
 You can:
 
 - **Translate for the respondents** when typing into Microsoft Forms — the IDs stay the same in the Excel export.
-- **Keep the IDs in PT-BR** in the JSON output — the PDFs are rendered in English via `relatorios/i18n/en.json`.
+- **Keep IDs unchanged** in Microsoft Forms titles and JSON output — the PDFs are rendered in English via `relatorios/i18n/en.json`.
 
 If you want a fully translated question bank, open an issue: <https://github.com/paulanunes85/ai-maturity-client-kit/issues/new>
 
 ## Stuck on a step?
 
 | Problem | Fix |
-|---|---|
+| --- | --- |
 | Excel columns don't match question IDs | Check that you didn't reorder questions in Forms — IDs are positional |
 | `/importar-respostas-excel` fails | Make sure file is at workspace root and named exactly `respostas-forms.xlsx` |
 | Anonymous responses missing for survey C | Survey C requires name+email — re-publish without anonymous mode |
@@ -114,10 +116,10 @@ If you want a fully translated question bank, open an issue: <https://github.com
 
 ## Continue reading
 
-| ⬅ Previous                       | Next ➡                                           |
-| :------------------------------- | -----------------------------------------------: |
+| ⬅ Previous | Next ➡ |
+| :--- | ---: |
 | [📘 Step-by-step](STEP-BY-STEP.md) | [🌐 Site](https://paulanunes85.github.io/ai-maturity-client-kit/en/) |
 
 ---
 
-**Paula Silva** — Software Global Black Belt | paulasilva@microsoft.com
+**Paula Silva** — Software Global Black Belt | [paulasilva@microsoft.com](mailto:paulasilva@microsoft.com)

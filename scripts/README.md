@@ -10,7 +10,7 @@ Scripts auxiliares de manutenção e validação do kit (não invocados pelo cli
 | --- | --- |
 | [`smoke_test.py`](smoke_test.py) | Teste end-to-end automatizado: copia `respostas.json.example` → roda `build_payload_and_render.py --no-render` → valida shape do `payload.json` → restaura workspace. Stdlib puro (sem pytest). |
 | [`build_language_kits.py`](build_language_kits.py) | Gera os ZIPs públicos PT-BR, EN e ES e valida que os assets referenciados pelos pacotes existem. |
-| [`check_language_coverage.py`](check_language_coverage.py) | Reporta cobertura multilíngue obrigatória e lacunas consultivas, como bancos de perguntas EN/ES ainda pendentes de revisão humana. |
+| [`check_language_coverage.py`](check_language_coverage.py) | Reporta cobertura multilíngue obrigatória e lacunas consultivas. Hoje Developer Survey e Learning Survey têm bancos EN/ES; o Assessment principal ainda usa banco canônico PT-BR até revisão humana das traduções. |
 
 ## Como usar
 

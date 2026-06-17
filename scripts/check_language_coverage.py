@@ -14,13 +14,13 @@ ROOT = Path(__file__).resolve().parents[1]
 EXPECTED_LOCALIZED_QUESTION_BANKS = [
     "coleta/perguntas-para-forms.en.md",
     "coleta/perguntas-para-forms.es.md",
-    "survey-devs/perguntas-para-forms-devs.en.md",
-    "survey-devs/perguntas-para-forms-devs.es.md",
 ]
 
 REQUIRED_LOCALIZED_QUESTION_BANKS = [
     "survey-learning/perguntas-para-forms-learning.en.md",
     "survey-learning/perguntas-para-forms-learning.es.md",
+    "survey-devs/perguntas-para-forms-devs.en.md",
+    "survey-devs/perguntas-para-forms-devs.es.md",
 ]
 
 REQUIRED_SHARED_CANONICAL_BANKS = [
@@ -71,7 +71,7 @@ def main() -> int:
     required_missing = 0
     required_missing += print_group("Required package docs", REQUIRED_LANGUAGE_PACKAGE_DOCS)
     required_missing += print_group("Canonical question banks included in all packages", REQUIRED_SHARED_CANONICAL_BANKS)
-    required_missing += print_group("Localized Learning Survey question banks", REQUIRED_LOCALIZED_QUESTION_BANKS)
+    required_missing += print_group("Localized survey question banks", REQUIRED_LOCALIZED_QUESTION_BANKS)
     required_missing += print_group("Reference PDF examples", REQUIRED_REFERENCE_OUTPUTS)
 
     advisory_missing = print_group(

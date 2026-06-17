@@ -5,7 +5,7 @@
 ## 📐 Diferença vs. outros surveys
 
 | Aspecto | Assessment principal | Developer Survey | **Learning Survey** |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | **Audiência** | Liderança | Devs anônimos | **Devs identificados** |
 | **Anônimo?** | Não | Sim | **Não — precisa nome+email** |
 | **Foco** | Maturidade L0-L4 organizacional | Comportamento real (% adoção) | **O que querem APRENDER** |
@@ -16,7 +16,7 @@
 
 **Os 3 são complementares** — rodar os 3 dá visão 360°:
 
-```
+```text
 Assessment (estratégia da liderança)
          ↓
 Survey-devs (realidade comportamental anônima)
@@ -29,7 +29,7 @@ WIZARD-IMPLEMENTACAO (consolida em Implementation Guide PDF)
 ## 📋 As 7 seções
 
 | # | Seção | Foco | Q |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | **L1** | Identificação | Nome, email, cargo, time | 4 |
 | **L2** | Auto-percepção de maturidade | Auto-avaliação L0-L4 nas 7 dimensões D2-D8 (rubrica) | 7 |
 | **L3** | Onde quer crescer | Top 3 dimensões prioritárias (próximos 6 meses) | 2 |
@@ -42,15 +42,17 @@ WIZARD-IMPLEMENTACAO (consolida em Implementation Guide PDF)
 ## 🗂️ Arquivos nesta pasta
 
 | Arquivo | O que é |
-|---|---|
+| --- | --- |
 | **[INSTRUCOES-FORMS-LEARNING.md](INSTRUCOES-FORMS-LEARNING.md)** | Como criar o Microsoft Forms IDENTIFICADO (com configuração + boas práticas + uso ético dos dados) |
 | **[perguntas-para-forms-learning.md](perguntas-para-forms-learning.md)** | As 32 perguntas formatadas para copy/paste no Forms |
+| **[perguntas-para-forms-learning.en.md](perguntas-para-forms-learning.en.md)** | Banco de perguntas em English, preservando IDs `Lx-Qy` para parsing |
+| **[perguntas-para-forms-learning.es.md](perguntas-para-forms-learning.es.md)** | Banco de preguntas en Español, preservando IDs `Lx-Qy` para parsing |
 | **[template-export-forms-learning.xlsx](template-export-forms-learning.xlsx)** | Excel template + 5 respondentes mockados (Maria, João, Ana, Pedro, Sofia) |
 | **[respostas-mock-learning.json](respostas-mock-learning.json)** | JSON estruturado de exemplo |
 
 ## 🚀 Fluxo de uso
 
-```
+```text
 1. Criar Forms seguindo INSTRUCOES-FORMS-LEARNING.md (~30 min)
 2. Compartilhar link com TODOS os devs (Slack/Teams/Email)
 3. Aguardar 2 semanas (lembretes em D+7 e D+12)
@@ -72,7 +74,8 @@ cp survey-learning/respostas-mock-learning.json survey-learning/respostas-learni
 ```
 
 No Copilot Chat (modo Agent):
-```
+
+```text
 /plano-capacitacao
 ```
 
@@ -80,7 +83,7 @@ Em ~30 segundos você terá `saida/plano-capacitacao-2026-05-08.md` gerado a par
 
 ### Modo B — Via @ai-maturity-assistant (concierge)
 
-```
+```text
 @ai-maturity-assistant
 ```
 
@@ -100,6 +103,7 @@ cp survey-learning/template-export-forms-learning.xlsx respostas-survey-learning
 ```
 
 Depois limpe o estado:
+
 ```bash
 rm respostas-survey-learning.xlsx survey-learning/respostas-learning.json
 ```
@@ -139,7 +143,7 @@ Se algum desses falta → reporte como bug da skill `/plano-capacitacao` (não d
 
 Após `/plano-capacitacao` gerar `saida/plano-capacitacao-DATA.md`, ao rodar `/wizard-implementacao` o Copilot Agent **detecta automaticamente** este plano e oferece **Mode D — Auto-fill** que preenche **6 dos 9 inputs do wizard** automaticamente:
 
-```
+```text
 saida/plano-capacitacao.md
     ↓ alimenta automaticamente (Mode D)
 .github/skills/wizard-implementacao  (Parte 4 do PDF)
