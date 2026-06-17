@@ -39,6 +39,9 @@
       <li><a href="#sec-1">1. {{ t('section.executive_overview') }}</a><span class="toc__page"></span></li>
       <li class="toc__list--l2"><a href="#sec-1-1">1.1 {{ t('section.purpose') }}</a><span class="toc__page"></span></li>
       <li class="toc__list--l2"><a href="#sec-1-2">1.2 {{ t('section.summary_of_scores') }}</a><span class="toc__page"></span></li>
+      {% if cross_survey_data is defined and cross_survey_data.available %}
+      <li class="toc__list--l2"><a href="#sec-1-3">1.3 {{ t('section.cross_survey_signals') }}</a><span class="toc__page"></span></li>
+      {% endif %}
 
       <li><a href="#sec-2">2. {{ t('section.scoring_methodology') }}</a><span class="toc__page"></span></li>
       <li class="toc__list--l2"><a href="#sec-2-1">2.1 {{ t('section.maturity_levels') }}</a><span class="toc__page"></span></li>
@@ -103,6 +106,85 @@
     </table>
 
     {{ overall_score_band(scores.overall.weighted_avg, scores.overall.target) }}
+
+    {% if cross_survey_data is defined and cross_survey_data.available %}
+    <h2 id="sec-1-3">1.3 {{ t('section.cross_survey_signals') }}</h2>
+    <p>{{ t('cross_survey.intro') }}</p>
+
+    {% if cross_survey_data.developer_survey_maturity is defined %}
+    {% set dev_maturity = cross_survey_data.developer_survey_maturity %}
+    <div class="callout callout--blue no-break">
+      <h3>{{ t('cross_survey.developer_maturity') }}</h3>
+      <p>
+        <strong>{{ t('label.overall') }}:</strong>
+        {% if dev_maturity.overall_score is not none %}
+          {{ '%.2f' | format(dev_maturity.overall_score) }} ({{ dev_maturity.overall_label }})
+        {% else %}
+          {{ t('label.not_specified') }}
+        {% endif %}
+        {% if dev_maturity.respondents %}
+          · {{ t('table.respondents') }}: {{ dev_maturity.respondents }}
+        {% endif %}
+      </p>
+      {% if dev_maturity.dimensions %}
+      <table class="compact">
+        <thead>
+          <tr>
+            <th>{{ t('table.dimension') }}</th>
+            <th class="num">{{ t('attr.score') }}</th>
+            <th>{{ t('table.maturity_level') }}</th>
+            <th class="num">{{ t('table.respondents') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for dim in dev_maturity.dimensions %}
+          <tr>
+            <td><strong>{{ dim.dimension }}</strong>{% if dim.name %} {{ dim.name }}{% endif %}</td>
+            <td class="num">{{ '%.2f' | format(dim.score) }}</td>
+            <td>{{ dim.label }}</td>
+            <td class="num">{{ dim.respondents or '—' }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <h3>{{ t('cross_survey.artifacts') }}</h3>
+    <table class="compact">
+      <thead>
+        <tr>
+          <th>{{ t('table.artifact') }}</th>
+          <th>{{ t('table.source') }}</th>
+          <th>{{ t('table.description') }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if cross_survey_data.developer_survey_maturity is defined %}
+        <tr>
+          <td>{{ t('cross_survey.developer_maturity') }}</td>
+          <td class="mono">{{ cross_survey_data.developer_survey_maturity.source_file }}</td>
+          <td>{{ t('cross_survey.developer_maturity.desc') }}</td>
+        </tr>
+        {% endif %}
+        {% if cross_survey_data.developer_survey_insights is defined %}
+        <tr>
+          <td>{{ t('cross_survey.developer_insights') }}</td>
+          <td class="mono">{{ cross_survey_data.developer_survey_insights.source_file }}</td>
+          <td>{{ t('cross_survey.developer_insights.desc') }}</td>
+        </tr>
+        {% endif %}
+        {% if cross_survey_data.learning_plan is defined %}
+        <tr>
+          <td>{{ t('cross_survey.learning_plan') }}</td>
+          <td class="mono">{{ cross_survey_data.learning_plan.source_file }}</td>
+          <td>{{ t('cross_survey.learning_plan.desc') }}</td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+    {% endif %}
   </section>
 
   {# ─── §2 SCORING METHODOLOGY ────────────────────────────────── #}
