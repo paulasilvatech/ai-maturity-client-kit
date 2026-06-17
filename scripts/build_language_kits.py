@@ -68,6 +68,26 @@ SHARED_RUNTIME_ROOTS = [
     "referencia/pontuacao-e-calculo.xlsx",
 ]
 
+SHARED_CLIENT_ASSETS = [
+    # Question banks referenced by every language package. The canonical IDs
+    # remain unchanged so Microsoft Forms exports keep parsing correctly.
+    "coleta/perguntas-para-forms.md",
+    "survey-devs/perguntas-para-forms-devs.md",
+    "survey-learning/perguntas-para-forms-learning.md",
+    # Source docs and references used by translated guides and fallback flows.
+    "coleta/INSTRUCOES-FORMS.md",
+    "survey-devs/INSTRUCOES-FORMS-DEVS.md",
+    "survey-devs/README.md",
+    "survey-devs/RUBRICA-MATURIDADE.md",
+    "survey-learning/INSTRUCOES-FORMS-LEARNING.md",
+    "survey-learning/README.md",
+    "wizard/README.md",
+    # Visual helpers referenced by the quickstarts.
+    "formularios",
+    "wizard/implementation-guide-wizard.html",
+    "referencia/calculadora-pontuacao.html",
+]
+
 LANGUAGE_DOCS = {
     "pt": [],
     "en": [
@@ -98,6 +118,10 @@ LANGUAGE_NOTES = {
     across every language package.
 - Shared JSON files, scripts, templates, and workbooks are executable or
     structured assets reused by all languages.
+- Canonical Portuguese question banks are included under `coleta/`,
+    `survey-devs/`, and `survey-learning/` so Microsoft Forms can be built
+    without missing files. Translate respondent-facing text as needed, but
+    keep question IDs unchanged.
 - Canonical question IDs and some internal field names remain in Portuguese
     where required by the scoring framework and production platform mapping.
 """,
@@ -108,6 +132,10 @@ LANGUAGE_NOTES = {
     intencionalmente en todos los paquetes.
 - JSONs, scripts, templates y workbooks compartidos son activos ejecutables
     o estructurados reutilizados por todos los idiomas.
+- Los bancos canonicos de preguntas en Portugues se incluyen en `coleta/`,
+    `survey-devs/` y `survey-learning/` para crear Microsoft Forms sin
+    archivos faltantes. Traduce el texto visible para respondentes segun sea
+    necesario, manteniendo los IDs sin cambios.
 - IDs canonicos de preguntas y algunos nombres internos permanecen en Portugues
     cuando el framework de scoring y el mapeo de plataforma lo requieren.
 """,
@@ -219,6 +247,24 @@ def add_shared_runtime(zf: zipfile.ZipFile) -> None:
         add_tree(zf, root, runtime_filter=True)
 
 
+def add_shared_client_assets(zf: zipfile.ZipFile) -> None:
+    for root in SHARED_CLIENT_ASSETS:
+        add_tree(zf, root, runtime_filter=False)
+
+
+def validate_packaging_sources() -> None:
+    required = (
+        COPILOT_CUSTOMIZATION_ROOTS
+        + SHARED_RUNTIME_ROOTS
+        + SHARED_CLIENT_ASSETS
+        + [source for docs in LANGUAGE_DOCS.values() for source, _ in docs]
+    )
+    missing = [path for path in required if not (ROOT / path).exists()]
+    if missing:
+        joined = "\n  - ".join(missing)
+        raise FileNotFoundError(f"Missing packaging source files:\n  - {joined}")
+
+
 def add_reference_examples(zf: zipfile.ZipFile, lang: str) -> None:
     # JSON examples are language-neutral structured outputs.
     for source in [
@@ -247,6 +293,8 @@ def add_reference_examples(zf: zipfile.ZipFile, lang: str) -> None:
         add_file(zf, "referencia/exemplo-saida/plano-capacitacao-EXEMPLO.md")
     elif lang == "en":
         add_tree(zf, "referencia/exemplo-saida/en", runtime_filter=False)
+    elif lang == "es":
+        add_tree(zf, "referencia/exemplo-saida/es", runtime_filter=False)
 
 
 def add_pt_documentation(zf: zipfile.ZipFile) -> None:
@@ -292,6 +340,7 @@ def build_archive(lang: str, output_dir: Path) -> Path:
     ) as zf:
         add_copilot_customizations(zf)
         add_shared_runtime(zf)
+        add_shared_client_assets(zf)
         add_reference_examples(zf, lang)
         add_localized_docs(zf, lang)
 
@@ -318,6 +367,7 @@ def main() -> None:
     if args.clean and output_dir.exists():
         shutil.rmtree(output_dir)
 
+    validate_packaging_sources()
     archives = [build_archive(lang, output_dir) for lang in ("pt", "en", "es")]
     for archive in archives:
         size_mb = archive.stat().st_size / (1024 * 1024)

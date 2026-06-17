@@ -27,7 +27,7 @@ El ZIP en Español sigue una separación deliberada de idioma:
 1. **Los archivos de customización de Copilot se mantienen en Inglés** — `.github/copilot-instructions.md`, `.github/agents/`, `.github/prompts/` y `.github/skills/` son el runtime del agente y se comparten intencionalmente en todos los paquetes de idioma.
 2. **La documentación orientada al cliente está en Español** — `README.md`, `PASO-A-PASO.md`, `INSTRUCCIONES-FORMS.md` y `PACKAGE-LANGUAGE-NOTES.md` quedan en la raíz del ZIP.
 3. **Los activos runtime compartidos son neutrales al idioma** — JSONs, scripts, templates, workbooks e IDs de scoring se reutilizan. Los IDs canónicos de preguntas y algunos nombres internos permanecen en Portugués cuando el framework de scoring y el mapeo de plataforma lo requieren.
-4. **Los PDFs se renderizan en Español** vía `relatorios/i18n/es.json` — define `report_lang: "es"` en `respostas.json` y los 5 PDFs salen en Español.
+4. **Los PDFs se renderizan en Español** vía `relatorios/i18n/es.json` — define `metadata.language: "es"` en `respostas.json` y los 5 PDFs salen en Español.
 
 Si necesitas el framework JSON totalmente traducido, abre un issue: <https://github.com/paulanunes85/ai-maturity-client-kit/issues/new>
 

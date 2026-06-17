@@ -11,7 +11,7 @@ description: Computes capability/pillar/overall scores from respostas.json apply
 - As prerequisite for `/gap-analysis`, `/recomendar-estrategias` and `/gerar-relatorio`.
 
 ## Inputs
-- `respostas.json` — `responses[qid] = {level, evidence}` + `target_overrides[cap_id]`
+- `respostas.json` — `responses[qid] = {level, evidence}` + `target_overrides[cap_id]`. `level` may be `null` or any number in the inclusive range `0..4`; multi-respondent imports can produce averages such as `2.5`.
 - `framework.json` — question and capability weights + cap→strategies
 
 ## Expected output
@@ -110,6 +110,7 @@ total_answered ≥ 40  → "OK"
 ## Implementation hint
 - Use Python with `json` stdlib. **DO NOT** use Excel/openpyxl here — this skill is pure computation.
 - Rounding: none in computation. For display (chat / scores.json), use 3 decimals.
+- Validate levels as numeric values in `[0, 4]` or `null`. Do not require integers.
 
 ## Report in chat (PT-BR)
 ```

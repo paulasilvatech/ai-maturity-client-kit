@@ -1,139 +1,107 @@
 ---
 name: pipeline-completo
-description: Run the end-to-end pipeline — import Excel (if present), populate spreadsheet, compute scores, gap analysis, recommend strategies and generate executive report. Use when client finished filling responses.json (or respostas-forms.xlsx) and wants everything at once.
+description: Run the end-to-end AI Maturity Assessment pipeline from respostas.json or respostas-forms.xlsx to spreadsheet, scores, gaps, recommendations, and 5 PDFs. Use when the client finished the organizational assessment input and wants everything in one pass.
 agent: agent
 ---
 
-# End-to-end pipeline
+# Pipeline Completo
 
-Execute the 6 skills in this exact order. Stop at first error and report to the user.
+This prompt orchestrates only the **AI Maturity Assessment** flow. The Developer Survey and Learning & Growth Survey are separate flows with their own skills, but their latest outputs are detected and attached to `saida/payload.json` by `/gerar-relatorio`.
+
+Inherit repository policies from `.github/copilot-instructions.md`: do not invent data, keep generated artifacts in `saida/`, and stop at the first unresolved error.
 
 ## Pre-checks
 
-This prompt orchestrates the **AI Maturity Assessment** pipeline (organizational, leadership-driven). The kit also has 2 complementary surveys with their own pipelines — see "Related flows" at the end if user wants those.
+1. Detect input in this order:
+   - If `respostas-forms.xlsx` exists and is newer than `respostas.json`, run `/importar-respostas-excel` first.
+   - Else if `respostas.json` exists, use it directly.
+   - Else stop and direct the client to `README.md`, `GUIA-PASSO-A-PASSO.md`, or `coleta/INSTRUCOES-FORMS.md`.
+2. Validate `respostas.json` parses as JSON. If invalid, stop and run or suggest:
+   ```bash
+   python3 -m json.tool respostas.json
+   ```
+3. Count `responses[*].level != null`.
+   - `0`: stop and ask the client to fill answers or use `respostas.json.example` for a demo.
+   - `1-24`: warn that threshold is BLOCKED; continue only if the client explicitly wants a preliminary draft.
+   - `25-39`: warn that threshold is WARNING.
+   - `>=40`: continue.
+4. Detect complementary artifacts and mention them in the final summary if present:
+   - `survey-devs/respostas-devs.json`
+   - `survey-learning/respostas-learning.json`
+   - latest `saida/insights-developer-survey-*.md`
+   - latest `saida/plano-capacitacao-*.md`
 
-1. **Input detection** — check workspace root in this order:
-   - **If `respostas-forms.xlsx` exists** AND is more recent than `respostas.json`: run `/importar-respostas-excel` FIRST to convert Excel → JSON
-   - **Else if `respostas.json` exists**: use directly
-   - **Otherwise**: stop and instruct the user to either fill `respostas.json` or create `respostas-forms.xlsx` (see `coleta/INSTRUCOES-FORMS.md`)
-2. Count questions with `level != null`. If 0, stop and instruct the user to fill at least some answers (ideally ≥25 to exit BLOCKED state).
-3. If 1–24 answers: warn about BLOCKED threshold but ask if user wants to proceed anyway to generate a "preliminary draft".
-4. **Check for complementary surveys** — if any of these exist at root, mention them in the final report:
-   - `survey-devs/respostas-devs.json` (output of `/importar-survey-devs`) → mention "Developer Survey insights available — run /insights-developer-survey"
-   - `survey-learning/respostas-learning.json` (output of `/importar-survey-learning`) → mention "Learning roadmap available — run /plano-capacitacao"
-   - `implementation-guide-inputs.json` → already auto-merged in Step 5
+## Execution Sequence
 
-## Execution sequence
+Run the skills in this order, verifying each expected output before continuing:
 
-### Step 0 · (Conditional) `/importar-respostas-excel`
-- **Only if** `respostas-forms.xlsx` exists at root and is newer than `respostas.json`.
-- Converts multi-respondent Excel from Forms into aggregated `respostas.json`.
-- If `respostas.json` doesn't exist yet → this skill creates it.
-- ✅ If ok → next step
-- ❌ If parsing error → report and stop
+1. Conditional `/importar-respostas-excel`
+   - Expected: `respostas.json` and `saida/import-log-*.md`.
+2. `/preencher-planilha`
+   - Expected: `saida/pontuacao-preenchida-*.xlsx`.
+3. `/calcular-scores`
+   - Expected: `saida/scores.json`.
+   - Report overall score, PE score if present, threshold, and pillar scores.
+4. `/gap-analysis`
+   - Expected: `saida/gaps.json`.
+   - Report P0/P1/P2/P3 distribution.
+5. `/recomendar-estrategias`
+   - Expected: `saida/recomendacoes.json`.
+   - Report top 3 strategies.
+6. Optional `/wizard-implementacao`
+   - If `implementation-guide-inputs.json` is missing and the client wants personalized Part 4, stop here and route to the wizard.
+   - If a latest `saida/plano-capacitacao-*.md` exists, recommend wizard Mode D auto-fill.
+   - If the client chooses placeholders, continue.
+7. `/gerar-relatorio`
+   - Expected: `saida/payload.json` plus 5 PDFs:
+     - `saida/score_justification.pdf`
+     - `saida/roadmap_part_pillar_p1.pdf`
+     - `saida/roadmap_part_pillar_p2.pdf`
+     - `saida/roadmap_part_pillar_p3.pdf`
+     - `saida/roadmap_part4.pdf`
 
-### Step 1 · `/preencher-planilha`
-- Generates `saida/pontuacao-preenchida-<DATE>.xlsx` (auditable spreadsheet with formulas)
-- ✅ If ok → next step
-- ❌ If error → report and stop
+## Error Recovery
 
-### Step 2 · `/calcular-scores`
-- Generates `saida/scores.json`
-- ✅ Report overall + threshold in chat
-- ❌ Stop if invalid responses
+- Excel import fails: stop, explain that headers must start with `P1-C1-Q1:` style IDs, and point to `coleta/perguntas-para-forms.md`.
+- JSON invalid: stop and show the `python3 -m json.tool respostas.json` command.
+- Invalid levels: stop and list the problematic qids. Accepted values are `null` or numbers from `0` to `4`, including averages like `2.5`.
+- Missing prior output: stop and rerun the previous skill instead of skipping ahead.
+- WeasyPrint failure: stop, show the Python dependency command and OS-specific dependency note from `GUIA-PASSO-A-PASSO.md`.
 
-### Step 3 · `/gap-analysis`
-- Generates `saida/gaps.json`
-- ✅ Report P0/P1/P2/P3 distribution
+## Final Summary
 
-### Step 4 · `/recomendar-estrategias`
-- Generates `saida/recomendacoes.json`
-- ✅ Report top 3 strategies
+Reply in PT-BR with:
 
-### Step 4.5 · (Conditional) Suggest `/wizard-implementacao`
-- **Only if** `implementation-guide-inputs.json` does NOT exist at root.
-- Inform the user: "Part 4 of the PDF (Implementation Guide) will use generic placeholders. Run /wizard-implementacao first to personalize, OR proceed and personalize later."
-- If user wants to personalize → STOP pipeline here and let them run `/wizard-implementacao`
-- If user wants to proceed with placeholders → continue to Step 5
+```text
+Pipeline completo — AI Maturity Assessment
 
-### Step 5 · `/gerar-relatorio`
-- **Implementation:** invokes `python3 relatorios/scripts/build_payload_and_render.py` (DO NOT reimplement the merge logic in chat — the script does it correctly)
-- The script: loads `relatorios/sample_payload.json` as base structure → overrides only fields we have client data for (organization, scores, capabilities, gap_analysis, implementation_guide_inputs) → invokes `render_reports.py` (Jinja2 + WeasyPrint)
-- Generates 5 PDFs in `saida/`: `score_justification.pdf` + `roadmap_part_pillar_p1/p2/p3.pdf` + `roadmap_part4.pdf` (plus `payload.json` for debug/customization)
-- If `implementation-guide-inputs.json` exists at root, automatically merges into payload (Part 4 personalized — no Acme placeholders)
-- ✅ Report 5 PDFs with sizes (~330KB / 410KB / 410KB / 410KB / 510KB)
+Arquivos gerados em saida/:
+- pontuacao-preenchida-<DATE>.xlsx
+- scores.json
+- gaps.json
+- recomendacoes.json
+- payload.json
+- score_justification.pdf
+- roadmap_part_pillar_p1.pdf
+- roadmap_part_pillar_p2.pdf
+- roadmap_part_pillar_p3.pdf
+- roadmap_part4.pdf
 
-## Final report (in PT-BR for the user)
+Resumo:
+- Overall: <score> (<label>)
+- Threshold: <status> (<answered>/158)
+- Pillars: P1=<score> · P2=<score> · P3=<score>
+- Gaps: P0=<n> · P1=<n> · P2=<n> · P3=<n>
+- Estratégias top 3: <Sx>, <Sy>, <Sz>
+- Locale: <payload.locale>
 
-When complete, show a summary table:
+Complementos detectados:
+- Developer Survey: <yes/no>
+- Learning Survey: <yes/no>
+- Wizard personalizado: <yes/no>
 
+Próximos passos:
+1. Abrir `saida/score_justification.pdf`.
+2. Validar scores e evidências com stakeholders.
+3. Completar dados faltantes ou personalizar `implementation-guide-inputs.json` se necessário.
 ```
-🎯 Pipeline completo — AI Maturity Assessment
-
-📂 Arquivos gerados em saida/:
-   ✓ pontuacao-preenchida-2026-05-08.xlsx
-   ✓ scores.json
-   ✓ gaps.json
-   ✓ recomendacoes.json
-   ✓ payload.json                          (merged data — debug/customization)
-   ✓ score_justification.pdf                (~330 KB)
-   ✓ roadmap_part_pillar_p1.pdf             (~410 KB)
-   ✓ roadmap_part_pillar_p2.pdf             (~410 KB)
-   ✓ roadmap_part_pillar_p3.pdf             (~410 KB)
-   ✓ roadmap_part4.pdf                      (~510 KB)
-
-📊 Resumo dos resultados:
-   Overall:     2.41 (L2 — Definido)
-   PE:          1.87 (L1 — Em Desenvolvimento)
-   Threshold:   WARNING (45/158)
-   Pillars:     P1=2.6 L3 · P2=2.1 L2 · P3=2.4 L2
-   Gaps top:    3 P0, 5 P1, 7 P2, 2 P3
-   Estratégias: S5, S7, S6 (top 3)
-
-📋 Próximos passos:
-   1. Abrir saida/score_justification.pdf no preview
-   2. Validar com stakeholders
-   3. Completar respostas faltantes (113 ainda não respondidas) — prioridade nas P0/P1
-```
-
-## Error handling between steps
-
-- Each step must verify its input (output of previous step) exists before running.
-- If a step fails, **DO NOT PROCEED**. Report which step failed and why.
-- Common errors:
-  - `respostas.json` corrupted → instruct to validate JSON
-  - Invalid levels → list problematic qids
-  - 0 capabilities with score → client only answered questions outside the framework
-
-## Constraints
-
-- Don't skip steps.
-- Don't modify `respostas.json`, `framework.json`, `referencia/`, `formularios/` or `coleta/`.
-- All output to `saida/`.
-- Final user-facing message in PT-BR.
-
-## Related flows (mention to user if relevant)
-
-This prompt covers ONLY the maturity assessment pipeline. The kit also has:
-
-### Developer Survey (anonymous, behavioral) — separate flow
-- Input: `respostas-survey-devs.xlsx` at root
-- Skills: `/importar-survey-devs` → `/insights-developer-survey`
-- Output: `saida/insights-developer-survey-<DATE>.md` + `saida/maturidade-developer-survey-<DATE>.json` (with rubric scores L0-L4 per dimension D2-D8)
-- Use case: validate maturity assessment scores with real developer behavior
-- Recommend: run BEFORE the maturity assessment if doing both
-
-### Learning & Growth Survey (identified, capacitation) — separate flow
-- Input: `respostas-survey-learning.xlsx` at root
-- Skills: `/importar-survey-learning` → `/plano-capacitacao`
-- Output: `saida/plano-capacitacao-<DATE>.md` (training roadmap with attendee lists, Champions Network, mentor pairs, calendar)
-- Use case: build personalized training plan that feeds `/wizard-implementacao::training_plan + adkar_notes + quick_wins`
-- Recommend: run BEFORE `/wizard-implementacao` to populate Part 4 of the PDF with real data
-
-### When to run all three
-For serious consulting engagement, run in this order:
-1. Developer Survey (anonymous baseline of real behavior)
-2. Learning Survey (identified — what devs want to learn)
-3. Maturity Assessment (leadership avalia INFORMADA pelos dois acima)
-4. `/wizard-implementacao` — auto-mescla `implementation-guide-inputs.json` + (if exists) `saida/plano-capacitacao-<DATE>.md` data
-5. `/gerar-relatorio` — final 5 PDFs with real data from all three

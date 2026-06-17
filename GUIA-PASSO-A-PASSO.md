@@ -189,7 +189,7 @@ Isso garante que o Copilot leia o `.github/copilot-instructions.md` e detecte as
 ### ✅ Checkpoint 2
 Verifique 3 coisas:
 - [ ] Na sidebar (Explorer), você vê: `README.md`, `respostas.json`, `framework.json`, pastas `formularios/`, `referencia/`, `saida/`, `.github/`
-- [ ] Clicando na pasta `.github/skills/`, você vê 5 subpastas (calcular-scores, gap-analysis, gerar-relatorio, preencher-planilha, recomendar-estrategias)
+- [ ] Clicando na pasta `.github/skills/`, você vê 12 subpastas de skills (assessment, wizard, survey-devs e survey-learning)
 - [ ] O ícone do Copilot no canto inferior direito está azul/ativo
 
 Se algo está errado, provavelmente você abriu a pasta errada. Volte para 2.1.
@@ -909,9 +909,9 @@ SEMANA 5
 SEMANA 5
    ↓
 6. /gerar-relatorio
-   • 5 PDFs com cross-survey enrichment automático
-   • score_justification.pdf inclui "maturity vs declared"
-   • roadmap_part4.pdf consome plano-capacitacao
+   • 5 PDFs finais do assessment
+   • `saida/payload.json` inclui referências aos artefatos cross-survey quando eles existem
+   • `roadmap_part4.pdf` consome dados do Learning Survey quando o wizard Mode D gerou `implementation-guide-inputs.json`
    ↓
 SEMANA 6
    ↓
@@ -929,9 +929,9 @@ SEMANA 6
 
 Agente conduz pelos 3 surveys + assessment + wizard + relatório, **com handoffs clicáveis** entre cada passo. Você nunca precisa lembrar comando.
 
-### 11.4 · Cross-survey validations (a "killer feature")
+### 11.4 · Cross-survey validations
 
-Após rodar os 3 + `/gerar-relatorio`, o **`score_justification.pdf`** automaticamente inclui:
+Após rodar os 3 + `/gerar-relatorio`, o arquivo **`saida/payload.json`** contém ponteiros estruturados para os artefatos cross-survey. Use esses dados para comparar a maturidade declarada pela liderança com a maturidade comportamental dos devs:
 
 ```
 | Capability | Liderança avalia | Survey rubric | Dissonância |
@@ -942,6 +942,9 @@ Após rodar os 3 + `/gerar-relatorio`, o **`score_justification.pdf`** automatic
 
 **Insight:** dissonâncias revelam onde investigar (gap entre estratégia e prática).
 
+> [!NOTE]
+> Os templates PDF atuais ainda não renderizam uma seção dedicada de cross-survey no `score_justification.pdf`. O enriquecimento fica disponível em `saida/payload.json`, e o Learning Survey entra no `roadmap_part4.pdf` quando você roda `/wizard-implementacao` em Mode D antes de `/gerar-relatorio`.
+
 ### ✅ Checkpoint 11 (após fluxo dos 3)
 
 - [ ] Os 2 surveys (devs + learning) coletados antes do assessment
@@ -949,7 +952,7 @@ Após rodar os 3 + `/gerar-relatorio`, o **`score_justification.pdf`** automatic
 - [ ] `saida/plano-capacitacao-*.md` existe
 - [ ] `respostas.json` preenchido informado pelos surveys
 - [ ] `/wizard-implementacao` rodou em Mode D (auto-fill detectou plano)
-- [ ] `/gerar-relatorio` gerou 5 PDFs com cross-survey enrichment
+- [ ] `/gerar-relatorio` gerou 5 PDFs e `saida/payload.json` contém `cross_survey_data`
 - [ ] Apresentou para liderança + devs
 
 ---
@@ -980,7 +983,7 @@ Após rodar os 3 + `/gerar-relatorio`, o **`score_justification.pdf`** automatic
 1. Confirme que o root do workspace é `kit-cliente/` (na sidebar Explorer, o nome no topo deve ser "KIT-CLIENTE")
 2. **Cmd+Shift+P** → **Developer: Reload Window**
 3. Confirme que o dropdown do Copilot Chat está em **Agent**
-4. Confirme que existe `.github/skills/` na pasta (deve ter 5 subpastas)
+4. Confirme que existe `.github/skills/` na pasta (deve ter 12 subpastas)
 
 ### "Skills aparecem mas dão erro 'cannot find file framework.json'"
 

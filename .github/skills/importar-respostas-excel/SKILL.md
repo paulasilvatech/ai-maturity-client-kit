@@ -112,6 +112,8 @@ for row in ws.iter_rows(min_row=2, values_only=False):
 
 ### 5. Aggregate per question (rule: mean of levels, concatenate evidences)
 
+Do not round the mean. The scoring algorithm accepts decimal levels, so `L2` + `L3` from two respondents becomes `2.5`, not `2` or `3`.
+
 ```python
 agg = {}
 for qid in framework_qids:
@@ -123,9 +125,10 @@ for qid in framework_qids:
         if qid in r["responses"] and r["responses"][qid].get("evidence")
     ]
     if levels:
-        # IMPORTANT: aligned with scoring.rs algorithm:
+        # IMPORTANT:
         #   selected_level = AVG(all respondents who answered)
         #   no per-respondent weight
+        #   no rounding; floats are valid levels for scoring
         agg_level = sum(levels) / len(levels)
     else:
         agg_level = None

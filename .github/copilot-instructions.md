@@ -13,7 +13,7 @@ A self-contained kit with **THREE complementary surveys** to run with a client *
 Contains:
 - **1 concierge agent** (`@ai-maturity-assistant` in `.github/agents/`) — guided experience for new clients (offers 4 paths: assessment / survey-devs / learning / all three)
 - **1 orchestrator prompt** (`/pipeline-completo` in `.github/prompts/`) — runs the maturity pipeline end-to-end
-- **12 custom skills** (under `.github/skills/`) — covering all three flows: 1 high-level orchestrator (ai-maturity-reports) + 7 assessment + 2 survey-devs + 2 survey-learning
+- **12 custom skills** (under `.github/skills/`) — 1 high-level orchestrator + 6 assessment pipeline skills + 1 wizard + 2 survey-devs + 2 survey-learning
 
 **Recommend the agent for first-time clients**: `@ai-maturity-assistant` reads workspace state and guides them step-by-step. Use direct skill commands for power users.
 
@@ -39,8 +39,8 @@ Contains:
 
 ## Output language convention
 
-- **All client-facing outputs MUST be in Portuguese (Brazil)** — reports, slide outlines, log messages, error summaries.
-- **Only this `.github/` folder uses English** to save tokens (loaded on every prompt).
+- **Client-facing strings default to Portuguese (Brazil)** — reports, slide outlines, log messages, error summaries, agent menus, and handoff labels.
+- **Agent, prompt, and skill structure can use English** to save context tokens. Human-facing examples inside those files should stay PT-BR unless explicitly documenting EN/ES package behavior.
 - Technical KPI strings can remain in English (universal terms like "MTTR", "lead time", "% adoption").
 
 ## Visual identity & branding (paulasilva-ms)
@@ -53,9 +53,9 @@ This kit is signed under the **Microsoft identity** of Paula Silva, Software Glo
 - Use MS 4-color palette tokens: `--c-blue-500` (#00A4EF), `--c-green-500` (#7FBA00), `--c-yellow-500` (#FFB900), `--c-red-500` (#F25022)
 - Add `<div class="deck-brand">` chrome bar with the 22px logo SVG
 - Sign with: **Paula Silva | Software Global Black Belt** + paulasilva@microsoft.com (single channel, no socials)
-- See [`referencia/branding/IDENTITY.md`](../../referencia/branding/IDENTITY.md) for canonical strings + logo SVG markup
+- See `referencia/branding/IDENTITY.md` for canonical strings + logo SVG markup
 
-**Voice rules** (see [`referencia/branding/VOICE.md`](../../referencia/branding/VOICE.md)):
+**Voice rules** (see `referencia/branding/VOICE.md`):
 - ❌ NO em-dashes (`—`). Use comma, period, colon, or semicolon.
 - ❌ NO en-dashes (`–`) in ranges. Use hyphen with spaces or "to" / "a".
 - ❌ NO banned vocabulary (revolutionary, world-class, leverage as verb, etc.)
@@ -66,7 +66,9 @@ This kit is signed under the **Microsoft identity** of Paula Silva, Software Glo
 - Markdown documentation files — they follow standard markdown without special branding.
 - Output language of skills (always PT-BR for client-facing output).
 
-## Scoring algorithm (SUMMARY — see `referencia/pontuacao-e-calculo.md` for full formulas)
+## Scoring algorithm (summary)
+
+Authoritative reference: `referencia/pontuacao-e-calculo.md`. The `/calcular-scores` skill contains executable pseudocode. Keep this section short so the automatic prompt context stays lean.
 
 ### Layer 1 — Capability score
 
@@ -137,21 +139,54 @@ priority_score = cap_weight × gap_size
 
 Each capability has `strategies: ["S1", "S5", ...]` in `framework.json`. Use this to map gaps → priority strategies and specific technologies (`technologies_per_strategy`).
 
+## Developer Survey dimensions (D2-D8)
+
+The Developer Survey computes behavioral maturity in 7 dimensions. D1 is profile metadata and is not scored.
+
+| ID | Dimension | Main signal | Related assessment area |
+|---|---|---|---|
+| **D2** | Copilot Adoption | License, frequency, modes, features, perceived gain | P1-C1, P1-C8, S5 |
+| **D3** | MS/GH Tooling Breadth | Foundry, Spaces, Coding Agent, MCP, Spec Kit, GHAS | S1, S2, S4, S7 |
+| **D4** | AI Dev Practices | TDD with AI, SDD, pair programming, debugging, onboarding | P1-C5, P2-C1 |
+| **D5** | Agent Concepts Mastery | Agents, MCP, A2A, handoffs, subagents, custom agents | P3-C5, S6 |
+| **D6** | Instructions Maturity | `copilot-instructions.md`, prompt libraries, Spaces, memory | P1-C3, P1-C5 |
+| **D7** | Best Practices | Champions, DORA/DX/SPACE metrics, community, trust | P1-C8, P2-C8 |
+| **D8** | Security & Governance | Policy, GHAS, CodeQL, SBOM, DLP, audit, red-lines | P2-C4, P2-C10, S7 |
+
+See `survey-devs/RUBRICA-MATURIDADE.md` for the deterministic L0-L4 rubric.
+
 ## Output conventions
 
-- **All generated outputs go in `saida/`** with descriptive name + ISO timestamp (e.g., `saida/scores-2026-05-08.json`).
+- **All generated outputs go in `saida/`** except persistent inputs such as `respostas.json`, `survey-devs/respostas-devs.json`, `survey-learning/respostas-learning.json`, and `implementation-guide-inputs.json`.
 - **DO NOT modify** `framework.json`, `referencia/`, or files in `formularios/` and `coleta/`.
 - **DO NOT modify** `respostas.json` except to fill `level` and `evidence` when explicitly asked, or via the `importar-respostas-excel` skill.
-- All client-facing output text must be **Portuguese (Brazil)**.
+- Client-facing output text defaults to **Portuguese (Brazil)** unless the selected package/report locale is EN or ES.
 - Never invent data: if a question wasn't answered, declare "sem resposta" — don't guess.
 
 ## Idempotency
 
-All skills must be **idempotent**: running twice produces the same file. If `saida/scores.json` already exists, overwrite with updated timestamp in metadata, but keep the same filename.
+Use two output patterns:
+
+- **Canonical pipeline outputs overwrite the same filename:** `saida/scores.json`, `saida/gaps.json`, `saida/recomendacoes.json`, `saida/payload.json`, and the 5 final PDFs.
+- **Audit/time-series outputs keep a date in the filename:** populated spreadsheets, import logs, developer survey insights, maturity JSONs, and capacitation plans.
+
+Rerunning with the same inputs should preserve the same computed values. Timestamps in metadata may change.
 
 ## Smoke test (for contributors)
 
-Run `make smoke` (or `python3 scripts/smoke_test.py`) before opening a PR that touches the pipeline. Use `make smoke-cross` to also exercise the cross-survey enrichment branch.
+Run before opening a PR that touches the pipeline:
+
+```bash
+make smoke        # assessment pipeline without full PDF dependency checks
+make smoke-cross  # assessment + developer survey + learning survey enrichment
+```
+
+Recommended additional validation for localization or packaging changes:
+
+```bash
+python3 -m json.tool docs/content.json >/dev/null
+python3 scripts/build_language_kits.py --out dist-test --clean
+```
 
 ## When the client asks "how do I…?"
 
@@ -166,7 +201,7 @@ Direct them to `README.md` (root) or `GUIA-PASSO-A-PASSO.md` (detailed). For alg
 | `@ai-maturity-assistant` | **agent** | Concierge — reads state, guides client end-to-end, invokes skills via handoffs (PT-BR persona) |
 | `/ai-maturity-reports` | skill (orchestrator) | High-level wrapper that produces all 5 PDFs + XLSX. Mirror of the global skill `~/.github/skills/ai-maturity-reports/`. Use when client wants the full bundle |
 | `/pipeline-completo` | prompt | Orchestrates 6 steps end-to-end (auto-detects Excel + wizard) |
-| `/importar-respostas-excel` | skill | Microsoft Forms `.xlsx` → `respostas.json` (multi-respondent mean aggregation) |
+| `/importar-respostas-excel` | skill | Microsoft Forms `.xlsx` → `respostas.json` (multi-respondent mean aggregation; floats are preserved) |
 | `/preencher-planilha` | skill | `respostas.json` → `saida/pontuacao-preenchida-<DATE>.xlsx` |
 | `/calcular-scores` | skill | `respostas.json` → `saida/scores.json` (SUMPRODUCT 3 layers) |
 | `/gap-analysis` | skill | `saida/scores.json` → `saida/gaps.json` (P0/P1/P2/P3 priorities) |
@@ -197,4 +232,4 @@ Direct them to `README.md` (root) or `GUIA-PASSO-A-PASSO.md` (detailed). For alg
 
 ## Multi-respondent aggregation
 
-When `respostas-forms.xlsx` contains multiple respondents, the `importar-respostas-excel` skill aggregates levels by **simple average per question** (no weight per respondent — aligned with `app/backend/src/repos/scoring.rs:354-368`). Evidence is concatenated with `[respondent name]:` prefix.
+When `respostas-forms.xlsx` contains multiple respondents, `/importar-respostas-excel` aggregates levels by **simple average per question** across respondents who answered that question. Do not round; a question may have `level: 2.5`. Evidence is concatenated with `[respondent name]:` prefix. Scoring accepts numeric levels in the inclusive range 0-4.

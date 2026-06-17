@@ -208,7 +208,7 @@
       "download": {
         "eyebrow": "Ready to use", "title": "Download the kit now", "lede": "Public site with ZIPs served by GitHub Pages. The repository can be public or private; site downloads keep working while Pages is published.", "primaryCta": "Download ZIP (EN)", "secondaryCta": "View on GitHub", "hintPrefix": "or clone with", "cloneCommand": "git clone https://github.com/paulanunes85/ai-maturity-client-kit.git", "panelTitle": "ZIP contents",
         "panelItems": [
-          { "label": "Complete framework", "code": "158 questions" }, { "label": "3 surveys (Forms + JSON)", "code": "75 + 32 q" }, { "label": "12 skills + prompt + agent", "code": ".github/" }, { "label": "Concierge agent", "code": ".agent.md" }, { "label": "Jinja2 templates", "code": "5 PDFs" }, { "label": "paulasilva-ms branding", "code": "4 MS colors" }, { "label": "Sample data", "code": "Cliente Exemplo S.A." }, { "label": "PT-BR documentation", "code": "~3000 lines" }
+          { "label": "Complete framework", "code": "158 questions" }, { "label": "3 surveys (Forms + JSON)", "code": "75 + 32 q" }, { "label": "12 skills + prompt + agent", "code": ".github/" }, { "label": "Concierge agent", "code": ".agent.md" }, { "label": "Jinja2 templates", "code": "5 PDFs" }, { "label": "paulasilva-ms branding", "code": "4 MS colors" }, { "label": "Sample data", "code": "Cliente Exemplo S.A." }, { "label": "English docs + canonical question banks", "code": "included" }
         ]
       }
     },
@@ -271,7 +271,7 @@
       "download": {
         "eyebrow": "Listo para usar", "title": "Descarga el kit ahora", "lede": "Sitio publico con ZIPs servidos por GitHub Pages. El repositorio puede ser publico o privado; las descargas del sitio siguen funcionando mientras Pages este publicado.", "primaryCta": "Descargar ZIP (ES)", "secondaryCta": "Ver en GitHub", "hintPrefix": "o clona con", "cloneCommand": "git clone https://github.com/paulanunes85/ai-maturity-client-kit.git", "panelTitle": "Contenido del ZIP",
         "panelItems": [
-          { "label": "Framework completo", "code": "158 preguntas" }, { "label": "3 encuestas (Forms + JSON)", "code": "75 + 32 p" }, { "label": "12 skills + prompt + agente", "code": ".github/" }, { "label": "Agente concierge", "code": ".agent.md" }, { "label": "Templates Jinja2", "code": "5 PDFs" }, { "label": "Branding paulasilva-ms", "code": "4 colores MS" }, { "label": "Datos de ejemplo", "code": "Cliente Exemplo S.A." }, { "label": "Documentacion PT-BR", "code": "~3000 lineas" }
+          { "label": "Framework completo", "code": "158 preguntas" }, { "label": "3 encuestas (Forms + JSON)", "code": "75 + 32 p" }, { "label": "12 skills + prompt + agente", "code": ".github/" }, { "label": "Agente concierge", "code": ".agent.md" }, { "label": "Templates Jinja2", "code": "5 PDFs" }, { "label": "Branding paulasilva-ms", "code": "4 colores MS" }, { "label": "Datos de ejemplo", "code": "Cliente Exemplo S.A." }, { "label": "Docs en Español + bancos canonicos", "code": "incluidos" }
         ]
       }
     }

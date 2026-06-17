@@ -78,7 +78,16 @@ When user runs `/wizard-implementacao` and `saida/plano-capacitacao-*.md` exists
 
 ## Procedure
 
-### Default behavior: offer the 3 modes
+### Step 1: choose the best mode
+
+Before showing manual modes, check if a latest `saida/plano-capacitacao-*.md` exists.
+
+- If it exists, offer **Mode D** first and recommend it.
+- If it does not exist, offer modes A/B/C.
+
+Mode D is the default recommendation after `/plano-capacitacao` because it fills 6 of 9 fields automatically and leaves only `tpo` and `raci_matrix` for manual completion.
+
+### Default behavior without Learning Survey output
 
 When invoked without arguments, present the 3 options and let the user choose. Reply in PT-BR:
 
