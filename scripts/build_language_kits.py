@@ -72,6 +72,8 @@ SHARED_CLIENT_ASSETS = [
     # Question banks referenced by every language package. The canonical IDs
     # remain unchanged so Microsoft Forms exports keep parsing correctly.
     "coleta/perguntas-para-forms.md",
+    "coleta/perguntas-para-forms.en.md",
+    "coleta/perguntas-para-forms.es.md",
     "survey-devs/perguntas-para-forms-devs.md",
     "survey-devs/perguntas-para-forms-devs.en.md",
     "survey-devs/perguntas-para-forms-devs.es.md",

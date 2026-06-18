@@ -21,7 +21,7 @@ The 3 HTML surveys at `formularios/` are convenient for individual fill, but you
 ### Create the form
 
 1. Go to <https://forms.office.com> and create a new form.
-2. Use the question bank in `coleta/perguntas-para-forms.md` (Portuguese) — copy each question.
+2. Use the question bank in `coleta/perguntas-para-forms.en.md` (English, runtime-safe). The canonical PT-BR bank is also available at `coleta/perguntas-para-forms.md`.
 3. For each question:
    - Set type to **Choice** with 5 options: `L0 (Initial)`, `L1 (Developing)`, `L2 (Defined)`, `L3 (Managed)`, `L4 (Optimizing)`.
    - Add an optional **Long text** for evidence/comments.
@@ -91,7 +91,10 @@ This sequence makes the leadership assessment **data-informed** rather than aspi
 
 ## Translating the questions
 
-The Assessment question bank (`coleta/perguntas-para-forms.md`) is still canonical Portuguese (Brazil) because it maps to validated framework IDs and needs human review for native translations. The Developer Survey and Learning & Growth Survey already have English and Spanish banks:
+All 3 surveys now have English and Spanish runtime-safe banks:
+
+- `coleta/perguntas-para-forms.en.md`
+- `coleta/perguntas-para-forms.es.md`
 
 - `survey-devs/perguntas-para-forms-devs.en.md`
 - `survey-devs/perguntas-para-forms-devs.es.md`
@@ -100,7 +103,7 @@ The Assessment question bank (`coleta/perguntas-para-forms.md`) is still canonic
 
 You can:
 
-- **Translate for the respondents** when typing into Microsoft Forms — the IDs stay the same in the Excel export.
+- **Translate for respondents** in Microsoft Forms while preserving IDs in titles — Excel exports continue to parse correctly.
 - **Keep IDs unchanged** in Microsoft Forms titles and JSON output — the PDFs are rendered in English via `relatorios/i18n/en.json`.
 
 If you want a fully translated question bank, open an issue: <https://github.com/paulanunes85/ai-maturity-client-kit/issues/new>

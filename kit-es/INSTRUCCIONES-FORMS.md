@@ -21,7 +21,7 @@ Las 3 encuestas HTML en `formularios/` son convenientes para llenado individual,
 ### Crea el form
 
 1. Ve a <https://forms.office.com> y crea un nuevo form.
-2. Usa el banco de preguntas en `coleta/perguntas-para-forms.md` (Portugués) — copia cada pregunta.
+2. Usa el banco de preguntas en `coleta/perguntas-para-forms.es.md` (Español, runtime-safe). El banco canónico PT-BR también está disponible en `coleta/perguntas-para-forms.md`.
 3. Para cada pregunta:
    - Tipo **Elección** con 5 opciones: `L0 (Inicial)`, `L1 (En Desarrollo)`, `L2 (Definido)`, `L3 (Gestionado)`, `L4 (Optimizando)`.
    - Agrega un **Texto largo** opcional para evidencia/comentarios.
@@ -91,7 +91,10 @@ Esta secuencia hace que el assessment del liderazgo sea **informado por datos** 
 
 ## Traducir las preguntas
 
-El banco del Assessment (`coleta/perguntas-para-forms.md`) sigue como canónico en Portugués (Brasil) porque mapea a IDs validados y necesita revisión humana para traducciones nativas. El Developer Survey y el Learning & Growth Survey ya tienen bancos en Inglés y Español:
+Las 3 encuestas ya tienen bancos runtime-safe en Inglés y Español:
+
+- `coleta/perguntas-para-forms.en.md`
+- `coleta/perguntas-para-forms.es.md`
 
 - `survey-devs/perguntas-para-forms-devs.en.md`
 - `survey-devs/perguntas-para-forms-devs.es.md`
@@ -100,7 +103,7 @@ El banco del Assessment (`coleta/perguntas-para-forms.md`) sigue como canónico 
 
 Puedes:
 
-- **Traducir para los respondentes** al copiar en Microsoft Forms — los IDs quedan iguales en el Excel exportado.
+- **Traducir para los respondentes** en Microsoft Forms manteniendo los IDs en los títulos — el Excel exportado se parsea correctamente.
 - **Mantener los IDs sin cambios** en los títulos de Microsoft Forms y en el JSON de salida — los PDFs se renderizan en Español vía `relatorios/i18n/es.json`.
 
 Si quieres un banco de preguntas totalmente traducido, abre un issue: <https://github.com/paulanunes85/ai-maturity-client-kit/issues/new>
