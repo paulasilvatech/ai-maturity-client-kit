@@ -2,7 +2,7 @@
 <!--
   Paula Silva, Software Global Black Belt
   Building the future of software development with AI and Agentic DevOps
-  Contact: paulasilva@microsoft.com
+  Contact: LinkedIn https://linkedin.com/in/paulanunes
   Branding: paulasilva-ms Design System v1.7.0
   See referencia/branding/ for tokens, identity, and voice rules
 -->
@@ -14,7 +14,7 @@
 > [!TIP]
 > **Primeira vez aqui?** Vá direto para o [GUIA-PASSO-A-PASSO.md](GUIA-PASSO-A-PASSO.md) ou abra o Copilot Chat e digite `@ai-maturity-assistant` — ele guia você da instalação ao PDF final.
 
-🌐 **Mini-site público:** [paulanunes85.github.io/ai-maturity-client-kit](https://paulanunes85.github.io/ai-maturity-client-kit/) — apresentação visual + botão de download (ative GitHub Pages em Settings → Pages → Source: GitHub Actions)
+🌐 **Mini-site público:** [paulasilvatech.github.io/ai-maturity-client-kit](https://paulasilvatech.github.io/ai-maturity-client-kit/) — apresentação visual + botão de download (ative GitHub Pages em Settings → Pages → Source: GitHub Actions)
 
 🌍 **Language kits:** PT-BR está neste README. English: [kit-en/README.md](kit-en/README.md) · Español: [kit-es/README.md](kit-es/README.md). Os ZIPs EN/ES incluem documentação traduzida e bancos canônicos de perguntas em PT-BR para preservar IDs de parsing.
 
@@ -371,6 +371,6 @@ Você não perde dados — basta upload do JSON quando o app estiver disponível
 
 ---
 
-<sub>**Paula Silva** | Software Global Black Belt · paulasilva@microsoft.com</sub>
+<sub>**Paula Silva** | Software Global Black Belt · [LinkedIn](https://linkedin.com/in/paulanunes)</sub>
 <sub>Building the future of software development with AI and Agentic DevOps</sub>
 <sub>Identidade visual: [paulasilva-ms Design System v1.7.0](referencia/branding/) · Paleta Microsoft 4 cores aplicada nos HTMLs interativos e nos 5 PDFs production-quality</sub>

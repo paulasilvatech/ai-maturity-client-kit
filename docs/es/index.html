@@ -1,24 +1,53 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kit AI Maturity Assessment · Paula Silva</title>
-<meta name="description" content="Kit de autoservicio para ejecutar el AI Maturity Assessment con GitHub Copilot.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles.css">
-<link rel="icon" type="image/svg+xml" href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1914 1062"><path fill="%23F25022" d="M532 131 L36 462 L13 497 L13 560 L23 582 L48 604 L521 923 L539 926 L539 699 L547 680 L314 530 L527 395 L551 371 L558 347 L558 155 L547 135 Z"/><path fill="%237FBA00" d="M551 681 L542 693 L540 700 L540 917 L546 930 L558 940 L571 943 L778 943 L788 941 L798 935 L809 910 L809 702 L807 694 L799 682 L784 674 L566 674 Z"/><path fill="%23FFB900" d="M1390 16 L1208 13 L1184 23 L1171 38 L768 1009 L768 1026 L778 1038 L957 1042 L975 1037 L995 1017 L1346 179 L1349 145 L1367 129 L1401 47 L1402 31 Z"/><path fill="%2300A4EF" d="M1369 131 L1350 149 L1349 355 L1354 369 L1385 399 L1592 528 L1373 667 L1354 688 L1349 703 L1349 907 L1361 924 L1377 926 L1871 595 L1893 563 L1894 501 L1885 477 L1863 456 L1398 142 Z"/></svg>'>
-</head>
-<body data-lang="es" data-base="../" data-content="../content.json">
-<div id="app">
-  <main class="loading">
-    <h1>AI Maturity Assessment Kit</h1>
-    <p>Cargando contenido...</p>
-  </main>
-</div>
-<noscript>Activa JavaScript para visualizar el mini-site.</noscript>
-<script src="../app.js" defer></script>
-</body>
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kit AI Maturity Assessment · Paula Silva</title>
+    <meta name="description" content="Kit de autoservicio para ejecutar el AI Maturity Assessment con GitHub Copilot.">
+    <link rel="canonical" href="https://paulasilvatech.github.io/ai-maturity-client-kit/es/">
+    <link rel="alternate" hreflang="pt-BR" href="https://paulasilvatech.github.io/ai-maturity-client-kit/">
+    <link rel="alternate" hreflang="en" href="https://paulasilvatech.github.io/ai-maturity-client-kit/en/">
+    <link rel="alternate" hreflang="es" href="https://paulasilvatech.github.io/ai-maturity-client-kit/es/">
+    <link rel="alternate" hreflang="x-default" href="https://paulasilvatech.github.io/ai-maturity-client-kit/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AI Maturity Assessment Kit">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:locale:alternate" content="pt_BR">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:title" content="Kit AI Maturity Assessment · Paula Silva">
+    <meta property="og:description"
+      content="Kit de autoservicio para ejecutar el AI Maturity Assessment con GitHub Copilot, 3 encuestas complementarias y 5 PDFs ejecutivos.">
+    <meta property="og:url" content="https://paulasilvatech.github.io/ai-maturity-client-kit/es/">
+    <meta property="og:image" content="https://paulasilvatech.github.io/ai-maturity-client-kit/assets/social-card.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Kit AI Maturity Assessment · Paula Silva">
+    <meta name="twitter:description"
+      content="Kit de autoservicio para ejecutar el AI Maturity Assessment con GitHub Copilot, 3 encuestas complementarias y 5 PDFs ejecutivos.">
+    <meta name="twitter:image" content="https://paulasilvatech.github.io/ai-maturity-client-kit/assets/social-card.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="icon" type="image/svg+xml"
+      href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1914 1062"><path fill="%23F25022" d="M532 131 L36 462 L13 497 L13 560 L23 582 L48 604 L521 923 L539 926 L539 699 L547 680 L314 530 L527 395 L551 371 L558 347 L558 155 L547 135 Z"/><path fill="%237FBA00" d="M551 681 L542 693 L540 700 L540 917 L546 930 L558 940 L571 943 L778 943 L788 941 L798 935 L809 910 L809 702 L807 694 L799 682 L784 674 L566 674 Z"/><path fill="%23FFB900" d="M1390 16 L1208 13 L1184 23 L1171 38 L768 1009 L768 1026 L778 1038 L957 1042 L975 1037 L995 1017 L1346 179 L1349 145 L1367 129 L1401 47 L1402 31 Z"/><path fill="%2300A4EF" d="M1369 131 L1350 149 L1349 355 L1354 369 L1385 399 L1592 528 L1373 667 L1354 688 L1349 703 L1349 907 L1361 924 L1377 926 L1871 595 L1893 563 L1894 501 L1885 477 L1863 456 L1398 142 Z"/></svg>'>
+  </head>
+
+  <body data-lang="es" data-base="../" data-content="../content.json">
+    <div id="app">
+      <main class="loading">
+        <h1>AI Maturity Assessment Kit</h1>
+        <p>Cargando contenido...</p>
+      </main>
+    </div>
+    <noscript>Activa JavaScript para visualizar el mini-site.</noscript>
+    <script src="../app.js" defer></script>
+  </body>
+
 </html>

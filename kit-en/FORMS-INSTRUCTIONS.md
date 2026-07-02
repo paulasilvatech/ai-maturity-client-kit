@@ -106,7 +106,7 @@ You can:
 - **Translate for respondents** in Microsoft Forms while preserving IDs in titles — Excel exports continue to parse correctly.
 - **Keep IDs unchanged** in Microsoft Forms titles and JSON output — the PDFs are rendered in English via `relatorios/i18n/en.json`.
 
-If you want a fully translated question bank, open an issue: <https://github.com/paulanunes85/ai-maturity-client-kit/issues/new>
+If you want a fully translated question bank, contact Paula Silva on [LinkedIn](https://linkedin.com/in/paulanunes).
 
 ## Stuck on a step?
 
@@ -121,8 +121,8 @@ If you want a fully translated question bank, open an issue: <https://github.com
 
 | ⬅ Previous | Next ➡ |
 | :--- | ---: |
-| [📘 Step-by-step](STEP-BY-STEP.md) | [🌐 Site](https://paulanunes85.github.io/ai-maturity-client-kit/en/) |
+| [📘 Step-by-step](STEP-BY-STEP.md) | [🌐 Site](https://paulasilvatech.github.io/ai-maturity-client-kit/en/) |
 
 ---
 
-**Paula Silva** — Software Global Black Belt | [paulasilva@microsoft.com](mailto:paulasilva@microsoft.com)
+**Paula Silva** — Software Global Black Belt | [LinkedIn](https://linkedin.com/in/paulanunes)

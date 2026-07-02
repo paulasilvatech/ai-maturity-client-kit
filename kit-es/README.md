@@ -3,9 +3,8 @@
 > Kit de autoservicio para ejecutar la Evaluación de Madurez en IA con GitHub Copilot.
 > **3 encuestas complementarias · 5 PDFs production-quality · plan de capacitación personalizado.**
 
-[![Open in VS Code](https://img.shields.io/badge/Abrir%20en-VS%20Code-007ACC?logo=visualstudiocode)](https://github.com/paulanunes85/ai-maturity-client-kit)
-[![Sitio](https://img.shields.io/badge/sitio-paulanunes85.github.io-00A4EF)](https://paulanunes85.github.io/ai-maturity-client-kit/es/)
-[![Descargar ZIP](https://img.shields.io/badge/descargar-ES%20kit.zip-7FBA00)](https://paulanunes85.github.io/ai-maturity-client-kit/downloads/ai-maturity-kit-es.zip)
+[![Sitio](https://img.shields.io/badge/sitio-paulasilvatech.github.io-00A4EF)](https://paulasilvatech.github.io/ai-maturity-client-kit/es/)
+[![Descargar ZIP](https://img.shields.io/badge/descargar-ES%20kit.zip-7FBA00)](https://paulasilvatech.github.io/ai-maturity-client-kit/downloads/ai-maturity-kit-es.zip)
 
 ---
 
@@ -29,14 +28,12 @@ El ZIP en Español sigue una separación deliberada de idioma:
 3. **Los activos runtime compartidos son neutrales al idioma** — JSONs, scripts, templates, workbooks e IDs de scoring se reutilizan. Los IDs canónicos de preguntas y algunos nombres internos permanecen en Portugués cuando el framework de scoring y el mapeo de plataforma lo requieren.
 4. **Los PDFs se renderizan en Español** vía `relatorios/i18n/es.json` — define `metadata.language: "es"` en `respostas.json` y los 5 PDFs salen en Español.
 
-Si necesitas el framework JSON totalmente traducido, abre un issue: <https://github.com/paulanunes85/ai-maturity-client-kit/issues/new>
+Si necesitas el framework JSON totalmente traducido, contacta a Paula Silva en [LinkedIn](https://linkedin.com/in/paulanunes).
 
 ## Inicio rápido
 
 ```bash
-# 1. Clona el repo
-git clone https://github.com/paulanunes85/ai-maturity-client-kit.git
-cd ai-maturity-client-kit
+# 1. Descarga el ZIP desde el sitio, extraelo y abre la carpeta en VS Code
 
 # 2. Valida prerequisitos
 make smoke
@@ -89,9 +86,9 @@ OUTPUT (5 PDFs + XLSX auditable)
 
 | ⬅ Anterior | Siguiente ➡ |
 | :--- | ---: |
-| [🏠 Sitio principal (multi-idioma)](https://paulanunes85.github.io/ai-maturity-client-kit/) | [📘 Paso a paso detallado](PASO-A-PASO.md) |
+| [🏠 Sitio principal (multi-idioma)](https://paulasilvatech.github.io/ai-maturity-client-kit/) | [📘 Paso a paso detallado](PASO-A-PASO.md) |
 
 ---
 
-**Paula Silva** — Software Global Black Belt | [paulasilva@microsoft.com](mailto:paulasilva@microsoft.com)
+**Paula Silva** — Software Global Black Belt | [LinkedIn](https://linkedin.com/in/paulanunes)
 *Building the future of software development with AI and Agentic DevOps*
