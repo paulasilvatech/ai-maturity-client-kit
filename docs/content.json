@@ -39,8 +39,7 @@
         "aboutText": "Kit auto-servico para conduzir assessment de maturidade IA com GitHub Copilot, 3 surveys complementares e 5 PDFs executivos.",
         "linksTitle": "Menu",
         "contactTitle": "Contato",
-        "contactLabel": "LinkedIn",
-        "legal": "GitHub Copilot e Azure sao produtos da Microsoft. Este kit e um pacote cliente auto-servico para assessment, coleta e geracao de relatorios executivos."
+        "contactLabel": "LinkedIn"
       },
       "nav": {
         "pipeline": "Pipeline",
@@ -435,8 +434,7 @@
         "aboutText": "Self-service kit for running an AI maturity assessment with GitHub Copilot, 3 complementary surveys, and 5 executive PDFs.",
         "linksTitle": "Menu",
         "contactTitle": "Contact",
-        "contactLabel": "LinkedIn",
-        "legal": "GitHub Copilot and Azure are Microsoft products. This kit is a client-run self-service package for assessment, collection, and executive report generation."
+        "contactLabel": "LinkedIn"
       },
       "nav": {
         "pipeline": "Pipeline",
@@ -831,8 +829,7 @@
         "aboutText": "Kit de autoservicio para ejecutar una evaluacion de madurez en IA con GitHub Copilot, 3 encuestas complementarias y 5 PDFs ejecutivos.",
         "linksTitle": "Menu",
         "contactTitle": "Contacto",
-        "contactLabel": "LinkedIn",
-        "legal": "GitHub Copilot y Azure son productos de Microsoft. Este kit es un paquete de autoservicio para assessment, recoleccion y generacion de reportes ejecutivos."
+        "contactLabel": "LinkedIn"
       },
       "nav": {
         "pipeline": "Pipeline",

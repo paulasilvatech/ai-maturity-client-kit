@@ -299,6 +299,7 @@
     const footer = content.footer || {};
     const navItems = Object.entries(content.nav).map(([id, label]) => `<a href="#${id}">${escapeHtml(label)}</a>`).join('');
     const contactUrl = data.contactLinkedIn || '#';
+    const footerLegal = footer.legal ? `<p class="footer__legal">${escapeHtml(footer.legal)}</p>` : '';
     return `
       <footer class="footer">
         <div class="container">
@@ -319,7 +320,7 @@
               </div>
             </div>
           </div>
-          <p class="footer__legal">${escapeHtml(footer.legal || content.brand.tagline)}</p>
+          ${footerLegal}
         </div>
       </footer>`;
   }
