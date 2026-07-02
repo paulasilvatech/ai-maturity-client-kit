@@ -1,9 +1,9 @@
 (() => {
   const LOGO_PATHS = `
-    <path fill="#F25022" d="M532 131 L36 462 L13 497 L13 560 L23 582 L48 604 L521 923 L539 926 L539 699 L547 680 L314 530 L527 395 L551 371 L558 347 L558 155 L547 135 Z"/>
-    <path fill="#7FBA00" d="M551 681 L542 693 L540 700 L540 917 L546 930 L558 940 L571 943 L778 943 L788 941 L798 935 L809 910 L809 702 L807 694 L799 682 L784 674 L566 674 Z"/>
-    <path fill="#FFB900" d="M1390 16 L1208 13 L1184 23 L1171 38 L768 1009 L768 1026 L778 1038 L957 1042 L975 1037 L995 1017 L1346 179 L1349 145 L1367 129 L1401 47 L1402 31 Z"/>
-    <path fill="#00A4EF" d="M1369 131 L1350 149 L1349 355 L1354 369 L1385 399 L1592 528 L1373 667 L1354 688 L1349 703 L1349 907 L1361 924 L1377 926 L1871 595 L1893 563 L1894 501 L1885 477 L1863 456 L1398 142 Z"/>`;
+    <path d="M528 200 L300 385 L528 565" fill="none" stroke="#FF3133" stroke-width="112" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="518" y="455" width="136" height="136" rx="30" fill="#7ED956"/>
+    <line x1="855" y1="150" x2="692" y2="610" stroke="#FFDE59" stroke-width="112" stroke-linecap="round"/>
+    <path d="M975 200 L1203 385 L975 565" fill="none" stroke="#39B8FF" stroke-width="112" stroke-linecap="round" stroke-linejoin="round"/>`;
 
   const CONFIG = {
     pt: { path: '', label: 'PT', code: 'pt-BR' },
@@ -64,33 +64,40 @@
   }
 
   function logoSvg(label, title) {
-    return `<svg viewBox="0 0 1914 1062" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeHtml(label)}"><title>${escapeHtml(title)}</title>${LOGO_PATHS}</svg>`;
+    return `<svg viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeHtml(label)}"><title>${escapeHtml(title)}</title>${LOGO_PATHS}</svg>`;
   }
 
   function renderLanguageLinks(currentLang) {
     return Object.values(CONFIG).map((language) => {
       if (language.code === currentLang) {
-        return `<strong>${language.label}</strong>`;
+        return `<strong class="lang-pill is-active">${language.label}</strong>`;
       }
-      return `<a href="${languageHref(language.code)}" data-lang-choice="${language.code}">${language.label}</a>`;
-    }).join(' · ');
+      return `<a class="lang-pill" href="${languageHref(language.code)}" data-lang-choice="${language.code}">${language.label}</a>`;
+    }).join('');
   }
 
   function renderChrome(content) {
-    const navItems = Object.entries(content.nav).map(([id, label]) => `<a href="#${id}">${escapeHtml(label)}</a>`).join('');
+    const navItems = Object.entries(content.nav).map(([id, label]) => `<a class="top-link" href="#${id}">${escapeHtml(label)}</a>`).join('');
     return `
-      <div class="chrome">
-        <div class="chrome__inner">
-          <div class="chrome__brand">
-            ${logoSvg('paulasilva', 'paulasilva')}
-            <div class="chrome__brand-text">${escapeHtml(content.brand.name)}<br>${escapeHtml(content.brand.role)}</div>
+      <header class="meta-bar">
+        <a href="#main" class="brand">
+          ${logoSvg('paulasilva', 'paulasilva')}
+          <div class="brand__text">
+            <div class="brand__title">AI Maturity Kit</div>
+            <div class="brand__sub">by ${escapeHtml(content.brand.name)}</div>
           </div>
-          <nav class="chrome__nav" aria-label="Primary navigation">
+        </a>
+        <div class="top-tools">
+          <nav class="top-nav" aria-label="Primary navigation">
             ${navItems}
-            <span class="chrome__lang" aria-label="Language selector">${renderLanguageLinks(pageLang)}</span>
           </nav>
+          <span class="top-lang" aria-label="Language selector">${renderLanguageLinks(pageLang)}</span>
+          <button class="tool-btn" id="theme-toggle" type="button" title="Toggle theme" aria-label="Toggle theme">
+            <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+            <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
         </div>
-      </div>`;
+      </header>`;
   }
 
   function renderHero(content) {
@@ -228,9 +235,7 @@
               <p class="section__lede">${escapeHtml(content.download.lede)}</p>
               <div class="download__cta">
                 <a class="btn btn--primary" href="${escapeHtml(downloadUrl)}">${escapeHtml(content.download.primaryCta)}</a>
-                <a class="btn btn--secondary download__repo" href="${escapeHtml(data.repositoryUrl)}">${escapeHtml(content.download.secondaryCta)}</a>
               </div>
-              <p class="download__hint">${escapeHtml(content.download.hintPrefix)} <code class="download__clone">${escapeHtml(content.download.cloneCommand)}</code></p>
             </div>
             <div class="download__panel">
               <div class="download__panel-title">${escapeHtml(content.download.panelTitle)}</div>
@@ -241,23 +246,100 @@
       </section>`;
   }
 
-  function renderFooter(content, data) {
+  function renderAbout(content, data) {
+    const about = content.about;
+    if (!about) return '';
+
+    const paragraphs = (about.paragraphs || []).map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('');
+    const tags = (about.tags || []).map((tag) => `<span class="about__tag">${escapeHtml(tag)}</span>`).join('');
+    const contactUrl = data.contactLinkedIn || '#';
+    const repositoryUrl = data.repositoryUrl || '#';
+
     return `
-      <footer class="footer">
-        <div class="footer__inner">
-          <div class="footer__sig">
-            ${logoSvg('paulasilva', 'paulasilva')}
-            <div class="footer__sig-text">
-              <div class="footer__sig-name">${escapeHtml(content.brand.name)}</div>
-              <div class="footer__sig-role">${escapeHtml(content.brand.role)}</div>
+      <section class="about" id="about">
+        <div class="container">
+          <div class="about__inner">
+            <div class="about__copy">
+              <div class="section__eyebrow">${escapeHtml(about.eyebrow)}</div>
+              <h2 class="section__title">${escapeHtml(about.title)}</h2>
+              <div class="about__body">${paragraphs}</div>
             </div>
-          </div>
-          <div class="footer__contact">
-            <a href="mailto:${escapeHtml(data.contactEmail)}">${escapeHtml(data.contactEmail)}</a><br>
-            <span class="footer__tagline">${escapeHtml(content.brand.tagline)}</span>
+            <aside class="about__card" aria-label="${escapeHtml(about.eyebrow)}">
+              <h3>${escapeHtml(content.brand.name)}</h3>
+              <div class="about__role">${escapeHtml(content.brand.role)}</div>
+              <div class="about__meta">
+                <div>
+                  <div class="about__label">${escapeHtml(about.contactLabel)}</div>
+                  <a href="${escapeHtml(contactUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(about.contactText)}</a>
+                </div>
+                <div>
+                  <div class="about__label">${escapeHtml(about.repositoryLabel)}</div>
+                  <a href="${escapeHtml(repositoryUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(about.repositoryText)}</a>
+                </div>
+                <div>
+                  <div class="about__label">${escapeHtml(about.contributorsLabel)}</div>
+                  <span>${escapeHtml(about.contributorsText)}</span>
+                </div>
+                <div>
+                  <div class="about__label">${escapeHtml(about.editionsLabel)}</div>
+                  <span>${escapeHtml(about.editionsText)}</span>
+                </div>
+                <div>
+                  <div class="about__label">${escapeHtml(about.tagsLabel)}</div>
+                  <div class="about__tags">${tags}</div>
+                </div>
+              </div>
+            </aside>
           </div>
         </div>
+      </section>`;
+  }
+
+  function renderFooter(content, data) {
+    const footer = content.footer || {};
+    const navItems = Object.entries(content.nav).map(([id, label]) => `<a href="#${id}">${escapeHtml(label)}</a>`).join('');
+    const contactUrl = data.contactLinkedIn || '#';
+    return `
+      <footer class="footer">
+        <div class="container">
+          <div class="footer__grid">
+            <div>
+              <div class="footer__author">${escapeHtml(content.brand.name)}</div>
+              <h5>${escapeHtml(footer.aboutTitle || content.title)}</h5>
+              <p>${escapeHtml(footer.aboutText || content.brand.tagline)}</p>
+            </div>
+            <div>
+              <h5>${escapeHtml(footer.linksTitle || 'Navigation')}</h5>
+              <div class="footer__links">${navItems}</div>
+            </div>
+            <div>
+              <h5>${escapeHtml(footer.contactTitle || 'Contact')}</h5>
+              <div class="footer__links">
+                <a href="${escapeHtml(contactUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(footer.contactLabel || 'LinkedIn')}</a>
+              </div>
+            </div>
+          </div>
+          <p class="footer__legal">${escapeHtml(footer.legal || content.brand.tagline)}</p>
+        </div>
       </footer>`;
+  }
+
+  function applyTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+    localStorage.setItem('aiMaturityTheme', theme);
+  }
+
+  function initThemeToggle() {
+    const storedTheme = localStorage.getItem('aiMaturityTheme');
+    const prefersDark = globalThis.matchMedia?.('(prefers-color-scheme: dark)').matches;
+    applyTheme(storedTheme || (prefersDark ? 'dark' : 'light'));
+
+    const button = document.getElementById('theme-toggle');
+    if (!button) return;
+    button.addEventListener('click', () => {
+      const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      applyTheme(nextTheme);
+    });
   }
 
   function render(content, data) {
@@ -276,6 +358,7 @@
       renderSkills(content),
       renderFaq(content),
       renderDownload(content, data),
+      renderAbout(content, data),
       '</main>',
       renderFooter(content, data)
     ].join('');
@@ -283,6 +366,7 @@
     document.querySelectorAll('[data-lang-choice]').forEach((link) => {
       link.addEventListener('click', () => localStorage.setItem('aiMaturityLang', link.dataset.langChoice));
     });
+    initThemeToggle();
   }
 
   function renderLoadError() {

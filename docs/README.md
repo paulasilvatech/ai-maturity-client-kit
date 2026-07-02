@@ -13,7 +13,7 @@ Site estático que apresenta o kit. O conteúdo da landing agora é centralizado
 ## URL pública
 
 ```text
-https://paulanunes85.github.io/ai-maturity-client-kit/
+https://paulasilvatech.github.io/ai-maturity-client-kit/
 ```
 
 ## Arquitetura
@@ -62,9 +62,9 @@ Sim, é possível manter o repositório privado e o site público, desde que o G
 O detalhe importante: assets de GitHub Releases em repositório privado exigem autenticação. Por isso o workflow de Pages gera os ZIPs e os publica dentro do próprio artefato do site:
 
 ```text
-https://paulanunes85.github.io/ai-maturity-client-kit/downloads/ai-maturity-kit-pt.zip
-https://paulanunes85.github.io/ai-maturity-client-kit/downloads/ai-maturity-kit-en.zip
-https://paulanunes85.github.io/ai-maturity-client-kit/downloads/ai-maturity-kit-es.zip
+https://paulasilvatech.github.io/ai-maturity-client-kit/downloads/ai-maturity-kit-pt.zip
+https://paulasilvatech.github.io/ai-maturity-client-kit/downloads/ai-maturity-kit-en.zip
+https://paulasilvatech.github.io/ai-maturity-client-kit/downloads/ai-maturity-kit-es.zip
 ```
 
 Esses links continuam públicos junto com o site, mesmo se o repositório voltar a ser privado.

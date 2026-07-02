@@ -21,7 +21,7 @@ Las 3 encuestas HTML en `formularios/` son convenientes para llenado individual,
 ### Crea el form
 
 1. Ve a <https://forms.office.com> y crea un nuevo form.
-2. Usa el banco de preguntas en `coleta/perguntas-para-forms.md` (Portugués) — copia cada pregunta.
+2. Usa el banco de preguntas en `coleta/perguntas-para-forms.es.md` (Español, runtime-safe). El banco canónico PT-BR también está disponible en `coleta/perguntas-para-forms.md`.
 3. Para cada pregunta:
    - Tipo **Elección** con 5 opciones: `L0 (Inicial)`, `L1 (En Desarrollo)`, `L2 (Definido)`, `L3 (Gestionado)`, `L4 (Optimizando)`.
    - Agrega un **Texto largo** opcional para evidencia/comentarios.
@@ -36,7 +36,7 @@ Las 3 encuestas HTML en `formularios/` son convenientes para llenado individual,
 
 ### Agrega al kit
 
-```
+```text
 /importar-respostas-excel
 ```
 
@@ -44,13 +44,13 @@ La skill calcula el **promedio simple por pregunta** entre todos los respondente
 
 ## Forma B · Developer Survey (75 preguntas, anónimo)
 
-1. Crea el form usando las preguntas de `survey-devs/perguntas-para-forms-devs.md`.
+1. Crea el form usando preguntas de `survey-devs/perguntas-para-forms-devs.es.md` (Español, runtime-safe). El banco canónico PT-BR también está disponible en `survey-devs/perguntas-para-forms-devs.md`.
 2. En **Configuración**: habilita **respuestas anónimas** (NO requieras email ni login).
 3. Comparte con todos los desarrolladores en alcance (5+ mínimo recomendado).
 4. Exporta como `respostas-survey-devs.xlsx` a la raíz del workspace.
 5. Ejecuta:
 
-```
+```text
 /importar-survey-devs
 /insights-developer-survey
 ```
@@ -62,13 +62,13 @@ Output: `saida/insights-developer-survey-<FECHA>.md` con métricas de adopción,
 > [!IMPORTANT]
 > Esta encuesta requiere **nombre + email** porque el output incluye listas de inscritos, asignación a cohorts y pares mentor↔mentee. Asegúrate de que los participantes consientan esto previamente.
 
-1. Crea el form usando preguntas de `survey-learning/perguntas-para-forms-learning.md`.
+1. Crea el form usando preguntas de `survey-learning/perguntas-para-forms-learning.es.md` (Español). El banco canónico PT-BR también está disponible en `survey-learning/perguntas-para-forms-learning.md`.
 2. En **Configuración**: requiere **nombre y email** como campos obligatorios. Deshabilita el modo anónimo.
 3. Comparte con todos los desarrolladores que recibirán capacitación (3+ mínimo recomendado).
 4. Exporta como `respostas-survey-learning.xlsx` a la raíz del workspace.
 5. Ejecuta:
 
-```
+```text
 /importar-survey-learning
 /plano-capacitacao
 ```
@@ -79,7 +79,7 @@ Output: `saida/plano-capacitacao-<FECHA>.md` con top 10 temas demandados, cohort
 
 Para engagements de consultoría seria, ejecuta las 3 en este orden:
 
-```
+```text
 1. Encuesta B (devs anónimos)       → baseline comportamental
 2. Encuesta C (devs identificados)  → roadmap de capacitación con inscritos
 3. Encuesta A (liderazgo)           → assessment organizacional informado
@@ -91,17 +91,27 @@ Esta secuencia hace que el assessment del liderazgo sea **informado por datos** 
 
 ## Traducir las preguntas
 
-Los bancos de preguntas (`coleta/perguntas-para-forms.md`, `survey-devs/perguntas-para-forms-devs.md`, `survey-learning/perguntas-para-forms-learning.md`) están en Portugués (Brasil) porque mapean a los IDs del framework validado en producción. Puedes:
+Las 3 encuestas ya tienen bancos runtime-safe en Inglés y Español:
 
-- **Traducir para los respondentes** al copiar en Microsoft Forms — los IDs quedan iguales en el Excel exportado.
-- **Mantener los IDs en PT-BR** en el JSON de salida — los PDFs se renderizan en Español vía `relatorios/i18n/es.json`.
+- `coleta/perguntas-para-forms.en.md`
+- `coleta/perguntas-para-forms.es.md`
 
-Si quieres un banco de preguntas totalmente traducido, abre un issue: <https://github.com/paulanunes85/ai-maturity-client-kit/issues/new>
+- `survey-devs/perguntas-para-forms-devs.en.md`
+- `survey-devs/perguntas-para-forms-devs.es.md`
+- `survey-learning/perguntas-para-forms-learning.en.md`
+- `survey-learning/perguntas-para-forms-learning.es.md`
+
+Puedes:
+
+- **Traducir para los respondentes** en Microsoft Forms manteniendo los IDs en los títulos — el Excel exportado se parsea correctamente.
+- **Mantener los IDs sin cambios** en los títulos de Microsoft Forms y en el JSON de salida — los PDFs se renderizan en Español vía `relatorios/i18n/es.json`.
+
+Si quieres un banco de preguntas totalmente traducido, contacta a Paula Silva en [LinkedIn](https://linkedin.com/in/paulanunes).
 
 ## ¿Atascado en algún paso?
 
 | Problema | Solución |
-|---|---|
+| --- | --- |
 | Las columnas del Excel no coinciden con los IDs | Verifica que no reordenaste preguntas en Forms — los IDs son posicionales |
 | `/importar-respostas-excel` falla | Asegúrate que el archivo está en la raíz y se llama exactamente `respostas-forms.xlsx` |
 | Faltan respuestas anónimas para encuesta C | La encuesta C requiere nombre+email — re-publica sin modo anónimo |
@@ -109,10 +119,10 @@ Si quieres un banco de preguntas totalmente traducido, abre un issue: <https://g
 
 ## Continuar leyendo
 
-| ⬅ Anterior                       | Siguiente ➡                                            |
-| :------------------------------- | ------------------------------------------------------: |
-| [📘 Paso a paso](PASO-A-PASO.md) | [🌐 Sitio](https://paulanunes85.github.io/ai-maturity-client-kit/es/) |
+| ⬅ Anterior | Siguiente ➡ |
+| :--- | ---: |
+| [📘 Paso a paso](PASO-A-PASO.md) | [🌐 Sitio](https://paulasilvatech.github.io/ai-maturity-client-kit/es/) |
 
 ---
 
-**Paula Silva** — Software Global Black Belt | paulasilva@microsoft.com
+**Paula Silva** — Software Global Black Belt | [LinkedIn](https://linkedin.com/in/paulanunes)

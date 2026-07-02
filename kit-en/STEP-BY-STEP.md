@@ -2,7 +2,7 @@
 
 > Complete walkthrough to run the AI Maturity Assessment kit from zero to 5 final PDFs.
 
-🏠 [Back to README](README.md) · 🌐 [Site](https://paulanunes85.github.io/ai-maturity-client-kit/en/) · 🇧🇷 [PT-BR](../GUIA-PASSO-A-PASSO.md) · 🇪🇸 [ES](../kit-es/PASO-A-PASO.md)
+🏠 [Back to README](README.md) · 🌐 [Site](https://paulasilvatech.github.io/ai-maturity-client-kit/en/) · 🇧🇷 [PT-BR](../GUIA-PASSO-A-PASSO.md) · 🇪🇸 [ES](../kit-es/PASO-A-PASO.md)
 
 ---
 
@@ -18,13 +18,13 @@
 On **macOS**, WeasyPrint additionally needs `brew install pango`. On **Linux/WSL**: `sudo apt install libpango-1.0-0 libpangoft2-1.0-0`.
 
 > [!TIP]
-> Run `make smoke` after cloning. It validates every prerequisite in 5 seconds.
+> Run `make smoke` after extracting the ZIP. It validates every prerequisite in 5 seconds.
 
 ## Step 1 — Get the kit
 
+Download the ZIP from the site, extract it, and open the extracted folder in VS Code.
+
 ```bash
-git clone https://github.com/paulanunes85/ai-maturity-client-kit.git
-cd ai-maturity-client-kit
 make install-deps   # installs jinja2 + weasyprint + openpyxl
 make smoke          # validates the environment
 ```
@@ -129,7 +129,7 @@ The Learning & Growth Survey auto-fills 6 of the 9 inputs if you ran survey C fi
 
 ## Stuck on a step?
 
-Open an issue: <https://github.com/paulanunes85/ai-maturity-client-kit/issues/new>
+Contact Paula Silva on [LinkedIn](https://linkedin.com/in/paulanunes).
 
 ## Continue reading
 
@@ -139,4 +139,4 @@ Open an issue: <https://github.com/paulanunes85/ai-maturity-client-kit/issues/ne
 
 ---
 
-**Paula Silva** — Software Global Black Belt | paulasilva@microsoft.com
+**Paula Silva** — Software Global Black Belt | [LinkedIn](https://linkedin.com/in/paulanunes)

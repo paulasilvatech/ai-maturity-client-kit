@@ -3,9 +3,8 @@
 > Self-service kit to run the AI Maturity Assessment with GitHub Copilot.
 > **3 complementary surveys · 5 production-quality PDFs · personalized capacitation roadmap.**
 
-[![Open in VS Code](https://img.shields.io/badge/Open%20in-VS%20Code-007ACC?logo=visualstudiocode)](https://github.com/paulanunes85/ai-maturity-client-kit)
-[![Site](https://img.shields.io/badge/site-paulanunes85.github.io-00A4EF)](https://paulanunes85.github.io/ai-maturity-client-kit/en/)
-[![Download ZIP](https://img.shields.io/badge/download-EN%20kit.zip-7FBA00)](https://paulanunes85.github.io/ai-maturity-client-kit/downloads/ai-maturity-kit-en.zip)
+[![Site](https://img.shields.io/badge/site-paulasilvatech.github.io-00A4EF)](https://paulasilvatech.github.io/ai-maturity-client-kit/en/)
+[![Download ZIP](https://img.shields.io/badge/download-EN%20kit.zip-7FBA00)](https://paulasilvatech.github.io/ai-maturity-client-kit/downloads/ai-maturity-kit-en.zip)
 
 ---
 
@@ -27,16 +26,14 @@ The English ZIP package follows a deliberate language split:
 1. **Copilot customization files stay in English** — `.github/copilot-instructions.md`, `.github/agents/`, `.github/prompts/`, and `.github/skills/` are the agent runtime and are intentionally shared across all language packages.
 2. **Client-facing documentation is English** — `README.md`, `STEP-BY-STEP.md`, `FORMS-INSTRUCTIONS.md`, and `PACKAGE-LANGUAGE-NOTES.md` are placed at the ZIP root.
 3. **Shared runtime assets are language-neutral** — JSON schemas, scripts, templates, workbooks, and scoring IDs are reused. Canonical question IDs and some internal field names remain in Portuguese where required by the scoring framework and production platform mapping.
-4. **PDFs render in English** via `relatorios/i18n/en.json` — set `report_lang: "en"` in `respostas.json` and the 5 PDFs come out in English.
+4. **PDFs render in English** via `relatorios/i18n/en.json` — set `metadata.language: "en"` in `respostas.json` and the 5 PDFs come out in English.
 
-If you need the framework JSON fully translated, open an issue: <https://github.com/paulanunes85/ai-maturity-client-kit/issues/new>
+If you need the framework JSON fully translated, contact Paula Silva on [LinkedIn](https://linkedin.com/in/paulanunes).
 
 ## Quick start
 
 ```bash
-# 1. Clone the repo
-git clone https://github.com/paulanunes85/ai-maturity-client-kit.git
-cd ai-maturity-client-kit
+# 1. Download the ZIP from the site, extract it, and open the folder in VS Code
 
 # 2. Validate prerequisites
 make smoke
@@ -89,9 +86,9 @@ OUTPUT (5 PDFs + auditable XLSX)
 
 | ⬅ Previous | Next ➡ |
 | :--- | ---: |
-| [🏠 Main site (multi-language)](https://paulanunes85.github.io/ai-maturity-client-kit/) | [📘 Detailed step-by-step](STEP-BY-STEP.md) |
+| [🏠 Main site (multi-language)](https://paulasilvatech.github.io/ai-maturity-client-kit/) | [📘 Detailed step-by-step](STEP-BY-STEP.md) |
 
 ---
 
-**Paula Silva** — Software Global Black Belt | [paulasilva@microsoft.com](mailto:paulasilva@microsoft.com)
+**Paula Silva** — Software Global Black Belt | [LinkedIn](https://linkedin.com/in/paulanunes)
 *Building the future of software development with AI and Agentic DevOps*

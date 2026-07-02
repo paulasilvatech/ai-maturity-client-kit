@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="AI Maturity Assessment Kit social preview">
+  <rect width="1200" height="630" fill="#f7f7f5"/>
+  <rect x="72" y="72" width="1056" height="486" rx="28" fill="#ffffff" stroke="#e5e5e0"/>
+  <path d="M164 178 L110 222 L164 266" fill="none" stroke="#F25022" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="204" y="235" width="42" height="42" rx="9" fill="#7FBA00"/>
+  <line x1="306" y1="166" x2="252" y2="296" stroke="#FFB900" stroke-width="28" stroke-linecap="round"/>
+  <path d="M350 178 L404 222 L350 266" fill="none" stroke="#00A4EF" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="112" y="390" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="58" font-weight="800" fill="#1A1A1A">AI Maturity Assessment Kit</text>
+  <text x="112" y="454" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="28" fill="#3A3A3A">3 surveys, auditable scoring, strategy roadmap, and 5 executive PDFs</text>
+  <text x="112" y="508" font-family="JetBrains Mono, Consolas, monospace" font-size="18" letter-spacing="4" fill="#737373">GITHUB COPILOT · AZURE · AGENTIC DEVOPS</text>
+</svg>
