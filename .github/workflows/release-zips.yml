@@ -29,15 +29,13 @@ jobs:
       - name: Build 3 ZIPs (PT, EN, ES)
         run: python3 scripts/build_language_kits.py --out dist --clean
 
-      - name: Publish to "latest" release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: latest
-          name: Latest kits (PT · EN · ES)
-          body: |
-            Auto-built kits per language.
-            - `ai-maturity-kit-pt.zip` — kit completo em Português (Brasil)
-            - `ai-maturity-kit-en.zip` — kit with English client docs
-            - `ai-maturity-kit-es.zip` — kit con docs cliente en Español
-          files: dist/*.zip
-          make_latest: true
+      - name: Publish latest release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: kits-${{ github.run_number }}
+        run: |
+          gh release create "$RELEASE_TAG" dist/*.zip \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "Latest kits (PT · EN · ES)" \
+            --notes "Auto-built kits per language.\n\n- ai-maturity-kit-pt.zip — kit completo em Português (Brasil)\n- ai-maturity-kit-en.zip — kit with English client docs\n- ai-maturity-kit-es.zip — kit con docs cliente en Español" \
+            --latest
