@@ -1,6 +1,6 @@
 # How to create the Microsoft Forms for the Developer Survey
 
-**`🅱️ SURVEY-DEVS`** · _anonymous_ · 📖 [🏠 Index](../README.en.md) · [« Main collection](../coleta/INSTRUCOES-FORMS.en.md) · You are here · [» Learning Survey](../survey-learning/INSTRUCOES-FORMS-LEARNING.md)
+**`🅱️ SURVEY-DEVS`** · _anonymous_ · 📖 [🏠 Index](../README.en.md) · [« Main collection](../coleta/INSTRUCOES-FORMS.en.md) · You are here · [» Learning Survey](../survey-learning/INSTRUCOES-FORMS-LEARNING.en.md)
 
 > [!IMPORTANT]
 > An **anonymous** survey of **75 questions** in 9 sections to understand how the developers in your organization use GitHub Copilot, Copilot Chat modes (Ask/Edit/Agent/**Coding Agent**), **Copilot Spaces**, **Microsoft Foundry**, AI agents + **MCP / A2A**, instructions files, practices (TDD/SDD with Spec Kit), **Agentic DevOps personas** (System Designer / Agent Operator), governance, and security (incl. **JIT permissions** and **agent scope+red-lines**). Estimated time per respondent: **22-28 min**.
@@ -268,7 +268,7 @@ Devs are more likely to answer the next survey if they see the previous one led 
 
 | ← PREVIOUS | NEXT → |
 |:---|---:|
-| **[Main assessment collection](../coleta/INSTRUCOES-FORMS.en.md)** | **[Learning & Growth Survey](../survey-learning/INSTRUCOES-FORMS-LEARNING.md)** |
+| **[Main assessment collection](../coleta/INSTRUCOES-FORMS.en.md)** | **[Learning & Growth Survey](../survey-learning/INSTRUCOES-FORMS-LEARNING.en.md)** |
 | 3 paths to collect the assessment's 158 questions via Forms / Excel. | 32 identified questions: training plan with Champions and workshops. |
 
 ↑ [Back to the kit Index](../README.en.md)
