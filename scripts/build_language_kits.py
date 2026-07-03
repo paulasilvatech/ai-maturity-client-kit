@@ -47,6 +47,10 @@ COPILOT_CUSTOMIZATION_ROOTS = [
     ".github/agents",
     ".github/prompts",
     ".github/skills",
+    # Referenced by copilot-instructions.md and the report skills.
+    ".github/MODELS.md",
+    ".github/instructions",
+    ".github/hooks",
 ]
 
 SHARED_RUNTIME_ROOTS = [
@@ -149,9 +153,6 @@ PRIMITIVE_REFERENCE_ALLOWLIST_PREFIXES = (
     "saida/",
     "dist/",
     "docs/",
-    # Reference examples are split per language (PT root, en/, es/), while the
-    # primitives cite the PT paths as illustrations in every package.
-    "referencia/exemplo-saida/",
 )
 
 PRIMITIVE_REFERENCE_ALLOWLIST = {
@@ -162,10 +163,11 @@ PRIMITIVE_REFERENCE_ALLOWLIST = {
     "respostas-survey-learning.xlsx",
     "survey-devs/respostas-devs.json",
     "survey-learning/respostas-learning.json",
-    # TODO: dead reference inside ai-maturity-reports/SKILL.md ("Sync with
-    # global skill" section, maintainer-machine path). Remove this entry once
-    # that section is deleted from the skill.
-    ".github/skills/paulasilva-ms",
+    # Reference-example paths cited across languages: the agent points to the
+    # PT-root Part 4 PDF (absent from EN/ES ZIPs), and the reports skill
+    # mentions the en/ tree (packaged only in the EN ZIP).
+    "referencia/exemplo-saida/roadmap_part4.pdf",
+    "referencia/exemplo-saida/en",
 }
 
 LANGUAGE_DOCS = {
