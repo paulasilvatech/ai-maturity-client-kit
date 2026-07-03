@@ -1,22 +1,35 @@
 #!/usr/bin/env python3
 """End-to-end smoke test for the AI Maturity Assessment kit.
 
-Runs `relatorios/scripts/build_payload_and_render.py --no-render` against the
-bundled example data and asserts the resulting `saida/payload.json` has the
-expected shape (organization, scores, capabilities, gap_analysis, optional
-cross_survey_data when complementary survey artifacts are present).
+What it exercises:
+  1. The deterministic scoring pipeline (scripts/compute_scores.py ->
+     scripts/compute_gaps.py -> scripts/recommend_strategies.py) against the
+     bundled example answers, asserting the outputs EQUAL the ground truth in
+     referencia/exemplo-saida/ (overall score/label, threshold, P0-P3 counts).
+  2. The report build (relatorios/scripts/build_payload_and_render.py) with
+     the example inputs, asserting payload shape and (when jinja2 is
+     available) that wizard data from implementation-guide-inputs shows up in
+     the rendered Part 4 HTML. PDF rendering is never attempted, so
+     WeasyPrint is not required.
+  3. Optionally (--with-cross-survey) the cross-survey enrichment path.
 
-Pure stdlib — no pytest/openpyxl required. Skips PDF rendering to avoid the
-WeasyPrint dependency on contributors' machines.
+All generated artifacts live under saida/.smoke/. The few user files the
+pipeline reads from fixed locations (respostas.json,
+implementation-guide-inputs.json, saida/scores.json|gaps.json|
+recomendacoes.json) are backed up before the run and restored afterwards.
+Nothing else in saida/ is touched.
+
+Pure stdlib — no pytest/openpyxl required; jinja2 is optional.
 
 Usage:
     python3 scripts/smoke_test.py
     python3 scripts/smoke_test.py --with-cross-survey   # also exercises survey artifacts
-    make smoke                                          # convenience wrapper
+    make smoke / make smoke-cross                        # convenience wrappers
 """
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
 import shutil
 import subprocess
@@ -25,11 +38,26 @@ from pathlib import Path
 
 KIT = Path(__file__).resolve().parent.parent
 SAIDA = KIT / "saida"
+SMOKE_DIR = SAIDA / ".smoke"
 EXEMPLOS = KIT / "referencia" / "exemplo-saida"
 
-# Files we will mutate; everything is restored on exit.
+# Matches referencia/exemplo-saida/*.json metadata for byte-comparable output.
+GROUND_TRUTH_NOW = "2026-05-08T16:20:08Z"
+REPORT_DATE = "2026-05-08"
+
+# String that can ONLY appear in the Part 4 HTML when the wizard inputs from
+# implementation-guide-inputs-EXEMPLO.json were merged into the payload.
+WIZARD_MARKER = "Champions Kickoff"
+
+SUBPROCESS_TIMEOUT = 180  # seconds per script invocation
+
+# Files we will mutate; every one of them is backed up and restored on exit.
 SENTINEL_FILES = [
     KIT / "respostas.json",
+    KIT / "implementation-guide-inputs.json",
+    SAIDA / "scores.json",
+    SAIDA / "gaps.json",
+    SAIDA / "recomendacoes.json",
 ]
 
 
@@ -47,6 +75,10 @@ def _ok(msg: str) -> None:
 
 def _info(msg: str) -> None:
     print(_color("36", f"  • {msg}"))
+
+
+def _notice(msg: str) -> None:
+    print(_color("33", f"  ! NOTICE: {msg}"))
 
 
 def _fail(msg: str) -> None:
@@ -68,15 +100,56 @@ def _restore(path: Path, backup: Path | None) -> None:
     shutil.move(str(backup), str(path))
 
 
-def stage_example_inputs(with_cross: bool) -> dict[str, Path | None]:
-    """Stage example respostas + (optionally) complementary survey artifacts."""
-    state: dict[str, Path | None] = {}
+def run_script(cmd: list[str], what: str) -> subprocess.CompletedProcess[str]:
+    """Run a kit script with a timeout; raise SmokeError on failure."""
+    try:
+        result = subprocess.run(
+            [sys.executable, *cmd],
+            cwd=str(KIT),
+            capture_output=True,
+            text=True,
+            timeout=SUBPROCESS_TIMEOUT,
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise SmokeError(
+            f"{what} timed out after {SUBPROCESS_TIMEOUT}s: {' '.join(cmd)}"
+        ) from exc
+    if result.returncode != 0:
+        print(result.stdout)
+        print(result.stderr, file=sys.stderr)
+        raise SmokeError(f"{what} exited with code {result.returncode}")
+    return result
+
+
+def load_json(path: Path, what: str) -> dict:
+    if not path.exists():
+        raise SmokeError(f"{what} was not generated: {path}")
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise SmokeError(f"{what} is not valid JSON ({path}): {exc}") from exc
+
+
+# ─── Staging / cleanup ────────────────────────────────────────────
+
+
+def stage_example_inputs(with_cross: bool) -> dict[str, object]:
+    """Stage example respostas + wizard inputs (+ optional survey artifacts)."""
+    state: dict[str, object] = {}
 
     for f in SENTINEL_FILES:
-        state[f"backup:{f.name}"] = _backup(f)
+        state[f"backup:{f}"] = _backup(f)
 
     shutil.copy2(KIT / "respostas.json.example", KIT / "respostas.json")
     _ok("Copied respostas.json.example → respostas.json")
+
+    shutil.copy2(
+        EXEMPLOS / "implementation-guide-inputs-EXEMPLO.json",
+        KIT / "implementation-guide-inputs.json",
+    )
+    _ok("Staged implementation-guide-inputs-EXEMPLO.json → implementation-guide-inputs.json")
+
+    SMOKE_DIR.mkdir(parents=True, exist_ok=True)
 
     staged: list[Path] = []
     if with_cross:
@@ -93,48 +166,113 @@ def stage_example_inputs(with_cross: bool) -> dict[str, Path | None]:
             staged.append(dest)
         if staged:
             _ok(f"Staged {len(staged)} cross-survey artifact(s) in saida/")
-    state["staged"] = staged  # type: ignore[assignment]
+    state["staged"] = staged
     return state
 
 
-def cleanup(state: dict[str, Path | None]) -> None:
+def cleanup(state: dict[str, object]) -> None:
     print()
     _info("Cleaning up...")
     for f in SENTINEL_FILES:
-        _restore(f, state.get(f"backup:{f.name}"))
-    for staged in state.get("staged") or []:
+        _restore(f, state.get(f"backup:{f}"))  # type: ignore[arg-type]
+    for staged in state.get("staged") or []:  # type: ignore[union-attr]
         Path(staged).unlink(missing_ok=True)
-    (SAIDA / "payload.json").unlink(missing_ok=True)
-    _ok("Workspace restored")
+    shutil.rmtree(SMOKE_DIR, ignore_errors=True)
+    _ok("Workspace restored (only saida/.smoke/ and staged files were touched)")
 
 
-def run_build() -> None:
-    _info("Running build_payload_and_render.py --no-render")
-    result = subprocess.run(
-        [sys.executable, "relatorios/scripts/build_payload_and_render.py", "--no-render"],
-        cwd=str(KIT),
-        capture_output=True,
-        text=True,
+# ─── Step 1: deterministic scoring pipeline ───────────────────────
+
+
+def run_compute_pipeline() -> None:
+    _info("Running compute_scores → compute_gaps → recommend_strategies")
+    smoke = SMOKE_DIR
+    run_script(
+        ["scripts/compute_scores.py", "--respostas", "respostas.json",
+         "--out", str(smoke / "scores.json"), "--now", GROUND_TRUTH_NOW],
+        "compute_scores.py",
     )
-    if result.returncode != 0:
-        print(result.stdout)
-        print(result.stderr, file=sys.stderr)
-        raise SmokeError(f"build script exited with code {result.returncode}")
+    run_script(
+        ["scripts/compute_gaps.py", "--scores", str(smoke / "scores.json"),
+         "--respostas", "respostas.json",
+         "--out", str(smoke / "gaps.json"), "--now", GROUND_TRUTH_NOW],
+        "compute_gaps.py",
+    )
+    run_script(
+        ["scripts/recommend_strategies.py", "--gaps", str(smoke / "gaps.json"),
+         "--out", str(smoke / "recomendacoes.json"), "--now", GROUND_TRUTH_NOW],
+        "recommend_strategies.py",
+    )
+
+
+def assert_compute_outputs() -> None:
+    scores = load_json(SMOKE_DIR / "scores.json", "scores.json")
+    gaps = load_json(SMOKE_DIR / "gaps.json", "gaps.json")
+    recomendacoes = load_json(SMOKE_DIR / "recomendacoes.json", "recomendacoes.json")
+
+    gt_scores = load_json(EXEMPLOS / "scores.json", "ground-truth scores.json")
+    gt_gaps = load_json(EXEMPLOS / "gaps.json", "ground-truth gaps.json")
+
+    if scores.get("overall") != gt_scores.get("overall"):
+        raise SmokeError(
+            "computed overall does not match ground truth:\n"
+            f"    computed: {scores.get('overall')}\n"
+            f"    expected: {gt_scores.get('overall')}"
+        )
+    overall = scores["overall"]
+    _ok(f"overall matches ground truth (score={overall['score']}, label={overall['label']})")
+
+    if scores.get("threshold") != gt_scores.get("threshold"):
+        raise SmokeError(
+            "computed threshold does not match ground truth:\n"
+            f"    computed: {scores.get('threshold')}\n"
+            f"    expected: {gt_scores.get('threshold')}"
+        )
+    _ok(f"threshold matches ground truth ({scores['threshold']})")
+
+    if gaps.get("summary") != gt_gaps.get("summary"):
+        raise SmokeError(
+            "computed P0-P3 counts do not match ground truth:\n"
+            f"    computed: {gaps.get('summary')}\n"
+            f"    expected: {gt_gaps.get('summary')}"
+        )
+    _ok(f"gap P0-P3 counts match ground truth ({gaps['summary']})")
+
+    if not recomendacoes.get("ranked_strategies"):
+        raise SmokeError("recomendacoes.json has no 'ranked_strategies' entries")
+    _ok(
+        "recomendacoes.json generated "
+        f"({len(recomendacoes['ranked_strategies'])} ranked strategies)"
+    )
+
+
+# ─── Step 2: payload build + HTML render ──────────────────────────
+
+
+def run_build(html: bool) -> None:
+    """Stage computed outputs where the report builder reads them, then build."""
+    for name in ("scores.json", "gaps.json", "recomendacoes.json"):
+        shutil.copy2(SMOKE_DIR / name, SAIDA / name)
+
+    mode = "--html-only" if html else "--no-render"
+    _info(f"Running build_payload_and_render.py {mode}")
+    result = run_script(
+        ["relatorios/scripts/build_payload_and_render.py", mode,
+         "--out", str(SMOKE_DIR), "--date", REPORT_DATE],
+        "build_payload_and_render.py",
+    )
     for line in result.stdout.splitlines():
         if line.strip().startswith(("✓", "⚠️")):
             print("   ", line)
 
 
 def assert_payload(with_cross: bool) -> None:
-    payload_path = SAIDA / "payload.json"
-    if not payload_path.exists():
-        raise SmokeError("payload.json was not generated")
+    payload_path = SMOKE_DIR / "payload.json"
+    payload = load_json(payload_path, "payload.json")
     size = payload_path.stat().st_size
     if size < 20_000:
         raise SmokeError(f"payload.json suspiciously small ({size} bytes)")
     _ok(f"payload.json present ({size:,} bytes)")
-
-    payload = json.loads(payload_path.read_text(encoding="utf-8"))
 
     required = ["organization", "assessment", "scores", "capabilities", "gap_analysis"]
     missing = [k for k in required if k not in payload]
@@ -145,7 +283,12 @@ def assert_payload(with_cross: bool) -> None:
     overall = payload["scores"]["overall"].get("weighted_avg")
     if not isinstance(overall, (int, float)):
         raise SmokeError(f"scores.overall.weighted_avg is not numeric: {overall!r}")
-    _ok(f"scores.overall.weighted_avg = {overall}")
+    gt_overall = load_json(EXEMPLOS / "scores.json", "ground-truth scores.json")["overall"]["score"]
+    if abs(overall - gt_overall) > 0.005:
+        raise SmokeError(
+            f"payload weighted_avg {overall} diverges from ground-truth overall {gt_overall}"
+        )
+    _ok(f"scores.overall.weighted_avg = {overall} (ground truth: {gt_overall})")
 
     pillars = payload["scores"].get("pillars") or []
     pillar_ids = {p.get("id") for p in pillars}
@@ -167,6 +310,22 @@ def assert_payload(with_cross: bool) -> None:
         )
 
 
+def assert_part4_html() -> None:
+    html_path = SMOKE_DIR / "roadmap_part4.html"
+    if not html_path.exists():
+        raise SmokeError("roadmap_part4.html was not generated")
+    html = html_path.read_text(encoding="utf-8")
+    if WIZARD_MARKER not in html:
+        raise SmokeError(
+            f"wizard marker {WIZARD_MARKER!r} (from implementation-guide-inputs-"
+            f"EXEMPLO.json) not found in roadmap_part4.html — wizard merge broken"
+        )
+    _ok(f"Part 4 HTML contains wizard data ({WIZARD_MARKER!r})")
+
+
+# ─── Entry point ──────────────────────────────────────────────────
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument(
@@ -180,11 +339,20 @@ def main() -> int:
     print(_color("90", f"  kit: {KIT}"))
     print()
 
-    state: dict[str, Path | None] = {}
+    has_jinja2 = importlib.util.find_spec("jinja2") is not None
+
+    state: dict[str, object] = {}
     try:
         state = stage_example_inputs(args.with_cross_survey)
-        run_build()
+        run_compute_pipeline()
+        assert_compute_outputs()
+        run_build(html=has_jinja2)
         assert_payload(args.with_cross_survey)
+        if has_jinja2:
+            assert_part4_html()
+        else:
+            _notice("jinja2 not installed — skipping HTML render check "
+                    "(install with: make install-deps)")
         print()
         print(_color("32", "✓ SMOKE TEST PASSED"))
         return 0

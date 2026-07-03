@@ -277,7 +277,7 @@ def resolve_sources(plano_arg: str | None) -> tuple[Path | None, Path | None]:
             return (p, None)
         sibling_json = p.with_suffix(".json")
         if sibling_json.exists():
-            print(f"ℹ Encontrado {sibling_json.name} ao lado do .md — usando o JSON estruturado (fonte primária).")
+            print(f"ℹ Encontrado {sibling_json.name} ao lado do .md. Usando o JSON estruturado (fonte primária).")
             return (sibling_json, None)
         return (None, p)
     latest_json = find_latest(KIT / "saida", "plano-capacitacao-*.json")

@@ -113,14 +113,14 @@ def check_coverage_guardrail(respondents: list, force: bool) -> bool:
         return True
     if avg < COVERAGE_ABORT_PCT and not force:
         print("═" * 60)
-        print(f"❌ ABORTADO: cobertura de match da rubrica muito baixa — média {avg:.0f}% (mínimo {stats['min_pct']:.0f}%).")
+        print(f"❌ ABORTADO: cobertura de match da rubrica muito baixa: média {avg:.0f}% (mínimo {stats['min_pct']:.0f}%).")
         print("   As respostas não batem com as opções canônicas do question bank (PT-BR).")
         print("   Causa provável: opções traduzidas/alteradas no Forms. Scores seriam deflacionados para L0/None.")
         print("   Corrija o import (mantenha as opções canônicas) ou rode novamente com --force para prosseguir assim mesmo.")
         print("═" * 60)
         return False
     print("═" * 60)
-    print(f"⚠️  ATENÇÃO: cobertura de match da rubrica baixa — média {avg:.0f}% (mínimo {stats['min_pct']:.0f}%).")
+    print(f"⚠️  ATENÇÃO: cobertura de match da rubrica baixa: média {avg:.0f}% (mínimo {stats['min_pct']:.0f}%).")
     print("   Parte das respostas não bate com as opções canônicas do question bank (PT-BR).")
     print("   Os scores abaixo podem estar SUBESTIMADOS. Verifique se as opções foram traduzidas/alteradas no Forms.")
     if force and avg < COVERAGE_ABORT_PCT:
