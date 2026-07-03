@@ -252,7 +252,6 @@
 
     const [statement = '', ...bodyParagraphs] = about.paragraphs || [];
     const body = bodyParagraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('');
-    const tags = (about.tags || []).map((tag) => `<span class="about__tag">${escapeHtml(tag)}</span>`).join('');
     const contactUrl = data.contactLinkedIn || '#';
     const repositoryUrl = data.repositoryUrl || '#';
     const profileImage = resolveAsset(data.profileImage || 'assets/paula-about.jpg');
@@ -286,10 +285,6 @@
               <div class="about-connect">
                 <div class="about-connect__label">Connect</div>
                 <ul class="about-connect__grid">${connectLinks}</ul>
-              </div>
-              <div class="about__tag-block">
-                <div class="about-connect__label">${escapeHtml(about.tagsLabel)}</div>
-                <div class="about__tags">${tags}</div>
               </div>
             </div>
           </div>
