@@ -407,18 +407,7 @@
         "contributorsLabel": "Contributors",
         "contributorsText": "Paula Silva + GitHub Copilot",
         "editionsLabel": "Editions",
-        "editionsText": "PT-BR, English, and Spanish kits",
-        "tagsLabel": "Tags",
-        "tags": [
-          "AI maturity",
-          "GitHub Copilot",
-          "Azure",
-          "Agentic DevOps",
-          "Microsoft Forms",
-          "Executive reports",
-          "WeasyPrint",
-          "Jinja2"
-        ]
+        "editionsText": "PT-BR, English, and Spanish kits"
       }
     },
     "en": {
@@ -802,18 +791,7 @@
         "contributorsLabel": "Contributors",
         "contributorsText": "Paula Silva + GitHub Copilot",
         "editionsLabel": "Editions",
-        "editionsText": "PT-BR, English, and Spanish kits",
-        "tagsLabel": "Tags",
-        "tags": [
-          "AI maturity",
-          "GitHub Copilot",
-          "Azure",
-          "Agentic DevOps",
-          "Microsoft Forms",
-          "Executive reports",
-          "WeasyPrint",
-          "Jinja2"
-        ]
+        "editionsText": "PT-BR, English, and Spanish kits"
       }
     },
     "es": {
@@ -1197,18 +1175,7 @@
         "contributorsLabel": "Contributors",
         "contributorsText": "Paula Silva + GitHub Copilot",
         "editionsLabel": "Editions",
-        "editionsText": "PT-BR, English, and Spanish kits",
-        "tagsLabel": "Tags",
-        "tags": [
-          "AI maturity",
-          "GitHub Copilot",
-          "Azure",
-          "Agentic DevOps",
-          "Microsoft Forms",
-          "Executive reports",
-          "WeasyPrint",
-          "Jinja2"
-        ]
+        "editionsText": "PT-BR, English, and Spanish kits"
       }
     }
   }

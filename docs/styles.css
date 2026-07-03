@@ -1010,29 +1010,6 @@ section {
     background: var(--bg-alt);
 }
 
-.about__tag-block {
-    margin-top: 28px;
-}
-
-.about__tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.about__tag {
-    display: inline-flex;
-    align-items: center;
-    min-height: 28px;
-    padding: 6px 10px;
-    border: 1px solid var(--rule-2);
-    border-radius: 999px;
-    background: var(--paper);
-    color: var(--ink-2);
-    font-size: 12px;
-    line-height: 1;
-}
-
 /* footer */
 .footer {
     background: #141414;
