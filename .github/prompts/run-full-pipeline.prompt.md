@@ -1,6 +1,6 @@
 ---
 name: run-full-pipeline
-description: Run the end-to-end AI Maturity Assessment pipeline (import, spreadsheet, scores, gaps, strategies, 5 PDFs) using the deterministic scripts. Formerly /pipeline-completo. Trigger on "run the full pipeline", "rodar o pipeline completo", "gerar tudo de uma vez".
+description: Run the end-to-end AI Maturity Assessment pipeline (import, spreadsheet, scores, gaps, strategies, 5 PDFs) using the deterministic scripts. Trigger on "run the full pipeline", "rodar o pipeline completo", "gerar tudo de uma vez".
 agent: agent
 model: Claude Sonnet 4.6
 ---
