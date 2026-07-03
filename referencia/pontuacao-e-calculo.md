@@ -1,6 +1,8 @@
 # Pontuação e Cálculo do Assessment de Maturidade IA
 
-> **Documento técnico de referência** — descreve com precisão como cada resposta vira score, como capabilities/pillars/overall são agregados, regras de threshold, multi-respondente, gap analysis e PE score. Todas as fórmulas batem 1:1 com o código Rust em [`app/backend/src/scoring.rs`](../../app/backend/src/scoring.rs).
+> **Documento técnico de referência** — descreve com precisão como cada resposta vira score, como capabilities/pillars/overall são agregados, regras de threshold, multi-respondente, gap analysis e PE score. Todas as fórmulas batem 1:1 com o código Rust em `app/backend/src/scoring.rs` (arquivo do repositório da plataforma, não incluído neste kit).
+>
+> **Implementações executáveis neste kit:** [`scripts/compute_scores.py`](../scripts/compute_scores.py), [`scripts/compute_gaps.py`](../scripts/compute_gaps.py) e [`scripts/recommend_strategies.py`](../scripts/recommend_strategies.py) implementam exatamente estas fórmulas de forma determinística. A planilha auditável `pontuacao-e-calculo.xlsx` é gerada por [`scripts/generate_scoring_workbook.py`](../scripts/generate_scoring_workbook.py). Os pesos reais de questões e capabilities vêm de [`framework.json`](../framework.json), a fonte única da verdade.
 
 **Versão do algoritmo:** 1.0.0 · **Última auditoria do código:** 2026-05-08
 
@@ -74,7 +76,7 @@ A escala é **discreta na entrada (0–4 inteiro)** mas as agregações produzem
 ## 3. Fórmulas oficiais
 
 ### 3.1 Capability score
-> Código de referência: [`scoring.rs:205-225`](../../app/backend/src/scoring.rs#L205)
+> Código de referência: `scoring.rs:205-225` (repositório da plataforma)
 
 $$
 \text{capability\_score} = \frac{\sum_{q \in \text{respondidas}} (\text{nivel}_q \times \text{peso}_q)}{\sum_{q \in \text{respondidas}} \text{peso}_q}
@@ -84,7 +86,7 @@ $$
 - Pesos default: **1.0**. Range permitido: **[0.5, 2.0]**.
 
 ### 3.2 Pillar score
-> Código de referência: [`scoring.rs:227-247`](../../app/backend/src/scoring.rs#L227)
+> Código de referência: `scoring.rs:227-247` (repositório da plataforma)
 
 $$
 \text{pillar\_score} = \frac{\sum_{c \in \text{pillar}} (\text{capability\_score}_c \times \text{peso}_c)}{\sum_{c \in \text{pillar}} \text{peso}_c}
@@ -93,7 +95,7 @@ $$
 Apenas capabilities com `score = Some(_)` participam (capabilities sem nenhuma resposta são puladas).
 
 ### 3.3 Overall score
-> Código de referência: [`scoring.rs:250-263`](../../app/backend/src/scoring.rs#L250)
+> Código de referência: `scoring.rs:250-263` (repositório da plataforma)
 
 $$
 \text{overall\_score} = \frac{\sum_{c \in \text{TODAS as capabilities}} (\text{capability\_score}_c \times \text{peso}_c)}{\sum_{c \in \text{TODAS as capabilities}} \text{peso}_c}
@@ -118,21 +120,23 @@ $$
 
 ## 5. Threshold de cobertura mínima
 
-> Código de referência: [`scoring.rs:351-359`](../../app/backend/src/scoring.rs#L351)
+> Código de referência: `scoring.rs:351-359` (repositório da plataforma)
 
 | Questões aplicáveis | Status | Comportamento |
 |---|---|---|
 | **≥ 40** | `Ok` | Scoring normal, sem aviso. |
 | **25–39** | `Warning` | Scoring calculado, mas relatório exibe banner "Resultado preliminar — confiabilidade limitada". |
-| **< 25** | `Blocked` | Scoring **recusado**. API responde 422 `InsufficientData`. |
+| **< 25** | `Blocked` | Na plataforma: scoring **recusado**, API responde 422 `InsufficientData`. Neste kit: calculado e marcado `BLOCKED` (ver nota abaixo). |
 
 "Aplicáveis" = questões visíveis para a audience configurada do respondente (após filtro `audience`). Se um respondente é Backend, questões só de Frontend não contam.
+
+> **Kit vs. plataforma:** a plataforma de produção **recusa** o scoring abaixo de 25 respostas (HTTP 422 `InsufficientData`). Este kit, via `scripts/compute_scores.py`, **calcula mesmo assim** e marca `threshold_status = BLOCKED` no `scores.json` (comportamento "compute-and-mark"). O resultado marcado como BLOCKED serve apenas como rascunho preliminar e não deve embasar decisões executivas.
 
 ---
 
 ## 6. Multi-respondente — agregação
 
-> Código de referência: [`repos/scoring.rs:354-368`](../../app/backend/src/repos/scoring.rs#L354)
+> Código de referência: `repos/scoring.rs:354-368` (repositório da plataforma)
 
 Quando mais de uma pessoa responde o mesmo assessment:
 
@@ -147,7 +151,7 @@ Quando mais de uma pessoa responde o mesmo assessment:
 
 ## 7. Rótulos de maturidade (mapping de score)
 
-> Código de referência: [`scoring.rs:361-373`](../../app/backend/src/scoring.rs#L361)
+> Código de referência: `scoring.rs:361-373` (repositório da plataforma)
 
 Aplicado a qualquer score (capability, pillar ou overall):
 
@@ -159,11 +163,13 @@ Aplicado a qualquer score (capability, pillar ou overall):
 | `2.5 ≤ score < 3.5` | **L3 — Gerenciado** | `--color-l3` (verde) |
 | `score ≥ 3.5` | **L4 — Otimizando** | `--color-l4` (roxo) |
 
+> **Duas taxonomias de rótulos, ambas corretas:** os JSONs de scoring (`saida/scores.json`, `saida/gaps.json`) usam os rótulos da plataforma no estilo `L2 — Definido`, exatamente como na tabela acima. Já os catálogos do relatório PDF (`relatorios/i18n/{pt-br,en,es}.json`) usam a nomenclatura de exibição própria dos relatórios (ex.: `Aprimorado por IA` para L2). Cada superfície usa sua taxonomia: JSONs de dados seguem a plataforma, PDFs seguem o catálogo i18n. Os cortes numéricos (0.5 / 1.5 / 2.5 / 3.5) são idênticos nas duas.
+
 ---
 
 ## 8. Gap analysis e priorização
 
-> Código de referência: [`scoring.rs:307-349`](../../app/backend/src/scoring.rs#L307)
+> Código de referência: `scoring.rs:307-349` (repositório da plataforma)
 
 Para cada capability:
 
@@ -184,13 +190,13 @@ Se gap_size ≤ 1e-9 (epsilon flutuante) → descarta (já atingiu meta)
 | ≥ 0.9 e < 1.6 | **P2** | Médio — backlog do semestre |
 | < 0.9 | **P3** | Baixo — monitorar |
 
-**Por que `weight × gap`?** Capabilities com peso 2.0 e gap 1.5 (priority_score = 3.0) são mais urgentes que peso 1.0 e gap 2.0 (priority_score = 2.0): o peso reflete impacto estratégico no overall.
+**Por que `weight × gap`?** Exemplo ilustrativo: capabilities com peso 2.0 e gap 1.5 (priority_score = 3.0) são mais urgentes que peso 1.0 e gap 2.0 (priority_score = 2.0): o peso reflete impacto estratégico no overall. (Os pesos reais de cada capability estão no `framework.json`.)
 
 ---
 
 ## 9. PE Score (Production Engineering Readiness)
 
-> Código de referência: [`scoring.rs:266-304`](../../app/backend/src/scoring.rs#L266)
+> Código de referência: `scoring.rs:266-304` (repositório da plataforma)
 
 Sub-score calculado **apenas com questões marcadas `pe = true`** no seed.
 
@@ -203,7 +209,7 @@ Sub-score calculado **apenas com questões marcadas `pe = true`** no seed.
 
 ## 10. Persistência (tabelas e materialização)
 
-> Migration de referência: [`migrations/20260417000000_initial.sql`](../../app/backend/migrations/20260417000000_initial.sql)
+> Migration de referência: `migrations/20260417000000_initial.sql` (repositório da plataforma)
 
 | Tabela | Colunas-chave | Quando é populada |
 |---|---|---|
@@ -219,50 +225,54 @@ Sub-score calculado **apenas com questões marcadas `pe = true`** no seed.
 ## 11. Exemplo end-to-end — Pilar P1
 
 ### Cenário
-Capability **P1-C1 — Assistentes de Codificação IA** (5 questões). Avaliação respondida por **2 desenvolvedores** (R1 e R2). Todas as questões têm `weight = 1.0` (default).
+Capability **P1-C1 — Assistentes de Codificação IA** (5 questões). Avaliação respondida por **2 desenvolvedores** (R1 e R2). Os pesos abaixo são os **pesos reais do `framework.json`**: `P1-C1-Q3 = 0.8`, `P1-C1-Q5 = 1.1`, demais questões `1.0` (default).
 
 ### Respostas reais
 
-| Questão | Pergunta (resumida) | R1 | R2 | **Avg** |
-|---|---|---|---|---|
-| `P1-C1-Q1` | Adoção de ferramentas de completação de código com IA | L3 (3) | L4 (4) | **3.5** |
-| `P1-C1-Q2` | IA para revisão de código e melhoria de qualidade | L2 (2) | L3 (3) | **2.5** |
-| `P1-C1-Q3` | IA para geração e manutenção de testes | L1 (1) | L2 (2) | **1.5** |
-| `P1-C1-Q4` | Engenharia de prompt e gestão de templates | L2 (2) | L2 (2) | **2.0** |
-| `P1-C1-Q5` | Governança e segurança das ferramentas IA | L3 (3) | L4 (4) | **3.5** |
+| Questão | Pergunta (resumida) | Peso | R1 | R2 | **Avg** |
+|---|---|---:|---|---|---|
+| `P1-C1-Q1` | Adoção de ferramentas de completação de código com IA | 1.0 | L3 (3) | L4 (4) | **3.5** |
+| `P1-C1-Q2` | IA para revisão de código e melhoria de qualidade | 1.0 | L2 (2) | L3 (3) | **2.5** |
+| `P1-C1-Q3` | IA para geração e manutenção de testes | **0.8** | L1 (1) | L2 (2) | **1.5** |
+| `P1-C1-Q4` | Engenharia de prompt e gestão de templates | 1.0 | L2 (2) | L2 (2) | **2.0** |
+| `P1-C1-Q5` | Governança e segurança das ferramentas IA | **1.1** | L3 (3) | L4 (4) | **3.5** |
 
 ### Passo 1 — Capability score (P1-C1)
 
 ```
-wsum   = (3.5×1.0) + (2.5×1.0) + (1.5×1.0) + (2.0×1.0) + (3.5×1.0)
-       = 3.5 + 2.5 + 1.5 + 2.0 + 3.5
-       = 13.0
+wsum   = (3.5×1.0) + (2.5×1.0) + (1.5×0.8) + (2.0×1.0) + (3.5×1.1)
+       = 3.5 + 2.5 + 1.2 + 2.0 + 3.85
+       = 13.05
 
-wtotal = 1.0 + 1.0 + 1.0 + 1.0 + 1.0 = 5.0
+wtotal = 1.0 + 1.0 + 0.8 + 1.0 + 1.1 = 4.9
 
-P1-C1.score = 13.0 / 5.0 = 2.60   →   Rótulo: L3 — Gerenciado
+P1-C1.score = 13.05 / 4.9 = 2.6633 (2.663265…)   →   Rótulo: L3 — Gerenciado
 ```
+
+O cálculo carrega precisão total (`f64`, sem arredondamento); os valores exibidos aqui são arredondados a 4 casas.
+
+> **Efeito dos pesos reais:** com pesos uniformes 1.0 a média seria `13.0 / 5.0 = 2.60`. O peso menor em Q3 (0.8, a resposta mais fraca) e o peso maior em Q5 (1.1, uma resposta forte) elevam o score para 2.6633.
 
 ### Passo 2 — Pillar score (P1)
 
-Suponha que P1-C1 é a única capability respondida do pilar P1, com `weight_capability = 1.0`:
+Suponha que P1-C1 é a única capability respondida do pilar P1. No `framework.json`, P1-C1 tem `weight_capability = 1.2`:
 
 ```
-ws = 2.60 × 1.0 = 2.60
-wt = 1.0
-P1.score = 2.60 / 1.0 = 2.60   →   Rótulo: L3 — Gerenciado
+ws = 2.663265… × 1.2 = 3.195918…
+wt = 1.2
+P1.score = 3.195918… / 1.2 = 2.6633   →   Rótulo: L3 — Gerenciado
 ```
 
-> Em assessment real, P1 tem 9 capabilities. O cálculo seria SUMPRODUCT sobre todas que tiverem ao menos 1 resposta.
+> Com uma única capability respondida, o peso da capability cancela na divisão. Em assessment real, P1 tem 9 capabilities e o cálculo seria SUMPRODUCT sobre todas que tiverem ao menos 1 resposta.
 
 ### Passo 3 — Gap analysis
 
-Default `target_level = 3.0`:
+Default `target_level = 3.0` e `weight_capability = 1.2` (valor real de P1-C1 no `framework.json`):
 
 ```
-gap_size       = 3.0 − 2.60 = 0.40
-priority_score = 1.0 × 0.40 = 0.40
-classificação  = P3 (Baixo)   ← pois 0.40 < 0.9
+gap_size       = 3.0 − 2.663265… = 0.336734… ≈ 0.3367
+priority_score = 1.2 × 0.336734… = 0.404081… ≈ 0.4041
+classificação  = P3 (Baixo)   ← pois 0.4041 < 0.9
 ```
 
 ### Passo 4 — Threshold
@@ -273,8 +283,10 @@ classificação  = P3 (Baixo)   ← pois 0.40 < 0.9
 
 ## 12. Exemplo end-to-end — Pilar P2
 
+> **Exemplo hipotético com pesos customizados.** Os pesos 1.5 abaixo são didáticos, para mostrar o efeito do SUMPRODUCT com pesos não uniformes. O `framework.json` real usa `weight = 1.0` em **todas** as questões de P2-C1. Os pesos de capability 1.0 usados nos Passos 2 e 3 também são ilustrativos (no `framework.json` real, P2-C1 tem `weight = 1.2`). O range permitido para pesos customizados de questão é [0.5, 2.0] (seção 3.1).
+
 ### Cenário
-Capability **P2-C1 — Inteligência de Pipeline CI/CD** (6 questões). Respondida por **1 SRE** + **1 Platform Engineer**. Mistura de pesos: Q1 e Q5 com `weight = 1.5` (questões de impacto direto em DORA metrics).
+Capability **P2-C1 — Inteligência de Pipeline CI/CD** (6 questões). Respondida por **1 SRE** + **1 Platform Engineer**. Mistura de pesos **hipotéticos**: Q1 e Q5 com `weight = 1.5` (questões de impacto direto em DORA metrics).
 
 ### Respostas
 
@@ -325,8 +337,10 @@ classificação  = P2 (Médio)   ← pois 0.9 ≤ 0.9286 < 1.6
 
 ## 13. Exemplo end-to-end — Pilar P3
 
+> **Exemplo hipotético com pesos customizados.** Os pesos 2.0 (questões) e 1.5 (capability, nos Passos 2 e 3) são didáticos. O `framework.json` real usa `weight = 1.0` em **todas** as questões de P3-C5 e `weight = 1.0` na própria capability P3-C5.
+
 ### Cenário
-Capability **P3-C5 — Aplicações Agênticas** (6 questões). Respondida por **1 Arquiteto** + **1 ML Engineer** + **1 Security**. Q1, Q3 e Q6 com `weight = 2.0` (pesos máximos — fronteira de inovação).
+Capability **P3-C5 — Aplicações Agênticas** (6 questões). Respondida por **1 Arquiteto** + **1 ML Engineer** + **1 Security**. Pesos **hipotéticos**: Q1, Q3 e Q6 com `weight = 2.0` (pesos máximos — fronteira de inovação).
 
 ### Respostas
 
@@ -407,6 +421,7 @@ Se o assessment completo tem 28 capabilities ativas, P3-C5 com `score = 2.0378` 
 ---
 
 **Arquivos relacionados:**
-- 📄 `pontuacao-e-calculo.xlsx` — planilha auditável com fórmulas SUMPRODUCT visíveis (mesmos exemplos deste doc)
+- 🐍 `scripts/compute_scores.py`, `scripts/compute_gaps.py`, `scripts/recommend_strategies.py` — implementações executáveis e determinísticas destas fórmulas (leem `respostas.json` + `framework.json`, escrevem `saida/*.json`)
+- 📄 `pontuacao-e-calculo.xlsx` — planilha auditável com fórmulas SUMPRODUCT visíveis (mesmos exemplos deste doc); gerada por `scripts/generate_scoring_workbook.py`
 - 🌐 `calculadora-pontuacao.html` — calculadora interativa standalone (selecionar respostas, ver scores ao vivo)
 - 📚 `P1-…md`, `P2-…md`, `P3-…md` — perguntas reais do assessment com KPI/contexto/evidências por nível

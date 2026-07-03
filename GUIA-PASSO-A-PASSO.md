@@ -273,7 +273,7 @@ Se tudo deu certo, você verá no chat algo como:
 
 | Arquivo | Como abrir | O que olhar |
 |---|---|---|
-| `saida/pontuacao-preenchida-*.xlsx` | Excel / Numbers / Sheets | Aba "Exemplo P1/P2/P3" — níveis preenchidos, fórmulas SUMPRODUCT calculando ao vivo |
+| `saida/pontuacao-preenchida-*.xlsx` | Excel / Numbers / Sheets | Aba "Respostas" com os níveis preenchidos e aba "Cálculo" com fórmulas SUMPRODUCT calculando ao vivo |
 | `saida/scores.json` | VS Code | Estrutura completa: overall, pillars, capabilities |
 | `saida/gaps.json` | VS Code | Gaps ordenados por prioridade (top 3 são P0) |
 | `saida/recomendacoes.json` | VS Code | 6 estratégias com tecnologias e ações |
@@ -483,9 +483,9 @@ Estes são **idênticos** aos PDFs que a plataforma web vai gerar quando ficar p
 
 Para quando alguém perguntar **"como esse score foi calculado?"** — abra no Excel/Numbers/Sheets:
 
-- **Aba "Exemplo P1/P2/P3"** — fórmulas SUMPRODUCT visíveis célula por célula, células coloridas por nível
-- **Aba "Resumo"** — pillar scores + overall consolidado
-- **Aba "Como ler"** — legenda completa
+- **Aba "Respostas"**: todas as 158 questões com nível, peso (do framework.json) e evidência
+- **Aba "Cálculo"**: fórmulas SUMPRODUCT visíveis célula por célula, com scores por capability, por pilar, overall e threshold
+- **Aba "Leia-me"**: legenda completa (rótulos, thresholds, como usar)
 
 ### 6.3 Os JSONs (intermediários + payload final)
 

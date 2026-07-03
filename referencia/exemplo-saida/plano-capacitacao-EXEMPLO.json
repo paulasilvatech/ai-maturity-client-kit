@@ -1,0 +1,485 @@
+{
+  "metadata": {
+    "generated_at": "2026-05-08T16:20:08Z",
+    "generator": "survey-learning/scripts/gerar_plano_capacitacao.py",
+    "source": "respostas-mock-learning.json",
+    "date": "2026-05-08",
+    "n_respondents": 5,
+    "contains_personal_data": true,
+    "distribution": "restrita à liderança (nomes e emails de respondentes identificados)",
+    "branding": {
+      "design_system": "paulasilva-ms Design System v1.7.0",
+      "author": "Paula Silva",
+      "role": "Software Global Black Belt",
+      "contact": "paulasilva@microsoft.com",
+      "tagline": "Building the future of software development with AI and Agentic DevOps",
+      "palette": {
+        "primary": "#00A4EF",
+        "positive": "#7FBA00",
+        "warn": "#FFB900",
+        "critical": "#F25022"
+      }
+    }
+  },
+  "top_topics": [
+    {
+      "topic": "Copilot Spaces (contexto compartilhado)",
+      "count": 5,
+      "pct": 100.0,
+      "attendees": [
+        {
+          "name": "Maria Tech Leader",
+          "email": "maria.tl@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Joao Backend SRE",
+          "email": "joao.sre@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Ana Security Lead",
+          "email": "ana.sec@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Pedro Junior Dev",
+          "email": "pedro.jr@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Sofia Frontend Lead",
+          "email": "sofia.fe@cliente-exemplo.com.br"
+        }
+      ]
+    },
+    {
+      "topic": "A2A (Agent-to-Agent) protocol",
+      "count": 4,
+      "pct": 80.0,
+      "attendees": [
+        {
+          "name": "Maria Tech Leader",
+          "email": "maria.tl@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Joao Backend SRE",
+          "email": "joao.sre@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Pedro Junior Dev",
+          "email": "pedro.jr@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Sofia Frontend Lead",
+          "email": "sofia.fe@cliente-exemplo.com.br"
+        }
+      ]
+    },
+    {
+      "topic": "Microsoft Foundry — visão geral",
+      "count": 4,
+      "pct": 80.0,
+      "attendees": [
+        {
+          "name": "Maria Tech Leader",
+          "email": "maria.tl@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Joao Backend SRE",
+          "email": "joao.sre@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Ana Security Lead",
+          "email": "ana.sec@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Pedro Junior Dev",
+          "email": "pedro.jr@cliente-exemplo.com.br"
+        }
+      ]
+    },
+    {
+      "topic": "Documentação automática",
+      "count": 4,
+      "pct": 80.0,
+      "attendees": [
+        {
+          "name": "Maria Tech Leader",
+          "email": "maria.tl@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Ana Security Lead",
+          "email": "ana.sec@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Pedro Junior Dev",
+          "email": "pedro.jr@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Sofia Frontend Lead",
+          "email": "sofia.fe@cliente-exemplo.com.br"
+        }
+      ]
+    },
+    {
+      "topic": "Modo Ask (perguntas eficazes)",
+      "count": 3,
+      "pct": 60.0,
+      "attendees": [
+        {
+          "name": "Maria Tech Leader",
+          "email": "maria.tl@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Ana Security Lead",
+          "email": "ana.sec@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Sofia Frontend Lead",
+          "email": "sofia.fe@cliente-exemplo.com.br"
+        }
+      ]
+    },
+    {
+      "topic": "Test generation",
+      "count": 3,
+      "pct": 60.0,
+      "attendees": [
+        {
+          "name": "Maria Tech Leader",
+          "email": "maria.tl@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Joao Backend SRE",
+          "email": "joao.sre@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Ana Security Lead",
+          "email": "ana.sec@cliente-exemplo.com.br"
+        }
+      ]
+    },
+    {
+      "topic": "Code review com IA antes de PR",
+      "count": 3,
+      "pct": 60.0,
+      "attendees": [
+        {
+          "name": "Maria Tech Leader",
+          "email": "maria.tl@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Joao Backend SRE",
+          "email": "joao.sre@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Ana Security Lead",
+          "email": "ana.sec@cliente-exemplo.com.br"
+        }
+      ]
+    },
+    {
+      "topic": "Testar agents (test suites para prompts/skills)",
+      "count": 3,
+      "pct": 60.0,
+      "attendees": [
+        {
+          "name": "Maria Tech Leader",
+          "email": "maria.tl@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Pedro Junior Dev",
+          "email": "pedro.jr@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Sofia Frontend Lead",
+          "email": "sofia.fe@cliente-exemplo.com.br"
+        }
+      ]
+    },
+    {
+      "topic": "SBOM (Software Bill of Materials)",
+      "count": 3,
+      "pct": 60.0,
+      "attendees": [
+        {
+          "name": "Maria Tech Leader",
+          "email": "maria.tl@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Joao Backend SRE",
+          "email": "joao.sre@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Pedro Junior Dev",
+          "email": "pedro.jr@cliente-exemplo.com.br"
+        }
+      ]
+    },
+    {
+      "topic": "Vulnerabilidades comuns em código gerado por IA",
+      "count": 3,
+      "pct": 60.0,
+      "attendees": [
+        {
+          "name": "Joao Backend SRE",
+          "email": "joao.sre@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Pedro Junior Dev",
+          "email": "pedro.jr@cliente-exemplo.com.br"
+        },
+        {
+          "name": "Sofia Frontend Lead",
+          "email": "sofia.fe@cliente-exemplo.com.br"
+        }
+      ]
+    }
+  ],
+  "priorities": {
+    "D2": 3,
+    "D3": 3,
+    "D4": 1,
+    "D5": 2,
+    "D6": 4,
+    "D7": 3,
+    "D8": 2
+  },
+  "cohorts": [
+    {
+      "dimension": "D2",
+      "name": "Copilot Adoption",
+      "devs": 3,
+      "preferred_format": "Self-paced (meu ritmo, mais flexibilidade)",
+      "plan": "cohort de 4-6 semanas com sessões síncronas + lab self-paced"
+    },
+    {
+      "dimension": "D3",
+      "name": "MS/GH Tooling Breadth",
+      "devs": 3,
+      "preferred_format": "Self-paced (meu ritmo, mais flexibilidade)",
+      "plan": "cohort de 4-6 semanas com sessões síncronas + lab self-paced"
+    },
+    {
+      "dimension": "D4",
+      "name": "AI Dev Practices",
+      "devs": 1,
+      "preferred_format": "Self-paced (meu ritmo, mais flexibilidade)",
+      "plan": "cohort de 4-6 semanas com sessões síncronas + lab self-paced"
+    },
+    {
+      "dimension": "D5",
+      "name": "Agent Concepts Mastery",
+      "devs": 2,
+      "preferred_format": "Self-paced (meu ritmo, mais flexibilidade)",
+      "plan": "cohort de 4-6 semanas com sessões síncronas + lab self-paced"
+    },
+    {
+      "dimension": "D6",
+      "name": "Instructions Maturity",
+      "devs": 4,
+      "preferred_format": "Self-paced (meu ritmo, mais flexibilidade)",
+      "plan": "cohort de 4-6 semanas com sessões síncronas + lab self-paced"
+    },
+    {
+      "dimension": "D7",
+      "name": "Best Practices",
+      "devs": 3,
+      "preferred_format": "Self-paced (meu ritmo, mais flexibilidade)",
+      "plan": "cohort de 4-6 semanas com sessões síncronas + lab self-paced"
+    },
+    {
+      "dimension": "D8",
+      "name": "Security & Governance",
+      "devs": 2,
+      "preferred_format": "Self-paced (meu ritmo, mais flexibilidade)",
+      "plan": "cohort de 4-6 semanas com sessões síncronas + lab self-paced"
+    }
+  ],
+  "champions": {
+    "active": [
+      {
+        "name": "Maria Tech Leader",
+        "email": "maria.tl@cliente-exemplo.com.br"
+      },
+      {
+        "name": "Joao Backend SRE",
+        "email": "joao.sre@cliente-exemplo.com.br"
+      },
+      {
+        "name": "Sofia Frontend Lead",
+        "email": "sofia.fe@cliente-exemplo.com.br"
+      }
+    ],
+    "supported": [],
+    "maybe": [],
+    "references": []
+  },
+  "mentorship": {
+    "mentors": [
+      {
+        "name": "Pedro Junior Dev",
+        "email": "pedro.jr@cliente-exemplo.com.br",
+        "topic": "[texto livre exemplo de Pedro Junior Dev]"
+      },
+      {
+        "name": "Sofia Frontend Lead",
+        "email": "sofia.fe@cliente-exemplo.com.br",
+        "topic": "[texto livre exemplo de Sofia Frontend Lead]"
+      }
+    ],
+    "mentees": [
+      {
+        "name": "Maria Tech Leader",
+        "email": "maria.tl@cliente-exemplo.com.br"
+      }
+    ]
+  },
+  "calendar_90_days": [
+    {
+      "weeks": [
+        1
+      ],
+      "activity": "Champions Kickoff",
+      "audience": "3",
+      "champion": "Líder Eng",
+      "format": "2h síncrono"
+    },
+    {
+      "weeks": [
+        2
+      ],
+      "activity": "Copilot Spaces (contexto compartilhado)",
+      "audience": "5",
+      "champion": "Maria Tech Leader",
+      "format": "4h hands-on"
+    },
+    {
+      "weeks": [
+        3
+      ],
+      "activity": "A2A (Agent-to-Agent) protocol",
+      "audience": "4",
+      "champion": "Maria Tech Leader",
+      "format": "4h hands-on"
+    },
+    {
+      "weeks": [
+        4
+      ],
+      "activity": "Microsoft Foundry — visão geral",
+      "audience": "4",
+      "champion": "Maria Tech Leader",
+      "format": "4h hands-on"
+    },
+    {
+      "weeks": [
+        4
+      ],
+      "activity": "Office hours #1",
+      "audience": "Todos",
+      "champion": "Champions",
+      "format": "1h Q&A"
+    },
+    {
+      "weeks": [
+        6,
+        8,
+        10,
+        12
+      ],
+      "activity": "Office hours quinzenal",
+      "audience": "Todos",
+      "champion": "Champions",
+      "format": "1h Q&A"
+    }
+  ],
+  "schedule_30_days": [
+    {
+      "week": 1,
+      "activities": "Champions Kickoff (3 pessoas) + agendamento de workshops"
+    },
+    {
+      "week": 2,
+      "activities": "Workshop Copilot Spaces (contexto compartilhado) (5 inscritos)"
+    },
+    {
+      "week": 3,
+      "activities": "Office hours #1 + remoção de barreira top"
+    },
+    {
+      "week": 4,
+      "activities": "Retrospectiva + revisão do plano"
+    }
+  ],
+  "barriers": [
+    {
+      "barrier": "Não sei por onde começar",
+      "count": 3,
+      "pct": 60.0,
+      "action": "Criar learning path em Copilot Space"
+    },
+    {
+      "barrier": "Falta de orçamento para cursos pagos",
+      "count": 2,
+      "pct": 40.0,
+      "action": "Discutir com líder"
+    },
+    {
+      "barrier": "Não vejo prioridade clara da liderança",
+      "count": 2,
+      "pct": 40.0,
+      "action": "Discutir com líder"
+    },
+    {
+      "barrier": "Falta de licença para Foundry / Azure AI",
+      "count": 2,
+      "pct": 40.0,
+      "action": "Discutir com líder"
+    },
+    {
+      "barrier": "Falta de Champion no time",
+      "count": 2,
+      "pct": 40.0,
+      "action": "Ativar Champions Network identificados"
+    },
+    {
+      "barrier": "Falta de treinamento estruturado",
+      "count": 1,
+      "pct": 20.0,
+      "action": "Discutir com líder"
+    },
+    {
+      "barrier": "Política de segurança bloqueia testes",
+      "count": 1,
+      "pct": 20.0,
+      "action": "Discutir com líder"
+    },
+    {
+      "barrier": "Falta de espaço para experimentar (sandbox / repo de teste)",
+      "count": 1,
+      "pct": 20.0,
+      "action": "Discutir com líder"
+    }
+  ],
+  "format_preferences": {
+    "formats": {
+      "Hackathon interno": 3,
+      "Pair programming com Champion": 2,
+      "Show & tell de colegas": 2,
+      "Podcast": 2,
+      "Curso online self-paced (Coursera, Pluralsight, MS Learn)": 2,
+      "Vídeos curtos (YouTube, Microsoft Learn)": 1,
+      "Book club / paper club": 1,
+      "Documentação escrita + tentativa-e-erro": 1
+    },
+    "time_per_week": {
+      "< 1h/semana": 3,
+      "2-4h/semana": 1,
+      "Mais de 6h/semana": 1
+    },
+    "cohort_vs_self_paced": {
+      "Self-paced (meu ritmo, mais flexibilidade)": 2,
+      "Cohort (grupo fixo, mais accountability)": 1,
+      "Híbrido (módulos self-paced + sessões síncronas)": 1,
+      "Não tenho preferência": 1
+    }
+  }
+}

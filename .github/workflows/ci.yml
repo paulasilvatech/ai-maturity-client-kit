@@ -35,6 +35,9 @@ jobs:
       - name: Smoke test (assessment + cross-survey enrichment)
         run: make smoke-cross
 
+      - name: Rubric unit tests (developer survey)
+        run: make test
+
       - name: Validate docs/content.json syntax
         run: python3 -m json.tool docs/content.json > /dev/null
 

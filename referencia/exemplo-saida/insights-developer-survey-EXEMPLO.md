@@ -3,7 +3,7 @@
 
 # Developer Survey — Relatório de Insights
 
-**Data:** 2026-05-08  ·  **Respondentes:** 5 (anônimos)  ·  **Versão da rubrica:** 1.0
+**Data:** 2026-05-08  ·  **Respondentes:** 5 (anônimos)  ·  **Versão da rubrica:** 1.1
 **Autor:** Paula Silva | Software Global Black Belt  ·  **Contato:** paulasilva@microsoft.com
 
 ---
@@ -12,7 +12,7 @@
 
 ### 🎯 Maturidade IA do Time (rubrica determinística)
 
-> **Overall: 2.22 (L2 — Definido)**
+> **Overall: 2.29 (L2 — Definido)**
 > Baseado em 5 respondentes, 7 dimensões, escala L0-L4 (mesma do assessment principal)
 
 | Dimensão | Score | Rótulo | % devs em L3+L4 |
@@ -20,20 +20,20 @@
 | D2 Copilot Adoption | **0.80** | L1 — Em Desenvolvimento | 0% |
 | D3 MS/GH Tooling Breadth | **2.40** | L2 — Definido | 80% |
 | D4 AI Dev Practices | **2.68** | L3 — Gerenciado | 80% |
-| D5 Agent Concepts Mastery | **2.56** | L3 — Gerenciado | 80% |
-| D6 Instructions Maturity | **2.31** | L2 — Definido | 40% |
+| D5 Agent Concepts Mastery | **2.72** | L3 — Gerenciado | 80% |
+| D6 Instructions Maturity | **2.60** | L3 — Gerenciado | 60% |
 | D7 Best Practices | **2.91** | L3 — Gerenciado | 60% |
 | D8 Security & Governance | **1.92** | L2 — Definido | 20% |
 
 ### 🏆 3 dimensões mais fortes
 - **D7** Best Practices — score **2.91** (L3 — Gerenciado)
+- **D5** Agent Concepts Mastery — score **2.72** (L3 — Gerenciado)
 - **D4** AI Dev Practices — score **2.68** (L3 — Gerenciado)
-- **D5** Agent Concepts Mastery — score **2.56** (L3 — Gerenciado)
 
 ### ⚠️ 3 maiores gaps (oportunidades de roadmap)
 - 🔴 **D2** Copilot Adoption — score **0.80** (L1 — Em Desenvolvimento)
 - 🔴 **D8** Security & Governance — score **1.92** (L2 — Definido)
-- 🔴 **D6** Instructions Maturity — score **2.31** (L2 — Definido)
+- 🔴 **D3** MS/GH Tooling Breadth — score **2.40** (L2 — Definido)
 
 ### 💡 3 insights principais
 1. **Underutilization de Coding Agent:** apenas 20% conhece/usa Coding Agent autônomo (S2-Q3) — tópico de workshop urgente
@@ -148,7 +148,7 @@
 | **S5-Q6** A2A protocol | Conheço o conceito=2, Não conheço=2, Uso (ex.: Foundry A2A Tool)=1 |
 | **S5-Q9** Personas Agentic DevOps | Não conheço=3, Conheço o conceito=1, Sim — adoto explicitamente=1 |
 
-**Insight:** apenas 60% conhece MCP — conceitos avançados (A2A, handoffs, subagentes, personas) são desconhecidos pela maioria. Oportunidade de workshop técnico.
+**Insight:** 100% conhece MCP (S3-Q6) e 60% conhece A2A (S5-Q6). Conceitos avançados (handoffs, subagentes, personas) seguem o mesmo padrão. Oportunidade de workshop técnico.
 
 ---
 
@@ -241,7 +241,7 @@ Se você rodou o assessment principal, compare:
 
 ---
 
-*Relatório gerado pela skill `/insights-developer-survey` · Rubrica determinística v1.0 · 2026-05-08*
+*Relatório gerado pela skill `/insights-developer-survey` · Rubrica determinística v1.1 · 2026-05-08*
 
 
 ---

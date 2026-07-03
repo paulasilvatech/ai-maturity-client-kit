@@ -625,7 +625,28 @@ def build_report(respondents, aggregates, date):
     return "\n".join(md)
 
 
-def build_plan_data(respondents, aggregates, date, input_path):
+def parse_now(value):
+    """Validate an ISO-8601 --now override; default to the current UTC time.
+
+    Mirrors scripts/compute_scores.py so reruns with a fixed --now are
+    byte-identical (CI comparison / reference-example regeneration).
+    """
+    if value is None:
+        return datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    try:
+        datetime.datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        print(f"❌ --now deve ser um timestamp ISO-8601 como 2026-05-08T16:20:08Z, recebido: {value}")
+        raise SystemExit(1)
+    return value
+
+
+def date_from_now(now_iso):
+    """YYYY-MM-DD date used in output filenames, derived from --now."""
+    return datetime.datetime.fromisoformat(now_iso.replace("Z", "+00:00")).date().isoformat()
+
+
+def build_plan_data(respondents, aggregates, date, input_path, generated_at):
     """Structured JSON payload (mirrors the .md report; consumed by
     wizard/scripts/auto_fill_from_plano.py as primary source)."""
     respondent_count = len(respondents)
@@ -643,7 +664,7 @@ def build_plan_data(respondents, aggregates, date, input_path):
     ]
     return {
         "metadata": {
-            "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            "generated_at": generated_at,
             "generator": "survey-learning/scripts/gerar_plano_capacitacao.py",
             "source": input_path.name,
             "date": date,
@@ -699,6 +720,8 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", default=str(KIT / "survey-learning/respostas-learning.json"))
     parser.add_argument("--out", default=str(KIT / "saida"))
+    parser.add_argument("--now", default=None, metavar="ISO8601",
+                        help="Override do timestamp (ex.: 2026-05-08T16:20:08Z) para saída reprodutível")
     return parser.parse_args()
 
 
@@ -750,12 +773,13 @@ def main():
     if respondent_count < 3:
         print(f"⚠ Apenas {respondent_count} respondentes. Plano será preliminar.")
 
-    date = datetime.date.today().isoformat()
+    generated_at = parse_now(args.now)
+    date = date_from_now(generated_at)
     aggregates = collect_aggregates(respondents)
     out_path = out_dir / f"plano-capacitacao-{date}.md"
     out_path.write_text(build_report(respondents, aggregates, date), encoding="utf-8")
     json_path = out_dir / f"plano-capacitacao-{date}.json"
-    plan_data = build_plan_data(respondents, aggregates, date, input_path)
+    plan_data = build_plan_data(respondents, aggregates, date, input_path, generated_at)
     json_path.write_text(json.dumps(plan_data, ensure_ascii=False, indent=2), encoding="utf-8")
     print_summary(out_path, json_path, respondent_count, aggregates)
     return 0

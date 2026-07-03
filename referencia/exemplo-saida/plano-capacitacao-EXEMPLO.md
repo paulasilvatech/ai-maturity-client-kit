@@ -13,7 +13,7 @@
 ### Maturidade IA percebida pelo time (auto-avaliação L2)
 
 | Dimensão | L0 | L1 | L2 | L3 | L4 | Mediana |
-|---|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- | --- |
 | **D2** Copilot Adoption | 0 | 1 | 2 | 2 | 0 | L2 |
 | **D3** MS/GH Tooling Breadth | 0 | 1 | 2 | 2 | 0 | L2 |
 | **D4** AI Dev Practices | 0 | 1 | 2 | 2 | 0 | L2 |
@@ -56,6 +56,8 @@
 ---
 
 ## 2 · Top 10 tópicos demandados (com inscritos pré-validados)
+
+> ⚠️ Esta seção contém nomes e emails. NÃO compartilhar publicamente. Uso restrito à liderança para convites.
 
 ### 1. Copilot Spaces (contexto compartilhado) — 5 inscritos
 
@@ -195,9 +197,11 @@
 
 ## 4 · Champions Network (3 tiers)
 
+> ⚠️ Esta seção contém nomes e emails. NÃO compartilhar publicamente. Uso restrito à liderança para convites.
+
 ### 🥇 Ativos (já querem ser Champion)
 | Nome | Email | Próximo passo |
-|---|---|---|
+| --- | --- | --- |
 | Maria Tech Leader | maria.tl@cliente-exemplo.com.br | Convidar para train-the-trainer |
 | Joao Backend SRE | joao.sre@cliente-exemplo.com.br | Convidar para train-the-trainer |
 | Sofia Frontend Lead | sofia.fe@cliente-exemplo.com.br | Convidar para train-the-trainer |
@@ -207,13 +211,13 @@ _(nenhum)_
 
 ### 🤝 Mentor candidates (se ofereceram em L6-Q4)
 | Nome | Email | Tópico que ensina |
-|---|---|---|
+| --- | --- | --- |
 | Pedro Junior Dev | pedro.jr@cliente-exemplo.com.br | [texto livre exemplo de Pedro Junior Dev] |
 | Sofia Frontend Lead | sofia.fe@cliente-exemplo.com.br | [texto livre exemplo de Sofia Frontend Lead] |
 
 ### 🎓 Mentees (querem mentoria 1:1)
 | Nome | Email |
-|---|---|
+| --- | --- |
 | Maria Tech Leader | maria.tl@cliente-exemplo.com.br |
 
 ---
@@ -221,7 +225,7 @@ _(nenhum)_
 ## 5 · Calendário sugerido (próximos 90 dias)
 
 | Semana | Workshop | Audiência | Champion | Formato |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | W1 | Champions Kickoff | 3 | Líder Eng | 2h síncrono |
 | W2 | Copilot Spaces (contexto compartilhado) | 5 | Maria Tech Leader | 4h hands-on |
 | W3 | A2A (Agent-to-Agent) protocol | 4 | Maria Tech Leader | 4h hands-on |
@@ -235,7 +239,7 @@ _(nenhum)_
 
 ### Formatos (top 5 — L5-Q1 multi)
 | Formato | N | % |
-|---|---|---|
+| --- | --- | --- |
 | Hackathon interno | 3 | 60% |
 | Pair programming com Champion | 2 | 40% |
 | Show & tell de colegas | 2 | 40% |
@@ -244,14 +248,14 @@ _(nenhum)_
 
 ### Tempo disponível por semana (L5-Q2)
 | Tempo | N | % |
-|---|---|---|
+| --- | --- | --- |
 | < 1h/semana | 3 | 60% |
 | 2-4h/semana | 1 | 20% |
 | Mais de 6h/semana | 1 | 20% |
 
 ### Cohort vs self-paced (L5-Q4)
 | Preferência | N | % |
-|---|---|---|
+| --- | --- | --- |
 | Self-paced (meu ritmo, mais flexibilidade) | 2 | 40% |
 | Cohort (grupo fixo, mais accountability) | 1 | 20% |
 | Híbrido (módulos self-paced + sessões síncronas) | 1 | 20% |
@@ -262,7 +266,7 @@ _(nenhum)_
 ## 7 · Barreiras a remover (priorizado)
 
 | Barreira | Devs afetados | % | Ação sugerida |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Não sei por onde começar | 3 | 60% | Criar learning path em Copilot Space |
 | Falta de orçamento para cursos pagos | 2 | 40% | Discutir com líder |
 | Não vejo prioridade clara da liderança | 2 | 40% | Discutir com líder |
@@ -283,7 +287,7 @@ _(nenhum)_
 Se você rodou também o **Developer Survey** (anônimo) e o **Assessment principal**, compare:
 
 | Dimensão | Auto-perception (este survey, L2) | Rubrica medida (survey-devs, D-X) | Capability assessment |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | D2 Copilot Adoption | mediana L2 | (rodar /insights-developer-survey) | (rodar /calculate-scores) |
 | D3 MS/GH Tooling Breadth | mediana L2 | (rodar /insights-developer-survey) | (rodar /calculate-scores) |
 | D4 AI Dev Practices | mediana L2 | (rodar /insights-developer-survey) | (rodar /calculate-scores) |
@@ -297,7 +301,7 @@ Se você rodou também o **Developer Survey** (anônimo) e o **Assessment princi
 ## 10 · 🎯 Top 5 ações priorizadas (impacto × facilidade)
 
 | # | Ação | Impacto | Horizonte |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | 1 | Workshop: Copilot Spaces (contexto compartilhado) | 5 inscritos pré-validados | 30 dias |
 | 2 | Champions Kickoff | 3 Champions ativos identificados | 30 dias |
 | 3 | Remover barreira: Não sei por onde começar | 3 devs afetados | 60 dias |
@@ -309,7 +313,7 @@ Se você rodou também o **Developer Survey** (anônimo) e o **Assessment princi
 ## 11 · 📅 Cronograma 30 dias
 
 | Semana | Atividades |
-|---|---|
+| --- | --- |
 | **W1** | Champions Kickoff (3 pessoas) + agendamento de workshops |
 | **W2** | Workshop Copilot Spaces (contexto compartilhado) (5 inscritos) |
 | **W3** | Office hours #1 + remoção de barreira top |
@@ -322,7 +326,7 @@ Se você rodou também o **Developer Survey** (anônimo) e o **Assessment princi
 > ⚠️ Esta tabela contém nomes/emails. **NÃO compartilhar publicamente** — só usar para convites de workshops.
 
 | Nome | Email | Quer Champion? |
-|---|---|---|
+| --- | --- | --- |
 | Maria Tech Leader | maria.tl@cliente-exemplo.com.br | Sim ativo |
 | Joao Backend SRE | joao.sre@cliente-exemplo.com.br | Sim ativo |
 | Ana Security Lead | ana.sec@cliente-exemplo.com.br | Não |

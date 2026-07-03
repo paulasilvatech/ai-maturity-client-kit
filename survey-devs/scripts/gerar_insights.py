@@ -15,7 +15,6 @@ Uso:
 from __future__ import annotations
 
 import argparse
-import datetime
 import json
 import sys
 from collections import Counter
@@ -25,7 +24,13 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 sys.path.insert(0, str(SCRIPT_DIR.parent.parent / "relatorios" / "scripts"))
 from rubric import RUBRIC_VERSION, score_respondent, aggregate_team, DIMENSIONS, label_for, _matches
-from calcular_maturidade import _ranking, build_maturity_output, load_respondents
+from calcular_maturidade import (
+    _ranking,
+    build_maturity_output,
+    date_from_now,
+    load_respondents,
+    parse_now,
+)
 
 try:
     import branding
@@ -93,7 +98,10 @@ def main():
     kit = SCRIPT_DIR.parent.parent
     ap.add_argument("--input", default=str(kit / "survey-devs/respostas-devs.json"))
     ap.add_argument("--out", default=str(kit / "saida"))
+    ap.add_argument("--now", default=None, metavar="ISO8601",
+                    help="Override do timestamp (ex.: 2026-05-08T16:20:08Z) para saída reprodutível")
     args = ap.parse_args()
+    computed_at = parse_now(args.now)
 
     inp = Path(args.input)
     out_dir = Path(args.out)
@@ -107,7 +115,7 @@ def main():
     if respondents is None:
         return 1
     n = len(respondents)
-    date = datetime.date.today().isoformat()
+    date = date_from_now(computed_at)
 
     if n == 0:
         print(f"❌ Nenhum respondente em {inp}. Verifique o import antes de gerar insights.")
@@ -121,7 +129,7 @@ def main():
 
     # Save maturity JSON (same schema/builder as calcular_maturidade.py)
     maturity_path = out_dir / f"maturidade-developer-survey-{date}.json"
-    maturity_data = build_maturity_output(respondents, team, inp)
+    maturity_data = build_maturity_output(respondents, team, inp, computed_at=computed_at)
     maturity_path.write_text(json.dumps(maturity_data, ensure_ascii=False, indent=2), encoding="utf-8")
 
     # Build descriptive aggregations (used in report)

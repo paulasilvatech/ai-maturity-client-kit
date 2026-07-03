@@ -6,8 +6,8 @@
 PY ?= python3
 KIT := $(CURDIR)
 
-.PHONY: help smoke smoke-cross ci validate-docs build-kits scores gaps \
-	recommend import-assessment pipeline install-deps clean-saida
+.PHONY: help smoke smoke-cross test ci validate-docs build-kits scores gaps \
+	recommend import-assessment pipeline workbook install-deps clean-saida
 
 help:
 	@echo "AI Maturity Assessment kit"
@@ -18,12 +18,14 @@ help:
 	@echo "  make gaps            Compute scores + gap analysis (saida/gaps.json)"
 	@echo "  make recommend       Compute scores + gaps + strategy ranking (saida/recomendacoes.json)"
 	@echo "  make pipeline        Run full pipeline (build payload + render 5 PDFs)"
+	@echo "  make workbook        Regenerate the auditable workbook template (referencia/)"
 	@echo ""
 	@echo "Quality gates:"
 	@echo "  make smoke           End-to-end smoke test (scoring + payload + HTML, no PDFs)"
 	@echo "  make smoke-cross     Smoke test including cross-survey enrichment"
+	@echo "  make test            Developer-survey rubric unit tests (stdlib only)"
 	@echo "  make validate-docs   Validate JSON content, language coverage and packaging"
-	@echo "  make ci              Everything CI runs: smoke-cross + validate-docs"
+	@echo "  make ci              Everything CI runs: smoke-cross + test + validate-docs"
 	@echo ""
 	@echo "Packaging & setup:"
 	@echo "  make build-kits      Build PT, EN and ES public ZIP packages"
@@ -38,7 +40,10 @@ smoke:
 smoke-cross:
 	@$(PY) scripts/smoke_test.py --with-cross-survey
 
-ci: smoke-cross validate-docs
+test:
+	@$(PY) survey-devs/scripts/test_rubric.py
+
+ci: smoke-cross test validate-docs
 
 validate-docs:
 	@$(PY) -m json.tool docs/content.json >/dev/null
@@ -67,6 +72,11 @@ import-assessment:
 
 pipeline:
 	@$(PY) relatorios/scripts/build_payload_and_render.py
+
+# Regenerates the empty template. For client-filled workbooks, pass --respostas
+# and --out saida/... (see .github/skills/fill-spreadsheet/SKILL.md).
+workbook:
+	@$(PY) scripts/generate_scoring_workbook.py
 
 # Inside a virtualenv, pip installs into the venv; outside one, fall back to
 # a user install (with --break-system-packages for PEP 668 system Pythons).

@@ -75,11 +75,32 @@ def coverage_stats(respondents: list) -> dict:
     }
 
 
+def parse_now(value: str | None) -> str:
+    """Validate an ISO-8601 --now override; default to the current UTC time.
+
+    Mirrors scripts/compute_scores.py so reruns with a fixed --now are
+    byte-identical (CI comparison / reference-example regeneration).
+    """
+    if value is None:
+        return datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    try:
+        datetime.datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        print(f"❌ --now deve ser um timestamp ISO-8601 como 2026-05-08T16:20:08Z, recebido: {value}")
+        raise SystemExit(1)
+    return value
+
+
+def date_from_now(now_iso: str) -> str:
+    """YYYY-MM-DD date used in output filenames, derived from --now."""
+    return datetime.datetime.fromisoformat(now_iso.replace("Z", "+00:00")).date().isoformat()
+
+
 def build_maturity_output(respondents: list, team: dict, source_path: Path,
-                          kit_root: Path = KIT_ROOT) -> dict:
+                          kit_root: Path = KIT_ROOT, computed_at: str | None = None) -> dict:
     """Single output schema shared by calcular_maturidade.py and gerar_insights.py."""
     metadata = {
-        "computed_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "computed_at": computed_at or parse_now(None),
         "source": str(source_path.relative_to(kit_root)) if source_path.is_relative_to(kit_root) else str(source_path),
         "n_respondents": len(respondents),
         "rubric_version": f"{RUBRIC_VERSION} (deterministic)",
@@ -137,7 +158,10 @@ def main():
                     help="Output directory")
     ap.add_argument("--force", action="store_true",
                     help="Prossegue mesmo com cobertura de match da rubrica abaixo de 40%%")
+    ap.add_argument("--now", default=None, metavar="ISO8601",
+                    help="Override do timestamp (ex.: 2026-05-08T16:20:08Z) para saída reprodutível")
     args = ap.parse_args()
+    computed_at = parse_now(args.now)
 
     inp = Path(args.input)
     out_dir = Path(args.out)
@@ -171,8 +195,8 @@ def main():
     team = aggregate_team(individual_scores)
 
     # Build output JSON
-    date = datetime.date.today().isoformat()
-    output = build_maturity_output(respondents, team, inp)
+    date = date_from_now(computed_at)
+    output = build_maturity_output(respondents, team, inp, computed_at=computed_at)
 
     out_path = out_dir / f"maturidade-developer-survey-{date}.json"
     out_path.write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")
