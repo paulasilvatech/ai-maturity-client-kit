@@ -304,11 +304,11 @@
             <div class="footer__kicker">${escapeHtml(content.brand.name)} | AI-native software engineer</div>
             <h2 class="footer__headline">Building the future of software with <span class="footer__headline-accent">AI.</span></h2>
             <p class="footer__summary">Everything here comes from practical field work with enterprise AI transformation: assessment kits, survey flows, scoring models, executive reports, and implementation guides built to help teams adopt AI with evidence.</p>
-            <a class="footer__hub-link" href="#download">
+            <a class="footer__hub-link" href="${escapeHtml(data.hubUrl || 'https://agenticdevopsplatform.ai/')}">
               <span class="footer__hub-icon" aria-hidden="true">&#8599;</span>
               <span>
-                <span class="footer__hub-kicker">Visit the complete kit</span>
-                <span class="footer__hub-title">AI Maturity Assessment Kit</span>
+                <span class="footer__hub-kicker">${escapeHtml(footer.hubKicker || 'Visit the complete site')}</span>
+                <span class="footer__hub-title">${escapeHtml(footer.hubTitle || 'Agentic DevOps Platform')}</span>
               </span>
             </a>
           </section>
