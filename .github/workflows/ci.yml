@@ -1,0 +1,47 @@
+name: CI
+
+# Validates every pull request and every push to develop/main:
+# smoke test (with cross-survey enrichment), docs JSON syntax,
+# language coverage report, and a packaging dry-run.
+
+on:
+  pull_request:
+  push:
+    branches: [develop, main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.12'
+          cache: pip
+          # No requirements.txt in this repo; key the pip cache on this
+          # workflow file, which declares the dependencies below.
+          cache-dependency-path: .github/workflows/ci.yml
+
+      - name: Install dependencies
+        run: pip install openpyxl jinja2
+
+      - name: Smoke test (assessment + cross-survey enrichment)
+        run: make smoke-cross
+
+      - name: Validate docs/content.json syntax
+        run: python3 -m json.tool docs/content.json > /dev/null
+
+      - name: Language coverage report
+        run: python3 scripts/check_language_coverage.py --warn-only
+
+      - name: Packaging dry-run (all three language ZIPs)
+        run: |
+          python3 scripts/build_language_kits.py --out dist-validate --clean
+          rm -rf dist-validate

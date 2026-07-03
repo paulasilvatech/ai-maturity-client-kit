@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "disableAllHooks": false,
+  "hooks": {
+    "preToolUse": [
+      {
+        "type": "command",
+        "bash": "python3 .github/hooks/check_immutable_paths.py",
+        "command": "python3 .github/hooks/check_immutable_paths.py",
+        "timeoutSec": 10
+      }
+    ]
+  }
+}

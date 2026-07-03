@@ -1,7 +1,9 @@
 name: Deploy site to GitHub Pages
 
-# Publishes the docs/ folder to GitHub Pages on every push to main
-# that touches site files. Configure once in repo: Settings → Pages → Source: GitHub Actions
+# Publishes the docs/ folder to GitHub Pages on every push to main.
+# No paths filter on purpose: the downloadable kits in docs/downloads/ are
+# built from repo-wide content, so any push can change them.
+# Configure once in repo: Settings → Pages → Source: GitHub Actions
 
 on:
   push:
@@ -25,19 +27,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
       - name: Setup Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
 
       - name: Build public ZIP downloads
         run: python3 scripts/build_language_kits.py --out docs/downloads --clean
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
         with:
           path: ./docs
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5

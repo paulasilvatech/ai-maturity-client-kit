@@ -13,6 +13,11 @@ Cada função `score_DX(responses)` retorna float em [0.0, 4.0] ou None se cober
 """
 from typing import Optional
 
+# Single source of truth for the rubric version. Exported to the metadata of
+# every writer (calcular_maturidade.py, gerar_insights.py). Bump it whenever a
+# scoring rule changes and document the change in RUBRICA-MATURIDADE.md.
+RUBRIC_VERSION = "1.1"
+
 
 # =========================================================
 # Helpers
@@ -59,14 +64,17 @@ def score_D2(responses: dict) -> Optional[float]:
     if license_ans is None:
         return None
 
-    # Hard L0: sem licença ou tem mas não usa
-    if _matches(license_ans, "Não tenho licença") or _matches(license_ans, "Tenho licença mas não uso"):
+    # Hard L0: no license, or has one but never uses it.
+    # EN/ES synonyms cover clients that translated the answer options in Forms.
+    if _matches(license_ans, "Não tenho licença", "don't have a license", "do not have a license",
+                "no tengo licencia") or \
+       _matches(license_ans, "Tenho licença mas não uso", "have a license but", "tengo licencia pero"):
         return 0.0
 
     freq = _ans(responses, "S2-Q2")
-    if _matches(freq, "Nunca"):
+    if _matches(freq, "Nunca", "Never"):
         return 0.0
-    if _matches(freq, "Raramente"):
+    if _matches(freq, "Raramente", "Rarely", "Rara vez"):
         return 1.0
 
     modes = _multi(responses, "S2-Q3")
@@ -81,21 +89,24 @@ def score_D2(responses: dict) -> Optional[float]:
 
     gain = _ans(responses, "S2-Q7")
     high_gain = _matches(gain, "+40", "+60") if gain else False
-    low_gain = _matches(gain, "Negativo", "Neutro") if gain else False
+    positive_gain = _matches(gain, "+10", "+20", "+40", "+60") if gain else False
+    daily = _matches(freq, "Diariamente", "Daily", "Diario") if freq else False
 
-    # L4: top tier — Coding Agent + Spaces + alto ganho mensurado + 5+ features
-    if uses_coding_agent and uses_spaces and high_gain and n_features >= 5:
+    # Ladder documented in RUBRICA-MATURIDADE.md (each level builds on the one
+    # below it; an unanswered gain question does NOT grant L3 -- conservative).
+    # L4: L3 base + Coding Agent + Spaces + measured gain >40% + 5+ features
+    if daily and uses_coding_agent and uses_spaces and high_gain and n_features >= 5:
         return 4.0
 
-    # L3: usa Agent ou Coding Agent + breadth (3+ modos OU 4+ features) + ganho positivo
-    if (uses_agent or uses_coding_agent) and (n_modes >= 3 or n_features >= 4) and not low_gain:
+    # L3: daily use + Agent or Coding Agent + 4+ features + explicit positive gain
+    if daily and (uses_agent or uses_coding_agent) and n_features >= 4 and positive_gain:
         return 3.0
 
-    # L2: uso diário + Ask/Edit + 2+ features
-    if _matches(freq, "Diariamente") and n_modes >= 1 and n_features >= 2:
+    # L2: daily use + 1+ chat mode + 2+ features
+    if daily and n_modes >= 1 and n_features >= 2:
         return 2.0
 
-    # L1: tem licença e uso semanal+ mas sem breadth
+    # L1: has license and weekly+ use but no breadth
     return 1.0
 
 
@@ -259,8 +270,9 @@ def score_D5(responses: dict) -> Optional[float]:
     elif _matches(tests, "Frequentemente"): test_bonus = 0.5
     elif _matches(tests, "Não crio agents"): test_bonus = 0  # neutral
 
-    # Combined score: 60% coverage + 25% primitives + 15% testing
-    raw = (coverage * 0.6 * 4) + min(n_primitives * 0.25, 1.0) + (test_bonus * 0.15 * 4 / 1.0 * 0.6)
+    # Combined score: 60% coverage (max 2.4) + 25% primitives (max 1.0)
+    # + 15% testing (max 0.6). Weights sum to exactly 4.0 so L4 is attainable.
+    raw = (coverage * 0.6 * 4) + min(n_primitives * 0.25, 1.0) + (test_bonus * 0.6)
 
     return round(min(raw, 4.0), 2)
 
@@ -314,9 +326,10 @@ def score_D6(responses: dict) -> Optional[float]:
     elif _matches(library, "wiki/Confluence"): score += 0.5
     elif _matches(library, "Não compartilhamos"): score -= 0.5
 
-    # Map to 0-4 (raw range ~0-9)
-    score = max(0, min(score, 9))
-    return round(score / 9 * 4, 2)
+    # Map to 0-4. True attainable max is 8 (2 files + 2 maintainer + 1 freq
+    # + 2 content + 1 library), so divide by 8 to keep L4 reachable.
+    score = max(0, min(score, 8))
+    return round(score / 8 * 4, 2)
 
 
 # =========================================================
@@ -394,15 +407,17 @@ def score_D8(responses: dict) -> Optional[float]:
     if policy is None and not sec_tools:
         return None
 
-    # Hard L0: sem política + sem ferramentas
-    if (_matches(policy, "Não temos política") or _matches(policy, "Não sei")) and \
-       (any(_matches(t, "Nenhuma") for t in sec_tools) or not sec_tools):
+    # Hard L0: no policy (or does not know whether one exists) + no tools.
+    # EN/ES synonyms cover clients that translated the answer options in Forms.
+    if (_matches(policy, "Não temos política", "don't have a policy", "do not have a policy",
+                 "no tenemos pol") or _matches(policy, "Não sei", "I don't know", "no lo sé")) and \
+       (any(_matches(t, "Nenhuma", "None") for t in sec_tools) or not sec_tools):
         return 0.0
 
     score = 0
 
     # Policy
-    if _matches(policy, "política formal e clara"): score += 2
+    if _matches(policy, "política formal e clara", "formal and clear", "formal y clara"): score += 2
     elif _matches(policy, "pouco clara"): score += 1
     elif _matches(policy, "informal"): score += 0.5
 
@@ -556,3 +571,315 @@ def aggregate_team(respondent_scores: list[dict]) -> dict:
         "n_with_overall": len(overalls),
         "dimensions": dims,
     }
+
+
+# =========================================================
+# Match-coverage guardrail
+# =========================================================
+# Canonical answer options per scored question (plus the EN/ES synonyms the
+# scoring functions above also accept). Used by calcular_maturidade.py to
+# detect answer text the rubric cannot interpret (e.g. options translated in
+# Forms), which would otherwise silently deflate scores to L0/None.
+
+COVERAGE_QUESTIONS: dict = {
+    "S2-Q1": ('Sim — Copilot Enterprise',
+              'Sim — Copilot Business',
+              'Sim — Copilot Pro+ (individual)',
+              'Sim — Copilot Pro (individual)',
+              'Sim — Copilot Free',
+              'Tenho licença mas não uso',
+              'Não tenho licença',
+              "don't have a license",
+              'do not have a license',
+              'no tengo licencia',
+              'have a license but',
+              'tengo licencia pero'),
+    "S2-Q2": ('Diariamente (várias horas)',
+              'Diariamente (esporádico)',
+              'Semanal',
+              'Raramente',
+              'Nunca',
+              'Daily',
+              'Weekly',
+              'Rarely',
+              'Never',
+              'Rara vez',
+              'Diario'),
+    "S2-Q3": ('Ask (responder perguntas)',
+              'Edit (edição multi-arquivo no IDE)',
+              'Agent (autônomo no IDE, executa tasks)',
+              'Copilot Coding Agent (autônomo no GitHub.com — assigna issue, abre PR sozinho)',
+              'Plan / Vision',
+              'Não uso o Chat — só completion inline',
+              'Não conheço esses modos'),
+    "S2-Q5": ('Inline code completion',
+              'Chat (perguntas no IDE)',
+              'Pull Request descriptions automáticas',
+              'Pull Request review (Copilot review)',
+              'Test generation',
+              'Documentation generation',
+              'Issue resolution (Coding Agent assigna issue)',
+              'Slash commands no Chat (/explain, /fix, /tests)',
+              'Copilot Spaces (contexto compartilhado: repos + docs + custom instructions)',
+              'Copilot Coding Agent (tarefas autônomas)',
+              'Copilot CLI (gh copilot)'),
+    "S2-Q7": ('Negativo (atrapalha)',
+              'Neutro (sem ganho)',
+              '+10-20%',
+              '+20-40%',
+              '+40-60%',
+              '+60% ou mais',
+              'Não sei medir'),
+    "S3-Q1": ('Microsoft Foundry (ex-Azure AI Foundry)',
+              'Foundry Agent Service (GA — built on OpenAI Responses API)',
+              'Azure OpenAI Service (direto via API)',
+              'Microsoft 365 Copilot',
+              'GitHub Copilot Spaces',
+              'GitHub Copilot Coding Agent (autônomo)',
+              'GitHub Codespaces',
+              'GitHub Models (playground multi-LLM)',
+              'GitHub Advanced Security (GHAS)',
+              'GitHub Actions com Copilot integration',
+              'Visual Studio com Copilot avançado',
+              'Nenhuma das acima'),
+    "S3-Q2": ('PoC / experimentação',
+              'Feature de produto em produção',
+              'Embeddings / RAG',
+              'Foundry Agent Service para agentes autônomos',
+              'Multi-agent orchestration via MCP',
+              'Fine-tuning',
+              'Connectors (Dynamics, SAP, SharePoint, etc.)',
+              'Não uso'),
+    "S3-Q3": ('Uso ativamente em produção',
+              'Já testei mas não uso recorrente',
+              'Conheço mas nunca usei',
+              'Não conheço'),
+    "S3-Q4": ('Uso e crio Spaces para meu time',
+              'Uso Spaces criados por outros',
+              'Conheço mas não uso',
+              'Não conheço'),
+    "S3-Q6": ('Uso servidores MCP no meu workflow',
+              'Configurei algum MCP server custom',
+              'Conheço o conceito',
+              'Não conheço'),
+    "S4-Q1": ('Sempre que possível',
+              'Frequentemente',
+              'Às vezes',
+              'Raramente',
+              'Nunca',
+              'Não sei o que é TDD'),
+    "S4-Q2": ('Uso ativamente (com Spec Kit ou similar)',
+              'Já testei em alguns projetos',
+              'Conheço o conceito mas não uso',
+              'Nunca ouvi falar'),
+    "S4-Q3": ('Antes de começar (planejar arquitetura)',
+              'Durante (autocomplete + perguntas)',
+              'Após implementar (review/refactor)',
+              'Quando trava (debugging)',
+              'Para escrever testes',
+              'Para escrever docs',
+              'Para code review do meu próprio PR'),
+    "S4-Q4": ('Sim — trato como par',
+              'Às vezes (depende da tarefa)',
+              'Não — só ferramenta de autocompletar',
+              'Não uso de forma estruturada'),
+    "S4-Q5": ('Toda semana',
+              'Algumas vezes por mês',
+              'Raramente',
+              'Nunca'),
+    "S4-Q7": ('Pergunto ao Copilot Chat / Claude / outro AI',
+              'Procuro nos logs / debugger',
+              'Pergunto a colega humano',
+              'Stack Overflow / documentação',
+              'Depende do bug'),
+    "S4-Q8": ('Sempre — primeira coisa que faço',
+              'Frequentemente',
+              'Às vezes',
+              'Não — leio README e código manualmente'),
+    "S5-Q1": ('Sim — explico claramente',
+              'Sim — vagamente',
+              'Não sei a diferença',
+              'Não conheço o termo'),
+    "S5-Q2": ('Sim — uso conscientemente',
+              'Mais ou menos',
+              'Não sei a diferença'),
+    "S5-Q3": ('Já criei',
+              'Já usei mas não criei',
+              'Sei que existem mas nunca usei',
+              'Não sabia que era possível'),
+    "S5-Q4": ('Conheço e uso',
+              'Conheço mas não uso',
+              'Não conheço'),
+    "S5-Q5": ('Sim — várias',
+              'Sim — uma ou duas',
+              'Não, mas planejo',
+              'Não conheço'),
+    "S5-Q6": ('Uso (ex.: Foundry A2A Tool)',
+              'Conheço o conceito',
+              'Não conheço'),
+    "S5-Q7": ('Uso',
+              'Conheço o conceito',
+              'Não conheço'),
+    "S5-Q8": ('Uso',
+              'Conheço o conceito',
+              'Não conheço'),
+    "S5-Q9": ('Sim — adoto explicitamente',
+              'Conheço o conceito',
+              'Não conheço'),
+    "S5-Q10": ('Sempre — tenho test suite para meus agents',
+              'Frequentemente — manual mas sistemático',
+              'Às vezes — só sanity check',
+              'Raramente / nunca',
+              'Não crio agents/prompts/skills'),
+    "S5-Q11": ('Custom prompts (.prompt.md)',
+              'Custom skills (SKILL.md)',
+              'Custom agents (.agent.md)',
+              'Custom MCP server',
+              'Instructions files (copilot-instructions.md / AGENTS.md / CLAUDE.md)',
+              'Spaces compartilhados',
+              'Nenhum dos acima'),
+    "S6-Q1": ('.github/copilot-instructions.md',
+              '.github/instructions/*.instructions.md',
+              'AGENTS.md',
+              'CLAUDE.md (raiz do projeto)',
+              '.cursorrules',
+              'Custom instructions em Copilot Spaces',
+              'Nenhum'),
+    "S6-Q2": ('Time inteiro contribui',
+              '1-2 pessoas dedicadas',
+              'Eu mantenho sozinho',
+              'Ninguém mantém — está desatualizado',
+              'Não temos'),
+    "S6-Q3": ('Toda semana',
+              'Mensalmente',
+              'Trimestralmente',
+              'Quando algo quebra',
+              'Nunca atualizo'),
+    "S6-Q4": ('Code style / convenções do projeto',
+              'Domain knowledge (regras de negócio)',
+              'Stack / ferramentas',
+              'Forbidden patterns (o que NÃO fazer)',
+              'Examples (good vs bad code)',
+              'Estrutura de pastas / arquitetura',
+              'Comandos comuns (test, build, deploy)',
+              'Não tenho instruções'),
+    "S6-Q5": ('Sim — Copilot Space compartilhado',
+              'Sim — repo dedicado',
+              'Sim — wiki/Confluence',
+              'Cada um mantém o seu',
+              'Não compartilhamos prompts'),
+    "S7-Q1": ('Auto-aprendizado (tentativa e erro)',
+              'Workshop interno da empresa',
+              'Documentação oficial',
+              'Vídeos do YouTube',
+              'Curso online (Coursera, Udemy, MS Learn)',
+              'Champion no time',
+              'Eventos / conferências (Microsoft Build, GitHub Universe)',
+              'Comunidades / Discord / Slack'),
+    "S7-Q2": ('Sim — eu sou',
+              'Sim — outra pessoa',
+              'Não, mas precisava ter',
+              'Não — cada um se vira'),
+    "S7-Q3": ('Sim — ativo (>5 mensagens/semana)',
+              'Sim — pouco ativo',
+              'Não temos canal dedicado',
+              'Não sei'),
+    "S7-Q4": ('DORA metrics (lead time, deployment freq, MTTR, change failure)',
+              'DX index (developer experience)',
+              'SPACE framework',
+              'Métricas de adoção do Copilot (active users)',
+              'Self-report periódico (survey)',
+              'Não medimos formalmente'),
+    "S7-Q5": ('Acerta na 1ª tentativa',
+              '2-3 iterações',
+              '4-6 iterações',
+              '7+ iterações (frequente)'),
+    "S7-Q9": ('Frequentemente — em canal compartilhado',
+              'Às vezes — pessoalmente',
+              'Raramente',
+              'Nunca'),
+    "S8-Q1": ('Sim — política formal e clara',
+              'Sim — mas pouco clara',
+              'Política informal (sem documento)',
+              'Não temos política',
+              'Não sei',
+              'formal and clear',
+              'formal y clara',
+              "don't have a policy",
+              'do not have a policy',
+              'no tenemos pol',
+              "I don't know",
+              'no lo sé'),
+    "S8-Q2": ('Sei claramente o que pode e o que NÃO pode',
+              'Tenho ideia geral',
+              'Vagamente',
+              'Não sei'),
+    "S8-Q3": ('PII / dados pessoais de clientes',
+              'Secrets / API keys / tokens',
+              'Código de IP estratégico',
+              'Dados financeiros',
+              'Dados de saúde',
+              'Nenhuma restrição (não temos política)'),
+    "S8-Q4": ('GitHub Advanced Security (GHAS)',
+              'CodeQL scanning',
+              'Secret scanning',
+              'Dependabot / dependency review',
+              'SBOM (Software Bill of Materials)',
+              'Microsoft Defender for DevOps',
+              'Microsoft Defender for Cloud',
+              'Snyk / SonarQube / outro SAST',
+              'Nenhuma'),
+    "S8-Q5": ('Sim — gate obrigatório no PR',
+              'Sim — opcional',
+              'Roda mas não bloqueia',
+              'Não roda'),
+    "S8-Q6": ('Sim — automatizado',
+              'Sim — manual quando solicitado',
+              'Não geramos',
+              'Não sei'),
+    "S8-Q7": ('Sim — review obrigatório por outro humano + scanner',
+              'Review humano obrigatório (sem scanner extra)',
+              'Review opcional',
+              'Não temos processo'),
+    "S8-Q8": ('Sempre — escopo + red-lines documentados',
+              'Frequentemente',
+              'Às vezes',
+              'Raramente / nunca',
+              'Não crio/uso custom agents'),
+    "S8-Q9": ('Sim — JIT obrigatório para agents',
+              'Sim — opcional',
+              'Não temos JIT',
+              'Não sei'),
+    "S8-Q10": ('Sim — bloqueia ativamente',
+              'Sim — alerta mas não bloqueia',
+              'Não temos',
+              'Não sei'),
+    "S8-Q11": ('Sim — logs ativos e revisados',
+              'Logs ativos mas não revisados',
+              'Não temos',
+              'Não sei'),
+    "S8-Q12": ('Sim — treinamento obrigatório anual',
+              'Sim — uma vez (no onboarding)',
+              'Não recebi treinamento',
+              'Não sei'),
+}
+
+
+def match_coverage(responses: dict) -> tuple:
+    """Return (matched, answered) across the scored questions.
+
+    A question counts as *answered* when it has a non-empty value, and as
+    *matched* when at least one selected option contains a known canonical
+    option string (case-insensitive substring, same rule the scorers use).
+    """
+    matched = 0
+    answered = 0
+    for qid, patterns in COVERAGE_QUESTIONS.items():
+        raw = _ans(responses, qid)
+        if raw is None:
+            continue
+        answered += 1
+        parts = [p.strip() for p in raw.split(";") if p.strip()] or [raw]
+        if any(_matches(part, *patterns) for part in parts):
+            matched += 1
+    return matched, answered

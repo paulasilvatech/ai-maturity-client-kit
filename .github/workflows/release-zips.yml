@@ -1,20 +1,14 @@
 name: Build per-language ZIPs
 
+# Rebuilds the three public kit ZIPs (PT, EN, ES) on every push to main and
+# refreshes a single rolling 'kits-latest' release. No paths filter on
+# purpose: the packager pulls content from most of the repo (scripts/,
+# relatorios/, coleta/, survey-*/, wizard/, referencia/, formularios/, ...),
+# so any push can change the ZIP contents. The build takes seconds.
+
 on:
   push:
     branches: [main]
-    paths:
-      - '.github/agents/**'
-      - '.github/copilot-instructions.md'
-      - '.github/prompts/**'
-      - '.github/skills/**'
-      - 'kit-en/**'
-      - 'kit-es/**'
-      - 'README.md'
-      - 'GUIA-PASSO-A-PASSO.md'
-      - 'framework.json'
-      - 'scripts/build_language_kits.py'
-      - '.github/workflows/release-zips.yml'
   workflow_dispatch:
 
 permissions:
@@ -23,19 +17,32 @@ permissions:
 jobs:
   zip:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
       - name: Build 3 ZIPs (PT, EN, ES)
         run: python3 scripts/build_language_kits.py --out dist --clean
 
-      - name: Publish latest release
+      - name: Publish rolling latest release
         env:
           GH_TOKEN: ${{ github.token }}
-          RELEASE_TAG: kits-${{ github.run_number }}
+          RELEASE_TAG: kits-latest
         run: |
+          cat > "$RUNNER_TEMP/notes.md" <<'EOF'
+          Auto-built kits per language.
+
+          - ai-maturity-kit-pt.zip: kit completo em Português (Brasil)
+          - ai-maturity-kit-en.zip: kit with English client docs
+          - ai-maturity-kit-es.zip: kit con docs cliente en Español
+          EOF
+          # Rolling release: delete the previous one (and its tag) so the tag
+          # always points at the commit that produced the assets. Idempotent
+          # across re-runs: the delete is a no-op when the release is absent.
+          gh release delete "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --cleanup-tag --yes || true
           gh release create "$RELEASE_TAG" dist/*.zip \
             --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
             --title "Latest kits (PT · EN · ES)" \
-            --notes "Auto-built kits per language.\n\n- ai-maturity-kit-pt.zip — kit completo em Português (Brasil)\n- ai-maturity-kit-en.zip — kit with English client docs\n- ai-maturity-kit-es.zip — kit con docs cliente en Español" \
+            --notes-file "$RUNNER_TEMP/notes.md" \
             --latest

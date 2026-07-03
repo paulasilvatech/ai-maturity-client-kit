@@ -2,7 +2,10 @@
 """Gera plano de capacitação personalizado a partir do Learning Survey.
 
 Lê: survey-learning/respostas-learning.json (output de /importar-survey-learning)
-Gera: saida/plano-capacitacao-<DATE>.md (12 seções, com nomes/emails dos inscritos)
+Gera:
+  - saida/plano-capacitacao-<DATE>.md (12 seções, com nomes/emails dos inscritos)
+  - saida/plano-capacitacao-<DATE>.json (dados estruturados: tópicos, cohorts,
+    champions, mentores, calendário, barreiras — consumido pelo wizard Mode D)
 """
 from __future__ import annotations
 
@@ -18,7 +21,16 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent
 KIT = SCRIPT_DIR.parent.parent
 sys.path.insert(0, str(KIT / "relatorios" / "scripts"))
-import branding
+try:
+    import branding
+except ImportError:  # partial kit copy without relatorios/: degrade to neutral output
+    import types
+
+    branding = types.SimpleNamespace(
+        md_header=lambda: "", md_footer=lambda: "",
+        json_metadata=lambda: {}, META_BAR="", CONTACT="")
+
+PII_NOTICE = "> ⚠️ Esta seção contém nomes e emails. NÃO compartilhar publicamente. Uso restrito à liderança para convites."
 
 DIMENSION_NAMES = {
     "D2": "Copilot Adoption",
@@ -360,7 +372,7 @@ def append_executive_summary(md, aggregates, respondent_count):
 
 
 def append_topics_section(md, aggregates, respondent_count):
-    md.extend(["---", "", "## 2 · Top 10 tópicos demandados (com inscritos pré-validados)", ""])
+    md.extend(["---", "", "## 2 · Top 10 tópicos demandados (com inscritos pré-validados)", "", PII_NOTICE, ""])
     for index, (topic, count) in enumerate(aggregates.topic_counts.most_common(10), 1):
         md.extend([
             f"### {index}. {topic} — {count} inscritos",
@@ -400,7 +412,7 @@ def append_people_table(md, rows, header, empty_message=None):
 
 
 def append_champions_section(md, aggregates):
-    md.extend(["---", "", "## 4 · Champions Network (3 tiers)", ""])
+    md.extend(["---", "", "## 4 · Champions Network (3 tiers)", "", PII_NOTICE, ""])
     md.append("### 🥇 Ativos (já querem ser Champion)")
     active_rows = [f"| {person['name']} | {person['email']} | Convidar para train-the-trainer |" for person in aggregates.actives]
     append_people_table(md, active_rows, "| Nome | Email | Próximo passo |", "_Nenhum dev se candidatou diretamente. Considere ativar tier 'com suporte'._")
@@ -421,19 +433,52 @@ def append_champions_section(md, aggregates):
     md.append("")
 
 
+def build_calendar_entries(aggregates):
+    """90-day calendar as structured data (single source for the .md table
+    and the .json output — multi-week rows keep every week explicit)."""
+    champion_count = len(aggregates.actives) + len(aggregates.supported)
+    champion_name = aggregates.actives[0]["name"] if aggregates.actives else "TBD"
+    entries = [{
+        "weeks": [1], "activity": "Champions Kickoff",
+        "audience": str(champion_count), "champion": "Líder Eng", "format": "2h síncrono",
+    }]
+    for week, (topic, count) in enumerate(aggregates.topic_counts.most_common(3), 2):
+        entries.append({
+            "weeks": [week], "activity": topic,
+            "audience": str(count), "champion": champion_name, "format": "4h hands-on",
+        })
+    entries.append({
+        "weeks": [4], "activity": "Office hours #1",
+        "audience": "Todos", "champion": "Champions", "format": "1h Q&A",
+    })
+    entries.append({
+        "weeks": [6, 8, 10, 12], "activity": "Office hours quinzenal",
+        "audience": "Todos", "champion": "Champions", "format": "1h Q&A",
+    })
+    return entries
+
+
+def build_30_day_schedule(aggregates):
+    """30-day schedule as structured data (single source for .md and .json)."""
+    rows = [{
+        "week": 1,
+        "activities": f"Champions Kickoff ({len(aggregates.actives)} pessoas) + agendamento de workshops",
+    }]
+    if aggregates.topic_counts:
+        topic, count = aggregates.topic_counts.most_common(1)[0]
+        rows.append({"week": 2, "activities": f"Workshop {topic} ({count} inscritos)"})
+    rows.append({"week": 3, "activities": "Office hours #1 + remoção de barreira top"})
+    rows.append({"week": 4, "activities": "Retrospectiva + revisão do plano"})
+    return rows
+
+
 def append_calendar_section(md, aggregates):
     md.extend(["---", "", "## 5 · Calendário sugerido (próximos 90 dias)", ""])
     md.extend(["| Semana | Workshop | Audiência | Champion | Formato |", SEP_5])
-    champion_count = len(aggregates.actives) + len(aggregates.supported)
-    md.append(f"| W1 | Champions Kickoff | {champion_count} | Líder Eng | 2h síncrono |")
-    champion_name = aggregates.actives[0]["name"] if aggregates.actives else "TBD"
-    for week, (topic, count) in enumerate(aggregates.topic_counts.most_common(3), 2):
-        md.append(f"| W{week} | {topic} | {count} | {champion_name} | 4h hands-on |")
-    md.extend([
-        "| W4 | Office hours #1 | Todos | Champions | 1h Q&A |",
-        "| W6, W8, W10, W12 | Office hours quinzenal | Todos | Champions | 1h Q&A |",
-        "",
-    ])
+    for entry in build_calendar_entries(aggregates):
+        weeks = ", ".join(f"W{week}" for week in entry["weeks"])
+        md.append(f"| {weeks} | {entry['activity']} | {entry['audience']} | {entry['champion']} | {entry['format']} |")
+    md.append("")
 
 
 def append_counter_table(md, title, header, counter, respondent_count):
@@ -531,15 +576,9 @@ def append_actions_section(md, aggregates):
 def append_30_day_schedule(md, aggregates):
     md.extend(["---", "", "## 11 · 📅 Cronograma 30 dias", ""])
     md.extend(["| Semana | Atividades |", SEP_2])
-    md.append(f"| **W1** | Champions Kickoff ({len(aggregates.actives)} pessoas) + agendamento de workshops |")
-    if aggregates.topic_counts:
-        topic, count = aggregates.topic_counts.most_common(1)[0]
-        md.append(f"| **W2** | Workshop {topic} ({count} inscritos) |")
-    md.extend([
-        "| **W3** | Office hours #1 + remoção de barreira top |",
-        "| **W4** | Retrospectiva + revisão do plano |",
-        "",
-    ])
+    for row in build_30_day_schedule(aggregates):
+        md.append(f"| **W{row['week']}** | {row['activities']} |")
+    md.append("")
 
 
 def append_respondents_appendix(md, respondents):
@@ -586,6 +625,76 @@ def build_report(respondents, aggregates, date):
     return "\n".join(md)
 
 
+def build_plan_data(respondents, aggregates, date, input_path):
+    """Structured JSON payload (mirrors the .md report; consumed by
+    wizard/scripts/auto_fill_from_plano.py as primary source)."""
+    respondent_count = len(respondents)
+    preferred_format = aggregates.cohort_pref.most_common(1)[0][0] if aggregates.cohort_pref else "Híbrido"
+    cohorts = [
+        {
+            "dimension": dimension_id,
+            "name": name,
+            "devs": aggregates.priorities[dimension_id],
+            "preferred_format": preferred_format,
+            "plan": "cohort de 4-6 semanas com sessões síncronas + lab self-paced",
+        }
+        for dimension_id, name in DIMENSION_NAMES.items()
+        if aggregates.priorities.get(dimension_id, 0) > 0
+    ]
+    return {
+        "metadata": {
+            "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            "generator": "survey-learning/scripts/gerar_plano_capacitacao.py",
+            "source": input_path.name,
+            "date": date,
+            "n_respondents": respondent_count,
+            "contains_personal_data": True,
+            "distribution": "restrita à liderança (nomes e emails de respondentes identificados)",
+            **branding.json_metadata(),
+        },
+        "top_topics": [
+            {
+                "topic": topic,
+                "count": count,
+                "pct": safe_pct(count, respondent_count),
+                "attendees": aggregates.topic_attendees[topic],
+            }
+            for topic, count in aggregates.topic_counts.most_common(10)
+        ],
+        "priorities": {did: aggregates.priorities[did] for did, _ in DIMENSION_NAMES.items() if aggregates.priorities.get(did)},
+        "cohorts": cohorts,
+        "champions": {
+            "active": aggregates.actives,
+            "supported": aggregates.supported,
+            "maybe": aggregates.maybe,
+            "references": [
+                {"name": name, "mentions": count}
+                for name, count in aggregates.references.most_common(3)
+            ],
+        },
+        "mentorship": {
+            "mentors": aggregates.mentors,
+            "mentees": aggregates.mentees,
+        },
+        "calendar_90_days": build_calendar_entries(aggregates),
+        "schedule_30_days": build_30_day_schedule(aggregates),
+        "barriers": [
+            {
+                "barrier": barrier,
+                "count": count,
+                "pct": safe_pct(count, respondent_count),
+                "action": barrier_action(barrier),
+            }
+            for barrier, count in aggregates.barriers.most_common(8)
+        ],
+        "format_preferences": {
+            "formats": dict(aggregates.formats.most_common()),
+            "time_per_week": dict(aggregates.time_per_week.most_common()),
+            "cohort_vs_self_paced": dict(aggregates.cohort_pref.most_common()),
+        },
+    }
+
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", default=str(KIT / "survey-learning/respostas-learning.json"))
@@ -594,13 +703,24 @@ def parse_args():
 
 
 def load_respondents(path):
-    data = json.loads(path.read_text(encoding="utf-8"))
+    """Returns the respondents list, or None (after printing a one-line
+    actionable error) when the JSON is malformed."""
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        print(f"❌ JSON inválido em {path} (linha {e.lineno}: {e.msg}). Corrija o arquivo ou re-rode /importar-survey-learning.")
+        return None
+    if not isinstance(data, dict) or not isinstance(data.get("respondents", []), list):
+        print(f"❌ Estrutura inesperada em {path}: esperado objeto com lista 'respondents'. Re-rode /importar-survey-learning.")
+        return None
     return data.get("respondents", [])
 
 
-def print_summary(out_path, respondent_count, aggregates):
+def print_summary(out_path, json_path, respondent_count, aggregates):
     display_path = out_path.relative_to(KIT) if out_path.is_relative_to(KIT) else out_path
+    display_json = json_path.relative_to(KIT) if json_path.is_relative_to(KIT) else json_path
     print(f"\n✅ Plano de capacitação → {display_path}")
+    print(f"✅ Dados estruturados   → {display_json} (fonte primária do wizard Mode D)")
     print(f"\n📊 {respondent_count} respondentes IDENTIFICADOS")
     if aggregates.topic_counts:
         print("\n📚 Top 3 tópicos demandados:")
@@ -624,6 +744,8 @@ def main():
         return 1
 
     respondents = load_respondents(input_path)
+    if respondents is None:
+        return 1
     respondent_count = len(respondents)
     if respondent_count < 3:
         print(f"⚠ Apenas {respondent_count} respondentes. Plano será preliminar.")
@@ -632,7 +754,10 @@ def main():
     aggregates = collect_aggregates(respondents)
     out_path = out_dir / f"plano-capacitacao-{date}.md"
     out_path.write_text(build_report(respondents, aggregates, date), encoding="utf-8")
-    print_summary(out_path, respondent_count, aggregates)
+    json_path = out_dir / f"plano-capacitacao-{date}.json"
+    plan_data = build_plan_data(respondents, aggregates, date, input_path)
+    json_path.write_text(json.dumps(plan_data, ensure_ascii=False, indent=2), encoding="utf-8")
+    print_summary(out_path, json_path, respondent_count, aggregates)
     return 0
 
 

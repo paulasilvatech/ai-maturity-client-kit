@@ -24,9 +24,17 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 sys.path.insert(0, str(SCRIPT_DIR.parent.parent / "relatorios" / "scripts"))
-from rubric import score_respondent, aggregate_team, DIMENSIONS, label_for
-from calcular_maturidade import _ranking
-import branding
+from rubric import RUBRIC_VERSION, score_respondent, aggregate_team, DIMENSIONS, label_for, _matches
+from calcular_maturidade import _ranking, build_maturity_output, load_respondents
+
+try:
+    import branding
+except ImportError:  # partial kit copy without relatorios/: degrade to neutral output
+    import types
+
+    branding = types.SimpleNamespace(
+        md_header=lambda: "", md_footer=lambda: "",
+        json_metadata=lambda: {}, META_BAR="", CONTACT="")
 
 
 def safe_pct(num, total):
@@ -38,7 +46,7 @@ def aggregate_responses(respondents, qid, multi=False):
     counts = Counter()
     total_responses = 0
     for r in respondents:
-        ans = r["responses"].get(qid, {}).get("value", "")
+        ans = r.get("responses", {}).get(qid, {}).get("value", "")
         if not ans:
             continue
         if multi:
@@ -57,10 +65,22 @@ def collect_quotes(respondents, qid, max_q=5):
     """Get text-livre quotes (anonymized — no respondent_id)."""
     quotes = []
     for r in respondents:
-        v = r["responses"].get(qid, {}).get("value", "").strip()
+        v = str(r.get("responses", {}).get(qid, {}).get("value", "") or "").strip()
         if v and len(v) > 20 and "[texto livre" not in v.lower() and "[resposta livre" not in v.lower():
             quotes.append(v)
     return quotes[:max_q]
+
+
+def count_respondents_matching(respondents, qid, *patterns):
+    """How many respondents answered qid with something matching any pattern
+    (tolerant case-insensitive substring match, same rule as rubric.py)."""
+    total = 0
+    for r in respondents:
+        raw = str(r.get("responses", {}).get(qid, {}).get("value", "") or "")
+        parts = [p.strip() for p in raw.split(";") if p.strip()]
+        if any(_matches(part, *patterns) for part in parts):
+            total += 1
+    return total
 
 
 def bar(pct, width=20):
@@ -83,38 +103,25 @@ def main():
         print(f"❌ {inp} não encontrado. Rode /importar-survey-devs primeiro.")
         return 1
 
-    data = json.loads(inp.read_text(encoding="utf-8"))
-    respondents = data.get("respondents", [])
+    respondents = load_respondents(inp)
+    if respondents is None:
+        return 1
     n = len(respondents)
     date = datetime.date.today().isoformat()
 
+    if n == 0:
+        print(f"❌ Nenhum respondente em {inp}. Verifique o import antes de gerar insights.")
+        return 1
     if n < 3:
         print(f"⚠ Apenas {n} respondentes. Insights serão preliminares.")
 
     # Compute maturity per respondent + aggregate
-    individual_scores = [score_respondent(r["responses"]) for r in respondents]
+    individual_scores = [score_respondent(r.get("responses", {})) for r in respondents]
     team = aggregate_team(individual_scores)
 
-    # Save maturity JSON (consolidates with calcular_maturidade.py output schema)
+    # Save maturity JSON (same schema/builder as calcular_maturidade.py)
     maturity_path = out_dir / f"maturidade-developer-survey-{date}.json"
-    maturity_data = {
-        "metadata": {
-            "computed_at": datetime.datetime.now(datetime.UTC).isoformat(),
-            "source": str(inp.name),
-            "n_respondents": n,
-            "rubric_version": "1.0 (deterministic)",
-            "anonymous": True,
-            "scope": "team aggregate (no individual scores in output)",
-            **branding.json_metadata(),
-        },
-        "team_overall": {
-            "score": team["team_overall_score"],
-            "label": team["team_overall_label"],
-            "respondents_with_overall": team["n_with_overall"],
-        },
-        "dimensions": team["dimensions"],
-        "ranking": _ranking(team["dimensions"]),
-    }
+    maturity_data = build_maturity_output(respondents, team, inp)
     maturity_path.write_text(json.dumps(maturity_data, ensure_ascii=False, indent=2), encoding="utf-8")
 
     # Build descriptive aggregations (used in report)
@@ -165,9 +172,16 @@ def main():
     uses_coding_agent = sum(c for k, c in s2_q3.items() if "Coding Agent" in k)
     pct_coding_agent = safe_pct(uses_coding_agent, n)
 
-    knows_mcp_strong = s5_concepts["S5-Q6"][1].get("Uso (ex.: Foundry A2A Tool)", 0) + \
-                       s5_concepts["S5-Q6"][1].get("Conheço o conceito", 0)
-    pct_mcp = safe_pct(knows_mcp_strong, n)
+    # MCP is asked in S3-Q6; A2A is asked in S5-Q6. Two separate metrics,
+    # both matched tolerantly (rubric-style) instead of exact Counter keys.
+    knows_mcp = count_respondents_matching(
+        respondents, "S3-Q6",
+        "Uso servidores MCP", "Configurei algum MCP", "Conheço o conceito")
+    pct_mcp = safe_pct(knows_mcp, n)
+    knows_a2a = count_respondents_matching(
+        respondents, "S5-Q6",
+        "Uso (ex", "Conheço o conceito")
+    pct_a2a = safe_pct(knows_a2a, n)
 
     # Build report
     md = []
@@ -175,7 +189,7 @@ def main():
     md.append("")
     md.append("# Developer Survey — Relatório de Insights")
     md.append("")
-    md.append(f"**Data:** {date}  ·  **Respondentes:** {n} (anônimos)  ·  **Versão da rubrica:** 1.0")
+    md.append(f"**Data:** {date}  ·  **Respondentes:** {n} (anônimos)  ·  **Versão da rubrica:** {RUBRIC_VERSION}")
     md.append(f"**Autor:** {branding.META_BAR}  ·  **Contato:** {branding.CONTACT}")
     md.append("")
 
@@ -229,8 +243,8 @@ def main():
         insights.append(f"**Adoção alta de Copilot:** {pct_daily:.0f}% usa diariamente (S2-Q2) — pronto para mover para modos avançados (Agent, Coding Agent, Spaces)")
     if pct_coding_agent < 30:
         insights.append(f"**Underutilization de Coding Agent:** apenas {pct_coding_agent:.0f}% conhece/usa Coding Agent autônomo (S2-Q3) — tópico de workshop urgente")
-    if pct_mcp < 20:
-        insights.append(f"**Conceitos avançados desconhecidos:** apenas {pct_mcp:.0f}% conhece MCP/A2A — gap de capacitação técnica")
+    if pct_mcp < 20 or pct_a2a < 20:
+        insights.append(f"**Conceitos avançados desconhecidos:** {pct_mcp:.0f}% conhece MCP (S3-Q6) e {pct_a2a:.0f}% conhece A2A (S5-Q6). Gap de capacitação técnica")
 
     md.append("### 💡 3 insights principais")
     for i, ins in enumerate(insights[:3], 1):
@@ -328,7 +342,7 @@ def main():
         top = ", ".join(f"{k}={v}" for k, v in counts.most_common(3))
         md.append(f"| **{qid}** {name} | {top} |")
     md.append("")
-    md.append(f"**Insight:** apenas {pct_mcp:.0f}% conhece MCP — conceitos avançados (A2A, handoffs, subagentes, personas) são desconhecidos pela maioria. Oportunidade de workshop técnico.")
+    md.append(f"**Insight:** {pct_mcp:.0f}% conhece MCP (S3-Q6) e {pct_a2a:.0f}% conhece A2A (S5-Q6). Conceitos avançados (handoffs, subagentes, personas) seguem o mesmo padrão. Oportunidade de workshop técnico.")
     md.append("")
 
     md.append("---")
@@ -410,8 +424,8 @@ def main():
         recs.append(("🔴 P0", "Documentar política formal de uso de IA", f"{pct_no_policy:.0f}% sem política"))
     if pct_coding_agent < 30:
         recs.append(("🟠 P1", "Workshop de Coding Agent (autônomo no GitHub.com)", f"apenas {pct_coding_agent:.0f}% conhece"))
-    if pct_mcp < 20:
-        recs.append(("🟠 P1", "Treinamento técnico avançado: MCP, A2A, custom agents", f"apenas {pct_mcp:.0f}% conhece MCP"))
+    if pct_mcp < 20 or pct_a2a < 20:
+        recs.append(("🟠 P1", "Treinamento técnico avançado: MCP, A2A, custom agents", f"{pct_mcp:.0f}% conhece MCP, {pct_a2a:.0f}% conhece A2A"))
     if pct_no_champion > 50:
         recs.append(("🟡 P2", "Formar Champions Network (3-5 devs por time)", f"{pct_no_champion:.0f}% sem Champion"))
 
@@ -444,7 +458,7 @@ def main():
 
     md.append("---")
     md.append("")
-    md.append(f"*Relatório gerado pela skill `/insights-developer-survey` · Rubrica determinística v1.0 · {date}*")
+    md.append(f"*Relatório gerado pela skill `/insights-developer-survey` · Rubrica determinística v{RUBRIC_VERSION} · {date}*")
     md.append(branding.md_footer())
 
     insights_path = out_dir / f"insights-developer-survey-{date}.md"
@@ -454,7 +468,8 @@ def main():
     print(f"\n✅ Outputs gerados:")
     print(f"   📊 {maturity_path.relative_to(kit) if maturity_path.is_relative_to(kit) else maturity_path}")
     print(f"   📄 {insights_path.relative_to(kit) if insights_path.is_relative_to(kit) else insights_path}")
-    print(f"\n🎯 Maturidade do time: {overall:.2f} ({team['team_overall_label']}) — {n} respondentes")
+    overall_console = f"{overall:.2f}" if overall is not None else "N/A"
+    print(f"\n🎯 Maturidade do time: {overall_console} ({team['team_overall_label']}) · {n} respondentes")
     print(f"\n💡 Top insights:")
     for i, ins in enumerate(insights[:3], 1):
         # truncate for console

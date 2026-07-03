@@ -1,0 +1,20 @@
+# ============================================================================
+# AI Maturity Assessment Kit -- .gitattributes
+# ============================================================================
+
+# Normalize line endings: all text files are committed and checked out as LF,
+# so the kit behaves identically on macOS, Linux, and Windows clones.
+* text=auto eol=lf
+
+# Binary formats: never normalize, never diff as text.
+*.xlsx binary
+*.pdf  binary
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.pyc  binary
+
+# Regenerable reference outputs (example PDFs/JSONs rendered from
+# respostas.json.example). Mark as generated so GitHub collapses their
+# diffs and excludes them from language statistics.
+referencia/exemplo-saida/** linguist-generated
