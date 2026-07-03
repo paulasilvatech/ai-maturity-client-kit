@@ -1,4 +1,4 @@
-# `referencia/` — Documentación técnica y ejemplos
+# `referencia/`: Documentación técnica y ejemplos
 
 Esta carpeta contiene **documentación read-only**: algoritmo oficial, descripción de las 158 preguntas, planilla auditable, calculadora interactiva y ejemplos finales de output.
 

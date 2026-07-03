@@ -1,4 +1,4 @@
-# `referencia/` — Technical documentation and examples
+# `referencia/`: Technical documentation and examples
 
 This folder contains **read-only documentation**: the official algorithm, the description of the 158 questions, the auditable spreadsheet, the interactive calculator and the final output examples.
 
