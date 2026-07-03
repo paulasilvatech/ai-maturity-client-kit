@@ -21,7 +21,7 @@ relatorios/
 │   └── pt-br.json                      (~22 KB)
 │
 ├── scripts/
-│   ├── build_payload_and_render.py     ⭐ Script principal — invocado por /gerar-relatorio
+│   ├── build_payload_and_render.py     ⭐ Script principal — invocado por /generate-reports
 │   ├── render_reports.py               (renderer puro Jinja2 + WeasyPrint)
 │   └── render_smoke.py                 (smoke test do template original — referência)
 │
@@ -86,8 +86,8 @@ python3 relatorios/scripts/render_reports.py --payload saida/payload.json --loca
 
 ### Padrão 1 — Implementation Guide (Parte 4)
 ```
-/wizard-implementacao    # 9 steps preenchem comitês, RACI, ADKAR, quick wins
-/gerar-relatorio         # re-renderiza com Parte 4 personalizada
+/implementation-wizard    # 9 steps preenchem comitês, RACI, ADKAR, quick wins
+/generate-reports         # re-renderiza com Parte 4 personalizada
 ```
 
 ### Padrão 2 — Narrativa profunda (per capability)
@@ -104,7 +104,7 @@ python3 relatorios/scripts/render_reports.py --payload saida/payload.json --out 
 ```
 
 ### Padrão 3 — Mudar idioma
-Edite `respostas.json::metadata.language` para `"en"`, `"es"` ou `"pt-br"` e rode `/gerar-relatorio`.
+Edite `respostas.json::metadata.language` para `"en"`, `"es"` ou `"pt-br"` e rode `/generate-reports`.
 
 ## Versão dos templates
 
@@ -114,5 +114,5 @@ Os templates em `templates/` espelham **`app/src/report-service/templates/`** ve
 
 - Algoritmo de scoring → [`../referencia/pontuacao-e-calculo.md`](../referencia/pontuacao-e-calculo.md)
 - Schema do payload → veja `sample_payload.json`
-- Skill que invoca → [`../.github/skills/gerar-relatorio/SKILL.md`](../.github/skills/gerar-relatorio/SKILL.md)
+- Skill que invoca → [`../.github/skills/generate-reports/SKILL.md`](../.github/skills/generate-reports/SKILL.md)
 - PDFs exemplo → [`../referencia/exemplo-saida/`](../referencia/exemplo-saida/)

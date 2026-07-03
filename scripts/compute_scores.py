@@ -2,7 +2,7 @@
 """Compute maturity scores from respostas.json using the official SUMPRODUCT algorithm.
 
 Reads:  respostas.json (client answers) + framework.json (weights, questions)
-Writes: saida/scores.json (schema documented in .github/skills/calcular-scores/SKILL.md)
+Writes: saida/scores.json (schema documented in .github/skills/calculate-scores/SKILL.md)
 
 Algorithm reference: referencia/pontuacao-e-calculo.md (1:1 with the platform).
 Three layers, all weighted averages (SUMPRODUCT):
@@ -306,7 +306,7 @@ def main() -> int:
     responses = respostas.get("responses")
     if not isinstance(responses, dict) or not responses:
         fail(f"{rel_to_kit(Path(args.respostas))} has no 'responses' object: fill it in "
-             "(see respostas.json.example) or run /importar-respostas-excel")
+             "(see respostas.json.example) or run /import-assessment-responses")
 
     check_framework_version(respostas, framework)
 

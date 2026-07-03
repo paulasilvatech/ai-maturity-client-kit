@@ -4,10 +4,10 @@ The kit's 14 Copilot primitives fall into 4 task groups. Pick the cheapest model
 
 | Task group | Primitives | Model (picker name / CLI slug) | Price per 1M tokens (in/out) | Multiplier / tier |
 |---|---|---|---|---|
-| Mechanical import | `/importar-respostas-excel`, `/importar-survey-devs`, `/importar-survey-learning`, `/preencher-planilha` | Claude Haiku 4.5 / `claude-haiku-4.5` | $1 / $5 | 0.33x (Versatile) |
-| Script / compute | `/calcular-scores`, `/gap-analysis`, `/recomendar-estrategias`, `/gerar-relatorio` | GPT-5 mini / `gpt-5-mini` | $0.25 / $2.00 | 0.33x (Lightweight) |
-| Analytical synthesis | `/insights-developer-survey`, `/plano-capacitacao` | Claude Sonnet 5 / `claude-sonnet-5` (fallback: Claude Sonnet 4.6) | $2 / $10 | Versatile (no legacy multiplier) |
-| Interactive orchestration | `@ai-maturity-assistant` agent, `/pipeline-completo` prompt, `/wizard-implementacao`, `/ai-maturity-reports` | Claude Sonnet 4.6 / `claude-sonnet-4.6` | $3 / $15 | 9x (Versatile) |
+| Mechanical import | `/import-assessment-responses`, `/import-developer-survey`, `/import-learning-survey`, `/fill-spreadsheet` | Claude Haiku 4.5 / `claude-haiku-4.5` | $1 / $5 | 0.33x (Versatile) |
+| Script / compute | `/calculate-scores`, `/gap-analysis`, `/recommend-strategies`, `/generate-reports` | GPT-5 mini / `gpt-5-mini` | $0.25 / $2.00 | 0.33x (Lightweight) |
+| Analytical synthesis | `/insights-developer-survey`, `/training-plan` | Claude Sonnet 5 / `claude-sonnet-5` (fallback: Claude Sonnet 4.6) | $2 / $10 | Versatile (no legacy multiplier) |
+| Interactive orchestration | `@ai-maturity-assistant` agent, `/run-full-pipeline` prompt, `/implementation-wizard`, `/ai-maturity-reports` | Claude Sonnet 4.6 / `claude-sonnet-4.6` | $3 / $15 | 9x (Versatile) |
 
 ## Why these picks
 
@@ -19,7 +19,7 @@ The kit's 14 Copilot primitives fall into 4 task groups. Pick the cheapest model
 ## Where the pin lives
 
 - **Agent** (`.github/agents/*.agent.md`) and **prompt** (`.github/prompts/*.prompt.md`) frontmatter support a `model:` key. Use the **single-string** display-name form (e.g. `model: Claude Sonnet 4.6`): Copilot CLI rejects the VS Code array form (github/copilot-cli#2133).
-- **Skills cannot pin a model**: the Agent Skills spec defines no `model` field in `SKILL.md`. Skill rows above are recommendations you apply via the picker, or they inherit the agent/prompt pin when run inside `@ai-maturity-assistant` or `/pipeline-completo`.
+- **Skills cannot pin a model**: the Agent Skills spec defines no `model` field in `SKILL.md`. Skill rows above are recommendations you apply via the picker, or they inherit the agent/prompt pin when run inside `@ai-maturity-assistant` or `/run-full-pipeline`.
 
 ## How to select a model
 

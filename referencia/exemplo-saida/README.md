@@ -1,6 +1,6 @@
 # Exemplos de outputs finais — AI Maturity Assessment Kit
 
-> Esta pasta contém **PDFs reais gerados a partir de `respostas.json.example`** (perfil "Cliente Exemplo S.A." — 46 respostas mockadas). São o **preview exato** do que o cliente vai gerar ao rodar `/pipeline-completo` com seus próprios dados.
+> Esta pasta contém **PDFs reais gerados a partir de `respostas.json.example`** (perfil "Cliente Exemplo S.A." — 46 respostas mockadas). São o **preview exato** do que o cliente vai gerar ao rodar `/run-full-pipeline` com seus próprios dados.
 
 ## 📊 Os 5 PDFs principais — Cliente Exemplo S.A. (PT-BR)
 
@@ -24,12 +24,12 @@ A subpasta [`en/`](en/) tem os mesmos 5 PDFs renderizados em inglês (mudando ap
 
 | Arquivo | Origem | Para que serve |
 |---|---|---|
-| **[scores.json](scores.json)** | `/calcular-scores` | Scores brutos: overall, 3 pillars, 28 capabilities |
+| **[scores.json](scores.json)** | `/calculate-scores` | Scores brutos: overall, 3 pillars, 28 capabilities |
 | **[gaps.json](gaps.json)** | `/gap-analysis` | 10 gaps ordenados por prioridade (3 P0, 0 P1, 1 P2, 6 P3) |
-| **[recomendacoes.json](recomendacoes.json)** | `/recomendar-estrategias` | 6 estratégias rankeadas + tecnologias |
-| **[payload.json](payload.json)** | `/gerar-relatorio` | Payload completo enviado ao Jinja2 (debug + customização) |
-| **[pontuacao-preenchida-2026-05-08.xlsx](pontuacao-preenchida-2026-05-08.xlsx)** | `/preencher-planilha` | Planilha auditável com SUMPRODUCT |
-| **[import-log-2026-05-08.md](import-log-2026-05-08.md)** | `/importar-respostas-excel` | Log da importação (ilustrativo) |
+| **[recomendacoes.json](recomendacoes.json)** | `/recommend-strategies` | 6 estratégias rankeadas + tecnologias |
+| **[payload.json](payload.json)** | `/generate-reports` | Payload completo enviado ao Jinja2 (debug + customização) |
+| **[pontuacao-preenchida-2026-05-08.xlsx](pontuacao-preenchida-2026-05-08.xlsx)** | `/fill-spreadsheet` | Planilha auditável com SUMPRODUCT |
+| **[import-log-2026-05-08.md](import-log-2026-05-08.md)** | `/import-assessment-responses` | Log da importação (ilustrativo) |
 
 ### ⭐ Outputs do Developer Survey (anônimo)
 
@@ -42,21 +42,21 @@ A subpasta [`en/`](en/) tem os mesmos 5 PDFs renderizados em inglês (mudando ap
 
 | Arquivo | Origem | Para que serve |
 |---|---|---|
-| **[plano-capacitacao-EXEMPLO.md](plano-capacitacao-EXEMPLO.md)** | `/plano-capacitacao` | Plano de capacitação com top 10 tópicos (inscritos pré-validados por nome+email), Champions Network, mentor pairs, calendário 90 dias |
-| **[implementation-guide-inputs-EXEMPLO.json](implementation-guide-inputs-EXEMPLO.json)** | `/wizard-implementacao` Mode D | Auto-fill que extrai 6 dos 9 inputs do wizard direto do plano de capacitação |
+| **[plano-capacitacao-EXEMPLO.md](plano-capacitacao-EXEMPLO.md)** | `/training-plan` | Plano de capacitação com top 10 tópicos (inscritos pré-validados por nome+email), Champions Network, mentor pairs, calendário 90 dias |
+| **[implementation-guide-inputs-EXEMPLO.json](implementation-guide-inputs-EXEMPLO.json)** | `/implementation-wizard` Mode D | Auto-fill que extrai 6 dos 9 inputs do wizard direto do plano de capacitação |
 
-## 🧬 Como esses PDFs foram gerados (algoritmo do `gerar-relatorio`)
+## 🧬 Como esses PDFs foram gerados (algoritmo do `generate-reports`)
 
 ```
 respostas.json.example          (input do cliente — 46 respostas mockadas)
     ↓
-/calcular-scores  →  saida/scores.json
+/calculate-scores  →  saida/scores.json
     ↓
 /gap-analysis     →  saida/gaps.json
     ↓
-/recomendar-estrategias  →  saida/recomendacoes.json
+/recommend-strategies  →  saida/recomendacoes.json
     ↓
-/gerar-relatorio invoca relatorios/scripts/build_payload_and_render.py:
+/generate-reports invoca relatorios/scripts/build_payload_and_render.py:
   ├─ Carrega relatorios/sample_payload.json (estrutura completa, ~28 caps com narrativa rica)
   ├─ SOBRESCREVE só campos que temos dados:
   │   • organization                    ← respostas::metadata
@@ -117,7 +117,7 @@ cp respostas.json.example respostas.json
 # editar respostas.json
 
 # Pipeline completo
-/pipeline-completo
+/run-full-pipeline
 # (ou os 5 comandos individuais — ver README.md raiz)
 
 # Outputs vão em saida/ — devem ser idênticos aos desta pasta
@@ -138,8 +138,8 @@ Algumas seções dos PDFs **mantém placeholders do sample_payload.json** (Acme 
 
 **Para Implementation Guide (Parte 4):**
 ```
-/wizard-implementacao   # 9 steps preenchem tudo da Parte 4
-/gerar-relatorio        # re-renderiza com dados reais
+/implementation-wizard   # 9 steps preenchem tudo da Parte 4
+/generate-reports        # re-renderiza com dados reais
 ```
 
 **Para narrativa per capability (scoring_rationale, h1_initiatives etc.):**

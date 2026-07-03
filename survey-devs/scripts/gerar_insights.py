@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Gera relatório de insights do Developer Survey.
 
-Lê: survey-devs/respostas-devs.json (output de /importar-survey-devs)
+Lê: survey-devs/respostas-devs.json (output de /import-developer-survey)
 Aplica: rubric.py (calcula maturidade L0-L4 em 7 dimensões)
 Combina: agregação descritiva (% adoção, top tools, pain points)
 Gera:
@@ -100,7 +100,7 @@ def main():
     out_dir.mkdir(parents=True, exist_ok=True)
 
     if not inp.exists():
-        print(f"❌ {inp} não encontrado. Rode /importar-survey-devs primeiro.")
+        print(f"❌ {inp} não encontrado. Rode /import-developer-survey primeiro.")
         return 1
 
     respondents = load_respondents(inp)
@@ -434,7 +434,7 @@ def main():
     for pri, action, why in recs[:5]:
         md.append(f"| {pri} | {action} | {why} |")
     md.append("")
-    md.append("> 💡 Para plano de capacitação detalhado com Champions, cohorts e calendário, rode também o **Learning & Growth Survey** (`survey-learning/`) e a skill `/plano-capacitacao`.")
+    md.append("> 💡 Para plano de capacitação detalhado com Champions, cohorts e calendário, rode também o **Learning & Growth Survey** (`survey-learning/`) e a skill `/training-plan`.")
     md.append("")
 
     md.append("---")

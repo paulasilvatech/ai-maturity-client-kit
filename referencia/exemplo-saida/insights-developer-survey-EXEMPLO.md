@@ -219,7 +219,7 @@
 |---|---|---|
 | 🟠 P1 | Workshop de Coding Agent (autônomo no GitHub.com) | apenas 20% conhece |
 
-> 💡 Para plano de capacitação detalhado com Champions, cohorts e calendário, rode também o **Learning & Growth Survey** (`survey-learning/`) e a skill `/plano-capacitacao`.
+> 💡 Para plano de capacitação detalhado com Champions, cohorts e calendário, rode também o **Learning & Growth Survey** (`survey-learning/`) e a skill `/training-plan`.
 
 ---
 

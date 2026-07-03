@@ -19,4 +19,4 @@ python3 wizard/scripts/auto_fill_from_plano.py
 Detecta automaticamente o último `plano-capacitacao-*.md` em `saida/`. Output: `implementation-guide-inputs.json` na raiz (67 % completo — você ainda precisa preencher TPO e RACI Matrix manualmente).
 
 > [!TIP]
-> Só faz sentido rodar se você já gerou o plano de capacitação via `/plano-capacitacao`. Se não, prefira o modo A (HTML wizard), B (editar JSON template) ou C (conduzir no chat) — todos descritos em [`../README.md`](../README.md).
+> Só faz sentido rodar se você já gerou o plano de capacitação via `/training-plan`. Se não, prefira o modo A (HTML wizard), B (editar JSON template) ou C (conduzir no chat) — todos descritos em [`../README.md`](../README.md).

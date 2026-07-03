@@ -7,7 +7,7 @@ Writes:
     (schema of survey-learning/respostas-mock-learning.json)
   - saida/import-learning-log-<DATE>.md (import log)
 
-Rules (deterministic, mirrors /importar-survey-learning skill):
+Rules (deterministic, mirrors /import-learning-survey skill):
   - Columns matched by header regex L<n>-Q<n> (column-order agnostic).
   - The survey is IDENTIFIED by design: name and email are preserved per
     respondent (needed to invite people to workshops). The output metadata
@@ -225,7 +225,7 @@ def main():
         *([f"- {w}" for w in warnings] or ["- (nenhum)"]),
         "",
         "## Próximo",
-        "Rode `/plano-capacitacao` para gerar o plano priorizado em saida/.",
+        "Rode `/training-plan` para gerar o plano priorizado em saida/.",
         "",
     ]
     log_path.write_text("\n".join(log_lines), encoding="utf-8")
@@ -238,7 +238,7 @@ def main():
     print("⚠ O JSON contém dados pessoais (contains_pii: true), distribuição restrita")
     if warnings:
         print(f"⚠ {len(warnings)} alerta(s), ver log")
-    print("Próximo: /plano-capacitacao")
+    print("Próximo: /training-plan")
     return 0
 
 

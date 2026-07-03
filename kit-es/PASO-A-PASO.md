@@ -52,7 +52,7 @@ Edita `respostas.json` y define `level` (0 a 4) y `evidence` para cada pregunta.
 1. Publica los 3 forms HTML en `formularios/` como 3 encuestas de Microsoft Forms (ver `INSTRUCCIONES-FORMS.md`).
 2. Recolecta respuestas del liderazgo (3-5 respondentes recomendados).
 3. Exporta el Excel consolidado a la raíz del workspace como `respostas-forms.xlsx`.
-4. Ejecuta `/importar-respostas-excel` en Copilot Chat para auto-agregar a `respostas.json`.
+4. Ejecuta `/import-assessment-responses` en Copilot Chat para auto-agregar a `respostas.json`.
 
 ## Paso 3 — Ejecuta el pipeline
 
@@ -69,7 +69,7 @@ El agente lee el estado del workspace y pregunta una cosa a la vez, invocando ca
 ### Camino power user: orquestador completo
 
 ```
-/pipeline-completo
+/run-full-pipeline
 ```
 
 Ejecuta los 6 pasos end-to-end (auto-detecta Excel e inputs del wizard).
@@ -77,11 +77,11 @@ Ejecuta los 6 pasos end-to-end (auto-detecta Excel e inputs del wizard).
 ### Camino manual: una skill a la vez
 
 ```
-/calcular-scores
+/calculate-scores
 /gap-analysis
-/recomendar-estrategias
-/wizard-implementacao
-/gerar-relatorio
+/recommend-strategies
+/implementation-wizard
+/generate-reports
 ```
 
 Útil cuando quieres inspeccionar cada JSON intermedio antes de continuar.
@@ -106,14 +106,14 @@ El PDF del Implementation Guide tiene 9 inputs específicos del cliente (miembro
 
 - **Wizard HTML**: abre `wizard/implementation-guide-wizard.html` en cualquier navegador, llena, descarga el JSON.
 - **Template JSON**: copia `wizard/implementation-guide-inputs.template.json` y edita.
-- **Chat**: ejecuta `/wizard-implementacao` y responde en conversación.
+- **Chat**: ejecuta `/implementation-wizard` y responde en conversación.
 
 El Learning & Growth Survey auto-llena 6 de los 9 inputs si ejecutaste la encuesta C primero.
 
 ## Troubleshooting
 
 > [!WARNING]
-> **`/calcular-scores` no aparece cuando escribo `/`**
+> **`/calculate-scores` no aparece cuando escribo `/`**
 >
 > No estás en modo Agent. Haz clic en el dropdown junto al ícono de Copilot y elige **Agent**. Luego recarga la ventana (`Cmd+Shift+P` → "Developer: Reload Window").
 

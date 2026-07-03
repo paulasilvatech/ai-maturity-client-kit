@@ -603,8 +603,8 @@ Opciones:
 
    ```text
 
-   /importar-survey-learning
-   /plano-capacitacao
+   /import-learning-survey
+   /training-plan
 
    ```text
 

@@ -154,7 +154,7 @@ def _require_field(data, dotted: str, path: Path, skill: str) -> None:
 
 
 def validate_scores(scores: dict, path: Path) -> None:
-    skill = "a skill /calcular-scores (ou /pipeline-completo)"
+    skill = "a skill /calculate-scores (ou /run-full-pipeline)"
     _require_field(scores, "overall.score", path, skill)
     if not isinstance(scores.get("pillars"), list):
         fail(f"{path}: campo obrigatório ausente 'pillars' (lista) — rode {skill} primeiro.")
@@ -168,7 +168,7 @@ def validate_scores(scores: dict, path: Path) -> None:
 
 
 def validate_gaps(gaps: dict, path: Path) -> None:
-    skill = "a skill /gap-analysis (ou /pipeline-completo)"
+    skill = "a skill /gap-analysis (ou /run-full-pipeline)"
     if not isinstance(gaps.get("gaps"), list):
         fail(f"{path}: campo obrigatório ausente 'gaps' (lista) — rode {skill} primeiro.")
     required = ("capability_id", "capability_name_pt_br", "pillar_id",
@@ -182,7 +182,7 @@ def validate_gaps(gaps: dict, path: Path) -> None:
 def validate_recomendacoes(recs: dict, path: Path) -> None:
     if not isinstance(recs.get("ranked_strategies"), list):
         fail(f"{path}: campo obrigatório ausente 'ranked_strategies' (lista) "
-             f"— rode a skill /recomendar-estrategias primeiro.")
+             f"— rode a skill /recommend-strategies primeiro.")
 
 
 def validate_wizard_file(ig: dict, path: Path) -> None:
@@ -205,7 +205,7 @@ def build_payload(kit: Path, *, allow_sample: bool, locale_override: str | None,
     scores_path = kit / "saida/scores.json"
     if not scores_path.exists():
         if not allow_sample:
-            fail("saida/scores.json não encontrado — rode /pipeline-completo (ou /calcular-scores) "
+            fail("saida/scores.json não encontrado — rode /run-full-pipeline (ou /calculate-scores) "
                  "primeiro, ou use --allow-sample para gerar relatórios de DEMONSTRAÇÃO "
                  "com dados fictícios (Acme Insurance Group).")
         _print_sample_banner("saida/scores.json ausente: TODOS os dados são fictícios (sample Acme).")

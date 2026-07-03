@@ -3,7 +3,7 @@
 
 Reads:  saida/gaps.json (from compute_gaps.py) + framework.json
         (strategies, technologies_per_strategy, cap -> strategies mapping)
-Writes: saida/recomendacoes.json (schema in .github/skills/recomendar-estrategias/SKILL.md)
+Writes: saida/recomendacoes.json (schema in .github/skills/recommend-strategies/SKILL.md)
 
 Rules:
   - Each gap contributes its priority_score to every strategy it maps to.
@@ -45,7 +45,7 @@ from compute_gaps import HORIZON_BY_PRIORITY, PRIORITY_ORDER  # noqa: E402
 LOW_IMPACT_CUTOFF = 0.9
 
 # Deterministic action templates per strategy (client-facing PT-BR; fixed by the
-# kit playbook — see .github/skills/recomendar-estrategias/SKILL.md).
+# kit playbook — see .github/skills/recommend-strategies/SKILL.md).
 FIRST_ACTION = {
     "S1": "Inventário de repositórios atuais → plano de migração para GitHub Enterprise Cloud em 3 ondas.",
     "S2": "Definir SLOs/SLIs para serviços críticos; implantar Azure Monitor + dashboards Grafana.",

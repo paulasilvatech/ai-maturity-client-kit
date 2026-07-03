@@ -1,6 +1,6 @@
 # `coleta/` — Coletar respostas via Microsoft Forms ou Excel multi-respondente
 
-Esta pasta tem tudo para o cliente coletar respostas de **3 ou mais pessoas** via Microsoft Forms (ou planilha Excel/SharePoint compartilhada). A skill `/importar-respostas-excel` consome o output e gera `respostas.json` agregado (média por questão).
+Esta pasta tem tudo para o cliente coletar respostas de **3 ou mais pessoas** via Microsoft Forms (ou planilha Excel/SharePoint compartilhada). A skill `/import-assessment-responses` consome o output e gera `respostas.json` agregado (média por questão).
 
 ## Arquivos
 
@@ -14,14 +14,14 @@ Esta pasta tem tudo para o cliente coletar respostas de **3 ou mais pessoas** vi
 
 - **Vai criar Microsoft Forms manual?** → leia `INSTRUCOES-FORMS.md` (Caminho A) + abra `perguntas-para-forms.md` ao lado para copy/paste
 - **Vai usar Excel/SharePoint direto (mais rápido)?** → leia `INSTRUCOES-FORMS.md` (Caminho C) + use `template-export-forms.xlsx` como base
-- **Quer testar a skill `/importar-respostas-excel` agora?** → renomeie `template-export-forms.xlsx` → `respostas-forms.xlsx`, mova para a raiz do kit, rode a skill (ela detecta automaticamente)
+- **Quer testar a skill `/import-assessment-responses` agora?** → renomeie `template-export-forms.xlsx` → `respostas-forms.xlsx`, mova para a raiz do kit, rode a skill (ela detecta automaticamente)
 
 ## Próximo passo
 
 Depois de coletar (Forms ou Excel), você terá um arquivo `respostas-forms.xlsx`. Mova para a raiz do `kit-cliente/` e rode no Copilot Chat:
 
 ```
-/importar-respostas-excel
+/import-assessment-responses
 ```
 
 Ou simplesmente:

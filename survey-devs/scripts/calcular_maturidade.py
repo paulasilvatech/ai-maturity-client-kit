@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Calcula maturidade IA dos devs a partir das respostas do survey.
 
-Lê: survey-devs/respostas-devs.json (output do /importar-survey-devs)
+Lê: survey-devs/respostas-devs.json (output do /import-developer-survey)
 Aplica: rubric.py (regras determinísticas L0-L4 por dimensão)
 Gera:
   - saida/maturidade-developer-survey-<DATE>.json (estruturado, para programs)
@@ -51,10 +51,10 @@ def load_respondents(inp: Path) -> list | None:
     try:
         data = json.loads(inp.read_text(encoding="utf-8"))
     except json.JSONDecodeError as e:
-        print(f"❌ JSON inválido em {inp} (linha {e.lineno}: {e.msg}). Corrija o arquivo ou re-rode /importar-survey-devs.")
+        print(f"❌ JSON inválido em {inp} (linha {e.lineno}: {e.msg}). Corrija o arquivo ou re-rode /import-developer-survey.")
         return None
     if not isinstance(data, dict) or not isinstance(data.get("respondents", []), list):
-        print(f"❌ Estrutura inesperada em {inp}: esperado objeto com lista 'respondents'. Re-rode /importar-survey-devs.")
+        print(f"❌ Estrutura inesperada em {inp}: esperado objeto com lista 'respondents'. Re-rode /import-developer-survey.")
         return None
     return data.get("respondents", [])
 
@@ -145,7 +145,7 @@ def main():
 
     if not inp.exists():
         print(f"❌ Input não encontrado: {inp}")
-        print(f"   Rode /importar-survey-devs primeiro.")
+        print(f"   Rode /import-developer-survey primeiro.")
         return 1
 
     respondents = load_respondents(inp)

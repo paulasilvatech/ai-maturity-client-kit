@@ -37,10 +37,10 @@ The 3 HTML surveys at `formularios/` are convenient for individual fill, but you
 ### Aggregate into the kit
 
 ```text
-/importar-respostas-excel
+/import-assessment-responses
 ```
 
-The skill computes a **simple average per question** across all respondents (same behavior as the production platform) and writes `respostas.json` ready for `/pipeline-completo`.
+The skill computes a **simple average per question** across all respondents (same behavior as the production platform) and writes `respostas.json` ready for `/run-full-pipeline`.
 
 ## Form B · Developer Survey (75 questions, anonymous)
 
@@ -51,7 +51,7 @@ The skill computes a **simple average per question** across all respondents (sam
 5. Run:
 
 ```text
-/importar-survey-devs
+/import-developer-survey
 /insights-developer-survey
 ```
 
@@ -69,8 +69,8 @@ Output: `saida/insights-developer-survey-<DATE>.md` with adoption metrics, gover
 5. Run:
 
 ```text
-/importar-survey-learning
-/plano-capacitacao
+/import-learning-survey
+/training-plan
 ```
 
 Output: `saida/plano-capacitacao-<DATE>.md` with top 10 demanded topics, cohorts per dimension D2-D8 with attendee names, Champions Network candidates, mentor↔mentee pairs, and a 90-day workshop calendar.
@@ -83,8 +83,8 @@ For serious consulting engagements, run all 3 in this order:
 1. Survey B (anonymous devs)    → behavioral baseline
 2. Survey C (identified devs)   → capacitation roadmap with attendees
 3. Survey A (leadership)        → informed organizational assessment
-4. /wizard-implementacao         → cross-validates and auto-fills the Implementation Guide
-5. /pipeline-completo            → generates the final 5 PDFs
+4. /implementation-wizard         → cross-validates and auto-fills the Implementation Guide
+5. /run-full-pipeline            → generates the final 5 PDFs
 ```
 
 This sequence makes the leadership assessment **data-informed** rather than aspirational, and produces a capacitation plan with concrete names.
@@ -113,7 +113,7 @@ If you want a fully translated question bank, contact Paula Silva on [LinkedIn](
 | Problem | Fix |
 | --- | --- |
 | Excel columns don't match question IDs | Check that you didn't reorder questions in Forms — IDs are positional |
-| `/importar-respostas-excel` fails | Make sure file is at workspace root and named exactly `respostas-forms.xlsx` |
+| `/import-assessment-responses` fails | Make sure file is at workspace root and named exactly `respostas-forms.xlsx` |
 | Anonymous responses missing for survey C | Survey C requires name+email — re-publish without anonymous mode |
 | Empty responses break aggregation | The skill skips empty cells; leave them blank rather than putting "N/A" |
 

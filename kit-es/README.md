@@ -44,7 +44,7 @@ cp respostas.json.example respostas.json
 # Abre VS Code, en Copilot Chat (modo Agent):
 #   @ai-maturity-assistant
 # o:
-#   /pipeline-completo
+#   /run-full-pipeline
 ```
 
 Los resultados aparecen en `saida/` (5 PDFs + scores.json + gaps.json + recomendacoes.json + Excel auditable).
@@ -63,11 +63,11 @@ Orden recomendado para consultoría seria: **B (anónimo) → C (identificado) �
 
 ```text
 INPUT (respostas.json o Forms .xlsx)
-  → /calcular-scores          (SUMPRODUCT 3 capas)
-  → /gap-analysis             (prioridades P0 / P1 / P2 / P3)
-  → /recomendar-estrategias   (S1 a S7 + tecnologías)
-  → /wizard-implementacao     (9 inputs para PDF Parte 4)
-  → /gerar-relatorio          (Jinja2 + WeasyPrint)
+  → /calculate-scores       (SUMPRODUCT 3 capas)
+  → /gap-analysis           (prioridades P0 / P1 / P2 / P3)
+  → /recommend-strategies   (S1 a S7 + tecnologías)
+  → /implementation-wizard  (9 inputs para PDF Parte 4)
+  → /generate-reports       (Jinja2 + WeasyPrint)
 OUTPUT (5 PDFs + XLSX auditable)
 ```
 

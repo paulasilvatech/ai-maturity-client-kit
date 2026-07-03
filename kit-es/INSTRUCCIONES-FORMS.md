@@ -37,10 +37,10 @@ Las 3 encuestas HTML en `formularios/` son convenientes para llenado individual,
 ### Agrega al kit
 
 ```text
-/importar-respostas-excel
+/import-assessment-responses
 ```
 
-La skill calcula el **promedio simple por pregunta** entre todos los respondentes (mismo comportamiento que la plataforma de producción) y escribe `respostas.json` listo para `/pipeline-completo`.
+La skill calcula el **promedio simple por pregunta** entre todos los respondentes (mismo comportamiento que la plataforma de producción) y escribe `respostas.json` listo para `/run-full-pipeline`.
 
 ## Forma B · Developer Survey (75 preguntas, anónimo)
 
@@ -51,7 +51,7 @@ La skill calcula el **promedio simple por pregunta** entre todos los respondente
 5. Ejecuta:
 
 ```text
-/importar-survey-devs
+/import-developer-survey
 /insights-developer-survey
 ```
 
@@ -69,8 +69,8 @@ Output: `saida/insights-developer-survey-<FECHA>.md` con métricas de adopción,
 5. Ejecuta:
 
 ```text
-/importar-survey-learning
-/plano-capacitacao
+/import-learning-survey
+/training-plan
 ```
 
 Output: `saida/plano-capacitacao-<FECHA>.md` con top 10 temas demandados, cohorts por dimensión D2-D8 con nombres de inscritos, candidatos a Champions Network, pares mentor↔mentee y calendario 90 días de talleres.
@@ -83,8 +83,8 @@ Para engagements de consultoría seria, ejecuta las 3 en este orden:
 1. Encuesta B (devs anónimos)       → baseline comportamental
 2. Encuesta C (devs identificados)  → roadmap de capacitación con inscritos
 3. Encuesta A (liderazgo)           → assessment organizacional informado
-4. /wizard-implementacao             → cruza validación y auto-llena el Implementation Guide
-5. /pipeline-completo                → genera los 5 PDFs finales
+4. /implementation-wizard             → cruza validación y auto-llena el Implementation Guide
+5. /run-full-pipeline                → genera los 5 PDFs finales
 ```
 
 Esta secuencia hace que el assessment del liderazgo sea **informado por datos** en vez de aspiracional, y produce un plan de capacitación con nombres concretos.
@@ -113,7 +113,7 @@ Si quieres un banco de preguntas totalmente traducido, contacta a Paula Silva en
 | Problema | Solución |
 | --- | --- |
 | Las columnas del Excel no coinciden con los IDs | Verifica que no reordenaste preguntas en Forms — los IDs son posicionales |
-| `/importar-respostas-excel` falla | Asegúrate que el archivo está en la raíz y se llama exactamente `respostas-forms.xlsx` |
+| `/import-assessment-responses` falla | Asegúrate que el archivo está en la raíz y se llama exactamente `respostas-forms.xlsx` |
 | Faltan respuestas anónimas para encuesta C | La encuesta C requiere nombre+email — re-publica sin modo anónimo |
 | Respuestas vacías rompen la agregación | La skill salta celdas vacías; déjalas en blanco en vez de poner "N/A" |
 

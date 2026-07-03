@@ -284,13 +284,13 @@ Se você rodou também o **Developer Survey** (anônimo) e o **Assessment princi
 
 | Dimensão | Auto-perception (este survey, L2) | Rubrica medida (survey-devs, D-X) | Capability assessment |
 |---|---|---|---|
-| D2 Copilot Adoption | mediana L2 | (rodar /insights-developer-survey) | (rodar /calcular-scores) |
-| D3 MS/GH Tooling Breadth | mediana L2 | (rodar /insights-developer-survey) | (rodar /calcular-scores) |
-| D4 AI Dev Practices | mediana L2 | (rodar /insights-developer-survey) | (rodar /calcular-scores) |
-| D5 Agent Concepts Mastery | mediana L2 | (rodar /insights-developer-survey) | (rodar /calcular-scores) |
-| D6 Instructions Maturity | mediana L2 | (rodar /insights-developer-survey) | (rodar /calcular-scores) |
-| D7 Best Practices | mediana L2 | (rodar /insights-developer-survey) | (rodar /calcular-scores) |
-| D8 Security & Governance | mediana L2 | (rodar /insights-developer-survey) | (rodar /calcular-scores) |
+| D2 Copilot Adoption | mediana L2 | (rodar /insights-developer-survey) | (rodar /calculate-scores) |
+| D3 MS/GH Tooling Breadth | mediana L2 | (rodar /insights-developer-survey) | (rodar /calculate-scores) |
+| D4 AI Dev Practices | mediana L2 | (rodar /insights-developer-survey) | (rodar /calculate-scores) |
+| D5 Agent Concepts Mastery | mediana L2 | (rodar /insights-developer-survey) | (rodar /calculate-scores) |
+| D6 Instructions Maturity | mediana L2 | (rodar /insights-developer-survey) | (rodar /calculate-scores) |
+| D7 Best Practices | mediana L2 | (rodar /insights-developer-survey) | (rodar /calculate-scores) |
+| D8 Security & Governance | mediana L2 | (rodar /insights-developer-survey) | (rodar /calculate-scores) |
 
 ---
 
@@ -331,7 +331,7 @@ Se você rodou também o **Developer Survey** (anônimo) e o **Assessment princi
 
 ---
 
-*Plano gerado pela skill `/plano-capacitacao` · 2026-05-08 · Sobrescreva editando manualmente o .md*
+*Plano gerado pela skill `/training-plan` · 2026-05-08 · Sobrescreva editando manualmente o .md*
 
 
 ---

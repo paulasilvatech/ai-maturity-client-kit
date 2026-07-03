@@ -52,7 +52,7 @@ Edit `respostas.json` and set `level` (0 to 4) and `evidence` for each question.
 1. Publish the 3 HTML forms at `formularios/` as 3 Microsoft Forms surveys (see `coleta/INSTRUCOES-FORMS.md` translated below).
 2. Collect responses from leadership (3-5 respondents recommended).
 3. Export the consolidated Excel to the workspace root as `respostas-forms.xlsx`.
-4. Run `/importar-respostas-excel` in Copilot Chat to auto-aggregate to `respostas.json`.
+4. Run `/import-assessment-responses` in Copilot Chat to auto-aggregate to `respostas.json`.
 
 ## Step 3 — Run the pipeline
 
@@ -69,7 +69,7 @@ The agent reads your workspace state and asks one question at a time, invoking e
 ### Power user path: full orchestrator
 
 ```
-/pipeline-completo
+/run-full-pipeline
 ```
 
 Runs the 6 steps end-to-end (auto-detects Excel and wizard inputs).
@@ -77,11 +77,11 @@ Runs the 6 steps end-to-end (auto-detects Excel and wizard inputs).
 ### Manual path: one skill at a time
 
 ```
-/calcular-scores
+/calculate-scores
 /gap-analysis
-/recomendar-estrategias
-/wizard-implementacao
-/gerar-relatorio
+/recommend-strategies
+/implementation-wizard
+/generate-reports
 ```
 
 Useful when you want to inspect each intermediate JSON before continuing.
@@ -106,14 +106,14 @@ The Implementation Guide PDF has 9 client-specific inputs (Steering Committee me
 
 - **HTML wizard**: open `wizard/implementation-guide-wizard.html` in any browser, fill, download JSON.
 - **JSON template**: copy `wizard/implementation-guide-inputs.template.json` and edit.
-- **Chat**: run `/wizard-implementacao` and answer in conversation.
+- **Chat**: run `/implementation-wizard` and answer in conversation.
 
 The Learning & Growth Survey auto-fills 6 of the 9 inputs if you ran survey C first.
 
 ## Troubleshooting
 
 > [!WARNING]
-> **`/calcular-scores` doesn't show up when I type `/`**
+> **`/calculate-scores` doesn't show up when I type `/`**
 >
 > You're not in Agent mode. Click the dropdown next to the Copilot icon and pick **Agent**. Then reload the window (`Cmd+Shift+P` → "Developer: Reload Window").
 

@@ -6,7 +6,7 @@ Writes:
   - respostas.json (with automatic backup respostas.json.backup-<timestamp>)
   - saida/import-log-<DATE>.md (import log)
 
-Rules (deterministic, mirrors /importar-respostas-excel skill):
+Rules (deterministic, mirrors /import-assessment-responses skill):
   - Columns are matched by header regex P[1-3]-C<n>-Q<n> (column-order agnostic).
   - Evidence columns are matched by "(<qid>)" anywhere in the header, so
     "Evidência (P1-C1-Q1)" / "Evidence (P1-C1-Q1)" both work.
@@ -216,7 +216,7 @@ def build_log(date, source_name, respondents, agg, qids, backup_name, warnings,
     else:
         lines.append("- (nenhum): todos os valores foram parseados com sucesso")
     lines += ["", "## Próximo passo",
-              "Rode `/pipeline-completo` para calcular scores e gerar relatório.", ""]
+              "Rode `/run-full-pipeline` para calcular scores e gerar relatório.", ""]
     return "\n".join(lines)
 
 
@@ -326,7 +326,7 @@ def main():
     print(f"   • Idioma dos relatórios (metadata.language): {language}")
     if warnings:
         print(f"⚠ {len(warnings)} alerta(s): valores não reconhecidos tratados como null (ver log)")
-    print("Próximo: /pipeline-completo")
+    print("Próximo: /run-full-pipeline")
     return 0
 
 

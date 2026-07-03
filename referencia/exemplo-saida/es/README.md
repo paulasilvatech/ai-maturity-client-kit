@@ -19,4 +19,4 @@ python3 relatorios/scripts/render_reports.py \
   --out referencia/exemplo-saida/es
 ```
 
-Para generar informes reales en Español, define `metadata.language` como `"es"` en `respostas.json` y ejecuta `/gerar-relatorio`.
+Para generar informes reales en Español, define `metadata.language` como `"es"` en `respostas.json` y ejecuta `/generate-reports`.

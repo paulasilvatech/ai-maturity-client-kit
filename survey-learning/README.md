@@ -12,7 +12,7 @@
 | **Tempo por respondente** | 60-90 min | 22-28 min | **5-8 min** |
 | **Quantidade de perguntas** | 158 | 75 | **32** |
 | **Output** | 5 PDFs production | Insights + maturidade calculada | **Plano de capacitação acionável** |
-| **Skills** | `/calcular-scores`, `/gerar-relatorio` | `/importar-survey-devs`, `/insights-developer-survey` | `/importar-survey-learning`, `/plano-capacitacao` |
+| **Skills** | `/calculate-scores`, `/generate-reports` | `/import-developer-survey`, `/insights-developer-survey` | `/import-learning-survey`, `/training-plan` |
 
 **Os 3 são complementares** — rodar os 3 dá visão 360°:
 
@@ -58,8 +58,8 @@ WIZARD-IMPLEMENTACAO (consolida em Implementation Guide PDF)
 3. Aguardar 2 semanas (lembretes em D+7 e D+12)
 4. Responses → Open in Excel
 5. Salvar como respostas-survey-learning.xlsx na raiz do kit
-6. /importar-survey-learning   → survey-learning/respostas-learning.json
-7. /plano-capacitacao          → saida/plano-capacitacao-DATA.md
+6. /import-learning-survey → survey-learning/respostas-learning.json
+7. /training-plan          → saida/plano-capacitacao-DATA.md
 ```
 
 ## 🧪 Como testar / smoke test (sem coletar respostas reais)
@@ -76,7 +76,7 @@ cp survey-learning/respostas-mock-learning.json survey-learning/respostas-learni
 No Copilot Chat (modo Agent):
 
 ```text
-/plano-capacitacao
+/training-plan
 ```
 
 Em ~30 segundos você terá `saida/plano-capacitacao-2026-05-08.md` gerado a partir dos mocks (Maria, João, Ana, Pedro, Sofia). Permite ver "como vai ficar" antes de coletar dados reais.
@@ -91,15 +91,15 @@ Escolha **[C] Learning & Growth Survey** quando o agente perguntar. Ele vai ofer
 
 ### Modo C — Simulando ciclo completo via Excel mock
 
-Para validar end-to-end (incluindo a skill `/importar-survey-learning`):
+Para validar end-to-end (incluindo a skill `/import-learning-survey`):
 
 ```bash
 # Renomeie o template para o que a skill espera detectar
 cp survey-learning/template-export-forms-learning.xlsx respostas-survey-learning.xlsx
 
 # No Copilot Chat:
-/importar-survey-learning      # parseia o Excel mock → respostas-learning.json
-/plano-capacitacao             # gera plano dos 5 mocks identificados
+/import-learning-survey      # parseia o Excel mock → respostas-learning.json
+/training-plan             # gera plano dos 5 mocks identificados
 ```
 
 Depois limpe o estado:
@@ -110,7 +110,7 @@ rm respostas-survey-learning.xlsx survey-learning/respostas-learning.json
 
 ### O que validar no smoke test
 
-Após `/plano-capacitacao`, abra `saida/plano-capacitacao-DATA.md` e confirme:
+Após `/training-plan`, abra `saida/plano-capacitacao-DATA.md` e confirme:
 
 - [ ] Sumário executivo mostra 5 respondentes
 - [ ] Top 10 tópicos demandados aparecem com **nome + email** dos inscritos (Maria, João, Ana, Pedro, Sofia)
@@ -118,7 +118,7 @@ Após `/plano-capacitacao`, abra `saida/plano-capacitacao-DATA.md` e confirme:
 - [ ] Calendário 90 dias gerado (workshops sequenciados)
 - [ ] Apêndice tem tabela de respondentes (visível para liderança)
 
-Se algum desses falta → reporte como bug da skill `/plano-capacitacao` (não do mock).
+Se algum desses falta → reporte como bug da skill `/training-plan` (não do mock).
 
 ## 📊 O que sai no plano de capacitação
 
@@ -141,12 +141,12 @@ Se algum desses falta → reporte como bug da skill `/plano-capacitacao` (não d
 
 ### ⭐ Mode D — Auto-fill do wizard
 
-Após `/plano-capacitacao` gerar `saida/plano-capacitacao-DATA.md`, ao rodar `/wizard-implementacao` o Copilot Agent **detecta automaticamente** este plano e oferece **Mode D — Auto-fill** que preenche **6 dos 9 inputs do wizard** automaticamente:
+Após `/training-plan` gerar `saida/plano-capacitacao-DATA.md`, ao rodar `/implementation-wizard` o Copilot Agent **detecta automaticamente** este plano e oferece **Mode D — Auto-fill** que preenche **6 dos 9 inputs do wizard** automaticamente:
 
 ```text
-saida/plano-capacitacao.md
+saida/plano-capacitacao-DATA.md
     ↓ alimenta automaticamente (Mode D)
-.github/skills/wizard-implementacao  (Parte 4 do PDF)
+.github/skills/implementation-wizard  (Parte 4 do PDF)
     ↓ campos populados:
 - executive_steering_committee  ← Champions Network "ativos"
 - communication_plan            ← Calendário sugerido
@@ -161,7 +161,7 @@ Você só preenche manualmente: TPO + RACI Matrix
 
 **Economia estimada do Mode D:** 30-45 min de wizard manual + dados REAIS do seu time (não placeholders do sample Acme).
 
-**Como invocar Mode D:** simplesmente rode `/wizard-implementacao` depois de `/plano-capacitacao`. O agente oferece automaticamente.
+**Como invocar Mode D:** simplesmente rode `/implementation-wizard` depois de `/training-plan`. O agente oferece automaticamente.
 
 ## 🔐 Sobre identificação (não anonimato)
 
@@ -179,8 +179,8 @@ Você só preenche manualmente: TPO + RACI Matrix
 
 ## 📚 Documentação relacionada
 
-- **Skill que importa Excel → JSON:** [`../.github/skills/importar-survey-learning/SKILL.md`](../.github/skills/importar-survey-learning/SKILL.md)
-- **Skill que gera plano:** [`../.github/skills/plano-capacitacao/SKILL.md`](../.github/skills/plano-capacitacao/SKILL.md)
+- **Skill que importa Excel → JSON:** [`../.github/skills/import-learning-survey/SKILL.md`](../.github/skills/import-learning-survey/SKILL.md)
+- **Skill que gera plano:** [`../.github/skills/training-plan/SKILL.md`](../.github/skills/training-plan/SKILL.md)
 - **Survey complementar (anônimo):** [`../survey-devs/`](../survey-devs/)
 - **Wizard que consome o plano:** [`../wizard/`](../wizard/) (alimenta Parte 4 do PDF)
 - **Assessment principal:** ver [`../README.md`](../README.md)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Gera plano de capacitação personalizado a partir do Learning Survey.
 
-Lê: survey-learning/respostas-learning.json (output de /importar-survey-learning)
+Lê: survey-learning/respostas-learning.json (output de /import-learning-survey)
 Gera:
   - saida/plano-capacitacao-<DATE>.md (12 seções, com nomes/emails dos inscritos)
   - saida/plano-capacitacao-<DATE>.json (dados estruturados: tópicos, cohorts,
@@ -545,7 +545,7 @@ def append_connection_section(md, aggregates):
     ])
     for dimension_id, name in DIMENSION_NAMES.items():
         median = median_level(aggregates.self_perception[dimension_id])
-        md.append(f"| {dimension_id} {name} | mediana {median} | (rodar /insights-developer-survey) | (rodar /calcular-scores) |")
+        md.append(f"| {dimension_id} {name} | mediana {median} | (rodar /insights-developer-survey) | (rodar /calculate-scores) |")
     md.append("")
 
 
@@ -619,7 +619,7 @@ def build_report(respondents, aggregates, date):
     md.extend([
         "---",
         "",
-        f"*Plano gerado pela skill `/plano-capacitacao` · {date} · Sobrescreva editando manualmente o .md*",
+        f"*Plano gerado pela skill `/training-plan` · {date} · Sobrescreva editando manualmente o .md*",
         branding.md_footer(),
     ])
     return "\n".join(md)
@@ -708,10 +708,10 @@ def load_respondents(path):
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as e:
-        print(f"❌ JSON inválido em {path} (linha {e.lineno}: {e.msg}). Corrija o arquivo ou re-rode /importar-survey-learning.")
+        print(f"❌ JSON inválido em {path} (linha {e.lineno}: {e.msg}). Corrija o arquivo ou re-rode /import-learning-survey.")
         return None
     if not isinstance(data, dict) or not isinstance(data.get("respondents", []), list):
-        print(f"❌ Estrutura inesperada em {path}: esperado objeto com lista 'respondents'. Re-rode /importar-survey-learning.")
+        print(f"❌ Estrutura inesperada em {path}: esperado objeto com lista 'respondents'. Re-rode /import-learning-survey.")
         return None
     return data.get("respondents", [])
 
@@ -740,7 +740,7 @@ def main():
     out_dir.mkdir(parents=True, exist_ok=True)
 
     if not input_path.exists():
-        print(f"❌ {input_path} não encontrado. Rode /importar-survey-learning primeiro.")
+        print(f"❌ {input_path} não encontrado. Rode /import-learning-survey primeiro.")
         return 1
 
     respondents = load_respondents(input_path)

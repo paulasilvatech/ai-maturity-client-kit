@@ -5,7 +5,7 @@
 Esta pasta tem **3 maneiras** de preencher os 9 inputs estruturados que populam a **Parte 4 do `roadmap_part4.pdf`** (Implementation Guide consolidado: comitês, RACI, ADKAR, quick wins, etc.). Espelha o wizard React da plataforma web (`app/frontend/src/components/dashboard/ImplementationGuideWizard.tsx`).
 
 > [!NOTE]
-> **Output em qualquer modo:** `implementation-guide-inputs.json` na **raiz do kit-cliente/** (não nesta pasta). A skill `/gerar-relatorio` detecta automaticamente e mescla no payload.
+> **Output em qualquer modo:** `implementation-guide-inputs.json` na **raiz do kit-cliente/** (não nesta pasta). A skill `/generate-reports` detecta automaticamente e mescla no payload.
 
 ## Os 9 inputs
 
@@ -50,7 +50,7 @@ O template tem placeholders ricos com instruções inline (`_help`, `_dicas`, ex
 No Copilot Chat (modo Agent):
 
 ```
-/wizard-implementacao
+/implementation-wizard
 ```
 
 Selecione modo **C** quando o Copilot perguntar. Ele:
@@ -72,20 +72,20 @@ Selecione modo **C** quando o Copilot perguntar. Ele:
 ls implementation-guide-inputs.json
 
 # Re-renderizar PDFs com a Parte 4 personalizada
-/gerar-relatorio                 # via Copilot Chat
+/generate-reports                 # via Copilot Chat
 # ou
 python3 relatorios/scripts/build_payload_and_render.py   # via CLI
 ```
 
 ## Skip e reuso
 
-- Não preencher é OK — `/gerar-relatorio` usa placeholders profissionais do `sample_payload.json` (com nomes do "Acme Insurance Group"). Cliente pode rodar o wizard depois e re-gerar quando quiser.
+- Não preencher é OK — `/generate-reports` usa placeholders profissionais do `sample_payload.json` (com nomes do "Acme Insurance Group"). Cliente pode rodar o wizard depois e re-gerar quando quiser.
 - Você pode preencher só alguns dos 9 — campos vazios mantêm placeholders.
 - Re-rodar o wizard sobrescreve apenas os campos preenchidos novamente.
 
 ## Documentação relacionada
 
-- Skill que orquestra → [`../.github/skills/wizard-implementacao/SKILL.md`](../.github/skills/wizard-implementacao/SKILL.md)
+- Skill que orquestra → [`../.github/skills/implementation-wizard/SKILL.md`](../.github/skills/implementation-wizard/SKILL.md)
 - Wizard original (React/TS) que espelhamos → `app/frontend/src/components/dashboard/ImplementationGuideWizard.tsx`
 - Como o JSON entra no PDF → [`../relatorios/templates/roadmap_part4.html.j2`](../relatorios/templates/roadmap_part4.html.j2) (procure por `wiz.`)
 
@@ -99,10 +99,10 @@ python3 relatorios/scripts/build_payload_and_render.py   # via CLI
 | Sintoma | Causa provável | Como resolver |
 |---|---|---|
 | `implementation-guide-inputs.json` não entra no PDF | Arquivo está em `wizard/` em vez da raiz | Mova para a **raiz** do kit (mesma pasta de `respostas.json`) |
-| Modo D (auto-fill) falha | Você ainda não rodou `/plano-capacitacao` | Rode o Learning Survey primeiro — ele gera o input do modo D |
+| Modo D (auto-fill) falha | Você ainda não rodou `/training-plan` | Rode o Learning Survey primeiro — ele gera o input do modo D |
 | HTML wizard não salva progresso | `localStorage` desabilitado / modo anônimo | Abra em janela normal ou use o modo B (editar JSON) |
 | Preciso preencher todos os 9 inputs? | Não — modo D preenche 6 deles automaticamente | Você preenche manualmente só **TPO** e **RACI Matrix** |
-| PDF gerado tem placeholders genéricos | Você pulou o wizard | Re-rode `/wizard-implementacao` → `/gerar-relatorio` |
+| PDF gerado tem placeholders genéricos | Você pulou o wizard | Re-rode `/implementation-wizard` → `/generate-reports` |
 | Posso editar o JSON depois de gerar? | Sim, e re-renderizar | Edite `implementation-guide-inputs.json` → `make pipeline` |
 
 </details>

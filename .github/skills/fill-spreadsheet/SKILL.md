@@ -1,6 +1,6 @@
 ---
-name: preencher-planilha
-description: Reads respostas.json and populates the auditable Excel workbook (pontuacao-e-calculo.xlsx) into saida/. Use when the user asks to "preencher a planilha", "transferir respostas para o Excel", "popular o xlsx", "fill the spreadsheet", "fill responses into Excel", "populate scoring workbook", "exportar para planilha", "Excel auditável" or similar.
+name: fill-spreadsheet
+description: Reads respostas.json and populates the auditable Excel workbook (pontuacao-e-calculo.xlsx) into saida/. Use when the user asks to "preencher a planilha", "transferir respostas para o Excel", "popular o xlsx", "fill the spreadsheet", "fill responses into Excel", "populate scoring workbook", "exportar para planilha", "Excel auditável", "rellenar la planilla", "llenar la hoja de cálculo", "exportar a Excel" or similar.
 argument-hint: optional path different from respostas.json
 ---
 
@@ -17,7 +17,7 @@ argument-hint: optional path different from respostas.json
 
 ## Expected output
 - `saida/pontuacao-preenchida-<YYYY-MM-DD>.xlsx`
-- Brief chat message (in PT-BR): how many questions answered, threshold status, relative link to generated file.
+- Brief chat message in the client language (`respostas.json::metadata.language`, default pt-br): how many questions answered, threshold status, relative link to generated file.
 
 ## Procedure (follow in order)
 
@@ -33,18 +33,18 @@ argument-hint: optional path different from respostas.json
 3. **Populate spreadsheet**:
    - Copy `referencia/pontuacao-e-calculo.xlsx` to `saida/pontuacao-preenchida-<DATE>.xlsx`.
    - Open the xlsx with `openpyxl` (preserving formulas).
-   - For each "Exemplo P1/P2/P3" sheet, replace input cell values (column C — Nível) with values from `respostas.json` for the corresponding qids (P1-C1-Q1..Q5 / P2-C1-Q1..Q6 / P3-C5-Q1..Q6). Keep weights as-is unless user requests custom.
+   - For each "Exemplo P1/P2/P3" sheet, replace input cell values (column C — Nível) with values from `respostas.json` for the corresponding qids (P1-C1-Q1..Q5 / P2-C1-Q1..Q6 / P3-C5-Q1..Q6). The populate step keeps `framework.json` weights authoritative: write its weights into the Peso column so the workbook matches `/calculate-scores`.
    - **DO NOT manually recalculate** — the SUMPRODUCT formulas in the xlsx do this when client opens in Excel.
 
 4. **(Optional) Append raw responses**:
    - Add a "Respostas brutas" sheet with the full table: `qid | nível | rótulo | evidência`.
 
-5. **Report in chat (PT-BR)**:
+5. **Report in chat.** Example client-facing output (compose in the client language):
    ```
    ✓ Planilha preenchida: saida/pontuacao-preenchida-2026-05-08.xlsx
    • Respondidas: 45 / 158 (28%)
-   • Threshold: WARNING (25–39 — resultado preliminar)
-   • Próximo passo sugerido: rodar /calcular-scores para gerar scores.json
+   • Threshold: WARNING (25-39, resultado preliminar)
+   • Próximo passo sugerido: rodar /calculate-scores para gerar scores.json
    ```
 
 ## Error handling

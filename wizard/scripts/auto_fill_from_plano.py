@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Mode D do wizard: auto-fill implementation-guide-inputs.json a partir do plano-capacitacao.
+"""Mode D do wizard: auto-fill implementation-guide-inputs.json a partir do plano de capacitação.
 
-Lê (fonte primária): saida/plano-capacitacao-<DATE>.json (output estruturado de /plano-capacitacao)
+Lê (fonte primária): saida/plano-capacitacao-<DATE>.json (output estruturado de /training-plan)
 Fallback (deprecated): saida/plano-capacitacao-<DATE>.md via regex (perde detalhes; use o JSON)
 Extrai: Champions, training, calendário, ADKAR-knowledge, quick wins
 Gera: implementation-guide-inputs.json (na raiz do kit) com 6 dos 9 campos preenchidos
@@ -36,7 +36,7 @@ MISSING_W9_12 = "(preencher — sem dados suficientes nas semanas 9-12)"
 
 
 def find_latest(out_dir: Path, pattern: str) -> Path | None:
-    """Find the most recent plano-capacitacao file matching pattern in saida/."""
+    """Find the most recent plano-capacitacao-* file matching pattern in saida/."""
     candidates = sorted(out_dir.glob(pattern), reverse=True)
     return candidates[0] if candidates else None
 
@@ -261,10 +261,10 @@ def load_plan_json(path: Path) -> dict | None:
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as e:
-        print(f"❌ JSON inválido em {path} (linha {e.lineno}: {e.msg}). Re-rode /plano-capacitacao para regenerar.")
+        print(f"❌ JSON inválido em {path} (linha {e.lineno}: {e.msg}). Re-rode /training-plan para regenerar.")
         return None
     if not isinstance(data, dict):
-        print(f"❌ Estrutura inesperada em {path}: esperado objeto JSON. Re-rode /plano-capacitacao.")
+        print(f"❌ Estrutura inesperada em {path}: esperado objeto JSON. Re-rode /training-plan.")
         return None
     return data
 
@@ -299,7 +299,7 @@ def main():
 
     if not source or not source.exists():
         print(f"❌ Plano de capacitação não encontrado em saida/.")
-        print(f"   Rode /plano-capacitacao primeiro (após /importar-survey-learning).")
+        print(f"   Rode /training-plan primeiro (após /import-learning-survey).")
         return 1
 
     print(f"📖 Lendo: {source.relative_to(KIT) if source.is_relative_to(KIT) else source}")
@@ -311,7 +311,7 @@ def main():
         fields = extract_fields_from_json(plan)
     else:
         print("⚠ DEPRECATED: parsing do .md via regex (pode perder detalhes, ex. edições manuais).")
-        print("  Re-rode /plano-capacitacao com a versão atual para gerar o JSON estruturado (fonte primária).")
+        print("  Re-rode /training-plan com a versão atual para gerar o JSON estruturado (fonte primária).")
         fields = extract_fields_from_md(source.read_text(encoding="utf-8"))
 
     payload = build_payload(fields, source.name)
@@ -328,7 +328,7 @@ def main():
     print(f"\n⚠ Você precisa preencher MANUALMENTE (Learning Survey não cobre):")
     print(f"   • tpo (Technology Product Owner)")
     print(f"   • raci_matrix")
-    print(f"\n💡 Próximo: /gerar-relatorio  → 5 PDFs com Parte 4 personalizada")
+    print(f"\n💡 Próximo: /generate-reports  → 5 PDFs com Parte 4 personalizada")
     return 0
 
 

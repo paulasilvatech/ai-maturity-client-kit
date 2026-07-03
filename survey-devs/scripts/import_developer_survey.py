@@ -6,7 +6,7 @@ Writes:
   - survey-devs/respostas-devs.json (schema of survey-devs/respostas-mock-devs.json)
   - saida/import-survey-log-<DATE>.md (import log)
 
-Rules (deterministic, mirrors /importar-survey-devs skill):
+Rules (deterministic, mirrors /import-developer-survey skill):
   - Columns matched by header regex S<n>-Q<n> (column-order agnostic).
   - The survey is ANONYMOUS: names/emails are NEVER copied to the output.
     If the Email/Name columns contain data the script warns (Forms anonymity

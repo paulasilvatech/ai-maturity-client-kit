@@ -110,7 +110,7 @@ Quando tiver respostas suficientes (recomendado: ≥3 respondentes para reduzir 
 No VS Code, abra o Copilot Chat (modo **Agent**) e digite:
 
 ```
-/importar-respostas-excel
+/import-assessment-responses
 ```
 
 A skill:
@@ -120,7 +120,7 @@ A skill:
 - Sobrescreve `respostas.json`
 - Gera `saida/import-log-<DATA>.md`
 
-Depois rode `/pipeline-completo` normalmente.
+Depois rode `/run-full-pipeline` normalmente.
 
 ---
 
@@ -199,8 +199,8 @@ Quando todos preencherem:
 ### Passo 5 · Importar e rodar
 
 ```
-/importar-respostas-excel
-/pipeline-completo
+/import-assessment-responses
+/run-full-pipeline
 ```
 
 ---
@@ -216,7 +216,7 @@ Quando todos preencherem:
 | **Edição posterior** | Difícil (cada submit é final) | Fácil (qualquer um pode mudar a qualquer hora) |
 | **Audit trail** | Nativo (timestamp por submit) | SharePoint version history |
 | **Custo de licença** | Microsoft 365 padrão | Microsoft 365 padrão |
-| **Integração com kit** | Idêntica (`/importar-respostas-excel`) | Idêntica |
+| **Integração com kit** | Idêntica (`/import-assessment-responses`) | Idêntica |
 
 **Recomendação prática:**
 - **PoC / Time pequeno (3-5 pessoas):** Excel direto (Caminho C)
@@ -227,7 +227,7 @@ Quando todos preencherem:
 
 ## 🔄 Outros formatos suportados pela skill
 
-A skill `/importar-respostas-excel` aceita qualquer Excel/CSV cujo header de pergunta comece com `P[1-3]-C\d+-Q\d+:`. Isso inclui:
+A skill `/import-assessment-responses` aceita qualquer Excel/CSV cujo header de pergunta comece com `P[1-3]-C\d+-Q\d+:`. Isso inclui:
 
 - ✅ **Microsoft Forms** export (formato oficial)
 - ✅ **Google Forms** export (Sheets → Download as .xlsx)
@@ -254,7 +254,7 @@ Faça um **kick-off de 30 min** explicando:
 - Quando vão receber o relatório
 
 ### Dica 4 · Rode ciclos curtos
-Não espere 100% de respostas para rodar `/pipeline-completo`. Rode com 25 (WARNING), depois 50 (OK), depois 100. A cada ciclo, o relatório melhora e você captura mais conversas.
+Não espere 100% de respostas para rodar `/run-full-pipeline`. Rode com 25 (WARNING), depois 50 (OK), depois 100. A cada ciclo, o relatório melhora e você captura mais conversas.
 
 ### Dica 5 · Versionamento
 Toda vez que importar, a skill cria `respostas.json.backup-<timestamp>`. Guarde esses backups — eles são seu **histórico de evolução** entre rodadas do assessment.
@@ -277,7 +277,7 @@ Toda vez que importar, a skill cria `respostas.json.backup-<timestamp>`. Guarde 
 
 - **Lista completa das 158 perguntas formatadas para Forms:** [`perguntas-para-forms.md`](perguntas-para-forms.md)
 - **Template Excel pronto (3 respondentes mockados):** [`template-export-forms.xlsx`](template-export-forms.xlsx)
-- **Skill de importação:** [`../.github/skills/importar-respostas-excel/SKILL.md`](../.github/skills/importar-respostas-excel/SKILL.md)
+- **Skill de importação:** [`../.github/skills/import-assessment-responses/SKILL.md`](../.github/skills/import-assessment-responses/SKILL.md)
 - **Algoritmo de agregação multi-respondente:** [`../referencia/pontuacao-e-calculo.md`](../referencia/pontuacao-e-calculo.md) seção 6
 
 ---
@@ -294,7 +294,7 @@ Toda vez que importar, a skill cria `respostas.json.backup-<timestamp>`. Guarde 
 | Sintoma | Causa provável | Como resolver |
 |---|---|---|
 | **Open in Excel** está desabilitado no Forms | Sua conta não tem licença M365 / Forms está em conta pessoal | Peça a um admin para mover o Forms para a conta organizacional |
-| Tenho múltiplos respondentes — como agregá-los? | Comportamento padrão da skill | `/importar-respostas-excel` faz **média automática** por questão |
+| Tenho múltiplos respondentes — como agregá-los? | Comportamento padrão da skill | `/import-assessment-responses` faz **média automática** por questão |
 | Os headers das colunas não começam com `P1-C1-Q1:` | Você não seguiu o padrão ao criar o Forms | Edite os títulos das questões no Forms para incluir o ID no começo |
 | Compartilhar Forms com gente de fora da org | Settings do Forms restringe acesso | Settings → **Anyone with the link can respond** |
 | Excel chega com colunas extras (ID, Start time, ...) | Comportamento padrão do Forms | A skill ignora colunas A-E automaticamente |
