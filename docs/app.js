@@ -253,12 +253,11 @@
     const [statement = '', ...bodyParagraphs] = about.paragraphs || [];
     const body = bodyParagraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('');
     const contactUrl = data.contactLinkedIn || '#';
-    const repositoryUrl = data.repositoryUrl || '#';
     const profileImage = resolveAsset(data.profileImage || 'assets/paula-about.jpg');
     const connectLinks = [
       { icon: 'in', title: 'LinkedIn', meta: '/paulanunes', href: contactUrl },
       { icon: 'gh', title: 'GitHub Projects', meta: '@paulasilvatech', href: 'https://github.com/paulasilvatech' },
-      { icon: 'kit', title: 'Kit Repository', meta: 'ai-maturity-client-kit', href: repositoryUrl }
+      { icon: 'gh', title: 'GitHub Personal', meta: '@paulanunes85', href: 'https://github.com/paulanunes85' }
     ].map((link) => `
       <li class="about-connect__item">
         <a class="about-connect__link" href="${escapeHtml(link.href)}" target="_blank" rel="noopener noreferrer">
@@ -302,14 +301,14 @@
         <div class="footer__stripe" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
         <div class="container">
           <section class="footer__hub" aria-label="AI Maturity Kit hub">
-            <div class="footer__kicker">${escapeHtml(content.brand.name)} | AI Maturity Assessment Kit</div>
-            <h2 class="footer__headline">Building practical AI maturity with <span class="footer__headline-accent">GitHub Copilot.</span></h2>
-            <p class="footer__summary">${escapeHtml(footer.aboutText || content.brand.tagline)}</p>
+            <div class="footer__kicker">${escapeHtml(content.brand.name)} | AI-native software engineer</div>
+            <h2 class="footer__headline">Building the future of software with <span class="footer__headline-accent">AI.</span></h2>
+            <p class="footer__summary">Everything here comes from practical field work with enterprise AI transformation: assessment kits, survey flows, scoring models, executive reports, and implementation guides built to help teams adopt AI with evidence.</p>
             <a class="footer__hub-link" href="#download">
               <span class="footer__hub-icon" aria-hidden="true">&#8599;</span>
               <span>
-                <span class="footer__hub-kicker">Start with the kit</span>
-                <span class="footer__hub-title">Download the assessment package</span>
+                <span class="footer__hub-kicker">Visit the complete kit</span>
+                <span class="footer__hub-title">AI Maturity Assessment Kit</span>
               </span>
             </a>
           </section>
