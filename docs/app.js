@@ -250,46 +250,48 @@
     const about = content.about;
     if (!about) return '';
 
-    const paragraphs = (about.paragraphs || []).map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('');
+    const [statement = '', ...bodyParagraphs] = about.paragraphs || [];
+    const body = bodyParagraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('');
     const tags = (about.tags || []).map((tag) => `<span class="about__tag">${escapeHtml(tag)}</span>`).join('');
     const contactUrl = data.contactLinkedIn || '#';
     const repositoryUrl = data.repositoryUrl || '#';
+    const profileImage = resolveAsset(data.profileImage || 'assets/paula-about.jpg');
+    const connectLinks = [
+      { icon: 'in', title: 'LinkedIn', meta: '/paulanunes', href: contactUrl },
+      { icon: 'gh', title: 'GitHub Projects', meta: '@paulasilvatech', href: 'https://github.com/paulasilvatech' },
+      { icon: 'kit', title: 'Kit Repository', meta: 'ai-maturity-client-kit', href: repositoryUrl }
+    ].map((link) => `
+      <li class="about-connect__item">
+        <a class="about-connect__link" href="${escapeHtml(link.href)}" target="_blank" rel="noopener noreferrer">
+          <span class="about-connect__icon" aria-hidden="true">${escapeHtml(link.icon)}</span>
+          <span class="about-connect__copy">
+            <span class="about-connect__title">${escapeHtml(link.title)}</span>
+            <span class="about-connect__meta">${escapeHtml(link.meta)}</span>
+          </span>
+        </a>
+      </li>`).join('');
 
     return `
-      <section class="about" id="about">
+      <section class="about section--paper" id="about">
         <div class="container">
           <div class="about__inner">
-            <div class="about__copy">
+            <div class="about__portrait">
+              <img src="${escapeHtml(profileImage)}" alt="${escapeHtml(content.brand.name)} portrait">
+            </div>
+            <div class="about__content">
               <div class="section__eyebrow">${escapeHtml(about.eyebrow)}</div>
               <h2 class="section__title">${escapeHtml(about.title)}</h2>
-              <div class="about__body">${paragraphs}</div>
-            </div>
-            <aside class="about__card" aria-label="${escapeHtml(about.eyebrow)}">
-              <h3>${escapeHtml(content.brand.name)}</h3>
-              <div class="about__role">${escapeHtml(content.brand.role)}</div>
-              <div class="about__meta">
-                <div>
-                  <div class="about__label">${escapeHtml(about.contactLabel)}</div>
-                  <a href="${escapeHtml(contactUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(about.contactText)}</a>
-                </div>
-                <div>
-                  <div class="about__label">${escapeHtml(about.repositoryLabel)}</div>
-                  <a href="${escapeHtml(repositoryUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(about.repositoryText)}</a>
-                </div>
-                <div>
-                  <div class="about__label">${escapeHtml(about.contributorsLabel)}</div>
-                  <span>${escapeHtml(about.contributorsText)}</span>
-                </div>
-                <div>
-                  <div class="about__label">${escapeHtml(about.editionsLabel)}</div>
-                  <span>${escapeHtml(about.editionsText)}</span>
-                </div>
-                <div>
-                  <div class="about__label">${escapeHtml(about.tagsLabel)}</div>
-                  <div class="about__tags">${tags}</div>
-                </div>
+              <div class="about__statement"><p>${escapeHtml(statement)}</p></div>
+              <div class="about__body">${body}</div>
+              <div class="about-connect">
+                <div class="about-connect__label">Connect</div>
+                <ul class="about-connect__grid">${connectLinks}</ul>
               </div>
-            </aside>
+              <div class="about__tag-block">
+                <div class="about-connect__label">${escapeHtml(about.tagsLabel)}</div>
+                <div class="about__tags">${tags}</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>`;
@@ -302,10 +304,22 @@
     const footerLegal = footer.legal ? `<p class="footer__legal">${escapeHtml(footer.legal)}</p>` : '';
     return `
       <footer class="footer">
+        <div class="footer__stripe" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
         <div class="container">
+          <section class="footer__hub" aria-label="AI Maturity Kit hub">
+            <div class="footer__kicker">${escapeHtml(content.brand.name)} | AI Maturity Assessment Kit</div>
+            <h2 class="footer__headline">Building practical AI maturity with <span class="footer__headline-accent">GitHub Copilot.</span></h2>
+            <p class="footer__summary">${escapeHtml(footer.aboutText || content.brand.tagline)}</p>
+            <a class="footer__hub-link" href="#download">
+              <span class="footer__hub-icon" aria-hidden="true">&#8599;</span>
+              <span>
+                <span class="footer__hub-kicker">Start with the kit</span>
+                <span class="footer__hub-title">Download the assessment package</span>
+              </span>
+            </a>
+          </section>
           <div class="footer__grid">
             <div>
-              <div class="footer__author">${escapeHtml(content.brand.name)}</div>
               <h5>${escapeHtml(footer.aboutTitle || content.title)}</h5>
               <p>${escapeHtml(footer.aboutText || content.brand.tagline)}</p>
             </div>
@@ -315,8 +329,10 @@
             </div>
             <div>
               <h5>${escapeHtml(footer.contactTitle || 'Contact')}</h5>
+              <div class="footer__author">${escapeHtml(content.brand.role)}</div>
               <div class="footer__links">
                 <a href="${escapeHtml(contactUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(footer.contactLabel || 'LinkedIn')}</a>
+                <a href="${escapeHtml(data.repositoryUrl || '#')}" target="_blank" rel="noopener noreferrer">Repository</a>
               </div>
             </div>
           </div>
