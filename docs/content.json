@@ -43,7 +43,12 @@
         "contactTitle": "Contato",
         "contactLabel": "LinkedIn",
         "hubKicker": "Visitar o site completo",
-        "hubTitle": "Agentic DevOps Platform"
+        "hubTitle": "Agentic DevOps Platform",
+        "roleTagline": "engenheira de software AI-native",
+        "headlineBefore": "Construindo o futuro do software com",
+        "headlineAccent": "IA.",
+        "repositoryLabel": "Repositorio",
+        "summary": "Tudo aqui vem do trabalho pratico de campo com transformacao de IA em grandes empresas: kits de assessment, fluxos de survey, modelos de pontuacao, relatorios executivos e guias de implementacao criados para ajudar times a adotar IA com evidencias."
       },
       "nav": {
         "pipeline": "Pipeline",
@@ -396,21 +401,22 @@
         ]
       },
       "about": {
-        "eyebrow": "About",
-        "title": "Who built this, and why.",
+        "eyebrow": "Sobre",
+        "title": "Quem construiu isto, e por que.",
         "paragraphs": [
-          "I am Paula Silva, an AI-native software engineer and Software Global Black Belt. My work spans the full AI transformation journey, from application and legacy modernization to agentic architecture and platform engineering, helping enterprise teams adopt AI-assisted development at scale. GitHub Copilot is one tool in that practice, not the whole of it.",
-          "The AI Maturity Assessment Kit packages the assessment workflow into a client-run experience: three surveys, auditable scoring, gap analysis, strategy recommendations, and executive reports that can be generated without waiting for a web platform.",
-          "It is designed to help leaders and developer teams build a shared view of maturity, training needs, governance gaps, and quick wins while keeping the process transparent, reproducible, and ready for client adaptation."
+          "Sou Paula Silva, engenheira de software AI-native e Software Global Black Belt. Meu trabalho cobre toda a jornada de transformacao com IA, da modernizacao de aplicacoes e sistemas legados a arquitetura agentica e engenharia de plataforma, ajudando times enterprise a adotar desenvolvimento assistido por IA em escala. GitHub Copilot e uma ferramenta nessa pratica, nao o todo.",
+          "O AI Maturity Assessment Kit empacota o fluxo de assessment em uma experiencia conduzida pelo cliente: tres surveys, pontuacao auditavel, analise de gaps, recomendacoes de estrategia e relatorios executivos que podem ser gerados sem depender de uma plataforma web.",
+          "Ele foi desenhado para ajudar lideres e times de desenvolvimento a construir uma visao compartilhada de maturidade, necessidades de capacitacao, gaps de governanca e quick wins, mantendo o processo transparente, reproduzivel e pronto para adaptacao ao cliente."
         ],
-        "contactLabel": "Contact",
+        "contactLabel": "Contato",
         "contactText": "linkedin.com/in/paulanunes",
-        "repositoryLabel": "Product repository",
+        "repositoryLabel": "Repositorio do produto",
         "repositoryText": "github.com/paulasilvatech/ai-maturity-client-kit",
-        "contributorsLabel": "Contributors",
+        "contributorsLabel": "Contribuidores",
         "contributorsText": "Paula Silva + GitHub Copilot",
-        "editionsLabel": "Editions",
-        "editionsText": "PT-BR, English, and Spanish kits"
+        "editionsLabel": "Edicoes",
+        "editionsText": "Kits em PT-BR, ingles e espanhol",
+        "connectLabel": "Conectar"
       }
     },
     "en": {
@@ -429,7 +435,12 @@
         "contactTitle": "Contact",
         "contactLabel": "LinkedIn",
         "hubKicker": "Visit the complete site",
-        "hubTitle": "Agentic DevOps Platform"
+        "hubTitle": "Agentic DevOps Platform",
+        "roleTagline": "AI-native software engineer",
+        "headlineBefore": "Building the future of software with",
+        "headlineAccent": "AI.",
+        "repositoryLabel": "Repository",
+        "summary": "Everything here comes from practical field work with enterprise AI transformation: assessment kits, survey flows, scoring models, executive reports, and implementation guides built to help teams adopt AI with evidence."
       },
       "nav": {
         "pipeline": "Pipeline",
@@ -796,7 +807,8 @@
         "contributorsLabel": "Contributors",
         "contributorsText": "Paula Silva + GitHub Copilot",
         "editionsLabel": "Editions",
-        "editionsText": "PT-BR, English, and Spanish kits"
+        "editionsText": "PT-BR, English, and Spanish kits",
+        "connectLabel": "Connect"
       }
     },
     "es": {
@@ -815,7 +827,12 @@
         "contactTitle": "Contacto",
         "contactLabel": "LinkedIn",
         "hubKicker": "Visitar el sitio completo",
-        "hubTitle": "Agentic DevOps Platform"
+        "hubTitle": "Agentic DevOps Platform",
+        "roleTagline": "ingeniera de software AI-native",
+        "headlineBefore": "Construyendo el futuro del software con",
+        "headlineAccent": "IA.",
+        "repositoryLabel": "Repositorio",
+        "summary": "Todo lo que hay aqui viene del trabajo practico de campo con la transformacion de IA en grandes empresas: kits de assessment, flujos de encuestas, modelos de puntuacion, informes ejecutivos y guias de implementacion creados para ayudar a los equipos a adoptar IA con evidencia."
       },
       "nav": {
         "pipeline": "Pipeline",
@@ -1168,21 +1185,22 @@
         ]
       },
       "about": {
-        "eyebrow": "About",
-        "title": "Who built this, and why.",
+        "eyebrow": "Acerca de",
+        "title": "Quien construyo esto, y por que.",
         "paragraphs": [
-          "I am Paula Silva, an AI-native software engineer and Software Global Black Belt. My work spans the full AI transformation journey, from application and legacy modernization to agentic architecture and platform engineering, helping enterprise teams adopt AI-assisted development at scale. GitHub Copilot is one tool in that practice, not the whole of it.",
-          "The AI Maturity Assessment Kit packages the assessment workflow into a client-run experience: three surveys, auditable scoring, gap analysis, strategy recommendations, and executive reports that can be generated without waiting for a web platform.",
-          "It is designed to help leaders and developer teams build a shared view of maturity, training needs, governance gaps, and quick wins while keeping the process transparent, reproducible, and ready for client adaptation."
+          "Soy Paula Silva, ingeniera de software AI-native y Software Global Black Belt. Mi trabajo abarca toda la jornada de transformacion con IA, desde la modernizacion de aplicaciones y sistemas legacy hasta la arquitectura agentica y la ingenieria de plataforma, ayudando a equipos enterprise a adoptar el desarrollo asistido por IA a escala. GitHub Copilot es una herramienta en esa practica, no el todo.",
+          "El AI Maturity Assessment Kit empaqueta el flujo de assessment en una experiencia ejecutada por el cliente: tres encuestas, puntuacion auditable, analisis de gaps, recomendaciones de estrategia e informes ejecutivos que pueden generarse sin depender de una plataforma web.",
+          "Esta disenado para ayudar a lideres y equipos de desarrollo a construir una vision compartida de madurez, necesidades de capacitacion, gaps de gobernanza y quick wins, manteniendo el proceso transparente, reproducible y listo para adaptarse al cliente."
         ],
-        "contactLabel": "Contact",
+        "contactLabel": "Contacto",
         "contactText": "linkedin.com/in/paulanunes",
-        "repositoryLabel": "Product repository",
+        "repositoryLabel": "Repositorio del producto",
         "repositoryText": "github.com/paulasilvatech/ai-maturity-client-kit",
-        "contributorsLabel": "Contributors",
+        "contributorsLabel": "Contribuidores",
         "contributorsText": "Paula Silva + GitHub Copilot",
-        "editionsLabel": "Editions",
-        "editionsText": "PT-BR, English, and Spanish kits"
+        "editionsLabel": "Ediciones",
+        "editionsText": "Kits en PT-BR, ingles y espanol",
+        "connectLabel": "Conectar"
       }
     }
   }

@@ -282,7 +282,7 @@
               <div class="about__statement"><p>${escapeHtml(statement)}</p></div>
               <div class="about__body">${body}</div>
               <div class="about-connect">
-                <div class="about-connect__label">Connect</div>
+                <div class="about-connect__label">${escapeHtml(about.connectLabel || 'Connect')}</div>
                 <ul class="about-connect__grid">${connectLinks}</ul>
               </div>
             </div>
@@ -301,9 +301,9 @@
         <div class="footer__stripe" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
         <div class="container">
           <section class="footer__hub" aria-label="AI Maturity Kit hub">
-            <div class="footer__kicker">${escapeHtml(content.brand.name)} | AI-native software engineer</div>
-            <h2 class="footer__headline">Building the future of software with <span class="footer__headline-accent">AI.</span></h2>
-            <p class="footer__summary">Everything here comes from practical field work with enterprise AI transformation: assessment kits, survey flows, scoring models, executive reports, and implementation guides built to help teams adopt AI with evidence.</p>
+            <div class="footer__kicker">${escapeHtml(content.brand.name)} | ${escapeHtml(footer.roleTagline || 'AI-native software engineer')}</div>
+            <h2 class="footer__headline">${escapeHtml(footer.headlineBefore || 'Building the future of software with')} <span class="footer__headline-accent">${escapeHtml(footer.headlineAccent || 'AI.')}</span></h2>
+            <p class="footer__summary">${escapeHtml(footer.summary || 'Everything here comes from practical field work with enterprise AI transformation: assessment kits, survey flows, scoring models, executive reports, and implementation guides built to help teams adopt AI with evidence.')}</p>
             <a class="footer__hub-link" href="${escapeHtml(data.hubUrl || 'https://agenticdevopsplatform.ai/')}">
               <span class="footer__hub-icon" aria-hidden="true">&#8599;</span>
               <span>
@@ -326,7 +326,7 @@
               <div class="footer__author">${escapeHtml(content.brand.role)}</div>
               <div class="footer__links">
                 <a href="${escapeHtml(contactUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(footer.contactLabel || 'LinkedIn')}</a>
-                <a href="${escapeHtml(data.repositoryUrl || '#')}" target="_blank" rel="noopener noreferrer">Repository</a>
+                <a href="${escapeHtml(data.repositoryUrl || '#')}" target="_blank" rel="noopener noreferrer">${escapeHtml(footer.repositoryLabel || 'Repository')}</a>
               </div>
             </div>
           </div>
