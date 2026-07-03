@@ -1,5 +1,5 @@
 {
-  "_help": "Template para preencher os 9 inputs do wizard de Implementation Guide manualmente (sem usar o HTML). Quando preencher, renomeie para 'implementation-guide-inputs.json' e mova para a raiz de kit-cliente/. A skill /gerar-relatorio vai mesclar este JSON no payload final dos PDFs (Parte 4 — Implementation Guide).",
+  "_help": "Template para preencher os 9 inputs do wizard de Implementation Guide manualmente (sem usar o HTML). Quando preencher, renomeie para 'implementation-guide-inputs.json' e mova para a raiz de kit-cliente/. A skill /generate-reports vai mesclar este JSON no payload final dos PDFs (Parte 4 — Implementation Guide).",
   "_schema_source": "Espelha app/frontend/src/components/dashboard/ImplementationGuideWizard.tsx + sample_payload.json::implementation_guide_inputs",
   "_dicas": [
     "Cada campo é texto livre — pode usar markdown (tabelas, listas, negrito).",

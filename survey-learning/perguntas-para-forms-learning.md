@@ -445,7 +445,7 @@ Opções:
 2. Exportar Excel → renomear `respostas-survey-learning.xlsx` → mover para raiz do kit
 3. No Copilot Chat (modo Agent):
    ```
-   /importar-survey-learning
-   /plano-capacitacao
+   /import-learning-survey
+   /training-plan
    ```
 4. Receber plano de capacitação priorizado em `saida/plano-capacitacao-DATA.md`

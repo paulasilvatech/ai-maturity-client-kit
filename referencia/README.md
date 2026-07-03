@@ -9,7 +9,7 @@ Esta pasta contém **documentação read-only**: algoritmo oficial, descrição 
 | Arquivo | O que é |
 |---|---|
 | **[pontuacao-e-calculo.md](pontuacao-e-calculo.md)** | Referência oficial em PT-BR — todas as fórmulas (capability/pillar/overall), threshold (25/40), multi-respondente, gap analysis (P0-P3), mapping rótulos, edge cases, glossário. **Espelha 1:1** o código `app/backend/src/scoring.rs` |
-| **[pontuacao-e-calculo.xlsx](pontuacao-e-calculo.xlsx)** | Planilha Excel auditável com 5 abas: Como ler, Exemplo P1, Exemplo P2, Exemplo P3, Resumo. Fórmulas SUMPRODUCT visíveis célula por célula |
+| **[pontuacao-e-calculo.xlsx](pontuacao-e-calculo.xlsx)** | Planilha Excel auditável com 3 abas: Leia-me, Respostas (todas as 158 questões, pesos do framework.json) e Cálculo (28 capabilities, pilares, overall, threshold). Fórmulas SUMPRODUCT visíveis célula por célula. Gerada por `scripts/generate_scoring_workbook.py` |
 | **[calculadora-pontuacao.html](calculadora-pontuacao.html)** | Calculadora interativa standalone (Tailwind + JavaScript) — 17 questões reais (1 capability por pillar), edite níveis e pesos, vê scores recalculando ao vivo. Abre no browser |
 
 ### 📚 Documentação das 158 questões

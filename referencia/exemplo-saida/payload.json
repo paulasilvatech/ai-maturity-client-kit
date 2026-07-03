@@ -23,7 +23,7 @@
   "scores": {
     "overall": {
       "weighted_avg": 1.99,
-      "level_label": "L2 — Definido",
+      "level_label": "L2 (Aprimorado por IA)",
       "target": 4.0,
       "gap": 2.01
     },
@@ -32,7 +32,7 @@
         "id": "P1",
         "name": "Developer Productivity",
         "weighted_avg": 2.69,
-        "level_label": "L3 — Gerenciado",
+        "level_label": "L3 (Otimizado por IA)",
         "target": 4.0,
         "gap": 1.31,
         "weighted_sum_calc": "22 (3×1.0 + 2×1.0 + 2×1.5 + 2×1.5 + 2×1.0 + 3×1.0 + 2×1.0 + 2×2.0)",
@@ -63,7 +63,7 @@
         "id": "P2",
         "name": "DevOps Lifecycle",
         "weighted_avg": 1.52,
-        "level_label": "L2 — Definido",
+        "level_label": "L2 (Aprimorado por IA)",
         "target": 4.0,
         "gap": 2.48,
         "weighted_sum_calc": "47 (3×1.5 + 3×2.0 + 3×2.0 + 2×2.0 + 3×2.5 + 2×2.0 + 3×2.5 + 2×1.5 + 2×0.0 + 3×2.0)",
@@ -94,7 +94,7 @@
         "id": "P3",
         "name": "Application Platform",
         "weighted_avg": 1.92,
-        "level_label": "L2 — Definido",
+        "level_label": "L2 (Aprimorado por IA)",
         "target": 4.0,
         "gap": 2.08,
         "weighted_sum_calc": "55.5 (2×2.0 + 3×0.5 + 3×3.0 + 2×2.0 + 3×2.0 + 2×2.5 + 3×3.0 + 2×2.0 + 2×1.5 + 3×3.0)",
@@ -124,7 +124,7 @@
     ],
     "pe_readiness": {
       "weighted_score": 2.6,
-      "level": "L3 — Gerenciado",
+      "level": "MEDIUM",
       "three_horizons_verdict": "BUILD FOUNDATION FIRST",
       "agentic_platform_engineering": {
         "destination_label": "Agentic Platform Engineering",
@@ -139,17 +139,17 @@
     {
       "id": "P1-C1",
       "code": "1.1",
-      "name": "AI Coding Assistants & Adoption",
+      "name": "Assistentes de Codificação IA",
       "pillar_id": "P1",
       "is_pe_indicator": true,
       "weight": 3,
       "pe_weight": 0.5,
       "current_score": 3.04,
-      "current_level_label": "L3 — Gerenciado",
+      "current_level_label": "L3 (Otimizado por IA)",
       "target_score": 4.0,
-      "target_level_label": "L4 — Otimizando",
+      "target_level_label": "L4 (Agêntico / Autônomo)",
       "gap": 0.96,
-      "gap_priority": "P2",
+      "gap_priority": "MEDIUM",
       "audience": [
         "all"
       ],
@@ -192,17 +192,17 @@
     {
       "id": "P1-C2",
       "code": "1.2",
-      "name": "Code Review with AI",
+      "name": "Plataforma de Experiência do Desenvolvedor",
       "pillar_id": "P1",
       "is_pe_indicator": false,
       "weight": 2,
       "pe_weight": 0,
       "current_score": 2.49,
-      "current_level_label": "L2 — Definido",
+      "current_level_label": "L2 (Aprimorado por IA)",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0.51,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "developer"
       ],
@@ -238,7 +238,7 @@
     {
       "id": "P1-C3",
       "code": "1.3",
-      "name": "Test Generation & TDD with AI",
+      "name": "Gestão do Conhecimento",
       "pillar_id": "P1",
       "is_pe_indicator": false,
       "weight": 2,
@@ -246,9 +246,9 @@
       "current_score": 0.0,
       "current_level_label": "Sem resposta",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "developer"
       ],
@@ -289,17 +289,17 @@
     {
       "id": "P1-C4",
       "code": "1.4",
-      "name": "Documentation Automation",
+      "name": "Automação de Revisão de Código",
       "pillar_id": "P1",
       "is_pe_indicator": false,
       "weight": 2,
       "pe_weight": 0,
       "current_score": 2.5,
-      "current_level_label": "L3 — Gerenciado",
+      "current_level_label": "L3 (Otimizado por IA)",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0.5,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "developer"
       ],
@@ -335,7 +335,7 @@
     {
       "id": "P1-C5",
       "code": "1.5",
-      "name": "Developer Onboarding & Skills",
+      "name": "Onboarding e Treinamento de Desenvolvedores",
       "pillar_id": "P1",
       "is_pe_indicator": false,
       "weight": 2,
@@ -343,9 +343,9 @@
       "current_score": 0.0,
       "current_level_label": "Sem resposta",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "all"
       ],
@@ -381,7 +381,7 @@
     {
       "id": "P1-C6",
       "code": "1.6",
-      "name": "IDE & Local Dev Environment",
+      "name": "Inner Source e Colaboração",
       "pillar_id": "P1",
       "is_pe_indicator": true,
       "weight": 3,
@@ -389,9 +389,9 @@
       "current_score": 0.0,
       "current_level_label": "Sem resposta",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "developer"
       ],
@@ -427,7 +427,7 @@
     {
       "id": "P1-C7",
       "code": "1.7",
-      "name": "AI-Assisted Refactoring & Modernization",
+      "name": "Automação de Documentação",
       "pillar_id": "P1",
       "is_pe_indicator": false,
       "weight": 2,
@@ -435,9 +435,9 @@
       "current_score": 0.0,
       "current_level_label": "Sem resposta",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "developer"
       ],
@@ -473,7 +473,7 @@
     {
       "id": "P1-C8",
       "code": "1.8",
-      "name": "Productivity Metrics & SPACE",
+      "name": "Medição de Produtividade do Desenvolvedor",
       "pillar_id": "P1",
       "is_pe_indicator": false,
       "weight": 2,
@@ -481,9 +481,9 @@
       "current_score": 0.0,
       "current_level_label": "Sem resposta",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "all"
       ],
@@ -519,17 +519,17 @@
     {
       "id": "P2-C1",
       "code": "2.1",
-      "name": "Source Control & Branching Strategy",
+      "name": "Inteligência de Pipeline CI/CD",
       "pillar_id": "P2",
       "is_pe_indicator": false,
       "weight": 3,
       "pe_weight": 0,
       "current_score": 2.33,
-      "current_level_label": "L2 — Definido",
+      "current_level_label": "L2 (Aprimorado por IA)",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0.67,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "all"
       ],
@@ -565,7 +565,7 @@
     {
       "id": "P2-C2",
       "code": "2.2",
-      "name": "CI/CD Pipelines",
+      "name": "Infraestrutura como Código",
       "pillar_id": "P2",
       "is_pe_indicator": true,
       "weight": 3,
@@ -573,9 +573,9 @@
       "current_score": 0.0,
       "current_level_label": "Sem resposta",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "all"
       ],
@@ -611,17 +611,17 @@
     {
       "id": "P2-C3",
       "code": "2.3",
-      "name": "Build & Artifact Management",
+      "name": "Observabilidade e Monitoramento",
       "pillar_id": "P2",
       "is_pe_indicator": false,
       "weight": 3,
       "pe_weight": 0,
       "current_score": 2.4,
-      "current_level_label": "L2 — Definido",
+      "current_level_label": "L2 (Aprimorado por IA)",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0.6,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "all"
       ],
@@ -657,17 +657,17 @@
     {
       "id": "P2-C4",
       "code": "2.4",
-      "name": "Test Automation",
+      "name": "Integração de Segurança (DevSecOps)",
       "pillar_id": "P2",
       "is_pe_indicator": false,
       "weight": 2,
       "pe_weight": 0,
       "current_score": 0.75,
-      "current_level_label": "L1 — Em Desenvolvimento",
+      "current_level_label": "L1 (Assistido por IA)",
       "target_score": 3.5,
-      "target_level_label": "L4 — Otimizando",
+      "target_level_label": "L4 (Agêntico / Autônomo)",
       "gap": 2.75,
-      "gap_priority": "P0",
+      "gap_priority": "CRITICAL",
       "audience": [
         "all"
       ],
@@ -703,7 +703,7 @@
     {
       "id": "P2-C5",
       "code": "2.5",
-      "name": "Security & DevSecOps",
+      "name": "Estratégias de Release e Implantação",
       "pillar_id": "P2",
       "is_pe_indicator": true,
       "weight": 3,
@@ -711,9 +711,9 @@
       "current_score": 0.0,
       "current_level_label": "Sem resposta",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "all"
       ],
@@ -750,7 +750,7 @@
     {
       "id": "P2-C6",
       "code": "2.6",
-      "name": "Release & Deployment Strategy",
+      "name": "Automação de Testes",
       "pillar_id": "P2",
       "is_pe_indicator": false,
       "weight": 2,
@@ -758,9 +758,9 @@
       "current_score": 0.0,
       "current_level_label": "Sem resposta",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "all"
       ],
@@ -796,7 +796,7 @@
     {
       "id": "P2-C7",
       "code": "2.7",
-      "name": "Observability & Monitoring",
+      "name": "Gestão de Incidentes e SRE",
       "pillar_id": "P2",
       "is_pe_indicator": true,
       "weight": 3,
@@ -804,9 +804,9 @@
       "current_score": 0.0,
       "current_level_label": "Sem resposta",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "all"
       ],
@@ -843,7 +843,7 @@
     {
       "id": "P2-C8",
       "code": "2.8",
-      "name": "Incident Management & SRE",
+      "name": "Gestão de Artefatos e Pacotes",
       "pillar_id": "P2",
       "is_pe_indicator": false,
       "weight": 2,
@@ -851,9 +851,9 @@
       "current_score": 0.0,
       "current_level_label": "Sem resposta",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "all"
       ],
@@ -889,7 +889,7 @@
     {
       "id": "P2-C9",
       "code": "2.9",
-      "name": "Chaos Engineering",
+      "name": "Gestão de Mudanças e GitOps",
       "pillar_id": "P2",
       "is_pe_indicator": false,
       "weight": 2,
@@ -897,9 +897,9 @@
       "current_score": 0.0,
       "current_level_label": "Sem resposta",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "all"
       ],
@@ -935,17 +935,17 @@
     {
       "id": "P2-C10",
       "code": "2.10",
-      "name": "Compliance & Audit Automation",
+      "name": "Segurança de Dependências e Cadeia de Suprimentos",
       "pillar_id": "P2",
       "is_pe_indicator": false,
       "weight": 3,
       "pe_weight": 0,
       "current_score": 0.67,
-      "current_level_label": "L1 — Em Desenvolvimento",
+      "current_level_label": "L1 (Assistido por IA)",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 2.33,
-      "gap_priority": "P0",
+      "gap_priority": "CRITICAL",
       "audience": [
         "all"
       ],
@@ -981,17 +981,17 @@
     {
       "id": "P3-C1",
       "code": "3.1",
-      "name": "Cloud-Native Architecture",
+      "name": "Arquitetura Cloud-Native",
       "pillar_id": "P3",
       "is_pe_indicator": true,
       "weight": 2,
       "pe_weight": 0.5,
       "current_score": 2.6,
-      "current_level_label": "L3 — Gerenciado",
+      "current_level_label": "L3 (Otimizado por IA)",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0.4,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "all"
       ],
@@ -1027,7 +1027,7 @@
     {
       "id": "P3-C2",
       "code": "3.2",
-      "name": "Internal Developer Platform (IDP)",
+      "name": "Gestão de APIs",
       "pillar_id": "P3",
       "is_pe_indicator": true,
       "weight": 3,
@@ -1035,9 +1035,9 @@
       "current_score": 0.0,
       "current_level_label": "Sem resposta",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "all"
       ],
@@ -1074,17 +1074,17 @@
     {
       "id": "P3-C3",
       "code": "3.3",
-      "name": "Containerization & Orchestration",
+      "name": "Desenvolvimento de Aplicações IA",
       "pillar_id": "P3",
       "is_pe_indicator": false,
       "weight": 3,
       "pe_weight": 0,
       "current_score": 2.25,
-      "current_level_label": "L2 — Definido",
+      "current_level_label": "L2 (Aprimorado por IA)",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0.75,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "all"
       ],
@@ -1121,7 +1121,7 @@
     {
       "id": "P3-C4",
       "code": "3.4",
-      "name": "API & Microservices Management",
+      "name": "Plataforma de Dados e Lakehouse",
       "pillar_id": "P3",
       "is_pe_indicator": false,
       "weight": 2,
@@ -1129,9 +1129,9 @@
       "current_score": 0.0,
       "current_level_label": "Sem resposta",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "all"
       ],
@@ -1167,17 +1167,17 @@
     {
       "id": "P3-C5",
       "code": "3.5",
-      "name": "Data Platform & Lakehouse",
+      "name": "Aplicações Agênticas",
       "pillar_id": "P3",
       "is_pe_indicator": false,
       "weight": 3,
       "pe_weight": 0,
       "current_score": 0.83,
-      "current_level_label": "L1 — Em Desenvolvimento",
+      "current_level_label": "L1 (Assistido por IA)",
       "target_score": 4.0,
-      "target_level_label": "L4 — Otimizando",
+      "target_level_label": "L4 (Agêntico / Autônomo)",
       "gap": 3.17,
-      "gap_priority": "P0",
+      "gap_priority": "CRITICAL",
       "audience": [
         "all"
       ],
@@ -1213,7 +1213,7 @@
     {
       "id": "P3-C6",
       "code": "3.6",
-      "name": "AI/ML Platform",
+      "name": "Gestão de Identidades e Acessos",
       "pillar_id": "P3",
       "is_pe_indicator": true,
       "weight": 2,
@@ -1221,9 +1221,9 @@
       "current_score": 0.0,
       "current_level_label": "Sem resposta",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "all"
       ],
@@ -1260,7 +1260,7 @@
     {
       "id": "P3-C7",
       "code": "3.7",
-      "name": "Infrastructure-as-Code",
+      "name": "Multi-Cloud e Portabilidade",
       "pillar_id": "P3",
       "is_pe_indicator": false,
       "weight": 3,
@@ -1268,9 +1268,9 @@
       "current_score": 0.0,
       "current_level_label": "Sem resposta",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "all"
       ],
@@ -1307,7 +1307,7 @@
     {
       "id": "P3-C8",
       "code": "3.8",
-      "name": "FinOps & Cost Optimization",
+      "name": "Desempenho e Escalabilidade",
       "pillar_id": "P3",
       "is_pe_indicator": false,
       "weight": 2,
@@ -1315,9 +1315,9 @@
       "current_score": 0.0,
       "current_level_label": "Sem resposta",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "all"
       ],
@@ -1353,7 +1353,7 @@
     {
       "id": "P3-C9",
       "code": "3.9",
-      "name": "Reliability & Resilience Engineering",
+      "name": "FinOps e Otimização de Custos",
       "pillar_id": "P3",
       "is_pe_indicator": false,
       "weight": 2,
@@ -1361,9 +1361,9 @@
       "current_score": 0.0,
       "current_level_label": "Sem resposta",
       "target_score": 3.0,
-      "target_level_label": "L3 — Gerenciado",
+      "target_level_label": "L3 (Otimizado por IA)",
       "gap": 0,
-      "gap_priority": "P3",
+      "gap_priority": "LOW",
       "audience": [
         "all"
       ],
@@ -1536,7 +1536,7 @@
       "current": 0.75,
       "target": 3.5,
       "gap": 2.75,
-      "priority": "P0",
+      "priority": "CRITICAL",
       "recommended_actions": {
         "h1": "Definir baseline e estabelecer métricas de cobertura.",
         "h2": "Expandir piloto para >50% das equipes; instrumentar OKRs.",
@@ -1550,7 +1550,7 @@
       "current": 0.83,
       "target": 4.0,
       "gap": 3.17,
-      "priority": "P0",
+      "priority": "CRITICAL",
       "recommended_actions": {
         "h1": "Definir baseline e estabelecer métricas de cobertura.",
         "h2": "Expandir piloto para >50% das equipes; instrumentar OKRs.",
@@ -1564,7 +1564,7 @@
       "current": 0.67,
       "target": 3.0,
       "gap": 2.33,
-      "priority": "P0",
+      "priority": "CRITICAL",
       "recommended_actions": {
         "h1": "Definir baseline e estabelecer métricas de cobertura.",
         "h2": "Expandir piloto para >50% das equipes; instrumentar OKRs.",
@@ -1578,7 +1578,7 @@
       "current": 3.04,
       "target": 4.0,
       "gap": 0.96,
-      "priority": "P2",
+      "priority": "MEDIUM",
       "recommended_actions": {
         "h1": "Definir baseline e estabelecer métricas de cobertura.",
         "h2": "Expandir piloto para >50% das equipes; instrumentar OKRs.",
@@ -1592,7 +1592,7 @@
       "current": 2.33,
       "target": 3.0,
       "gap": 0.67,
-      "priority": "P3",
+      "priority": "LOW",
       "recommended_actions": {
         "h1": "Definir baseline e estabelecer métricas de cobertura.",
         "h2": "Expandir piloto para >50% das equipes; instrumentar OKRs.",
@@ -1606,7 +1606,7 @@
       "current": 2.25,
       "target": 3.0,
       "gap": 0.75,
-      "priority": "P3",
+      "priority": "LOW",
       "recommended_actions": {
         "h1": "Definir baseline e estabelecer métricas de cobertura.",
         "h2": "Expandir piloto para >50% das equipes; instrumentar OKRs.",
@@ -1620,7 +1620,7 @@
       "current": 2.4,
       "target": 3.0,
       "gap": 0.6,
-      "priority": "P3",
+      "priority": "LOW",
       "recommended_actions": {
         "h1": "Definir baseline e estabelecer métricas de cobertura.",
         "h2": "Expandir piloto para >50% das equipes; instrumentar OKRs.",
@@ -1634,7 +1634,7 @@
       "current": 2.5,
       "target": 3.0,
       "gap": 0.5,
-      "priority": "P3",
+      "priority": "LOW",
       "recommended_actions": {
         "h1": "Definir baseline e estabelecer métricas de cobertura.",
         "h2": "Expandir piloto para >50% das equipes; instrumentar OKRs.",
@@ -1648,7 +1648,7 @@
       "current": 2.49,
       "target": 3.0,
       "gap": 0.51,
-      "priority": "P3",
+      "priority": "LOW",
       "recommended_actions": {
         "h1": "Definir baseline e estabelecer métricas de cobertura.",
         "h2": "Expandir piloto para >50% das equipes; instrumentar OKRs.",
@@ -1662,7 +1662,7 @@
       "current": 2.6,
       "target": 3.0,
       "gap": 0.4,
-      "priority": "P3",
+      "priority": "LOW",
       "recommended_actions": {
         "h1": "Definir baseline e estabelecer métricas de cobertura.",
         "h2": "Expandir piloto para >50% das equipes; instrumentar OKRs.",
@@ -2312,175 +2312,72 @@
   "implementation_guide_inputs": {
     "executive_steering_committee": [
       {
-        "name": "Maria Santos",
-        "role": "Chief Technology Officer (Sponsor)"
+        "name": "Maria Tech Leader",
+        "role": "maria.tl@cliente-exemplo.com.br"
       },
       {
-        "name": "James Carter",
-        "role": "VP of Engineering"
+        "name": "Joao Backend SRE",
+        "role": "joao.sre@cliente-exemplo.com.br"
       },
       {
-        "name": "Priya Iyer",
-        "role": "Chief Information Security Officer"
-      },
-      {
-        "name": "David Lin",
-        "role": "Chief Financial Officer (Investment Approver)"
-      },
-      {
-        "name": "Sofia Mendes",
-        "role": "Head of Product"
-      }
-    ],
-    "tpo": {
-      "program_manager": "Carlos Rivera",
-      "members": [
-        "Anna Becker (Lead Architect)",
-        "Tom Yamada (Change Manager)",
-        "Lisa Park (PMO Lead)"
-      ]
-    },
-    "raci_matrix": [
-      {
-        "activity": "Pillar Initiative Approval",
-        "r": "Pillar Lead",
-        "a": "TPO Director",
-        "c": "Steering Committee",
-        "i": "All Engineering"
-      },
-      {
-        "activity": "Effort Tier Sign-off",
-        "r": "TPO Director",
-        "a": "CFO + CTO",
-        "c": "Steering",
-        "i": "Pillar Leads"
-      },
-      {
-        "activity": "Hiring Approval",
-        "r": "Pillar Lead",
-        "a": "VP Eng",
-        "c": "HR Partner",
-        "i": "TPO"
-      },
-      {
-        "activity": "Quarterly Roadmap Update",
-        "r": "TPO Director",
-        "a": "CTO",
-        "c": "Steering, Pillar Leads",
-        "i": "All Eng"
-      },
-      {
-        "activity": "Major Risk Escalation",
-        "r": "TPO Director",
-        "a": "Steering Committee",
-        "c": "Pillar Leads",
-        "i": "Working Groups"
+        "name": "Sofia Frontend Lead",
+        "role": "sofia.fe@cliente-exemplo.com.br"
       }
     ],
     "communication_plan": [
       {
-        "audience": "All Engineering",
-        "channel": "Quarterly Town Hall + monthly newsletter",
-        "frequency": "Quarterly + Monthly",
-        "owner": "Change Manager"
+        "audience": "3",
+        "channel": "W1",
+        "frequency": "Champions Kickoff",
+        "owner": "Líder Eng"
       },
       {
-        "audience": "Pillar Working Groups",
-        "channel": "Slack + weekly stand-up",
-        "frequency": "Weekly",
-        "owner": "Pillar Leads"
+        "audience": "5",
+        "channel": "W2",
+        "frequency": "Copilot Spaces (contexto compartilhado)",
+        "owner": "Maria Tech Leader"
       },
       {
-        "audience": "Executive Steering",
-        "channel": "Steering Committee meeting",
-        "frequency": "Monthly",
-        "owner": "TPO Director"
+        "audience": "4",
+        "channel": "W3",
+        "frequency": "A2A (Agent-to-Agent) protocol",
+        "owner": "Maria Tech Leader"
       },
       {
-        "audience": "Champions Network",
-        "channel": "Champions Slack channel + monthly cohort calls",
-        "frequency": "Continuous + Monthly",
-        "owner": "Developer Experience Lead"
+        "audience": "4",
+        "channel": "W4",
+        "frequency": "Microsoft Foundry — visão geral",
+        "owner": "Maria Tech Leader"
       },
       {
-        "audience": "External Stakeholders",
-        "channel": "Quarterly business review",
-        "frequency": "Quarterly",
-        "owner": "CTO"
+        "audience": "Todos",
+        "channel": "W4",
+        "frequency": "Office hours #1",
+        "owner": "Champions"
+      },
+      {
+        "audience": "Todos",
+        "channel": "W6, W8, W10, W12",
+        "frequency": "Office hours quinzenal",
+        "owner": "Champions"
       }
     ],
-    "training_plan": [
-      {
-        "audience": "All Developers",
-        "format": "AI-assisted coding workshop (4h hands-on)",
-        "cadence": "Monthly cohorts"
-      },
-      {
-        "audience": "Champions",
-        "format": "Train-the-trainer + community calls",
-        "cadence": "Bi-weekly"
-      },
-      {
-        "audience": "Engineering Managers",
-        "format": "Leadership briefing + adoption review playbook",
-        "cadence": "Quarterly"
-      },
-      {
-        "audience": "SRE Engineers",
-        "format": "SRE bootcamp + chaos engineering certification",
-        "cadence": "H1 onboarding + quarterly refresher"
-      },
-      {
-        "audience": "Platform Engineers",
-        "format": "IDP design sessions + golden path workshops",
-        "cadence": "Monthly"
-      }
-    ],
-    "adkar_notes": "Awareness will be driven through Town Halls and the monthly newsletter, anchored on the 'why now' narrative. Desire will be reinforced via champion stories and visible quick wins (Weeks 1-12). Knowledge will be delivered through structured workshops with hands-on labs. Ability will be measured via adoption metrics and proficiency assessments. Reinforcement is built into the OKR framework with quarterly recognition of teams demonstrating strong adoption.",
+    "adkar_notes": "Plano de Mudança ADKAR derivado do Learning Survey:\n\n**Awareness:** Comunicar plano de capacitação consolidado em all-hands; cada dev recebe seu plano personalizado por email.\n\n**Desire:** Tornar visível que workshops têm inscritos pré-validados (não opt-in genérico).\n\n**Knowledge:** Workshops top 5 (do Learning Survey):\n1. Copilot Spaces (contexto compartilhado) (5 inscritos)\n2. A2A (Agent-to-Agent) protocol (4 inscritos)\n3. Microsoft Foundry — visão geral (4 inscritos)\n4. Documentação automática (4 inscritos)\n5. Modo Ask (perguntas eficazes) (3 inscritos)\n\n**Ability:** Office hours quinzenal (sem agenda fixa, devs trazem dúvidas práticas).\n\n**Reinforcement:** Métricas de adoção mensais publicadas; reconhecimento dos Champions; revisão trimestral do plano com novo Learning Survey.",
     "quick_wins_w1_4": [
-      "Communicate transformation roadmap to all engineering teams via Town Hall",
-      "Stand up Steering Committee, TPO, and Pillar Working Groups with first cadence meetings",
-      "Identify and onboard 3 pilot teams for Horizon 1 initiatives",
-      "Procure enterprise AI coding licenses for all developers",
-      "Launch champions network with first cohort of 10"
-    ],
-    "quick_wins_w5_8": [
-      "First 50% of developers have AI coding licenses provisioned",
-      "Pilot teams complete AI coding training and begin daily usage",
-      "Baseline DORA + AI adoption KPI dashboards live",
-      "First chaos engineering game day executed",
-      "Service catalog MVP demonstrated to IDP pilot teams"
+      "W1: Champions Kickoff",
+      "W2: Copilot Spaces (contexto compartilhado)",
+      "W3: A2A (Agent-to-Agent) protocol",
+      "W4: Microsoft Foundry — visão geral",
+      "W4: Office hours #1"
     ],
     "quick_wins_w9_12": [
-      "First measurable productivity uplift in pilot teams (target: 20% lead time reduction)",
-      "AI coding adoption reaches 60% across organization",
-      "First IDP self-service workflow used in production by 3 teams",
-      "Quarterly steering review with first set of measurable outcomes published",
-      "Plan for Horizon 1 expansion to next 30% of teams approved"
-    ],
-    "executive_steering_committee_raw_markdown": "Comitê Executivo Diretivo (Champions ativos identificados pelo Learning Survey):\n\n- Maria Tech Leader — maria.tl@cliente-exemplo.com.br\n- Joao Backend SRE — joao.sre@cliente-exemplo.com.br\n- Sofia Frontend Lead — sofia.fe@cliente-exemplo.com.br",
-    "tpo_raw_markdown": "(preencher manualmente — Learning Survey não cobre TPO. Liste Programa Manager + escritório + autoridade de decisão)",
-    "raci_matrix_raw_markdown": "(preencher manualmente — Learning Survey não cobre RACI. Use template em wizard/implementation-guide-inputs.template.json)",
-    "communication_plan_raw_markdown": "Plano de Comunicação derivado do calendário sugerido:\n\n| Semana | Workshop | Audiência | Champion | Formato |\n|---|---|---|---|---|\n| W1 | Champions Kickoff | 3 | Líder Eng | 2h síncrono |\n| W2 | Copilot Spaces (contexto compartilhado) | 5 | Maria Tech Leader | 4h hands-on |\n| W3 | A2A (Agent-to-Agent) protocol | 4 | Maria Tech Leader | 4h hands-on |\n| W4 | Microsoft Foundry — visão geral | 4 | Maria Tech Leader | 4h hands-on |\n| W4 | Office hours #1 | Todos | Champions | 1h Q&A |\n| W6, W8, W10, W12 | Office hours quinzenal | Todos | Champions | 1h Q&A |",
-    "training_plan_raw_markdown": "Plano de Treinamento (cohorts por dimensão derivados do Learning Survey):\n\n### Cohort D2 (Copilot Adoption)\n- **3 devs querem evoluir nesta dimensão**\n- **Formato preferido pelo time:** Self-paced (meu ritmo, mais flexibilidade)\n- **Plano:** cohort de 4-6 semanas com sessões síncronas + lab self-paced\n\n### Cohort D3 (MS/GH Tooling Breadth)\n- **3 devs querem evoluir nesta dimensão**\n- **Formato preferido pelo time:** Self-paced (meu ritmo, mais flexibilidade)\n- **Plano:** cohort de 4-6 semanas com sessões síncronas + lab self-paced\n\n### Cohort D4 (AI Dev Practices)\n- **1 devs querem evoluir nesta dimensão**\n- **Formato preferido pelo time:** Self-paced (meu ritmo, mais flexibilidade)\n- **Plano:** cohort de 4-6 semanas com sessões síncronas + lab self-paced\n\n### Cohort D5 (Agent Concepts Mastery)\n- **2 devs querem evoluir nesta dimensão**\n- **Formato preferido pelo time:** Self-paced (meu ritmo, mais flexibilidade)\n- **Plano:** cohort de 4-6 semanas com sessões síncronas + lab self-paced\n\n### Cohort D6 (Instructions Maturity)\n- **4 devs querem evoluir nesta dimensão**\n- **Formato preferido pelo time:** Self-paced (meu ritmo, mais flexibilidade)\n- **Plano:** cohort de 4-6 semanas com sessões síncronas + lab self-paced\n\n### Cohort D7 (Best Practices)\n- **3 devs querem evoluir nesta dimensão**\n- **Formato preferido pelo time:** Self-paced (meu ritmo, mais flexibilidade)\n- **Plano:** cohort de 4-6 semanas com sessões síncronas + lab self-paced\n\n### Cohort D8 (Security & Governance)\n- **2 devs querem evoluir nesta dimensão**\n- **Formato preferido pelo time",
-    "adkar_notes_raw_markdown": "Plano de Mudança ADKAR derivado do Learning Survey:\n\n**Awareness:** Comunicar plano de capacitação consolidado em all-hands; cada dev recebe seu plano personalizado por email.\n\n**Desire:** Tornar visível que workshops têm inscritos pré-validados (não opt-in genérico).\n\n**Knowledge:** Workshops top 5 (do Learning Survey):\n1. Copilot Spaces (contexto compartilhado) (5 inscritos)\n2. A2A (Agent-to-Agent) protocol (4 inscritos)\n3. Microsoft Foundry — visão geral (4 inscritos)\n4. Documentação automática (4 inscritos)\n5. Modo Ask (perguntas eficazes) (3 inscritos)\n\n**Ability:** Office hours quinzenal (sem agenda fixa, devs trazem dúvidas práticas).\n\n**Reinforcement:** Métricas de adoção mensais publicadas; reconhecimento dos Champions; revisão trimestral do plano com novo Learning Survey.\n",
-    "quick_wins_w1_4_raw_markdown": "- W1: Champions Kickoff\n- W2: Copilot Spaces (contexto compartilhado)\n- W3: A2A (Agent-to-Agent) protocol\n- W4: Microsoft Foundry — visão geral\n- W4: Office hours #1",
-    "quick_wins_w5_8_raw_markdown": "(preencher — sem dados suficientes nas semanas 5-8)",
-    "quick_wins_w9_12_raw_markdown": "- W10: Office hours quinzenal"
+      "W10: Office hours quinzenal"
+    ]
   },
   "branding": {
     "platform_name": "AI Maturity Assessment Platform",
     "primary_color": "#00A4EF",
     "footer_text_template": "Confidential | {organization_name}",
-    "author": "Paula Silva",
-    "role": "Software Global Black Belt",
-    "author_name": "Paula Silva | Software Global Black Belt",
-    "contact": "paulasilva@microsoft.com",
-    "tagline": "Building the future of software development with AI and Agentic DevOps",
-    "design_system": "paulasilva-ms Design System v1.7.0",
-    "palette_red": "#F25022",
-    "palette_green": "#7FBA00",
-    "palette_yellow": "#FFB900",
-    "palette_blue": "#00A4EF"
+    "design_system": "paulasilva-ms Design System v1.7.0"
   }
 }

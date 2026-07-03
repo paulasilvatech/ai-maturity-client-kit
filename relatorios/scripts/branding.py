@@ -14,6 +14,9 @@ AUTHOR = "Paula Silva"
 ROLE = "Software Global Black Belt"
 ROLE_FULL = "Paula Silva, Software Global Black Belt"
 META_BAR = "Paula Silva | Software Global Black Belt"
+# Official signature contact per referencia/branding/IDENTITY.md — intentional
+# branding for generated markdown/JSON artifacts. NFR-REPORT-011 keeps it OUT
+# of the rendered client PDFs/HTML (see render_smoke.py FORBIDDEN_TOKENS).
 CONTACT = "paulasilva@microsoft.com"
 TAGLINE = "Building the future of software development with AI and Agentic DevOps"
 
@@ -69,17 +72,4 @@ def json_metadata() -> dict:
             "tagline": TAGLINE,
             "palette": PALETTE,
         }
-    }
-
-
-def payload_branding_block() -> dict:
-    """Branding block for the Jinja2 PDF payload (consumed by templates)."""
-    return {
-        "name": META_BAR,
-        "author": AUTHOR,
-        "role": ROLE,
-        "contact": CONTACT,
-        "tagline": TAGLINE,
-        "design_system": DESIGN_SYSTEM,
-        "palette": PALETTE,
     }

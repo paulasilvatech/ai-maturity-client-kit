@@ -1,9 +1,14 @@
 {
   "metadata": {
-    "computed_at": "2026-05-08T21:43:26.313698+00:00",
-    "source": "respostas-devs.json",
+    "computed_at": "2026-05-08T16:20:08Z",
+    "source": "survey-devs/respostas-mock-devs.json",
     "n_respondents": 5,
-    "rubric_version": "1.0 (deterministic)",
+    "rubric_version": "1.1 (deterministic)",
+    "match_coverage": {
+      "avg_pct": 100.0,
+      "min_pct": 100.0,
+      "n_measured": 5
+    },
     "anonymous": true,
     "scope": "team aggregate (no individual scores in output)",
     "branding": {
@@ -21,7 +26,7 @@
     }
   },
   "team_overall": {
-    "score": 2.22,
+    "score": 2.29,
     "label": "L2 — Definido",
     "respondents_with_overall": 5
   },
@@ -92,7 +97,7 @@
     "D5": {
       "name": "Agent Concepts Mastery",
       "description": "Conhecimento de conceitos avançados — agentes, MCP, A2A, handoffs, subagentes, personas Agentic DevOps + criação de primitives + testes",
-      "team_score": 2.56,
+      "team_score": 2.72,
       "label": "L3 — Gerenciado",
       "respondents_with_score": 5,
       "distribution_count": {
@@ -113,21 +118,21 @@
     "D6": {
       "name": "Instructions Maturity",
       "description": "Maturidade de instructions files — copilot-instructions.md, AGENTS.md, CLAUDE.md, manutenção, prompt library compartilhada",
-      "team_score": 2.31,
-      "label": "L2 — Definido",
+      "team_score": 2.6,
+      "label": "L3 — Gerenciado",
       "respondents_with_score": 5,
       "distribution_count": {
         "L0": 0,
         "L1": 0,
-        "L2": 3,
-        "L3": 2,
+        "L2": 2,
+        "L3": 3,
         "L4": 0
       },
       "distribution_pct": {
         "L0": 0.0,
         "L1": 0.0,
-        "L2": 60.0,
-        "L3": 40.0,
+        "L2": 40.0,
+        "L3": 60.0,
         "L4": 0.0
       }
     },
@@ -182,14 +187,14 @@
         2.91
       ],
       [
+        "D5",
+        "Agent Concepts Mastery",
+        2.72
+      ],
+      [
         "D4",
         "AI Dev Practices",
         2.68
-      ],
-      [
-        "D5",
-        "Agent Concepts Mastery",
-        2.56
       ]
     ],
     "bottom": [
@@ -204,9 +209,9 @@
         1.92
       ],
       [
-        "D6",
-        "Instructions Maturity",
-        2.31
+        "D3",
+        "MS/GH Tooling Breadth",
+        2.4
       ]
     ]
   }

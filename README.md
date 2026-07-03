@@ -16,7 +16,7 @@
 
 🌐 **Mini-site público:** [paulasilvatech.github.io/ai-maturity-client-kit](https://paulasilvatech.github.io/ai-maturity-client-kit/) — apresentação visual + botão de download (ative GitHub Pages em Settings → Pages → Source: GitHub Actions)
 
-🌍 **Language kits:** PT-BR está neste README. English: [kit-en/README.md](kit-en/README.md) · Español: [kit-es/README.md](kit-es/README.md). Os ZIPs EN/ES incluem documentação traduzida e bancos canônicos de perguntas em PT-BR para preservar IDs de parsing.
+🌍 **Idiomas:** Português (BR), você está aqui · English: [README.en.md](README.en.md) · Español: [README.es.md](README.es.md). Cada ZIP (PT/EN/ES) já vem com a documentação no idioma escolhido; os bancos canônicos de perguntas em PT-BR acompanham todos os pacotes para preservar IDs de parsing.
 
 > **Para o cliente:** este pacote contém tudo que você precisa para conduzir o **AI Maturity Assessment** sem depender da plataforma web. Você responde um JSON, abre o GitHub Copilot Chat no VS Code, digita um comando, e recebe **planilha, scores, gap analysis, recomendações de estratégia e relatório executivo** em PT-BR.
 
@@ -24,12 +24,12 @@
 
 ```mermaid
 flowchart LR
-    A[📝 respostas.json<br/>ou xlsx do Forms] --> B[/calcular-scores/]
+    A[📝 respostas.json<br/>ou xlsx do Forms] --> B[/calculate-scores/]
     B --> C[/gap-analysis/]
-    C --> D[/recomendar-estrategias/]
+    C --> D[/recommend-strategies/]
     D --> E{wizard<br/>preenchido?}
-    E -- sim --> F[/gerar-relatorio/]
-    E -- não --> G[/wizard-implementacao/]
+    E -- sim --> F[/generate-reports/]
+    E -- não --> G[/implementation-wizard/]
     G --> F
     F --> H[📄 5 PDFs<br/>+ xlsx auditável]
     style A fill:#FFB900,stroke:#333,color:#000
@@ -65,7 +65,7 @@ O kit tem **3 surveys complementares** — escolha 1, 2 ou os 3 baseado no seu o
 
 1. **Abra esta pasta no VS Code** (`code .` ou File → Open Folder).
 2. **Preencha [`respostas.json`](respostas.json)** — para cada questão, marque um `level` de 0 a 4 e um texto de evidência.
-3. **No Copilot Chat (modo Agent), digite `@ai-maturity-assistant`** (concierge guiado) ou `/pipeline-completo` (rodar tudo direto).
+3. **No Copilot Chat (modo Agent), digite `@ai-maturity-assistant`** (concierge guiado) ou `/run-full-pipeline` (rodar tudo direto).
 
 Pronto. O agente concierge ou o prompt orquestrador conduz as 7 skills em sequência e gera tudo em [`saida/`](saida/) — incluindo os **5 PDFs production-quality**.
 
@@ -73,17 +73,17 @@ Pronto. O agente concierge ou o prompt orquestrador conduz as 7 skills em sequê
 
 > 📘 **Primeira vez usando?** Siga o **[GUIA-PASSO-A-PASSO.md](GUIA-PASSO-A-PASSO.md)** — instruções detalhadas com setup por OS, screenshots verbais, checkpoints e troubleshooting expandido.
 >
-> 🧪 **Quer testar antes de preencher tudo?** O kit vem com **[respostas.json.example](respostas.json.example)** — 46 respostas mockadas de uma "Cliente Exemplo S.A.". Renomeie para `respostas.json` e rode `/pipeline-completo` para ver o output completo em ~3 minutos.
+> 🧪 **Quer testar antes de preencher tudo?** O kit vem com **[respostas.json.example](respostas.json.example)** — 46 respostas mockadas de uma "Cliente Exemplo S.A.". Renomeie para `respostas.json` e rode `/run-full-pipeline` para ver o output completo em ~3 minutos.
 >
-> 📋 **Tem equipe e quer coletar via Microsoft Forms?** Veja **[coleta/INSTRUCOES-FORMS.md](coleta/INSTRUCOES-FORMS.md)** — 3 caminhos (Forms manual, Forms enxuto, Excel/SharePoint direto). A skill `/importar-respostas-excel` agrega múltiplos respondentes automaticamente.
+> 📋 **Tem equipe e quer coletar via Microsoft Forms?** Veja **[coleta/INSTRUCOES-FORMS.md](coleta/INSTRUCOES-FORMS.md)** — 3 caminhos (Forms manual, Forms enxuto, Excel/SharePoint direto). A skill `/import-assessment-responses` agrega múltiplos respondentes automaticamente.
 >
-> 🧙 **Quer personalizar a Parte 4 do PDF (Implementation Guide)?** Use o **[wizard/](wizard/)**: HTML standalone (`implementation-guide-wizard.html`), JSON template editável, ou skill `/wizard-implementacao` que conduz pelo chat. 9 inputs estruturados (Steering Committee, RACI, ADKAR, Quick Wins…) populam o `roadmap_part4.pdf`.
+> 🧙 **Quer personalizar a Parte 4 do PDF (Implementation Guide)?** Use o **[wizard/](wizard/)**: HTML standalone (`implementation-guide-wizard.html`), JSON template editável, ou skill `/implementation-wizard` que conduz pelo chat. 9 inputs estruturados (Steering Committee, RACI, ADKAR, Quick Wins…) populam o `roadmap_part4.pdf`.
 >
 > 📄 **Quer ver o output final antes de rodar?** Os 5 PDFs reais estão em **[referencia/exemplo-saida/](referencia/exemplo-saida/)** — gerados a partir do `respostas.json.example` (Cliente Exemplo S.A.) com o pipeline real.
 >
-> 👥 **Quer ouvir os devs (anônimo, comportamental)?** Veja **[survey-devs/](survey-devs/)** — Developer Survey de 75 perguntas em 9 seções (GitHub Copilot + modos Ask/Edit/Agent + Coding Agent + Spaces + agentes IA + Foundry + segurança). Skills: `/importar-survey-devs` + `/insights-developer-survey`. Anônimo, individual, comportamental. Inclui rubrica determinística L0-L4 em 7 dimensões.
+> 👥 **Quer ouvir os devs (anônimo, comportamental)?** Veja **[survey-devs/](survey-devs/)** — Developer Survey de 75 perguntas em 9 seções (GitHub Copilot + modos Ask/Edit/Agent + Coding Agent + Spaces + agentes IA + Foundry + segurança). Skills: `/import-developer-survey` + `/insights-developer-survey`. Anônimo, individual, comportamental. Inclui rubrica determinística L0-L4 em 7 dimensões.
 >
-> 🎓 **Quer construir o roadmap de capacitação (identificado)?** Veja **[survey-learning/](survey-learning/)** — Learning & Growth Survey de 32 perguntas curtas (5-8 min, IDENTIFICADO com nome+email) que vira plano de workshops + cohorts + Champions Network + mentoria. Skills: `/importar-survey-learning` + `/plano-capacitacao`.
+> 🎓 **Quer construir o roadmap de capacitação (identificado)?** Veja **[survey-learning/](survey-learning/)** — Learning & Growth Survey de 32 perguntas curtas (5-8 min, IDENTIFICADO com nome+email) que vira plano de workshops + cohorts + Champions Network + mentoria. Skills: `/import-learning-survey` + `/training-plan`.
 
 ---
 
@@ -95,7 +95,7 @@ Pronto. O agente concierge ou o prompt orquestrador conduz as 7 skills em sequê
 - [ ] Modo **Agent** habilitado no Copilot Chat (necessário para invocar skills custom)
 
 > [!IMPORTANT]
-> Sem o modo **Agent** habilitado, os comandos `/calcular-scores`, `/gap-analysis` etc. não aparecem. Veja [GUIA-PASSO-A-PASSO.md](GUIA-PASSO-A-PASSO.md#parte-1) para o how-to por sistema operacional.
+> Sem o modo **Agent** habilitado, os comandos `/calculate-scores`, `/gap-analysis` etc. não aparecem. Veja [GUIA-PASSO-A-PASSO.md](GUIA-PASSO-A-PASSO.md#parte-1) para o how-to por sistema operacional.
 ### Smoke test rápido (opcional, para contribuidores)
 
 Valide que o pipeline está íntegro sem precisar do WeasyPrint:
@@ -186,19 +186,19 @@ kit-cliente/
     ├── agents/
     │   └── ai-maturity-assistant.agent.md       ← @ai-maturity-assistant (concierge guiado)
     ├── prompts/
-    │   └── pipeline-completo.prompt.md          ← /pipeline-completo
+    │   └── run-full-pipeline.prompt.md          ← /run-full-pipeline
     └── skills/  (12 skills custom — 1 orchestrator + 6 assessment + 1 wizard + 2 survey-devs + 2 survey-learning)
-        ├── importar-respostas-excel/SKILL.md    ← /importar-respostas-excel       (assessment)
-        ├── preencher-planilha/SKILL.md          ← /preencher-planilha             (assessment)
-        ├── calcular-scores/SKILL.md             ← /calcular-scores                (assessment)
-        ├── gap-analysis/SKILL.md                ← /gap-analysis                   (assessment)
-        ├── recomendar-estrategias/SKILL.md      ← /recomendar-estrategias         (assessment)
-        ├── wizard-implementacao/SKILL.md        ← /wizard-implementacao           (assessment)
-        ├── gerar-relatorio/SKILL.md             ← /gerar-relatorio  (5 PDFs)      (assessment)
-        ├── importar-survey-devs/SKILL.md        ← /importar-survey-devs           (survey-devs)
-        ├── insights-developer-survey/SKILL.md   ← /insights-developer-survey      (survey-devs)
-        ├── importar-survey-learning/SKILL.md    ← /importar-survey-learning       (survey-learning)
-        └── plano-capacitacao/SKILL.md           ← /plano-capacitacao              (survey-learning)
+        ├── import-assessment-responses/SKILL.md  ← /import-assessment-responses  (assessment)
+        ├── fill-spreadsheet/SKILL.md             ← /fill-spreadsheet             (assessment)
+        ├── calculate-scores/SKILL.md             ← /calculate-scores             (assessment)
+        ├── gap-analysis/SKILL.md                 ← /gap-analysis                 (assessment)
+        ├── recommend-strategies/SKILL.md         ← /recommend-strategies         (assessment)
+        ├── implementation-wizard/SKILL.md        ← /implementation-wizard        (assessment)
+        ├── generate-reports/SKILL.md             ← /generate-reports  (5 PDFs)   (assessment)
+        ├── import-developer-survey/SKILL.md      ← /import-developer-survey      (survey-devs)
+        ├── insights-developer-survey/SKILL.md    ← /insights-developer-survey    (survey-devs)
+        ├── import-learning-survey/SKILL.md       ← /import-learning-survey       (survey-learning)
+        └── training-plan/SKILL.md                ← /training-plan                (survey-learning)
 ```
 
 ---
@@ -212,28 +212,28 @@ Abra o Copilot Chat (`Ctrl+Shift+I` / `Cmd+Shift+I`) **em modo Agent** e digite 
 | Comando | O que faz | Pré-requisito |
 |---|---|---|
 | `@ai-maturity-assistant` | **Concierge guiado** — descobre o estado, pergunta o que falta, invoca skills, conduz até os 5 PDFs (recomendado para 1ª vez) | nenhum |
-| `/pipeline-completo` | **Tudo de uma vez**: 6 skills em ordem (auto-detecta Excel + wizard) | `respostas.json` ou `respostas-forms.xlsx` |
-| `/importar-respostas-excel` | Converte Excel do Microsoft Forms → `respostas.json` (agrega multi-respondente) | `respostas-forms.xlsx` |
-| `/preencher-planilha` | Copia template xlsx e preenche níveis | `respostas.json` |
-| `/calcular-scores` | Aplica SUMPRODUCT, gera `saida/scores.json` | `respostas.json` |
+| `/run-full-pipeline` | **Tudo de uma vez**: 6 skills em ordem (auto-detecta Excel + wizard) | `respostas.json` ou `respostas-forms.xlsx` |
+| `/import-assessment-responses` | Converte Excel do Microsoft Forms → `respostas.json` (agrega multi-respondente) | `respostas-forms.xlsx` |
+| `/fill-spreadsheet` | Copia template xlsx e preenche níveis | `respostas.json` |
+| `/calculate-scores` | Aplica SUMPRODUCT, gera `saida/scores.json` | `respostas.json` |
 | `/gap-analysis` | Calcula gaps + prioridade P0–P3 | `saida/scores.json` |
-| `/recomendar-estrategias` | Mapeia gaps → S1–S7 + tecnologias | `saida/gaps.json` |
-| `/wizard-implementacao` | **Wizard de 9 steps** para personalizar Parte 4 do PDF (steering committee, RACI, ADKAR, quick wins…) | nenhum (independente) |
-| `/gerar-relatorio` | **5 PDFs production-quality** via Jinja2 + WeasyPrint (idênticos à plataforma) | os 3 acima + opcional wizard |
+| `/recommend-strategies` | Mapeia gaps → S1–S7 + tecnologias | `saida/gaps.json` |
+| `/implementation-wizard` | **Wizard de 9 steps** para personalizar Parte 4 do PDF (steering committee, RACI, ADKAR, quick wins…) | nenhum (independente) |
+| `/generate-reports` | **5 PDFs production-quality** via Jinja2 + WeasyPrint (idênticos à plataforma) | os 3 acima + opcional wizard |
 
 ### Developer Survey (anônimo, comportamental)
 
 | Comando | O que faz | Pré-requisito |
 |---|---|---|
-| `/importar-survey-devs` | Converte `respostas-survey-devs.xlsx` (Forms anônimo) → `survey-devs/respostas-devs.json` (75 q × N respondentes) | `respostas-survey-devs.xlsx` |
+| `/import-developer-survey` | Converte `respostas-survey-devs.xlsx` (Forms anônimo) → `survey-devs/respostas-devs.json` (75 q × N respondentes) | `respostas-survey-devs.xlsx` |
 | `/insights-developer-survey` | **Relatório agregado** + maturidade calculada (rubrica determinística L0-L4 nas 7 dimensões D2-D8) + gaps + recomendações ligadas às capabilities | `survey-devs/respostas-devs.json` |
 
 ### Learning & Growth Survey (identificado, capacitação)
 
 | Comando | O que faz | Pré-requisito |
 |---|---|---|
-| `/importar-survey-learning` | Converte `respostas-survey-learning.xlsx` (Forms identificado) → `survey-learning/respostas-learning.json` (32 q × N respondentes com nome+email) | `respostas-survey-learning.xlsx` |
-| `/plano-capacitacao` | **Plano de capacitação personalizado**: top 10 tópicos com inscritos pré-validados, cohorts por dimensão D2-D8, Champions Network (3 tiers), mentor↔mentee pairs, calendário 90 dias, barreiras priorizadas | `survey-learning/respostas-learning.json` |
+| `/import-learning-survey` | Converte `respostas-survey-learning.xlsx` (Forms identificado) → `survey-learning/respostas-learning.json` (32 q × N respondentes com nome+email) | `respostas-survey-learning.xlsx` |
+| `/training-plan` | **Plano de capacitação personalizado**: top 10 tópicos com inscritos pré-validados, cohorts por dimensão D2-D8, Champions Network (3 tiers), mentor↔mentee pairs, calendário 90 dias, barreiras priorizadas | `survey-learning/respostas-learning.json` |
 
 ---
 
@@ -271,7 +271,7 @@ Abra o Copilot Chat (`Ctrl+Shift+I` / `Cmd+Shift+I`) **em modo Agent** e digite 
 - **Não tem certeza?** Deixe `level: null` — o sistema ignora (sem penalização).
 - **Quanto mais evidência, melhor.** Texto com ferramenta + métrica + período = "exemplary".
 - **Threshold mínimo: 25 questões respondidas** para sair de BLOCKED. Ideal ≥ 40 (OK).
-- **Multi-respondente:** prefira `respostas-forms.xlsx` ou o template Excel em `coleta/`; a skill `/importar-respostas-excel` agrega automaticamente por média simples por questão.
+- **Multi-respondente:** prefira `respostas-forms.xlsx` ou o template Excel em `coleta/`; a skill `/import-assessment-responses` agrega automaticamente por média simples por questão.
 
 ### Alternativa visual: usar os HTMLs em `formularios/`
 Os HTMLs em [`formularios/`](formularios/) reproduzem o visual da plataforma. Você pode abrir no browser, ler o contexto rico de cada questão (KPI, what/why, exemplos por nível) e depois preencher o JSON. Hoje **não há export automático** dos HTMLs para JSON — preencha o JSON manualmente.
@@ -304,7 +304,7 @@ Ver `referencia/pontuacao-e-calculo.md` para fórmulas completas, edge cases e 3
 | S6 | Agentic Activation | Gaps em workflows agênticos |
 | S7 | Security & Governance | Gaps em DevSecOps, supply chain |
 
-A skill `/recomendar-estrategias` calcula `cumulative_priority` por estratégia (soma dos `priority_score` dos gaps que ela endereça) e devolve as estratégias rankeadas com tecnologias específicas e ações iniciais.
+A skill `/recommend-strategies` calcula `cumulative_priority` por estratégia (soma dos `priority_score` dos gaps que ela endereça) e devolve as estratégias rankeadas com tecnologias específicas e ações iniciais.
 
 ---
 
@@ -312,7 +312,7 @@ A skill `/recomendar-estrategias` calcula `cumulative_priority` por estratégia 
 
 | Sintoma | Causa provável | Ação |
 |---|---|---|
-| Copilot Chat não mostra `/pipeline-completo` no menu | Modo Agent desativado | Trocar para "Agent" no dropdown do chat |
+| Copilot Chat não mostra `/run-full-pipeline` no menu | Modo Agent desativado | Trocar para "Agent" no dropdown do chat |
 | Skills custom não aparecem | Pasta `.github/skills/` não detectada | Reabrir o workspace ou rodar **Developer: Reload Window** |
 | `respostas.json: Unexpected token` | JSON inválido (vírgula a mais, aspas faltando) | Validar em jsonlint.com ou rodar `python -m json.tool respostas.json` |
 | Planilha não recalcula no Excel | Excel em modo "manual calculation" | Excel → Fórmulas → Calcular agora (F9) |
@@ -354,7 +354,7 @@ Você não perde dados — basta upload do JSON quando o app estiver disponível
 |---|---|---|
 | Não sei qual survey rodar primeiro | Você ainda não decidiu o escopo da consultoria | Use o agente: `@ai-maturity-assistant` apresenta os 4 caminhos (A/B/C/D) e te ajuda a escolher |
 | `@ai-maturity-assistant` não aparece no chat | Copilot Chat não está em **modo Agent** | Clique no dropdown ao lado do ícone do Copilot → escolha **Agent** |
-| `respostas.json.example` funciona como teste real? | Sim — é a Cliente Exemplo S.A. com 46 respostas mockadas | `cp respostas.json.example respostas.json` e rode `/pipeline-completo` |
+| `respostas.json.example` funciona como teste real? | Sim — é a Cliente Exemplo S.A. com 46 respostas mockadas | `cp respostas.json.example respostas.json` e rode `/run-full-pipeline` |
 | Copilot Free funciona? | Funciona para skills, mas com limites de mensagens | Recomendado **Pro/Business/Enterprise** para fluxo completo |
 | Posso rodar sem WeasyPrint? | Sim, mas não vai gerar PDFs | `make smoke` valida tudo até o `payload.json` sem precisar de WeasyPrint |
 

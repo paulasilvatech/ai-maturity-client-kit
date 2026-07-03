@@ -35,7 +35,7 @@ flowchart TD
 ```
 
 > [!TIP]
-> **Como invocar qualquer fluxo:** abra Copilot Chat e digite `@ai-maturity-assistant` (modo guiado, recomendado para a primeira vez) ou `/pipeline-completo` (direto ao ponto).
+> **Como invocar qualquer fluxo:** abra Copilot Chat e digite `@ai-maturity-assistant` (modo guiado, recomendado para a primeira vez) ou `/run-full-pipeline` (direto ao ponto).
 
 ### Detalhamento textual
 
@@ -66,7 +66,7 @@ flowchart TD
         │  COMO INVOCAR (qualquer um dos 4):                      │
         │  • 🤖 Modo guiado: @ai-maturity-assistant               │
         │       (concierge oferece os 4 caminhos)                 │
-        │  • 🚀 Modo direto: /pipeline-completo (só A)            │
+        │  • 🚀 Modo direto: /run-full-pipeline (só A)            │
         │       ou skills individuais (qualquer fluxo)            │
         └─────────────────────────────────────────────────────────┘
             ↓
@@ -117,9 +117,9 @@ python3 -m pip install --user --break-system-packages openpyxl jinja2 weasyprint
 
 | Biblioteca | Para que serve |
 |---|---|
-| `openpyxl` | Preencher a planilha auditável `.xlsx` (skill `/preencher-planilha`) |
-| `jinja2` | Engine de templates dos 5 PDFs (skill `/gerar-relatorio`) |
-| `weasyprint` | HTML+CSS → PDF de qualidade (skill `/gerar-relatorio`) |
+| `openpyxl` | Preencher a planilha auditável `.xlsx` (skill `/fill-spreadsheet`) |
+| `jinja2` | Engine de templates dos 5 PDFs (skill `/generate-reports`) |
+| `weasyprint` | HTML+CSS → PDF de qualidade (skill `/generate-reports`) |
 
 **Confirme:**
 ```bash
@@ -130,7 +130,7 @@ python3 -c "import openpyxl, jinja2, weasyprint; print('✓ Todas as 3 libs OK')
 ```bash
 brew install cairo pango gdk-pixbuf libffi
 ```
-(Se você ver erro "library 'libgobject-2.0-0' not found" ao rodar `/gerar-relatorio`, você esqueceu este passo.)
+(Se você ver erro "library 'libgobject-2.0-0' not found" ao rodar `/generate-reports`, você esqueceu este passo.)
 
 ### 1.4 Instalar a extensão GitHub Copilot Chat no VS Code
 
@@ -150,7 +150,7 @@ Sem isso, o agente concierge (`@ai-maturity-assistant`) e as 7 skills custom **N
 2. No painel do chat, procure o **dropdown de modo** (geralmente no topo do chat, mostrando "Ask")
 3. Mude para **Agent**
 
-> 🔍 **Como verificar:** com o cursor no chat, digite `@` — deve aparecer `@ai-maturity-assistant` no dropdown. Se aparecer só `@workspace`, ainda está em modo Ask. Digite `/` — deve listar `/pipeline-completo`, `/calcular-scores`, etc.
+> 🔍 **Como verificar:** com o cursor no chat, digite `@` — deve aparecer `@ai-maturity-assistant` no dropdown. Se aparecer só `@workspace`, ainda está em modo Ask. Digite `/` — deve listar `/run-full-pipeline`, `/calculate-scores`, etc.
 
 ### ✅ Checkpoint 1
 Se chegou aqui sem erro, está pronto para usar o kit. Se travou em algum passo:
@@ -228,7 +228,7 @@ cp respostas.json.example respostas.json      # usar o mockado
 No campo de chat, digite:
 
 ```
-/pipeline-completo
+/run-full-pipeline
 ```
 
 Pressione Enter.
@@ -273,7 +273,7 @@ Se tudo deu certo, você verá no chat algo como:
 
 | Arquivo | Como abrir | O que olhar |
 |---|---|---|
-| `saida/pontuacao-preenchida-*.xlsx` | Excel / Numbers / Sheets | Aba "Exemplo P1/P2/P3" — níveis preenchidos, fórmulas SUMPRODUCT calculando ao vivo |
+| `saida/pontuacao-preenchida-*.xlsx` | Excel / Numbers / Sheets | Aba "Respostas" com os níveis preenchidos e aba "Cálculo" com fórmulas SUMPRODUCT calculando ao vivo |
 | `saida/scores.json` | VS Code | Estrutura completa: overall, pillars, capabilities |
 | `saida/gaps.json` | VS Code | Gaps ordenados por prioridade (top 3 são P0) |
 | `saida/recomendacoes.json` | VS Code | 6 estratégias com tecnologias e ações |
@@ -379,7 +379,7 @@ Por default, o sistema usa **target = 3.0 (L3)** para todas as capabilities. Se 
 | ≥ 40 | 🟢 OK | Scoring confiável |
 | 158 | 💯 Completo | Todas as capabilities têm score |
 
-**Recomendado:** **mínimo 60 respostas distribuídas pelos 3 pillars** para um relatório útil. Você pode rodar `/pipeline-completo` várias vezes ao longo do preenchimento (cada execução sobrescreve `saida/`).
+**Recomendado:** **mínimo 60 respostas distribuídas pelos 3 pillars** para um relatório útil. Você pode rodar `/run-full-pipeline` várias vezes ao longo do preenchimento (cada execução sobrescreve `saida/`).
 
 ### 4.6 Validar o JSON antes de rodar
 
@@ -415,7 +415,7 @@ O agente:
 1. Faz uma saudação em PT-BR
 2. **Lê o estado do seu workspace** (que arquivos existem) e descobre onde você está no funil
 3. Pergunta o mínimo necessário (idioma, se já preencheu respostas, etc.)
-4. Invoca a skill certa **com botões clicáveis** ("Sim, rodar /calcular-scores")
+4. Invoca a skill certa **com botões clicáveis** ("Sim, rodar /calculate-scores")
 5. Após cada passo, mostra o resultado e oferece o próximo
 6. Te avisa quando algo precisa atenção (ex.: "Threshold abaixo de 25, quer prosseguir mesmo assim?")
 
@@ -424,23 +424,23 @@ O agente:
 ### 5.2 Caminho B — Comando único (você sabe o que faz) 🚀
 
 ```
-/pipeline-completo
+/run-full-pipeline
 ```
 
-Roda as 6 skills em sequência (auto-detecta `respostas-forms.xlsx` se existir e oferece o wizard de implementação antes do gerar-relatorio).
+Roda as 6 skills em sequência (auto-detecta `respostas-forms.xlsx` se existir e oferece o wizard de implementação antes do `/generate-reports`).
 
 ### 5.3 Caminho C — Comandos individuais (controle granular) 🔧
 
 Se preferir rodar passo a passo (ou refazer só uma parte):
 
 ```
-/importar-respostas-excel    ← (opcional) Excel do Forms → respostas.json
-/preencher-planilha          ← copia template e preenche níveis no .xlsx
-/calcular-scores             ← gera saida/scores.json
+/import-assessment-responses ← (opcional) Excel do Forms → respostas.json
+/fill-spreadsheet            ← copia template e preenche níveis no .xlsx
+/calculate-scores            ← gera saida/scores.json
 /gap-analysis                ← gera saida/gaps.json
-/recomendar-estrategias      ← gera saida/recomendacoes.json
-/wizard-implementacao        ← (opcional) personaliza Parte 4
-/gerar-relatorio             ← gera 5 PDFs production-quality
+/recommend-strategies        ← gera saida/recomendacoes.json
+/implementation-wizard       ← (opcional) personaliza Parte 4
+/generate-reports            ← gera 5 PDFs production-quality
 ```
 
 A ordem importa (cada um depende do anterior).
@@ -449,14 +449,14 @@ A ordem importa (cada um depende do anterior).
 
 Mudou alguma resposta? Mudou um target? Basta:
 - **Caminho A (concierge):** `@ai-maturity-assistant` — ele detecta o estado novo e refaz o que mudou
-- **Caminho B (direto):** `/pipeline-completo` — roda tudo de novo, arquivos em `saida/` são sobrescritos
+- **Caminho B (direto):** `/run-full-pipeline` — roda tudo de novo, arquivos em `saida/` são sobrescritos
 - **Caminho C (cirúrgico):** rode só a skill afetada (ex.: editou `target_overrides`? só rode `/gap-analysis` em diante)
 
 ---
 
 ## 📊 Parte 6 — Lendo os resultados
 
-Após `/gerar-relatorio` (ou conclusão do `@ai-maturity-assistant`), você terá **6 outputs principais** em `saida/`:
+Após `/generate-reports` (ou conclusão do `@ai-maturity-assistant`), você terá **6 outputs principais** em `saida/`:
 
 ### 6.1 Os 5 PDFs production-quality (entregáveis para liderança)
 
@@ -468,7 +468,7 @@ Estes são **idênticos** aos PDFs que a plataforma web vai gerar quando ficar p
 | **`roadmap_part_pillar_p1.pdf`** | ~410 KB | Pillar P1 (Produtividade) deep-dive: 9 capabilities com rubric, gaps, evidências, ações por horizonte |
 | **`roadmap_part_pillar_p2.pdf`** | ~410 KB | Pillar P2 (DevOps) deep-dive: 10 capabilities |
 | **`roadmap_part_pillar_p3.pdf`** | ~410 KB | Pillar P3 (Plataforma) deep-dive: 9 capabilities |
-| **`roadmap_part4.pdf`** | ~510 KB | Implementation Guide consolidado: Three Horizons (H1/H2/H3), tecnologias, success metrics, riscos, **Steering Committee + RACI + ADKAR + Quick Wins** (esta parte usa dados do `/wizard-implementacao` se rodou) |
+| **`roadmap_part4.pdf`** | ~510 KB | Implementation Guide consolidado: Three Horizons (H1/H2/H3), tecnologias, success metrics, riscos, **Steering Committee + RACI + ADKAR + Quick Wins** (esta parte usa dados do `/implementation-wizard` se rodou) |
 
 **Como abrir:** duplo clique no Finder/Explorer → abre no Preview/Acrobat. Ou no VS Code: clique no `.pdf` na sidebar.
 
@@ -477,15 +477,15 @@ Estes são **idênticos** aos PDFs que a plataforma web vai gerar quando ficar p
 - **Apresentar:** abrir em fullscreen (`Cmd+Ctrl+F` no Preview do Mac)
 - **Imprimir:** branding limpo, paginação correta — pronto para impressão
 
-> 💡 **Antes de compartilhar:** confira se a Parte 4 (`roadmap_part4.pdf`) tem os nomes/dados da SUA organização. Se ainda mostrar "Maria Santos / James Carter / Acme", você esqueceu de rodar `/wizard-implementacao` para personalizar.
+> 💡 **Antes de compartilhar:** confira se a Parte 4 (`roadmap_part4.pdf`) tem os nomes/dados da SUA organização. Se ainda mostrar "Maria Santos / James Carter / Acme", você esqueceu de rodar `/implementation-wizard` para personalizar.
 
 ### 6.2 A planilha auditável (`saida/pontuacao-preenchida-*.xlsx`)
 
 Para quando alguém perguntar **"como esse score foi calculado?"** — abra no Excel/Numbers/Sheets:
 
-- **Aba "Exemplo P1/P2/P3"** — fórmulas SUMPRODUCT visíveis célula por célula, células coloridas por nível
-- **Aba "Resumo"** — pillar scores + overall consolidado
-- **Aba "Como ler"** — legenda completa
+- **Aba "Respostas"**: todas as 158 questões com nível, peso (do framework.json) e evidência
+- **Aba "Cálculo"**: fórmulas SUMPRODUCT visíveis célula por célula, com scores por capability, por pilar, overall e threshold
+- **Aba "Leia-me"**: legenda completa (rótulos, thresholds, como usar)
 
 ### 6.3 Os JSONs (intermediários + payload final)
 
@@ -558,7 +558,7 @@ cp coleta/template-export-forms.xlsx respostas-forms.xlsx
 
 **Passo 7.5** — Importar no kit:
 ```
-/importar-respostas-excel
+/import-assessment-responses
 ```
 
 A skill:
@@ -571,10 +571,10 @@ A skill:
 
 **Passo 7.6** — Continuar normal:
 ```
-/pipeline-completo
+/run-full-pipeline
 ```
 
-> 💡 **Dica:** o `/pipeline-completo` **detecta automaticamente** se há `respostas-forms.xlsx` mais recente que `respostas.json` e roda `/importar-respostas-excel` antes — você pode pular o Passo 7.5 e ir direto.
+> 💡 **Dica:** o `/run-full-pipeline` **detecta automaticamente** se há `respostas-forms.xlsx` mais recente que `respostas.json` e roda `/import-assessment-responses` antes — você pode pular o Passo 7.5 e ir direto.
 
 ### Smoke test rápido com o template mockado
 
@@ -587,7 +587,7 @@ cp coleta/template-export-forms.xlsx respostas-forms.xlsx
 
 No Copilot Chat:
 ```
-/pipeline-completo
+/run-full-pipeline
 ```
 
 Você verá o pipeline rodando com **3 respondentes** sendo agregados → vai gerar relatório com média ponderada de Maria + Joao + Ana.
@@ -602,7 +602,7 @@ Você verá o pipeline rodando com **3 respondentes** sendo agregados → vai ge
 
 ### ⭐ Atalho: Mode D (auto-fill do Learning Survey)
 
-Se você já rodou `/plano-capacitacao` (Parte 10), o Copilot Agent **detecta automaticamente** o `saida/plano-capacitacao-*.md` e oferece:
+Se você já rodou `/training-plan` (Parte 10), o Copilot Agent **detecta automaticamente** o `saida/plano-capacitacao-*.md` e oferece:
 
 ```
 🎓 Detectei plano de capacitação. Posso EXTRAIR automaticamente:
@@ -620,7 +620,7 @@ Se você já rodou `/plano-capacitacao` (Parte 10), o Copilot Agent **detecta au
 - `adkar_notes` ← Workshops top 5
 - `quick_wins_w1_4/5_8/9_12` ← Calendário 90 dias
 
-Se você ainda não rodou `/plano-capacitacao`, use modos A/B/C abaixo.
+Se você ainda não rodou `/training-plan`, use modos A/B/C abaixo.
 
 ### 7B.1 · Os 9 inputs que vão para a Parte 4
 
@@ -674,7 +674,7 @@ O template tem placeholders ricos com instruções (`_help`, `_dicas`, exemplos 
 
 No Copilot Chat (modo Agent):
 ```
-/wizard-implementacao
+/implementation-wizard
 ```
 
 O Copilot vai oferecer 3 modos. Escolha **C** (chat). Ele vai:
@@ -690,7 +690,7 @@ O Copilot vai oferecer 3 modos. Escolha **C** (chat). Ele vai:
 Depois de qualquer um dos 3 modos:
 
 ```
-/gerar-relatorio
+/generate-reports
 ```
 
 A skill detecta automaticamente o `implementation-guide-inputs.json` na raiz e mescla no payload — a Parte 4 do `roadmap_part4.pdf` agora reflete seus dados reais.
@@ -700,7 +700,7 @@ A skill detecta automaticamente o `implementation-guide-inputs.json` na raiz e m
 Antes de seguir:
 - [ ] `implementation-guide-inputs.json` existe na raiz do kit
 - [ ] Pelo menos 5 dos 9 campos preenchidos (idealmente 9/9)
-- [ ] Re-rodou `/gerar-relatorio` e o `roadmap_part4.pdf` mostra seus nomes/dados (não mais "Maria Santos / James Carter" do sample)
+- [ ] Re-rodou `/generate-reports` e o `roadmap_part4.pdf` mostra seus nomes/dados (não mais "Maria Santos / James Carter" do sample)
 
 ---
 
@@ -741,7 +741,7 @@ cp survey-devs/respostas-mock-devs.json survey-devs/respostas-devs.json
 No Copilot Chat (modo Agent):
 
 ```
-/importar-survey-devs            ← se tem respostas-survey-devs.xlsx
+/import-developer-survey            ← se tem respostas-survey-devs.xlsx
 /insights-developer-survey       ← gera relatório + calcula maturidade
 ```
 
@@ -789,7 +789,7 @@ Os 2 surveys anteriores **diagnosticam**. Este **prescreve o roadmap de capacita
 - Calendário de workshops próximos 90 dias
 - Plano alimenta automaticamente o **wizard** Mode D (Parte 7B)
 
-**Quando rodar:** depois do survey-devs (anônimo) ou em paralelo. Antes do `/wizard-implementacao`.
+**Quando rodar:** depois do survey-devs (anônimo) ou em paralelo. Antes do `/implementation-wizard`.
 
 ### 10.2 · ⚠️ Diferença crítica: IDENTIFICADO
 
@@ -822,8 +822,8 @@ cp survey-learning/respostas-mock-learning.json survey-learning/respostas-learni
 ### 10.5 · Importar e gerar plano de capacitação
 
 ```
-/importar-survey-learning      ← se tem respostas-survey-learning.xlsx
-/plano-capacitacao             ← gera plano de capacitação personalizado
+/import-learning-survey ← se tem respostas-survey-learning.xlsx
+/training-plan          ← gera plano de capacitação personalizado
 ```
 
 **Output:** `saida/plano-capacitacao-DATA.md` — 12 seções incluindo:
@@ -836,7 +836,7 @@ cp survey-learning/respostas-mock-learning.json survey-learning/respostas-learni
 
 ### 10.6 · ⭐ Auto-fill do wizard (Mode D)
 
-Depois de gerar o plano, ao rodar `/wizard-implementacao` o agente vai detectar `saida/plano-capacitacao-*.md` e oferecer **Mode D — Auto-fill** que preenche automaticamente 6 dos 9 inputs do wizard:
+Depois de gerar o plano, ao rodar `/implementation-wizard` o agente vai detectar `saida/plano-capacitacao-*.md` e oferecer **Mode D — Auto-fill** que preenche automaticamente 6 dos 9 inputs do wizard:
 
 | Input do wizard | Vem de |
 |---|---|
@@ -853,7 +853,7 @@ Você só precisa preencher manualmente: TPO + RACI Matrix.
 - [ ] Forms criado com **Anonymous OFF** + L1-Q1 (nome) + L1-Q2 (email) **required**
 - [ ] Comunicado claramente que é IDENTIFICADO + uso ético
 - [ ] Mínimo 5 respondentes (ideal >50% do time)
-- [ ] `/plano-capacitacao` rodou e gerou `saida/plano-capacitacao-DATA.md`
+- [ ] `/training-plan` rodou e gerou `saida/plano-capacitacao-DATA.md`
 - [ ] Você confirmou Champions identificados + workshops sugeridos antes de convidar
 
 ---
@@ -885,8 +885,8 @@ SEMANA 1
    ↓
 SEMANA 3-4
    ↓
-2. /importar-survey-devs       → /insights-developer-survey
-   /importar-survey-learning   → /plano-capacitacao
+2. /import-developer-survey  → /insights-developer-survey
+   /import-learning-survey   → /training-plan
    • Liderança recebe insights ANTES de avaliar capabilities
    • Identifica gaps comportamentais reais
    ↓
@@ -898,17 +898,17 @@ SEMANA 4-5
    ↓
 SEMANA 5
    ↓
-4. /pipeline-completo (assessment) — calcula scores, gaps, recomendações
+4. /run-full-pipeline (assessment) — calcula scores, gaps, recomendações
    ↓
 SEMANA 5
    ↓
-5. /wizard-implementacao em Mode D (auto-fill do plano-capacitacao)
+5. /implementation-wizard em Mode D (auto-fill do plano de capacitação)
    • 6 dos 9 inputs preenchidos automaticamente
    • Você só completa: TPO + RACI Matrix
    ↓
 SEMANA 5
    ↓
-6. /gerar-relatorio
+6. /generate-reports
    • 5 PDFs finais do assessment
    • `saida/payload.json` inclui referências aos artefatos cross-survey quando eles existem
    • `roadmap_part4.pdf` consome dados do Learning Survey quando o wizard Mode D gerou `implementation-guide-inputs.json`
@@ -931,7 +931,7 @@ Agente conduz pelos 3 surveys + assessment + wizard + relatório, **com handoffs
 
 ### 11.4 · Cross-survey validations
 
-Após rodar os 3 + `/gerar-relatorio`, o **`score_justification.pdf`** inclui a seção **Sinais Complementares dos Surveys**, e o arquivo **`saida/payload.json`** mantém os ponteiros estruturados para auditoria. Use esses dados para comparar a maturidade declarada pela liderança com a maturidade comportamental dos devs:
+Após rodar os 3 + `/generate-reports`, o **`score_justification.pdf`** inclui a seção **Sinais Complementares dos Surveys**, e o arquivo **`saida/payload.json`** mantém os ponteiros estruturados para auditoria. Use esses dados para comparar a maturidade declarada pela liderança com a maturidade comportamental dos devs:
 
 ```
 | Capability | Liderança avalia | Survey rubric | Dissonância |
@@ -943,7 +943,7 @@ Após rodar os 3 + `/gerar-relatorio`, o **`score_justification.pdf`** inclui a 
 **Insight:** dissonâncias revelam onde investigar (gap entre estratégia e prática).
 
 > [!NOTE]
-> Quando `cross_survey_data` existe no payload, o `score_justification.pdf` renderiza a seção **Sinais Complementares dos Surveys**. O Learning Survey também entra no `roadmap_part4.pdf` quando você roda `/wizard-implementacao` em Mode D antes de `/gerar-relatorio`.
+> Quando `cross_survey_data` existe no payload, o `score_justification.pdf` renderiza a seção **Sinais Complementares dos Surveys**. O Learning Survey também entra no `roadmap_part4.pdf` quando você roda `/implementation-wizard` em Mode D antes de `/generate-reports`.
 
 ### ✅ Checkpoint 11 (após fluxo dos 3)
 
@@ -951,8 +951,8 @@ Após rodar os 3 + `/gerar-relatorio`, o **`score_justification.pdf`** inclui a 
 - [ ] `saida/insights-developer-survey-*.md` + `saida/maturidade-developer-survey-*.json` existem
 - [ ] `saida/plano-capacitacao-*.md` existe
 - [ ] `respostas.json` preenchido informado pelos surveys
-- [ ] `/wizard-implementacao` rodou em Mode D (auto-fill detectou plano)
-- [ ] `/gerar-relatorio` gerou 5 PDFs, `saida/payload.json` contém `cross_survey_data` e o `score_justification.pdf` inclui a seção de sinais complementares
+- [ ] `/implementation-wizard` rodou em Mode D (auto-fill detectou plano)
+- [ ] `/generate-reports` gerou 5 PDFs, `saida/payload.json` contém `cross_survey_data` e o `score_justification.pdf` inclui a seção de sinais complementares
 - [ ] Apresentou para liderança + devs
 
 ---
@@ -975,7 +975,7 @@ Após rodar os 3 + `/gerar-relatorio`, o **`score_justification.pdf`** inclui a 
 
 > 💡 **Dica geral:** quando algo der errado, sua primeira tentativa deve ser **`@ai-maturity-assistant`** no Copilot Chat. O concierge **lê o estado do workspace** (que arquivos existem, em que estágio você parou) e geralmente identifica o problema sem você precisar diagnosticar. Os itens abaixo são para quando o concierge não está disponível ou você quer entender o problema em detalhe.
 
-### "O comando `/pipeline-completo` não aparece no menu"
+### "O comando `/run-full-pipeline` não aparece no menu"
 
 **Causa provável:** workspace errado, modo errado ou cache do Copilot.
 
@@ -1036,7 +1036,7 @@ Skills custom requerem **Copilot Pro/Business/Enterprise** com modo Agent. Alter
 - Use Claude.ai web ou ChatGPT
 - Faça upload do zip do kit
 - Cole manualmente o conteúdo de `.github/copilot-instructions.md` como contexto
-- Peça: "execute o pipeline conforme `.github/prompts/pipeline-completo.prompt.md`"
+- Peça: "execute o pipeline conforme `.github/prompts/run-full-pipeline.prompt.md`"
 
 ---
 
@@ -1072,7 +1072,7 @@ Skills custom requerem **Copilot Pro/Business/Enterprise** com modo Agent. Alter
 
 | Sintoma | Causa provável | Como resolver |
 |---|---|---|
-| O comando `/calcular-scores` não aparece quando digito `/` | Copilot Chat não está em **modo Agent** | Abra o Chat → clique no dropdown ao lado do ícone do Copilot → escolha **Agent** |
+| O comando `/calculate-scores` não aparece quando digito `/` | Copilot Chat não está em **modo Agent** | Abra o Chat → clique no dropdown ao lado do ícone do Copilot → escolha **Agent** |
 | Erro `framework_version mismatch` | Você abriu o kit em uma versão antiga do framework | Atualize `respostas.json::metadata.framework_version` para `1.0.0` |
 | `make smoke` falha com `ModuleNotFoundError` | Faltam dependências Python | Rode `make install-deps` (instala jinja2 + weasyprint + openpyxl) |
 | PDFs ficam com `GERADO EM` na data errada | Comportamento esperado | A data reflete a data de geração; não é bug |

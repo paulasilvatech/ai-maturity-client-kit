@@ -13,7 +13,7 @@
 5. Add 9 sections: S1 Respondent profile, S2 GitHub Copilot Adoption and Modes, S3 Other Microsoft / GitHub AI tools, S4 AI Development Practices, S5 Agent Concepts and Structure, S6 Markdown / Memory / Instructions, S7 Usability and Best Practices, S8 Security and Governance, S9 Pain Points & Wishlist.
 6. For each question below, add the corresponding Forms type: `choice`, `multi`, or `text`.
 7. The **TITLE** of each question must start with the ID + colon. Example: `S2-Q1: Do you have an active GitHub Copilot license?`
-8. The ID is used by `/importar-survey-devs` for mapping. DO NOT REMOVE it.
+8. The ID is used by `/import-developer-survey` for mapping. DO NOT REMOVE it.
 9. Share via **+ Send / Collect responses** -> copy link -> send via Slack/Teams/email.
 10. When responses are ready, **Responses -> Open in Excel** -> rename to `respostas-survey-devs.xlsx` -> move to the kit root.
 
@@ -981,5 +981,5 @@ Options:
 1. Após coletar respostas, **Responses → Open in Excel** no Microsoft Forms
 2. Renomeie o Excel para `respostas-survey-devs.xlsx`
 3. Mova para a raiz do `kit-cliente/`
-4. No Copilot Chat (modo Agent): `/importar-survey-devs`
+4. No Copilot Chat (modo Agent): `/import-developer-survey`
 5. Depois: `/insights-developer-survey` para gerar relatório consolidado

@@ -17,7 +17,7 @@ python3 survey-learning/scripts/gerar_plano_capacitacao.py
 ```
 
 > [!IMPORTANT]
-> Este script é invocado pela skill `/plano-capacitacao`. O agente concierge faz isso automaticamente; você só roda diretamente se quiser regenerar sem passar pelo chat.
+> Este script é invocado pela skill `/training-plan`. O agente concierge faz isso automaticamente; você só roda diretamente se quiser regenerar sem passar pelo chat.
 
 ## Output
 

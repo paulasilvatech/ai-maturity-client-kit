@@ -1,32 +1,35 @@
 # `referencia/exemplo-saida/en/`
 
-📖 **Navegação:** [🏠 Índice](../../../README.md) · [« Exemplo-saída](../README.md)
+📖 **Navigation:** [🏠 Index](../../../README.md) · [« Example output](../README.md)
 
-Versão **em inglês** dos 5 PDFs de referência gerados a partir de `respostas.json.example` (Cliente Exemplo S.A., locale forçado para `en`).
+**English** version of the 5 reference PDFs generated from `respostas.json.example` (Cliente Exemplo S.A., locale forced to `en`).
 
-## Conteúdo
+## Contents
 
-| Arquivo | Descrição |
+| File | Description |
 |---|---|
-| `score_justification.pdf` | Score Justification — Acme/Cliente Exemplo |
-| `roadmap_part_pillar_p1.pdf` | Productivity pillar deep-dive |
-| `roadmap_part_pillar_p2.pdf` | DevOps pillar deep-dive |
-| `roadmap_part_pillar_p3.pdf` | Platform pillar deep-dive |
-| `roadmap_part4.pdf` | Implementation Guide consolidated |
+| `score_justification.pdf` | Score Justification (overall 1.99, L2) |
+| `roadmap_part_pillar_p1.pdf` | Developer Productivity pillar deep-dive |
+| `roadmap_part_pillar_p2.pdf` | DevOps Lifecycle pillar deep-dive |
+| `roadmap_part_pillar_p3.pdf` | Application Platform pillar deep-dive |
+| `roadmap_part4.pdf` | Implementation Guide (consolidated) |
 
-## Quando usar
+## When to use
 
-- Mostrar ao cliente final como **vão ficar os PDFs em inglês** (se ele optar por `language: "en"` no `respostas.json::metadata`)
-- Validar visualmente que o template `roadmap_part_pillar.html.j2` lida bem com strings mais longas (inglês tende a expandir vs. PT-BR)
+- Show the end client what **the English PDFs will look like** (if they set `language: "en"` in `respostas.json::metadata`)
+- Visually validate that the templates handle longer strings (English tends to expand vs. PT-BR)
 
 > [!NOTE]
-> Os PDFs em PT-BR (default) ficam no diretório pai: [`../`](../).
+> The PT-BR PDFs (default) live in the parent directory: [`../`](../).
 
-## Como regerar
+## How to regenerate
+
+From the kit root, with the example inputs staged (see [`../README.md`](../README.md), step 1):
 
 ```bash
-# editar respostas.json.example, mudar "language": "en"
-cp respostas.json.example respostas.json
-python3 relatorios/scripts/build_payload_and_render.py
-# mover saida/*.pdf para referencia/exemplo-saida/en/
+export SOURCE_DATE_EPOCH=1778257208   # pins embedded font timestamps (byte-stable PDFs)
+python3 relatorios/scripts/build_payload_and_render.py \
+  --date 2026-05-08 --locale en --out referencia/exemplo-saida/en
 ```
+
+`--locale en` builds a payload with English labels from `relatorios/i18n/en.json` and renders the 5 PDFs. For real client reports in English, set `metadata.language` to `"en"` in `respostas.json` and run `/generate-reports`.

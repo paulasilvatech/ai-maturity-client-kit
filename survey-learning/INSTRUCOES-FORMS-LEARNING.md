@@ -148,13 +148,13 @@ A pergunta L1-Q4 ("Time / Squad") tem placeholder `[Lista a customizar pela org]
 No Copilot Chat (modo Agent):
 
 ```
-/importar-survey-learning
+/import-learning-survey
 ```
 
 Gera `survey-learning/respostas-learning.json` (estruturado).
 
 ```
-/plano-capacitacao
+/training-plan
 ```
 
 Gera `saida/plano-capacitacao-<DATE>.md` com:
@@ -165,11 +165,11 @@ Gera `saida/plano-capacitacao-<DATE>.md` com:
 - Calendário de workshops (próximos 90 dias)
 - Barreiras priorizadas
 - 5 ações priorizadas (impacto × facilidade)
-- Conexão com /insights-developer-survey + /calcular-scores
+- Conexão com /insights-developer-survey + /calculate-scores
 
 ### Passo 10 · ⭐ Auto-fill do wizard (Mode D)
 
-Depois de gerar o plano, ao rodar `/wizard-implementacao`, o Copilot Agent **detecta automaticamente** o `saida/plano-capacitacao-*.md` e oferece **Mode D — Auto-fill** que preenche **6 dos 9 inputs** do wizard automaticamente:
+Depois de gerar o plano, ao rodar `/implementation-wizard`, o Copilot Agent **detecta automaticamente** o `saida/plano-capacitacao-*.md` e oferece **Mode D — Auto-fill** que preenche **6 dos 9 inputs** do wizard automaticamente:
 
 | Input do wizard (Parte 4 do PDF) | Vem de |
 |---|---|
@@ -186,7 +186,7 @@ Você só precisa preencher manualmente: **TPO** + **RACI Matrix** (que o learni
 ### Passo 11 · Re-renderizar PDFs com plano + wizard auto-fill
 
 ```
-/gerar-relatorio
+/generate-reports
 ```
 
 A skill detecta:
@@ -209,7 +209,7 @@ cp survey-learning/template-export-forms-learning.xlsx respostas-survey-learning
 # Subir SharePoint com edit
 # Cada dev preenche uma linha (incluindo nome+email)
 # Baixar e mover para raiz
-/importar-survey-learning + /plano-capacitacao
+/import-learning-survey + /training-plan
 ```
 
 ---
@@ -249,8 +249,8 @@ Comunique antes de lançar:
 - **As 32 perguntas formatadas:** [`perguntas-para-forms-learning.md`](perguntas-para-forms-learning.md)
 - **Template Excel pronto:** [`template-export-forms-learning.xlsx`](template-export-forms-learning.xlsx)
 - **JSON estruturado de exemplo:** [`respostas-mock-learning.json`](respostas-mock-learning.json)
-- **Skill de import:** [`../.github/skills/importar-survey-learning/SKILL.md`](../.github/skills/importar-survey-learning/SKILL.md)
-- **Skill de plano:** [`../.github/skills/plano-capacitacao/SKILL.md`](../.github/skills/plano-capacitacao/SKILL.md)
+- **Skill de import:** [`../.github/skills/import-learning-survey/SKILL.md`](../.github/skills/import-learning-survey/SKILL.md)
+- **Skill de plano:** [`../.github/skills/training-plan/SKILL.md`](../.github/skills/training-plan/SKILL.md)
 - **Cross-reference com Developer Survey** (anônimo): [`../survey-devs/`](../survey-devs/)
 
 ---
@@ -270,7 +270,7 @@ Comunique antes de lançar:
 | Como uso o plano para convidar pessoas? | O plano traz nome+email por workshop | Copie lista de inscritos do markdown → cole em Outlook/Teams meeting invite |
 | Champions Network está vazio no plano gerado | Ninguém respondeu "sim" em L6-Q1 | Sem Champions auto-declarados — use ranking por dimensão como proxy |
 | Cohorts estão vazios em algumas dimensões | Menos de 3 respondentes por dimensão | Peça reforço na campanha ou aceite cohorts menores |
-| Posso re-rodar o plano se mais respostas chegarem? | Sim, é idempotente | Re-exporte Excel → `/importar-survey-learning` → `/plano-capacitacao` |
+| Posso re-rodar o plano se mais respostas chegarem? | Sim, é idempotente | Re-exporte Excel → `/import-learning-survey` → `/training-plan` |
 
 </details>
 

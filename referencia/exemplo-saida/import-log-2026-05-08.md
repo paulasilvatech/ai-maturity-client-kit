@@ -19,4 +19,4 @@ Como neste exemplo usamos `respostas.json.example` direto, este arquivo é apena
 - (nenhum) — todos os valores foram parseados com sucesso
 
 ## Próximo passo
-Rode `/pipeline-completo` para calcular scores e gerar relatório.
+Rode `/run-full-pipeline` para calcular scores e gerar relatório.

@@ -2,7 +2,7 @@
 
 > **Modelo determinístico** que mapeia respostas do survey para níveis L0-L4 em **7 dimensões**, espelhando a escala do assessment principal de maturidade. Score por time (sem scores individuais no relatório, preserva anonimato).
 
-**Versão da rubrica:** 1.0 · **Data:** 2026-05-08
+**Versão da rubrica:** 1.1 · **Data:** 2026-07-03 · Constante `RUBRIC_VERSION` em [`scripts/rubric.py`](scripts/rubric.py)
 **Implementação:** [`scripts/rubric.py`](scripts/rubric.py) · **Executor:** [`scripts/calcular_maturidade.py`](scripts/calcular_maturidade.py)
 
 ---
@@ -51,6 +51,10 @@
 | `S2-Q2: Diariamente` + `S2-Q5: 2+ features` + `S2-Q3: 1+ modo` | **L2** |
 | Acima + `S2-Q3: usa Agent ou Coding Agent` + `S2-Q5: 4+ features` + ganho positivo | **L3** |
 | Acima + `S2-Q3: Coding Agent` + `S2-Q5: Spaces` + `S2-Q7: ganho >40%` + `S2-Q5: 5+ features` | **L4** |
+
+Notas (conservadoras):
+- "Ganho positivo" = resposta explícita `+10%` ou mais em S2-Q7. Ganho não respondido ou "Não sei medir" NÃO concede L3.
+- Cada nível exige a base do nível anterior (L3 e L4 exigem uso diário).
 
 ### D3 — MS/GH Tooling Breadth
 
@@ -113,7 +117,9 @@ Soma ponderada (max ~10 pontos), mapeada para 0-4:
 - "Frequentemente" → +0.5
 - "Não crio agents" → 0 (neutro)
 
-**Fórmula:** `(coverage × 0.6 × 4) + min(n_primitivos × 0.25, 1.0) + (test_bonus × 0.36)`. Cap em 4.0.
+**Fórmula:** `(coverage × 0.6 × 4) + min(n_primitivos × 0.25, 1.0) + (test_bonus × 0.6)`. Cap em 4.0.
+
+> Os três componentes somam exatamente 4.0 (2.4 + 1.0 + 0.6), então L4 é atingível.
 
 **Cobertura mínima:** se `<5` perguntas respondidas → retorna `None` (não scored).
 
@@ -127,15 +133,18 @@ Soma ponderada (max ~10 pontos), mapeada para 0-4:
 |  | 1 tipo | +1 |
 | `S6-Q2` Maintainer | "Time inteiro contribui" | +2 |
 |  | "1-2 dedicadas" | +1.5 |
+|  | "Eu mantenho sozinho" | +1 |
 |  | "Ninguém mantém" / "Não temos" | -1 |
 | `S6-Q3` Update freq | "Toda semana" | +1 |
 |  | "Mensalmente" | +0.7 |
+|  | "Trimestralmente" | +0.4 |
 |  | "Nunca" | -0.5 |
 | `S6-Q4` Content (multi) | n_tipos × 0.3 (cap 2.0) | até +2 |
 | `S6-Q5` Library shared | "Copilot Space" / "repo dedicado" | +1 |
+|  | "wiki/Confluence" | +0.5 |
 |  | "Não compartilhamos" | -0.5 |
 
-**Mapping:** `score / 9 × 4`.
+**Mapping:** `score / 8 × 4` (8 é o máximo real atingível: 2 + 2 + 1 + 2 + 1).
 
 ### D7 — Best Practices
 
@@ -161,7 +170,7 @@ Maior número de regras + penalizações por red flags:
 
 | Pergunta | Sinal | Pontos |
 |---|---|---|
-| `S8-Q1` Política + `S8-Q4` (Sec tools) | "Não temos política" + "Nenhuma ferramenta" | **Hard L0** |
+| `S8-Q1` Política + `S8-Q4` (Sec tools) | ("Não temos política" OU "Não sei") + "Nenhuma ferramenta" | **Hard L0** |
 | `S8-Q1` | "formal e clara" | +2 |
 |  | "pouco clara" | +1 |
 |  | "informal" | +0.5 |
@@ -186,6 +195,20 @@ Maior número de regras + penalizações por red flags:
 overall = média(D2..D8)  # apenas dimensões com score != None
 ```
 
+## 🛡️ Guardrail de cobertura de match
+
+O matching das regras é substring case-insensitive sobre as opções canônicas em PT-BR (com sinônimos EN/ES para as opções de maior sinal, ex.: licença, frequência, política). Se um cliente traduzir ou alterar as opções no Forms, as regras deixam de reconhecer as respostas e os scores deflacionam silenciosamente.
+
+Para proteger contra isso, `calcular_maturidade.py` mede por respondente a **cobertura de match**: % das perguntas pontuáveis respondidas cujo texto bate com alguma opção canônica conhecida (`rubric.match_coverage`). Comportamento sobre a média do time:
+
+| Cobertura média | Comportamento |
+|---|---|
+| ≥ 70% | Prossegue normalmente |
+| 40% a 70% | Prossegue com **aviso destacado** (scores podem estar subestimados) |
+| < 40% | **Aborta** com erro acionável; use `--force` para prosseguir assim mesmo |
+
+A cobertura medida (média/mínimo) sai em `metadata.match_coverage` no JSON de saída.
+
 ## 🧮 Agregação para o time
 
 ```
@@ -201,9 +224,11 @@ distribuição(D) = % de respondentes em cada L0-L4
 ```jsonc
 {
   "metadata": {
-    "computed_at": "2026-05-08T12:00:00Z",
+    "computed_at": "2026-07-03T12:00:00+00:00",
+    "source": "survey-devs/respostas-devs.json",
     "n_respondents": 12,
-    "rubric_version": "1.0 (deterministic)",
+    "rubric_version": "1.1 (deterministic)",
+    "match_coverage": {"avg_pct": 100.0, "min_pct": 100.0, "n_measured": 12},
     "anonymous": true,
     "scope": "team aggregate (no individual scores in output)"
   },
@@ -264,9 +289,21 @@ A maturidade individual (do survey) **alimenta e valida** as capabilities do ass
 
 > 💡 **Padrão clássico:** liderança avalia P1-C1 como L3, mas survey D2 mostra L1 (60% dos devs raramente usa) → **dissonância** entre estratégia e prática. A skill `/insights-developer-survey` destaca isso na seção 12 do relatório.
 
+## 📝 Changelog
+
+### v1.1 (2026-07-03) · reconciliação código vs. documento
+
+Auditoria encontrou divergências entre `rubric.py` e este documento (que é o contrato). Decisões tomadas, uma por divergência:
+
+1. **D2, gate de L3** · o código concedia L3 para uso semanal + Agent + (3+ modos OU 4+ features) sem exigir ganho positivo (ganho não respondido passava). **Decisão: código corrigido para seguir o documento** (uso diário + Agent ou Coding Agent + 4+ features + ganho positivo explícito), que é a regra conservadora. L4 também passa a exigir a base de L3 (uso diário), como o "Acima +" da tabela sempre indicou.
+2. **D5, peso de testes** · o código dava peso máximo 0.36 (9%) ao componente de testes, contradizendo os "15% do peso" declarados, e tornava L4 inatingível (máximo 3.76). **Decisão: código corrigido para 0.6** (15% de 4.0); os três componentes agora somam exatamente 4.0.
+3. **D6, divisor do mapping** · código e documento usavam `/9`, mas o máximo real de pontos é 8 (2+2+1+2+1), tornando L4 inatingível (máximo 3.56). **Decisão: ambos corrigidos para `/8`.**
+4. **Regras existentes no código e ausentes do documento** · documentadas sem mudança de comportamento: D8 hard-L0 inclui "Não sei" (não saber se existe política é, conservadoramente, equivalente a não ter); D6 "Trimestralmente" +0.4, "Eu mantenho sozinho" +1 e "wiki/Confluence" +0.5.
+5. **Novidades** · constante `RUBRIC_VERSION` em `rubric.py` (exportada para o metadata dos JSONs); sinônimos EN/ES para opções de maior sinal; guardrail de cobertura de match (seção acima).
+
 ## 📊 Calibração e revisão da rubrica
 
-Esta é a **versão 1.0**. Recomendado revisar trimestralmente baseado em:
+Esta é a **versão 1.1**. Recomendado revisar trimestralmente baseado em:
 
 - Casos onde score parece sub/super-estimado (calibrar pesos)
 - Mudanças no ecossistema (ex.: Copilot lança modo novo → adicionar em S2-Q3 + atualizar D2)

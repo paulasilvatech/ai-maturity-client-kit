@@ -37,7 +37,7 @@
    ```
    S2-Q1: Você tem licença GitHub Copilot ativa?
    ```
-   > ⚠️ O ID é usado pela skill `/importar-survey-devs` para mapear de volta. NÃO REMOVA.
+   > ⚠️ O ID é usado pela skill `/import-developer-survey` para mapear de volta. NÃO REMOVA.
 
 8. Compartilhe via **+ Send / Collect responses** → copiar link → enviar via Slack/Teams/email
 
@@ -937,5 +937,5 @@ Opções:
 1. Após coletar respostas, **Responses → Open in Excel** no Microsoft Forms
 2. Renomeie o Excel para `respostas-survey-devs.xlsx`
 3. Mova para a raiz do `kit-cliente/`
-4. No Copilot Chat (modo Agent): `/importar-survey-devs`
+4. No Copilot Chat (modo Agent): `/import-developer-survey`
 5. Depois: `/insights-developer-survey` para gerar relatório consolidado

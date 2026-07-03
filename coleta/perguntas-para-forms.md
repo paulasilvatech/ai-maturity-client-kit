@@ -1727,6 +1727,6 @@ _Tipo: Choice (single answer). Opções: as 6 fixas listadas no topo._
 2. Aguarde respostas (recomendado: ≥ 3 respondentes para reduzir viés)
 3. **Responses → Open in Excel** → baixar `.xlsx`
 4. Renomear para `respostas-forms.xlsx` e colocar na raiz do `kit-cliente/`
-5. No Copilot Chat (modo Agent), digitar: `/importar-respostas-excel`
+5. No Copilot Chat (modo Agent), digitar: `/import-assessment-responses`
 6. A skill converterá o Excel em `respostas.json` agregando múltiplos respondentes (média)
-7. Continuar fluxo normal: `/pipeline-completo`
+7. Continuar fluxo normal: `/run-full-pipeline`

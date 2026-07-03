@@ -1,0 +1,18 @@
+// Recommended VS Code workspace settings for this kit.
+//
+// This file is NOT read by VS Code directly. Copy it to .vscode/settings.json
+// (which is gitignored; only this .example file is whitelisted) and adjust to
+// taste. All Copilot customization in this kit (.github/copilot-instructions.md,
+// .github/agents/, .github/prompts/, .github/skills/) is discovered from its
+// default location and needs no settings.
+{
+  // Editor-level guard for the kit's do-not-modify files: VS Code opens them
+  // read-only, so accidental edits (by you or by an agent using the editor)
+  // are blocked deterministically.
+  "files.readonlyInclude": {
+    "framework.json": true,
+    "referencia/**": true,
+    "relatorios/templates/**": true,
+    "relatorios/i18n/**": true
+  }
+}

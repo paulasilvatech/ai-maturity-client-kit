@@ -22,7 +22,7 @@ Esta pasta contém um **survey separado** do assessment principal — focado em 
 | **Tempo por respondente** | 60-90 min | **22-28 min** | 5-8 min |
 | **Multi-respondente** | Possível mas não default | **Essencial** (média ≥5, ideal ≥15) | **Essencial** (>50% do time) |
 | **Output** | Relatório executivo + 5 PDFs | Relatório de insights + maturidade calculada | Plano de capacitação + Champions |
-| **Skills** | `/calcular-scores`, `/gerar-relatorio` etc. | `/importar-survey-devs` + `/insights-developer-survey` | [`/importar-survey-learning`](../survey-learning/) + `/plano-capacitacao` |
+| **Skills** | `/calculate-scores`, `/generate-reports` etc. | `/import-developer-survey` + `/insights-developer-survey` | [`/import-learning-survey`](../survey-learning/) + `/training-plan` |
 
 **Os 3 são complementares:**
 - Este **survey-devs** mede COMPORTAMENTO (anônimo)
@@ -67,7 +67,7 @@ Esta pasta contém um **survey separado** do assessment principal — focado em 
 3. Aguardar 2 semanas (lembretes periódicos)
 4. Responses → Open in Excel
 5. Salvar como respostas-survey-devs.xlsx na raiz do kit-cliente/
-6. /importar-survey-devs       → survey-devs/respostas-devs.json
+6. /import-developer-survey       → survey-devs/respostas-devs.json
 7. /insights-developer-survey  → saida/insights-developer-survey-DATA.md
 ```
 
@@ -79,7 +79,7 @@ Esta pasta contém um **survey separado** do assessment principal — focado em 
 3. Subir no SharePoint com permissão de edit
 4. Cada dev preenche uma linha
 5. Baixar e mover para raiz
-6. /importar-survey-devs + /insights-developer-survey
+6. /import-developer-survey + /insights-developer-survey
 ```
 
 ### Caminho C — Smoke test imediato (sem coleta real)
@@ -129,7 +129,7 @@ Se você rodou ambos:
 
 - O Microsoft Forms tem opção "Anonymous responses" — **MARCAR é mandatório** para este survey
 - Sem isso, o Forms captura email da conta MS365 do respondente (quebra anonimato)
-- A skill `/importar-survey-devs` valida que colunas Email/Name estão vazias e alerta se não estiverem
+- A skill `/import-developer-survey` valida que colunas Email/Name estão vazias e alerta se não estiverem
 - Quotes no relatório são citadas por **ID da pergunta** (ex.: "Resposta S9-Q1"), nunca por respondent_id ou cargo
 
 ## 📅 Cadência sugerida
@@ -148,7 +148,7 @@ Se você rodou ambos:
 - **Wizard que consolida no PDF executivo:** [`../wizard/`](../wizard/) — alimenta Parte 4 do PDF com dados deste survey + do learning survey
 
 ### Skills deste survey
-- Skill que importa Excel → JSON: [`../.github/skills/importar-survey-devs/SKILL.md`](../.github/skills/importar-survey-devs/SKILL.md)
+- Skill que importa Excel → JSON: [`../.github/skills/import-developer-survey/SKILL.md`](../.github/skills/import-developer-survey/SKILL.md)
 - Skill que gera relatório + maturidade: [`../.github/skills/insights-developer-survey/SKILL.md`](../.github/skills/insights-developer-survey/SKILL.md)
 
 ### Como os 3 surveys se conectam (recomendado rodar nesta ordem)
@@ -157,8 +157,8 @@ Se você rodou ambos:
 1. Survey-devs (anônimo, ESTE)      → mede comportamento real + maturidade calculada
 2. Survey-learning (identificado)   → mede desejo + barreiras + Champions
 3. Assessment principal             → liderança avalia INFORMADA pelos 2 acima
-4. /wizard-implementacao            → consolida tudo
-5. /gerar-relatorio                 → 5 PDFs production-quality
+4. /implementation-wizard            → consolida tudo
+5. /generate-reports                 → 5 PDFs production-quality
 ```
 
 ## 🔗 Fontes oficiais validadas (v2.0 — 2026-05-08)

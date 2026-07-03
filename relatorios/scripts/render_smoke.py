@@ -1,80 +1,30 @@
 #!/usr/bin/env python3
-"""
-Smoke test harness for the Final Report templates.
+"""Smoke test harness for the Final Report templates.
 
-Loads the sample fixture + i18n strings, renders each template through Jinja2 +
-WeasyPrint, and validates the NFR-REPORT-011 content-stripping policy against
-the rendered PDF text.
+Renders all 5 report templates from relatorios/sample_payload.json into a
+temporary directory (HTML-only by default, so no weasyprint is required) and
+validates the NFR-REPORT-011 content-stripping policy against the rendered
+HTML. Fails nonzero on any render error, missing i18n key, or forbidden token.
+
+Usage:
+  python3 render_smoke.py                 # HTML-only smoke into a temp dir
+  python3 render_smoke.py --out /tmp/x    # keep outputs in a chosen dir
+  python3 render_smoke.py --locale es     # smoke a specific locale
+  python3 render_smoke.py --pdf           # also produce PDFs (needs weasyprint)
 """
 from __future__ import annotations
 
-import json
+import argparse
 import re
 import sys
+import tempfile
 from pathlib import Path
-from typing import Any
 
-from jinja2 import Environment, FileSystemLoader, StrictUndefined
-from weasyprint import HTML, CSS
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import render_reports  # noqa: E402  (shares env/t()/render with the real pipeline)
 
-ROOT = Path(__file__).parent
-TEMPLATES = ROOT / "templates"
-I18N = ROOT / "i18n"
-FIXTURES = ROOT / "fixtures"
-OUT = ROOT / "rendered"
-OUT.mkdir(exist_ok=True)
-
-
-# ─── i18n helpers ────────────────────────────────────────────────
-def load_locale(locale: str) -> dict[str, str]:
-    return json.loads((I18N / f"{locale}.json").read_text())
-
-
-def make_t_filter(strings: dict[str, str]):
-    """Returns a `t()` template function that supports {placeholder} substitution."""
-    pattern = re.compile(r"\{(\w+)\}")
-
-    def t(key: str, **kwargs) -> str:
-        s = strings.get(key, f"⟨{key}⟩")  # show missing keys clearly
-        if kwargs:
-            return pattern.sub(lambda m: str(kwargs.get(m.group(1), m.group(0))), s)
-        return s
-
-    return t
-
-
-# ─── Renderer ────────────────────────────────────────────────────
-def render(template_name: str, payload: dict[str, Any], extra_ctx: dict | None = None,
-           out_label: str | None = None) -> bytes:
-    env = Environment(
-        loader=FileSystemLoader(TEMPLATES),
-        autoescape=True,
-        undefined=StrictUndefined,
-        trim_blocks=True,
-        lstrip_blocks=True,
-    )
-    locale = payload.get("locale", "en")
-    strings = load_locale(locale)
-    t = make_t_filter(strings)
-    env.globals["t"] = t  # callable in templates
-    env.filters["t"] = t  # also as filter
-
-    template = env.get_template(template_name)
-    ctx = {**payload, **(extra_ctx or {})}
-    html_str = template.render(**ctx)
-
-    # Persist rendered HTML for inspection — use the same label as PDF so
-    # multiple variants (per pillar) don't overwrite each other.
-    label = out_label or template_name.replace(".html.j2", "")
-    html_path = OUT / f"{label}.html"
-    html_path.write_text(html_str)
-
-    css_path = TEMPLATES / "_print.css"
-    pdf_bytes = HTML(string=html_str, base_url=str(TEMPLATES)).write_pdf(
-        stylesheets=[CSS(filename=str(css_path))]
-    )
-    return pdf_bytes
-
+ROOT = Path(__file__).resolve().parent.parent  # kit-cliente/relatorios/
+SAMPLE_PAYLOAD = ROOT / "sample_payload.json"
 
 # ─── Content lint per NFR-REPORT-011 ─────────────────────────────
 FORBIDDEN_TOKENS = [
@@ -88,18 +38,14 @@ FORBIDDEN_TOKENS = [
 ]
 
 
-def lint_content(pdf_bytes: bytes, label: str) -> list[str]:
+def lint_content(html_path: Path) -> list[str]:
     """Content scan against forbidden tokens per NFR-REPORT-011.
 
-    Scans only the rendered HTML (the source of truth for visible content).
+    Scans the rendered HTML (the source of truth for visible content).
     Scanning compressed PDF byte streams produces false positives because
     PDF object/xref tables contain arbitrary byte sequences.
     """
-    html_path = OUT / f"{label}.html"
-    if not html_path.exists():
-        return [f"  ✗ HTML not found at {html_path}"]
-    text_corpus = html_path.read_text(errors="replace")
-
+    text_corpus = html_path.read_text(encoding="utf-8", errors="replace")
     violations = []
     for pattern in FORBIDDEN_TOKENS:
         for m in re.finditer(pattern, text_corpus):
@@ -108,62 +54,85 @@ def lint_content(pdf_bytes: bytes, label: str) -> list[str]:
     return violations
 
 
-# ─── Main ────────────────────────────────────────────────────────
 def main() -> int:
-    payload_path = FIXTURES / "sample_payload.json"
-    payload = json.loads(payload_path.read_text())
-    print(f"Loaded payload: {payload_path}  ({payload_path.stat().st_size:,} bytes)")
+    ap = argparse.ArgumentParser(
+        description="Smoke-render dos 5 templates a partir do sample_payload.json."
+    )
+    ap.add_argument("--out", default=None,
+                    help="Output dir (default: novo diretório temporário)")
+    ap.add_argument("--locale", choices=render_reports.LOCALES, default=None,
+                    help="override payload.locale (default: locale do sample)")
+    ap.add_argument("--pdf", action="store_true",
+                    help="also render PDFs (requires weasyprint; default is HTML-only)")
+    args = ap.parse_args()
+
+    out_dir = Path(args.out) if args.out else Path(
+        tempfile.mkdtemp(prefix="render-smoke-")
+    )
+    out_dir.mkdir(parents=True, exist_ok=True)
+    html_only = not args.pdf
+
+    payload = render_reports.load_payload(SAMPLE_PAYLOAD)
+    if args.locale:
+        payload["locale"] = args.locale
+    locale = payload.get("locale", "en")
+
+    print(f"Payload: {SAMPLE_PAYLOAD}  ({SAMPLE_PAYLOAD.stat().st_size:,} bytes)")
     print(f"  organization: {payload['organization']['name']}")
     print(f"  capabilities: {len(payload['capabilities'])}")
     print(f"  pillars     : {len(payload['scores']['pillars'])}")
     print(f"  horizons    : {len(payload['horizons'])}")
+    print(f"  locale      : {locale}")
+    print(f"  out dir     : {out_dir}")
+    print(f"  mode        : {'HTML-only' if html_only else 'HTML + PDF'}")
     print()
 
+    strings = render_reports.load_locale(locale)
+    missing_keys: set[str] = set()
+    env = render_reports.build_env(strings, missing_keys)
+
     targets = [
-        ("score_justification.html.j2", {}),
-        ("roadmap_part_pillar.html.j2", {"pillar_focus": "P1"}),
-        ("roadmap_part_pillar.html.j2", {"pillar_focus": "P2"}),
-        ("roadmap_part_pillar.html.j2", {"pillar_focus": "P3"}),
-        ("roadmap_part4.html.j2", {}),
+        ("score_justification.html.j2", {}, "score_justification"),
+        ("roadmap_part_pillar.html.j2", {"pillar_focus": "P1"}, "roadmap_part_pillar_p1"),
+        ("roadmap_part_pillar.html.j2", {"pillar_focus": "P2"}, "roadmap_part_pillar_p2"),
+        ("roadmap_part_pillar.html.j2", {"pillar_focus": "P3"}, "roadmap_part_pillar_p3"),
+        ("roadmap_part4.html.j2", {}, "roadmap_part4"),
     ]
 
     overall_ok = True
-
-    for tmpl, extra in targets:
-        label_suffix = ""
-        if "pillar_focus" in extra:
-            label_suffix = f"_{extra['pillar_focus'].lower()}"
-        out_label = tmpl.replace(".html.j2", "") + label_suffix
+    for tmpl, extra, label in targets:
         print(f"━━━ Rendering {tmpl} {extra} ━━━")
         try:
-            pdf_bytes = render(tmpl, payload, extra, out_label=out_label)
+            out_path = render_reports.render(env, tmpl, payload, extra, out_dir,
+                                             label, html_only)
         except Exception as e:
             print(f"  ✗ FAILED: {type(e).__name__}: {e}")
             overall_ok = False
             continue
+        print(f"  ✓ {out_path.name}: {out_path.stat().st_size:,} bytes")
 
-        out_path = OUT / f"{out_label}.pdf"
-        out_path.write_bytes(pdf_bytes)
-        print(f"  ✓ {out_path.name}: {len(pdf_bytes):,} bytes")
-
-        # Lint per NFR-REPORT-011
-        violations = lint_content(pdf_bytes, out_label)
+        violations = lint_content(out_dir / f"{label}.html")
         if violations:
-            print(f"  ✗ Content lint failed for {out_label}:")
+            print(f"  ✗ Content lint failed for {label}:")
             for v in violations:
                 print(v)
             overall_ok = False
         else:
-            print(f"  ✓ Content lint passed (no forbidden tokens)")
+            print("  ✓ Content lint passed (no forbidden tokens)")
         print()
+
+    if missing_keys:
+        overall_ok = False
+        print(f"✗ Missing i18n key(s) in {locale}.json:")
+        for key in sorted(missing_keys):
+            print(f"    - {key}")
 
     print("─" * 60)
     if overall_ok:
-        print("✓ ALL TEMPLATES RENDERED + LINT PASSED")
+        print(f"✓ ALL TEMPLATES RENDERED + LINT PASSED ({out_dir})")
         return 0
-    else:
-        print("✗ FAILURES")
-        return 1
+    print("✗ FAILURES")
+    return 1
 
 
 if __name__ == "__main__":

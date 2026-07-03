@@ -15,7 +15,7 @@
 
 - ✅ Antes de definir estratégia de adoção de IA na engenharia
 - ✅ Após rollout de GitHub Copilot para medir adoção real
-- ✅ Como input para o `/wizard-implementacao` (Implementation Guide do assessment principal)
+- ✅ Como input para o `/implementation-wizard` (Implementation Guide do assessment principal)
 - ✅ Trimestralmente para acompanhar evolução cultural
 - ✅ Antes de workshops de Copilot/AI para identificar gaps
 
@@ -118,7 +118,7 @@ Use o documento [`perguntas-para-forms-devs.md`](perguntas-para-forms-devs.md) c
    ```
    S2-Q1: Você tem licença GitHub Copilot ativa?
    ```
-   > ⚠️ **CRÍTICO:** o ID é usado pela skill `/importar-survey-devs` para mapear de volta ao schema. Não remova nem altere o formato `SX-QY:`.
+   > ⚠️ **CRÍTICO:** o ID é usado pela skill `/import-developer-survey` para mapear de volta ao schema. Não remova nem altere o formato `SX-QY:`.
 
 3. **Opções** (para choice/multi): cole as opções listadas no MD, **uma por linha**, na ordem.
 
@@ -153,7 +153,7 @@ Use o documento [`perguntas-para-forms-devs.md`](perguntas-para-forms-devs.md) c
 No Copilot Chat (modo Agent):
 
 ```
-/importar-survey-devs
+/import-developer-survey
 ```
 
 A skill:
@@ -188,7 +188,7 @@ Mais rápido se a equipe é pequena (3-5 devs) e técnica.
 2. Apague as 5 linhas de respondentes mockados (linhas 2-6) — manter linha 1 (headers)
 3. Salve como `respostas-survey-devs.xlsx` e suba no SharePoint com link "Anyone can edit"
 4. Cada dev preenche **uma linha** com suas respostas (texto livre nas células de resposta)
-5. Quando todos preencherem: baixe → mova para raiz do kit → `/importar-survey-devs`
+5. Quando todos preencherem: baixe → mova para raiz do kit → `/import-developer-survey`
 
 **Trade-off:** menos visual que Forms, mas zero setup. Adequado para times técnicos.
 
@@ -237,7 +237,7 @@ Devs respondem mais um próximo survey se virem que o anterior gerou ação. Ap�
 - **As 75 perguntas formatadas:** [`perguntas-para-forms-devs.md`](perguntas-para-forms-devs.md)
 - **Template Excel pronto (5 mocks):** [`template-export-forms-devs.xlsx`](template-export-forms-devs.xlsx)
 - **JSON estruturado de exemplo:** [`respostas-mock-devs.json`](respostas-mock-devs.json)
-- **Skill de import:** [`../.github/skills/importar-survey-devs/SKILL.md`](../.github/skills/importar-survey-devs/SKILL.md)
+- **Skill de import:** [`../.github/skills/import-developer-survey/SKILL.md`](../.github/skills/import-developer-survey/SKILL.md)
 - **Skill de insights:** [`../.github/skills/insights-developer-survey/SKILL.md`](../.github/skills/insights-developer-survey/SKILL.md)
 - **Relação com o assessment principal:** este survey COMPLEMENTA o assessment de maturidade. Os insights aqui informam as questões P1-C1, P1-C5, P1-C8 (Copilot, Onboarding, Métricas) e a governança em P2-C4 / P3-C6.
 
