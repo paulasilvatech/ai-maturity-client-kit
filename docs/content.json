@@ -1,6 +1,7 @@
 {
   "repositoryUrl": "https://github.com/paulasilvatech/ai-maturity-client-kit",
   "siteUrl": "https://paulasilvatech.github.io/ai-maturity-client-kit/",
+  "hubUrl": "https://agenticdevopsplatform.ai/",
   "contactLinkedIn": "https://linkedin.com/in/paulanunes",
   "profileImage": "assets/paula-about.jpg",
   "downloads": {
@@ -40,7 +41,9 @@
         "aboutText": "Kit auto-servico para conduzir assessment de maturidade IA com GitHub Copilot, 3 surveys complementares e 5 PDFs executivos.",
         "linksTitle": "Menu",
         "contactTitle": "Contato",
-        "contactLabel": "LinkedIn"
+        "contactLabel": "LinkedIn",
+        "hubKicker": "Visitar o site completo",
+        "hubTitle": "Agentic DevOps Platform"
       },
       "nav": {
         "pipeline": "Pipeline",
@@ -424,7 +427,9 @@
         "aboutText": "Self-service kit for running an AI maturity assessment with GitHub Copilot, 3 complementary surveys, and 5 executive PDFs.",
         "linksTitle": "Menu",
         "contactTitle": "Contact",
-        "contactLabel": "LinkedIn"
+        "contactLabel": "LinkedIn",
+        "hubKicker": "Visit the complete site",
+        "hubTitle": "Agentic DevOps Platform"
       },
       "nav": {
         "pipeline": "Pipeline",
@@ -808,7 +813,9 @@
         "aboutText": "Kit de autoservicio para ejecutar una evaluacion de madurez en IA con GitHub Copilot, 3 encuestas complementarias y 5 PDFs ejecutivos.",
         "linksTitle": "Menu",
         "contactTitle": "Contacto",
-        "contactLabel": "LinkedIn"
+        "contactLabel": "LinkedIn",
+        "hubKicker": "Visitar el sitio completo",
+        "hubTitle": "Agentic DevOps Platform"
       },
       "nav": {
         "pipeline": "Pipeline",
