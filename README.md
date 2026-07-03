@@ -16,7 +16,7 @@
 
 🌐 **Mini-site público:** [paulasilvatech.github.io/ai-maturity-client-kit](https://paulasilvatech.github.io/ai-maturity-client-kit/) — apresentação visual + botão de download (ative GitHub Pages em Settings → Pages → Source: GitHub Actions)
 
-🌍 **Language kits:** PT-BR está neste README. English: [kit-en/README.md](kit-en/README.md) · Español: [kit-es/README.md](kit-es/README.md). Os ZIPs EN/ES incluem documentação traduzida e bancos canônicos de perguntas em PT-BR para preservar IDs de parsing.
+🌍 **Idiomas:** Português (BR), você está aqui · English: [README.en.md](README.en.md) · Español: [README.es.md](README.es.md). Cada ZIP (PT/EN/ES) já vem com a documentação no idioma escolhido; os bancos canônicos de perguntas em PT-BR acompanham todos os pacotes para preservar IDs de parsing.
 
 > **Para o cliente:** este pacote contém tudo que você precisa para conduzir o **AI Maturity Assessment** sem depender da plataforma web. Você responde um JSON, abre o GitHub Copilot Chat no VS Code, digita um comando, e recebe **planilha, scores, gap analysis, recomendações de estratégia e relatório executivo** em PT-BR.
 

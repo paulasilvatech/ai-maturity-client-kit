@@ -38,7 +38,7 @@ CI (`.github/workflows/ci.yml`) runs all of the above on every pull request and 
 ## Language policy
 
 - **Primitives are English:** code, code comments, commit messages, workflows, scripts, and contributor docs (this file, SECURITY.md, hooks).
-- **Client-facing documentation is trilingual:** PT-BR is the canonical source, with EN (`kit-en/`) and ES (`kit-es/`) counterparts.
+- **Client-facing documentation is trilingual:** PT-BR is the canonical source; EN and ES counterparts are sibling variants (`<name>.en.md` / `<name>.es.md`) that the packager ships under the canonical filename in the EN/ES ZIPs. `scripts/check_language_coverage.py` enforces coverage in CI.
 - **Client outputs are localized:** generated reports follow `respostas.json::metadata.language` (pt-br / en / es).
 - No em-dashes in client-facing content (see `referencia/branding/VOICE.md`).
 

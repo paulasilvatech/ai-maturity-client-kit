@@ -23,7 +23,7 @@ produces a personalized capacitation plan). A concierge agent, one pipeline prom
 ## Language policy
 
 - Copilot primitives (this file, `.github/instructions/`, agents, prompts, skills) are written 100% in English.
-- User-facing documentation is trilingual: PT (root), EN (`kit-en/`), ES (`kit-es/`).
+- User-facing documentation is trilingual: PT-BR is the canonical doc; EN/ES live as sibling variants (`<name>.en.md` / `<name>.es.md`) next to it and ship under the canonical filename in the EN/ES ZIPs.
 - Client-facing outputs (reports, chat replies, generated artifacts) follow `respostas.json::metadata.language`, default pt-br.
 
 ## Output conventions

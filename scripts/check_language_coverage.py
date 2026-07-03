@@ -3,12 +3,15 @@
 
 The inventory is auto-derived instead of hand-maintained: every *.md under
 the kit root counts as a user-facing PT-BR doc, excluding
-contributor/maintainer areas (.github/, docs/, kit-en/, kit-es/, tooling and
-output dirs) and an explicit EXEMPT list of English-only engineering docs.
+contributor/maintainer areas (.github/, docs/, tooling and output dirs), an
+explicit EXEMPT list of English-only engineering docs, and generated PT-BR
+sample artifacts that are language-invariant by policy.
 
-Each non-exempt PT-BR doc must have an EN and an ES counterpart, provided
-either as a sibling variant (<name>.en.md / <name>.es.md) or as an explicit
-kit-en/ / kit-es/ mapping.
+Each non-exempt PT-BR doc must have an EN and an ES counterpart, provided as
+a sibling variant (<name>.en.md / <name>.es.md) or, for example trees, as a
+language-directory twin (<dir>/en/<name>, <dir>/es/<name>). The packager
+(scripts/build_language_kits.py) ships each sibling under its canonical
+filename inside the EN/ES ZIPs.
 
 The script also verifies i18n key parity across the three report string
 catalogs in relatorios/i18n/ (pt-br.json, en.json, es.json).
@@ -37,8 +40,6 @@ EXCLUDED_DIR_PARTS = {
     "__pycache__",
     "build",
     "docs",
-    "kit-en",
-    "kit-es",
     "node_modules",
     "saida",
 }
@@ -59,22 +60,27 @@ EXEMPT_DOCS = {
     "survey-devs/scripts/README.md",
     "survey-learning/scripts/README.md",
     "wizard/scripts/README.md",
-}
-
-# PT-BR docs whose translations live in kit-en/ / kit-es/ under other names.
-KIT_DOC_MAP = {
-    "README.md": {"en": "kit-en/README.md", "es": "kit-es/README.md"},
-    "GUIA-PASSO-A-PASSO.md": {
-        "en": "kit-en/STEP-BY-STEP.md",
-        "es": "kit-es/PASO-A-PASO.md",
-    },
-    "coleta/INSTRUCOES-FORMS.md": {
-        "en": "kit-en/FORMS-INSTRUCTIONS.md",
-        "es": "kit-es/INSTRUCCIONES-FORMS.md",
-    },
+    # Branding sources are the English canon consumed by the report skills;
+    # they are language-invariant by design.
+    "referencia/branding/IDENTITY.md",
+    "referencia/branding/VOICE.md",
 }
 
 LANGUAGE_SUFFIXES = (".en.md", ".es.md")
+
+
+def is_language_invariant_sample(rel: str) -> bool:
+    """Generated PT-BR sample artifacts, exempt from translation by policy.
+
+    referencia/exemplo-saida/ holds outputs produced by running the real
+    pipeline on the mock client data. The EN/ES example PDFs live in the
+    en/ and es/ subtrees; the remaining PT-BR artifacts (*-EXEMPLO.* files
+    and import logs) are pipeline outputs, not authored documentation.
+    """
+    path = Path(rel)
+    if not rel.startswith("referencia/exemplo-saida/"):
+        return False
+    return "-EXEMPLO." in path.name or path.name.startswith("import-log-")
 
 I18N_CATALOGS = {
     "pt-br": "relatorios/i18n/pt-br.json",
@@ -111,19 +117,21 @@ def translation_for(rel: str, lang: str) -> str | None:
     lang_dir = (path.parent / lang / path.name).as_posix()
     if (ROOT / lang_dir).exists():
         return lang_dir
-    mapped = KIT_DOC_MAP.get(rel, {}).get(lang)
-    if mapped and (ROOT / mapped).exists():
-        return mapped
     return None
 
 
 def check_docs() -> int:
     docs = discover_pt_docs()
     exempt = [d for d in docs if d in EXEMPT_DOCS]
-    required = [d for d in docs if d not in EXEMPT_DOCS]
+    invariant = [d for d in docs if is_language_invariant_sample(d)]
+    required = [
+        d for d in docs
+        if d not in EXEMPT_DOCS and not is_language_invariant_sample(d)
+    ]
 
     print(f"\nUser-facing docs (auto-derived): {len(required)} PT-BR docs "
-          f"require EN+ES; {len(exempt)} English-only engineering docs exempt")
+          f"require EN+ES; {len(exempt)} English-only engineering docs and "
+          f"{len(invariant)} generated sample artifacts exempt")
 
     missing_count = 0
     report: list[tuple[str, list[str]]] = []

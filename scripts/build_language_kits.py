@@ -3,7 +3,11 @@
 
 Packaging rule:
 - Copilot customization files under .github/ stay in English in every package.
-- Client-facing documentation in each package must match the selected language.
+- Client-facing documentation in each package must match the selected language:
+  EN/ES packages ship the <name>.en.md / <name>.es.md sibling variant of each
+  Markdown doc under its canonical filename (e.g. README.en.md becomes the
+  package's README.md). Missing variants fail the build unless
+  --allow-missing-variants is passed.
 - Shared scripts, templates, JSON schemas, workbooks, and renderers are reused.
 """
 
@@ -75,6 +79,9 @@ SHARED_RUNTIME_ROOTS = [
 ]
 
 SHARED_CLIENT_ASSETS = [
+    # Root entry point. EN/ES packages ship README.<lang>.md under the
+    # canonical name README.md via sibling variant resolution.
+    "README.md",
     # Question banks referenced by every language package. The canonical IDs
     # remain unchanged so Microsoft Forms exports keep parsing correctly.
     "coleta/perguntas-para-forms.md",
@@ -168,20 +175,6 @@ PRIMITIVE_REFERENCE_ALLOWLIST = {
     # mentions the en/ tree (packaged only in the EN ZIP).
     "referencia/exemplo-saida/roadmap_part4.pdf",
     "referencia/exemplo-saida/en",
-}
-
-LANGUAGE_DOCS = {
-    "pt": [],
-    "en": [
-        ("kit-en/README.md", "README.md"),
-        ("kit-en/STEP-BY-STEP.md", "STEP-BY-STEP.md"),
-        ("kit-en/FORMS-INSTRUCTIONS.md", "FORMS-INSTRUCTIONS.md"),
-    ],
-    "es": [
-        ("kit-es/README.md", "README.md"),
-        ("kit-es/PASO-A-PASO.md", "PASO-A-PASO.md"),
-        ("kit-es/INSTRUCCIONES-FORMS.md", "INSTRUCCIONES-FORMS.md"),
-    ],
 }
 
 LANGUAGE_NOTES = {
@@ -405,7 +398,6 @@ def validate_packaging_sources() -> None:
         COPILOT_CUSTOMIZATION_ROOTS
         + SHARED_RUNTIME_ROOTS
         + SHARED_CLIENT_ASSETS
-        + [source for docs in LANGUAGE_DOCS.values() for source, _ in docs]
         + reference_example_manifest()
     )
     missing = [path for path in required if not (ROOT / path).exists()]
@@ -436,14 +428,17 @@ def add_pt_documentation(zf: zipfile.ZipFile) -> None:
         ".github/",
         ".git/",
         "docs/",
-        "kit-en/",
-        "kit-es/",
         "saida/",
         "dist/",
     )
     for file_path in sorted(ROOT.rglob("*.md")):
         rel = normalized(file_path.relative_to(ROOT))
         if rel.startswith(excluded_prefixes) or is_common_excluded(rel):
+            continue
+        # EN/ES sibling variants belong to the EN/ES packages; the PT package
+        # only carries the ones listed explicitly in SHARED_CLIENT_ASSETS
+        # (the trilingual question banks, added before this step).
+        if rel.endswith(LANGUAGE_SUFFIXES):
             continue
         add_file(zf, rel)
 
@@ -456,12 +451,15 @@ def add_pt_documentation(zf: zipfile.ZipFile) -> None:
 def add_localized_docs(zf: zipfile.ZipFile, lang: str) -> None:
     if lang == "pt":
         add_pt_documentation(zf)
-    for source, dest in LANGUAGE_DOCS[lang]:
-        add_file(zf, source, dest)
     zf.writestr("PACKAGE-LANGUAGE-NOTES.md", LANGUAGE_NOTES[lang])
 
 
-def build_archive(lang: str, output_dir: Path) -> Path:
+def build_archive(
+    lang: str,
+    output_dir: Path,
+    *,
+    allow_missing_variants: bool = False,
+) -> Path:
     output_dir.mkdir(parents=True, exist_ok=True)
     archive_path = output_dir / ARCHIVE_NAMES[lang]
     if archive_path.exists():
@@ -479,13 +477,22 @@ def build_archive(lang: str, output_dir: Path) -> Path:
         add_localized_docs(zf, lang)
 
     if missing_variants:
+        listing = "\n".join(f"  - {variant}" for variant in missing_variants)
+        if not allow_missing_variants:
+            archive_path.unlink(missing_ok=True)
+            raise FileNotFoundError(
+                f"[{lang}] {len(missing_variants)} required language "
+                f"variant(s) missing — the {ARCHIVE_NAMES[lang]} package "
+                f"would ship untranslated PT-BR docs:\n{listing}\n"
+                f"Add the .{lang}.md sibling(s) (see "
+                f"scripts/check_language_coverage.py) or pass "
+                f"--allow-missing-variants to ship the PT-BR fallback."
+            )
         print(
             f"WARNING [{lang}]: {len(missing_variants)} language variant(s) "
-            f"missing — shipping the PT-BR original instead:",
+            f"missing — shipping the PT-BR original instead:\n{listing}",
             file=sys.stderr,
         )
-        for variant in missing_variants:
-            print(f"  - {variant}", file=sys.stderr)
 
     validate_primitive_references(archive_path)
     return archive_path
@@ -496,7 +503,7 @@ def build_archive(lang: str, output_dir: Path) -> Path:
 PRIMITIVE_PATH_PATTERN = re.compile(
     r"(?<![\w./-])"
     r"((?:\.github|scripts|relatorios|coleta|survey-devs|survey-learning|"
-    r"wizard|referencia|formularios|saida|dist|docs|kit-en|kit-es)/"
+    r"wizard|referencia|formularios|saida|dist|docs)/"
     r"[\w./À-ɏ-]+)"
 )
 
@@ -562,6 +569,12 @@ def main() -> None:
         action="store_true",
         help="Delete the output directory before building.",
     )
+    parser.add_argument(
+        "--allow-missing-variants",
+        action="store_true",
+        help="Ship the PT-BR original (with a warning) when an EN/ES sibling "
+        "variant is missing, instead of failing the build.",
+    )
     args = parser.parse_args()
 
     output_dir = (ROOT / args.out).resolve()
@@ -569,7 +582,14 @@ def main() -> None:
         shutil.rmtree(output_dir)
 
     validate_packaging_sources()
-    archives = [build_archive(lang, output_dir) for lang in ("pt", "en", "es")]
+    archives = [
+        build_archive(
+            lang,
+            output_dir,
+            allow_missing_variants=args.allow_missing_variants,
+        )
+        for lang in ("pt", "en", "es")
+    ]
     for archive in archives:
         size_mb = archive.stat().st_size / (1024 * 1024)
         try:

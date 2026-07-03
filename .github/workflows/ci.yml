@@ -42,7 +42,7 @@ jobs:
         run: python3 -m json.tool docs/content.json > /dev/null
 
       - name: Language coverage report
-        run: python3 scripts/check_language_coverage.py --warn-only
+        run: python3 scripts/check_language_coverage.py
 
       - name: Packaging dry-run (all three language ZIPs)
         run: |

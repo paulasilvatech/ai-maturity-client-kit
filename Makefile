@@ -47,8 +47,7 @@ ci: smoke-cross test validate-docs
 
 validate-docs:
 	@$(PY) -m json.tool docs/content.json >/dev/null
-	@# TODO: drop --warn-only once the pending EN/ES doc translations land.
-	@$(PY) scripts/check_language_coverage.py --warn-only
+	@$(PY) scripts/check_language_coverage.py
 	@$(PY) scripts/build_language_kits.py --out dist-validate --clean >/dev/null
 	@rm -rf dist-validate
 	@echo "docs and package sources OK"
