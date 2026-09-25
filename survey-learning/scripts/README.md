@@ -1,24 +1,30 @@
 # `survey-learning/scripts/`
 
-📖 **Navegação:** [🏠 Índice](../../README.md) · [« Learning Survey](../README.md)
+🌐 English · [Português (Brasil)](README.pt-br.md)
 
-Scripts que constroem o plano de capacitação a partir do Learning & Growth Survey (identificado).
+📖 **Navigation:** [🏠 Index](../../README.md) · [« Learning Survey](../README.md)
 
-## Conteúdo
+Scripts that build the capacitation plan from the Learning & Growth Survey (identified).
 
-| Arquivo | Propósito |
+## Contents
+
+| File | Purpose |
 |---|---|
-| [`gerar_plano_capacitacao.py`](gerar_plano_capacitacao.py) | Lê `survey-learning/respostas-learning.json` e gera `saida/plano-capacitacao-<DATE>.md` — 12 seções com top 10 tópicos demandados, cohorts por dimensão D2-D8 (com listas nominais de inscritos), Champions Network em 3 tiers, mentor↔mentee pairs, calendário 90 dias, barreiras priorizadas. |
+| [`gerar_plano_capacitacao.py`](gerar_plano_capacitacao.py) | Reads `survey-learning/respostas-learning.json` and generates `saida/plano-capacitacao-<DATE>.md`: 12 sections with the top 10 requested topics, cohorts per dimension D2-D8 (with named attendee lists), a 3-tier Champions Network, mentor↔mentee pairs, a 90-day calendar, and prioritized barriers. |
 
-## Uso
+## Usage
 
 ```bash
+# English (default)
 python3 survey-learning/scripts/gerar_plano_capacitacao.py
+
+# Portuguese (Brazil)
+python3 survey-learning/scripts/gerar_plano_capacitacao.py --lang pt-br
 ```
 
 > [!IMPORTANT]
-> Este script é invocado pela skill `/plano-capacitacao`. O agente concierge faz isso automaticamente; você só roda diretamente se quiser regenerar sem passar pelo chat.
+> This script is invoked by the `/plano-capacitacao` skill. The concierge agent does it automatically; you only run it directly if you want to regenerate without going through chat.
 
 ## Output
 
-Markdown completo em PT-BR (~10 páginas equivalentes), pronto para apresentar à liderança ou anexar em proposta de capacitação.
+Full Markdown (~10 equivalent pages), written in **English by default** (PT-BR with `--lang pt-br`), ready to present to leadership or attach to a capacitation proposal.

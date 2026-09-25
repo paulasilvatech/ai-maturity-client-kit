@@ -1,17 +1,47 @@
-"""Rubrica determinística de maturidade IA — Developer Survey v2.0.
+"""Deterministic AI maturity rubric for the Developer Survey v2.0.
 
-Mapeia respostas individuais para níveis L0-L4 em 7 dimensões. Resultado
-agregado vira score do time (média ponderada) + distribuição (% devs por L).
+Maps individual answers to levels L0-L4 across 7 dimensions. The team
+result is the average score plus the distribution (% of devs per level).
 
-Princípios:
-- Determinística: mesma resposta → mesmo nível, sempre
-- Auditável: cada regra documentada
-- Conservadora: na dúvida, desce o nível (evita inflar maturidade)
-- Anonimato: aplica por respondente individual, mas só agregados saem no relatório
+Principles:
+- Deterministic: the same answer always yields the same level
+- Auditable: every rule is documented
+- Conservative: when in doubt, score lower (avoids inflating maturity)
+- Anonymous: scored per respondent, but only aggregates reach the report
 
-Cada função `score_DX(responses)` retorna float em [0.0, 4.0] ou None se cobertura insuficiente.
+Each `score_DX(responses)` returns a float in [0.0, 4.0], or None when
+coverage is insufficient.
+
+Match strings are Portuguese on purpose: they must equal the answer
+options exported from the Microsoft Forms survey.
 """
 from typing import Optional
+
+SUPPORTED_LANGS = ("en", "pt-br")
+
+LEVEL_LABELS = {
+    "en": [
+        "L0 Initial",
+        "L1 Developing",
+        "L2 Defined",
+        "L3 Managed",
+        "L4 Optimizing",
+    ],
+    "pt-br": [
+        "L0 — Inicial",
+        "L1 — Em Desenvolvimento",
+        "L2 — Definido",
+        "L3 — Gerenciado",
+        "L4 — Otimizando",
+    ],
+}
+
+NO_DATA_LABEL = {"en": "No data", "pt-br": "Sem dados"}
+OVERALL_NAME = {"en": "Overall Maturity", "pt-br": "Maturidade Overall"}
+
+
+def _lang(lang: str) -> str:
+    return lang if lang in SUPPORTED_LANGS else "en"
 
 
 # =========================================================
@@ -36,7 +66,7 @@ def _multi(responses: dict, qid: str) -> list[str]:
 
 
 def _matches(answer: Optional[str], *patterns: str) -> bool:
-    """Case-insensitive substring match — answer contains ANY of patterns."""
+    """Case-insensitive substring match: answer contains ANY pattern."""
     if not answer:
         return False
     a = answer.lower()
@@ -51,7 +81,7 @@ def _multi_count(items: list[str], *patterns: str) -> int:
 # =========================================================
 # D2 — Copilot Adoption Maturity
 # =========================================================
-# Sinais: licença + frequência + breadth de modos + features + ganho percebido
+# Signals: license + frequency + mode breadth + features + perceived gain
 
 def score_D2(responses: dict) -> Optional[float]:
     """Copilot Adoption Maturity (L0-L4)."""
@@ -59,8 +89,9 @@ def score_D2(responses: dict) -> Optional[float]:
     if license_ans is None:
         return None
 
-    # Hard L0: sem licença ou tem mas não usa
-    if _matches(license_ans, "Não tenho licença") or _matches(license_ans, "Tenho licença mas não uso"):
+    # Hard L0: no license, or has one but does not use it
+    if (_matches(license_ans, "Não tenho licença")
+            or _matches(license_ans, "Tenho licença mas não uso")):
         return 0.0
 
     freq = _ans(responses, "S2-Q2")
@@ -70,9 +101,16 @@ def score_D2(responses: dict) -> Optional[float]:
         return 1.0
 
     modes = _multi(responses, "S2-Q3")
-    n_modes = sum(1 for m in modes if not _matches(m, "Não conheço", "Não uso"))
-    uses_agent = any(_matches(m, "Agent (autônomo no IDE", "Coding Agent") for m in modes)
-    uses_coding_agent = any(_matches(m, "Coding Agent (autônomo no GitHub") for m in modes)
+    n_modes = sum(
+        1 for m in modes if not _matches(m, "Não conheço", "Não uso")
+    )
+    uses_agent = any(
+        _matches(m, "Agent (autônomo no IDE", "Coding Agent")
+        for m in modes
+    )
+    uses_coding_agent = any(
+        _matches(m, "Coding Agent (autônomo no GitHub") for m in modes
+    )
 
     features = _multi(responses, "S2-Q5")
     n_features = len(features)
@@ -83,26 +121,29 @@ def score_D2(responses: dict) -> Optional[float]:
     high_gain = _matches(gain, "+40", "+60") if gain else False
     low_gain = _matches(gain, "Negativo", "Neutro") if gain else False
 
-    # L4: top tier — Coding Agent + Spaces + alto ganho mensurado + 5+ features
-    if uses_coding_agent and uses_spaces and high_gain and n_features >= 5:
+    # L4: Coding Agent + Spaces + high measured gain + 5+ features
+    if (uses_coding_agent and uses_spaces and high_gain
+            and n_features >= 5):
         return 4.0
 
-    # L3: usa Agent ou Coding Agent + breadth (3+ modos OU 4+ features) + ganho positivo
-    if (uses_agent or uses_coding_agent) and (n_modes >= 3 or n_features >= 4) and not low_gain:
+    # L3: Agent or Coding Agent + breadth (3+ modes or 4+ features)
+    # + positive gain
+    if ((uses_agent or uses_coding_agent)
+            and (n_modes >= 3 or n_features >= 4) and not low_gain):
         return 3.0
 
-    # L2: uso diário + Ask/Edit + 2+ features
+    # L2: daily use + Ask/Edit + 2+ features
     if _matches(freq, "Diariamente") and n_modes >= 1 and n_features >= 2:
         return 2.0
 
-    # L1: tem licença e uso semanal+ mas sem breadth
+    # L1: licensed, weekly+ use, no breadth
     return 1.0
 
 
 # =========================================================
 # D3 — MS/GH Tooling Breadth
 # =========================================================
-# Conta quantas ferramentas avançadas USA (Foundry, Spaces, Coding Agent, MCP, Spec Kit, etc.)
+# Counts advanced tools in USE (Foundry, Spaces, Coding Agent, MCP, etc.)
 
 ADVANCED_MS_GH_TOOLS = [
     "Microsoft Foundry",
@@ -127,10 +168,10 @@ def score_D3(responses: dict) -> Optional[float]:
     if any(_matches(t, "Nenhuma das acima") for t in tools):
         return 0.0
 
-    # Count MS/GH tools used (excluding "nenhuma")
+    # Count MS/GH tools used (excluding "none")
     n_tools = sum(1 for t in tools if not _matches(t, "Nenhuma"))
 
-    # Bonus signals: knows specific advanced concepts
+    # Bonus signals: uses specific advanced features
     coding_agent_use = _ans(responses, "S3-Q3")
     spaces_use = _ans(responses, "S3-Q4")
     mcp_use = _ans(responses, "S3-Q6")
@@ -143,10 +184,13 @@ def score_D3(responses: dict) -> Optional[float]:
         advanced_count += 1
     if _matches(mcp_use, "Uso servidores MCP", "Configurei algum MCP"):
         advanced_count += 1
-    if any(_matches(f, "MCP", "Multi-agent", "agentes autônomos") for f in foundry_use):
+    if any(
+        _matches(f, "MCP", "Multi-agent", "agentes autônomos")
+        for f in foundry_use
+    ):
         advanced_count += 1
 
-    # Mapping: tools count + advanced signals → L
+    # Mapping: tool count + advanced signals -> level
     score = n_tools + advanced_count
 
     if score >= 8: return 4.0  # 5+ tools + 3+ advanced signals
@@ -159,7 +203,7 @@ def score_D3(responses: dict) -> Optional[float]:
 # =========================================================
 # D4 — AI Dev Practices Maturity
 # =========================================================
-# TDD com IA + SDD + pair programming + IA em todas as fases do dev
+# TDD with AI + SDD + pair programming + AI across all dev phases
 
 def score_D4(responses: dict) -> Optional[float]:
     """AI Dev Practices Maturity (L0-L4)."""
@@ -176,7 +220,7 @@ def score_D4(responses: dict) -> Optional[float]:
 
     score = 0
 
-    # TDD com IA
+    # TDD with AI
     if _matches(tdd, "Sempre que possível"): score += 2
     elif _matches(tdd, "Frequentemente"): score += 1.5
     elif _matches(tdd, "Às vezes"): score += 1
@@ -187,7 +231,7 @@ def score_D4(responses: dict) -> Optional[float]:
     elif _matches(sdd, "Já testei"): score += 1
     elif _matches(sdd, "Nunca ouvi falar"): score -= 0.5
 
-    # Breadth de momentos (max 7 momentos)
+    # Breadth of moments (max 7)
     n_moments = len(moments)
     score += min(n_moments * 0.4, 2.0)  # cap 2.0
 
@@ -199,14 +243,14 @@ def score_D4(responses: dict) -> Optional[float]:
     if _matches(refactor, "Toda semana"): score += 1
     elif _matches(refactor, "Algumas vezes"): score += 0.5
 
-    # Debugging com IA primeiro
+    # Debugging with AI first
     if _matches(debug, "Pergunto ao Copilot"): score += 0.5
 
-    # Onboarding com IA
+    # Onboarding with AI
     if _matches(onboarding, "Sempre"): score += 1
     elif _matches(onboarding, "Frequentemente"): score += 0.5
 
-    # Cap and map (range 0-10 → 0-4)
+    # Cap and map (range 0-10 -> 0-4)
     score = max(0, min(score, 10))
     return round(score / 10 * 4, 2)
 
@@ -214,21 +258,21 @@ def score_D4(responses: dict) -> Optional[float]:
 # =========================================================
 # D5 — Agent Concepts Mastery
 # =========================================================
-# Conhecimento de 11 conceitos + criou primitives + testa agents
+# Knowledge of key concepts + created primitives + tests agents
 
 def score_D5(responses: dict) -> Optional[float]:
     """Agent Concepts Mastery (L0-L4)."""
-    # 8 conceitos chave (Q1-Q8 do S5 + Q9 personas + Q10 testar)
+    # Key concepts (S5 Q1-Q8 + Q9 personas)
     concept_questions = [
         ("S5-Q1", ["Sim — explico claramente"]),         # AI agent
-        ("S5-Q2", ["Sim — uso conscientemente"]),        # Modos
+        ("S5-Q2", ["Sim — uso conscientemente"]),        # Modes
         ("S5-Q3", ["Já criei", "Já usei"]),              # Custom agents
         ("S5-Q4", ["Conheço e uso", "Conheço mas não uso"]),  # Skills
-        ("S5-Q5", ["Sim — várias", "Sim — uma ou duas"]),     # Prompt files
+        ("S5-Q5", ["Sim — várias", "Sim — uma ou duas"]),  # Prompt files
         ("S5-Q6", ["Uso", "Conheço o conceito"]),        # A2A
         ("S5-Q7", ["Uso", "Conheço o conceito"]),        # Handoffs
-        ("S5-Q8", ["Uso", "Conheço o conceito"]),        # Subagentes
-        ("S5-Q9", ["Sim — adoto", "Conheço o conceito"]),     # Personas Agentic DevOps
+        ("S5-Q8", ["Uso", "Conheço o conceito"]),        # Subagents
+        ("S5-Q9", ["Sim — adoto", "Conheço o conceito"]),  # Personas
     ]
 
     answered = 0
@@ -245,12 +289,14 @@ def score_D5(responses: dict) -> Optional[float]:
     if answered < 5:
         return None  # insufficient coverage
 
-    # Coverage ratio
-    coverage = knowledge_score / len(concept_questions)  # 0-1
+    # Coverage ratio (0-1)
+    coverage = knowledge_score / len(concept_questions)
 
     # Bonus: created primitives (S5-Q11 multi)
     primitives = _multi(responses, "S5-Q11")
-    n_primitives = sum(1 for p in primitives if not _matches(p, "Nenhum dos acima"))
+    n_primitives = sum(
+        1 for p in primitives if not _matches(p, "Nenhum dos acima")
+    )
 
     # Bonus: tests agents (S5-Q10)
     tests = _ans(responses, "S5-Q10")
@@ -259,8 +305,12 @@ def score_D5(responses: dict) -> Optional[float]:
     elif _matches(tests, "Frequentemente"): test_bonus = 0.5
     elif _matches(tests, "Não crio agents"): test_bonus = 0  # neutral
 
-    # Combined score: 60% coverage + 25% primitives + 15% testing
-    raw = (coverage * 0.6 * 4) + min(n_primitives * 0.25, 1.0) + (test_bonus * 0.15 * 4 / 1.0 * 0.6)
+    # Combined: 60% coverage + 25% primitives + 15% testing
+    raw = (
+        (coverage * 0.6 * 4)
+        + min(n_primitives * 0.25, 1.0)
+        + (test_bonus * 0.15 * 4 / 1.0 * 0.6)
+    )
 
     return round(min(raw, 4.0), 2)
 
@@ -280,7 +330,7 @@ def score_D6(responses: dict) -> Optional[float]:
     if not files and maintainer is None:
         return None
 
-    # Hard L0: nenhum arquivo de instrução
+    # Hard L0: no instruction files
     if any(_matches(f, "Nenhum") for f in files) or len(files) == 0:
         return 0.0
 
@@ -309,8 +359,9 @@ def score_D6(responses: dict) -> Optional[float]:
     n_content = sum(1 for c in content if not _matches(c, "Não tenho"))
     score += min(n_content * 0.3, 2.0)
 
-    # Prompt library shared
-    if _matches(library, "Copilot Space compartilhado", "repo dedicado"): score += 1
+    # Shared prompt library
+    if _matches(library, "Copilot Space compartilhado", "repo dedicado"):
+        score += 1
     elif _matches(library, "wiki/Confluence"): score += 0.5
     elif _matches(library, "Não compartilhamos"): score -= 0.5
 
@@ -324,7 +375,7 @@ def score_D6(responses: dict) -> Optional[float]:
 # =========================================================
 
 def score_D7(responses: dict) -> Optional[float]:
-    """Usabilidade e Best Practices (L0-L4)."""
+    """Usability and Best Practices (L0-L4)."""
     learning = _multi(responses, "S7-Q1")
     champion = _ans(responses, "S7-Q2")
     channel = _ans(responses, "S7-Q3")
@@ -342,7 +393,8 @@ def score_D7(responses: dict) -> Optional[float]:
     score += min(n_sources * 0.3, 1.5)
 
     # Champion
-    if _matches(champion, "Sim — eu sou", "Sim — outra pessoa"): score += 1.5
+    if _matches(champion, "Sim — eu sou", "Sim — outra pessoa"):
+        score += 1.5
     elif _matches(champion, "Não, mas precisava"): score += 0
     elif _matches(champion, "Não — cada um se vira"): score -= 0.5
 
@@ -374,10 +426,10 @@ def score_D7(responses: dict) -> Optional[float]:
 # =========================================================
 # D8 — Security & Governance Maturity
 # =========================================================
-# Crítico: red flags pesam negativamente
+# Critical: red flags weigh negatively
 
 def score_D8(responses: dict) -> Optional[float]:
-    """Security & Governance Maturity (L0-L4) — critical, conservative scoring."""
+    """Security & Governance Maturity (L0-L4), conservative scoring."""
     policy = _ans(responses, "S8-Q1")
     knows_data = _ans(responses, "S8-Q2")
     forbidden = _multi(responses, "S8-Q3")
@@ -394,9 +446,12 @@ def score_D8(responses: dict) -> Optional[float]:
     if policy is None and not sec_tools:
         return None
 
-    # Hard L0: sem política + sem ferramentas
-    if (_matches(policy, "Não temos política") or _matches(policy, "Não sei")) and \
-       (any(_matches(t, "Nenhuma") for t in sec_tools) or not sec_tools):
+    # Hard L0: no policy + no tools
+    no_policy = (_matches(policy, "Não temos política")
+                 or _matches(policy, "Não sei"))
+    no_tools = (any(_matches(t, "Nenhuma") for t in sec_tools)
+                or not sec_tools)
+    if no_policy and no_tools:
         return 0.0
 
     score = 0
@@ -406,14 +461,17 @@ def score_D8(responses: dict) -> Optional[float]:
     elif _matches(policy, "pouco clara"): score += 1
     elif _matches(policy, "informal"): score += 0.5
 
-    # Knows what data can/cannot
+    # Knows which data is allowed
     if _matches(knows_data, "Sei claramente"): score += 1
     elif _matches(knows_data, "Tenho ideia geral"): score += 0.5
 
     # Forbidden data list (good if multiple)
-    n_forbidden = sum(1 for f in forbidden if not _matches(f, "Nenhuma restrição"))
+    n_forbidden = sum(
+        1 for f in forbidden if not _matches(f, "Nenhuma restrição")
+    )
     score += min(n_forbidden * 0.2, 1.0)
-    if any(_matches(f, "Nenhuma restrição") for f in forbidden): score -= 1
+    if any(_matches(f, "Nenhuma restrição") for f in forbidden):
+        score -= 1
 
     # Security tools breadth
     n_tools = sum(1 for t in sec_tools if not _matches(t, "Nenhuma"))
@@ -427,7 +485,8 @@ def score_D8(responses: dict) -> Optional[float]:
     if _matches(sbom, "automatizado"): score += 0.5
 
     # Review process
-    if _matches(review, "obrigatório por outro humano + scanner"): score += 1
+    if _matches(review, "obrigatório por outro humano + scanner"):
+        score += 1
     elif _matches(review, "Review humano obrigatório"): score += 0.5
 
     # Red-lines for agents (critical for advanced)
@@ -459,35 +518,71 @@ def score_D8(responses: dict) -> Optional[float]:
 # Public API
 # =========================================================
 
+# (id, name, scorer, English description)
 DIMENSIONS = [
     ("D2", "Copilot Adoption", score_D2,
-     "Adoção e profundidade de uso do GitHub Copilot — frequência, modos (Ask/Edit/Agent/Coding Agent), features, ganho mensurado"),
+     "Adoption and depth of GitHub Copilot use: frequency, modes "
+     "(Ask/Edit/Agent/Coding Agent), features, and measured gain"),
     ("D3", "MS/GH Tooling Breadth", score_D3,
-     "Amplitude de uso do ecossistema Microsoft/GitHub — Foundry, Spaces, Coding Agent, MCP, Spec Kit, GHAS"),
+     "Breadth of Microsoft/GitHub ecosystem use: Foundry, Spaces, "
+     "Coding Agent, MCP, Spec Kit, and GHAS"),
     ("D4", "AI Dev Practices", score_D4,
-     "Práticas estruturadas com IA — TDD, SDD, pair programming, debugging, onboarding"),
+     "Structured AI practices: TDD, SDD, pair programming, debugging, "
+     "and onboarding"),
     ("D5", "Agent Concepts Mastery", score_D5,
-     "Conhecimento de conceitos avançados — agentes, MCP, A2A, handoffs, subagentes, personas Agentic DevOps + criação de primitives + testes"),
+     "Knowledge of advanced concepts (agents, MCP, A2A, handoffs, "
+     "subagents, and Agentic DevOps personas), primitive creation, "
+     "and testing"),
     ("D6", "Instructions Maturity", score_D6,
-     "Maturidade de instructions files — copilot-instructions.md, AGENTS.md, CLAUDE.md, manutenção, prompt library compartilhada"),
+     "Instructions file maturity: copilot-instructions.md, AGENTS.md, "
+     "CLAUDE.md, maintenance, and a shared prompt library"),
     ("D7", "Best Practices", score_D7,
-     "Cultura e usabilidade — Champions, métricas DORA/DX, comunidade, compartilhamento"),
+     "Culture and usability: Champions, DORA/DX metrics, community, "
+     "and sharing"),
     ("D8", "Security & Governance", score_D8,
-     "Política de IA, GHAS, scanners, SBOM, escopo+red-lines de agents, JIT permissions, audit, treinamento"),
+     "AI policy, GHAS, scanners, SBOM, agent scope and red-lines, JIT "
+     "permissions, audit, and training"),
 ]
 
+DIMENSION_DESCRIPTIONS_PT = {
+    "D2": "Adoção e profundidade de uso do GitHub Copilot — frequência, "
+          "modos (Ask/Edit/Agent/Coding Agent), features, ganho mensurado",
+    "D3": "Amplitude de uso do ecossistema Microsoft/GitHub — Foundry, "
+          "Spaces, Coding Agent, MCP, Spec Kit, GHAS",
+    "D4": "Práticas estruturadas com IA — TDD, SDD, pair programming, "
+          "debugging, onboarding",
+    "D5": "Conhecimento de conceitos avançados — agentes, MCP, A2A, "
+          "handoffs, subagentes, personas Agentic DevOps + criação de "
+          "primitives + testes",
+    "D6": "Maturidade de instructions files — copilot-instructions.md, "
+          "AGENTS.md, CLAUDE.md, manutenção, prompt library compartilhada",
+    "D7": "Cultura e usabilidade — Champions, métricas DORA/DX, "
+          "comunidade, compartilhamento",
+    "D8": "Política de IA, GHAS, scanners, SBOM, escopo+red-lines de "
+          "agents, JIT permissions, audit, treinamento",
+}
 
-def label_for(score: Optional[float]) -> str:
-    """Maps score 0-4 to L0-L4 label (same as assessment principal)."""
-    if score is None: return "Sem dados"
-    if score < 0.5: return "L0 — Inicial"
-    if score < 1.5: return "L1 — Em Desenvolvimento"
-    if score < 2.5: return "L2 — Definido"
-    if score < 3.5: return "L3 — Gerenciado"
-    return "L4 — Otimizando"
+
+def dimension_description(did: str, desc_en: str, lang: str = "en") -> str:
+    if _lang(lang) == "pt-br":
+        return DIMENSION_DESCRIPTIONS_PT.get(did, desc_en)
+    return desc_en
 
 
-def score_respondent(responses: dict) -> dict:
+def label_for(score: Optional[float], lang: str = "en") -> str:
+    """Maps score 0-4 to an L0-L4 label (same scale as the assessment)."""
+    lang = _lang(lang)
+    if score is None:
+        return NO_DATA_LABEL[lang]
+    labels = LEVEL_LABELS[lang]
+    if score < 0.5: return labels[0]
+    if score < 1.5: return labels[1]
+    if score < 2.5: return labels[2]
+    if score < 3.5: return labels[3]
+    return labels[4]
+
+
+def score_respondent(responses: dict, lang: str = "en") -> dict:
     """Compute all 7 dimensions for a single respondent."""
     out = {}
     for did, name, fn, _ in DIMENSIONS:
@@ -495,21 +590,22 @@ def score_respondent(responses: dict) -> dict:
         out[did] = {
             "name": name,
             "score": s,
-            "label": label_for(s),
+            "label": label_for(s, lang),
         }
     # Overall: average of non-null dimensions
     valid = [d["score"] for d in out.values() if d["score"] is not None]
     overall = round(sum(valid) / len(valid), 2) if valid else None
     out["overall"] = {
-        "name": "Maturidade Overall",
+        "name": OVERALL_NAME[_lang(lang)],
         "score": overall,
-        "label": label_for(overall),
+        "label": label_for(overall, lang),
         "dimensions_scored": len(valid),
     }
     return out
 
 
-def aggregate_team(respondent_scores: list[dict]) -> dict:
+def aggregate_team(respondent_scores: list[dict],
+                   lang: str = "en") -> dict:
     """Aggregate individual scores into team averages and distribution."""
     n = len(respondent_scores)
     if n == 0:
@@ -517,11 +613,18 @@ def aggregate_team(respondent_scores: list[dict]) -> dict:
 
     # Per-dimension team aggregation
     dims = {}
-    for did, name, _, desc in DIMENSIONS:
-        scores = [r[did]["score"] for r in respondent_scores if r[did]["score"] is not None]
+    for did, name, _, desc_en in DIMENSIONS:
+        desc = dimension_description(did, desc_en, lang)
+        scores = [
+            r[did]["score"] for r in respondent_scores
+            if r[did]["score"] is not None
+        ]
         if not scores:
-            dims[did] = {"name": name, "description": desc, "team_score": None, "label": "Sem dados",
-                        "respondents_with_score": 0, "distribution": {}}
+            dims[did] = {
+                "name": name, "description": desc, "team_score": None,
+                "label": label_for(None, lang),
+                "respondents_with_score": 0, "distribution": {},
+            }
             continue
 
         avg = round(sum(scores) / len(scores), 2)
@@ -533,25 +636,32 @@ def aggregate_team(respondent_scores: list[dict]) -> dict:
             elif s < 2.5: dist["L2"] += 1
             elif s < 3.5: dist["L3"] += 1
             else: dist["L4"] += 1
-        dist_pct = {k: round(100 * v / len(scores), 1) for k, v in dist.items()}
+        dist_pct = {
+            k: round(100 * v / len(scores), 1) for k, v in dist.items()
+        }
 
         dims[did] = {
             "name": name,
             "description": desc,
             "team_score": avg,
-            "label": label_for(avg),
+            "label": label_for(avg, lang),
             "respondents_with_score": len(scores),
             "distribution_count": dist,
             "distribution_pct": dist_pct,
         }
 
-    # Overall team score (average of all respondent overall scores)
-    overalls = [r["overall"]["score"] for r in respondent_scores if r["overall"]["score"] is not None]
-    team_overall = round(sum(overalls) / len(overalls), 2) if overalls else None
+    # Overall team score (average of respondent overall scores)
+    overalls = [
+        r["overall"]["score"] for r in respondent_scores
+        if r["overall"]["score"] is not None
+    ]
+    team_overall = (
+        round(sum(overalls) / len(overalls), 2) if overalls else None
+    )
 
     return {
         "team_overall_score": team_overall,
-        "team_overall_label": label_for(team_overall),
+        "team_overall_label": label_for(team_overall, lang),
         "n_respondents": n,
         "n_with_overall": len(overalls),
         "dimensions": dims,

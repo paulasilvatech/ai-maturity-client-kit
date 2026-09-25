@@ -1,30 +1,35 @@
 # `survey-devs/scripts/`
 
-📖 **Navegação:** [🏠 Índice](../../README.md) · [« Developer Survey](../README.md)
+🌐 English · [Português (Brasil)](README.pt-br.md)
 
-Scripts que computam maturidade IA dos desenvolvedores a partir do Developer Survey (anônimo).
+📖 **Navigation:** [🏠 Index](../../README.md) · [« Developer Survey](../README.md)
 
-## Conteúdo
+Scripts that compute developer AI maturity from the Developer Survey (anonymous).
 
-| Arquivo | Propósito |
+## Contents
+
+| File | Purpose |
 |---|---|
-| [`rubric.py`](rubric.py) | **Rubrica determinística L0–L4** em 7 dimensões (D2-D8). Mapeia respostas → scores. Importável como módulo. |
-| [`calcular_maturidade.py`](calcular_maturidade.py) | Lê `survey-devs/respostas-devs.json`, aplica `rubric.py`, gera `saida/maturidade-developer-survey-<DATE>.json` com scores agregados do time. |
-| [`gerar_insights.py`](gerar_insights.py) | Gera o relatório completo em markdown (`saida/insights-developer-survey-<DATE>.md`) — demografia, adoção Copilot, governança, citações anonimizadas, recomendações ligadas às capabilities (P1-C1, P1-C5, P1-C8, P2-C4, P3-C6). |
+| [`rubric.py`](rubric.py) | **Deterministic L0-L4 rubric** across 7 dimensions (D2-D8). Maps answers → scores. Importable as a module. |
+| [`calcular_maturidade.py`](calcular_maturidade.py) | Reads `survey-devs/respostas-devs.json`, applies `rubric.py`, and generates `saida/maturidade-developer-survey-<DATE>.json` with aggregated team scores. |
+| [`gerar_insights.py`](gerar_insights.py) | Generates the full Markdown report (`saida/insights-developer-survey-<DATE>.md`): demographics, Copilot adoption, governance, anonymized quotes, and recommendations linked to capabilities (P1-C1, P1-C5, P1-C8, P2-C4, P3-C6). The report is written in **English by default**; pass `--lang pt-br` for Portuguese (Brazil). |
 
-## Uso
+## Usage
 
 ```bash
-# Só os scores de maturidade
+# Maturity scores only
 python3 survey-devs/scripts/calcular_maturidade.py
 
-# Scores + relatório completo (recomendado)
+# Scores + full report (recommended), in English by default
 python3 survey-devs/scripts/gerar_insights.py
+
+# Same report in Portuguese (Brazil)
+python3 survey-devs/scripts/gerar_insights.py --lang pt-br
 ```
 
 > [!IMPORTANT]
-> Estes scripts são invocados pelas skills `/insights-developer-survey`. Você normalmente não precisa rodar diretamente — o agente concierge faz isso.
+> These scripts are invoked by the `/insights-developer-survey` skill. You normally do not need to run them directly: the concierge agent does it.
 
-## Documentação da rubrica
+## Rubric documentation
 
-Veja [`../RUBRICA-MATURIDADE.md`](../RUBRICA-MATURIDADE.md) para regras de scoring por dimensão.
+See [`../RUBRICA-MATURIDADE.md`](../RUBRICA-MATURIDADE.md) for the scoring rules per dimension.

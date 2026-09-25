@@ -1,22 +1,24 @@
 # `wizard/scripts/`
 
-📖 **Navegação:** [🏠 Índice](../../README.md) · [« Wizard](../README.md)
+🌐 English · [Português (Brasil)](README.pt-br.md)
 
-Scripts que apoiam o Wizard de Implementation Guide.
+📖 **Navigation:** [🏠 Index](../../README.md) · [« Wizard](../README.md)
 
-## Conteúdo
+Scripts that support the Implementation Guide Wizard.
 
-| Arquivo | Propósito |
+## Contents
+
+| File | Purpose |
 |---|---|
-| [`auto_fill_from_plano.py`](auto_fill_from_plano.py) | **Modo D** do wizard: lê `saida/plano-capacitacao-<DATE>.md` (output do Learning Survey) e gera `implementation-guide-inputs.json` na raiz, preenchendo automaticamente **6 dos 9 campos** (Champions, training_plan, calendário, ADKAR-knowledge, quick wins). |
+| [`auto_fill_from_plano.py`](auto_fill_from_plano.py) | Wizard **mode D**: reads `saida/plano-capacitacao-<DATE>.md` (Learning Survey output) and generates `implementation-guide-inputs.json` at the root, automatically filling in **6 of the 9 fields** (Champions, training_plan, calendar, ADKAR-knowledge, quick wins). |
 
-## Uso
+## Usage
 
 ```bash
 python3 wizard/scripts/auto_fill_from_plano.py
 ```
 
-Detecta automaticamente o último `plano-capacitacao-*.md` em `saida/`. Output: `implementation-guide-inputs.json` na raiz (67 % completo — você ainda precisa preencher TPO e RACI Matrix manualmente).
+It automatically picks the latest `plano-capacitacao-*.md` in `saida/`. Output: `implementation-guide-inputs.json` at the root (67 % complete; you still need to fill in TPO and RACI Matrix manually).
 
 > [!TIP]
-> Só faz sentido rodar se você já gerou o plano de capacitação via `/plano-capacitacao`. Se não, prefira o modo A (HTML wizard), B (editar JSON template) ou C (conduzir no chat) — todos descritos em [`../README.md`](../README.md).
+> Only run it if you have already generated the capacitation plan via `/plano-capacitacao`. Otherwise, use mode A (HTML wizard), B (edit the JSON template), or C (guided chat), all described in [`../README.md`](../README.md).

@@ -1,197 +1,201 @@
-# Rubrica de Maturidade IA — Developer Survey
+# AI Maturity Rubric: Developer Survey
 
-> **Modelo determinístico** que mapeia respostas do survey para níveis L0-L4 em **7 dimensões**, espelhando a escala do assessment principal de maturidade. Score por time (sem scores individuais no relatório, preserva anonimato).
+🌐 English · [Português (Brasil)](RUBRICA-MATURIDADE.pt-br.md)
 
-**Versão da rubrica:** 1.0 · **Data:** 2026-05-08
-**Implementação:** [`scripts/rubric.py`](scripts/rubric.py) · **Executor:** [`scripts/calcular_maturidade.py`](scripts/calcular_maturidade.py)
+> **Deterministic model** that maps survey answers to L0-L4 levels across **7 dimensions**, mirroring the scale of the main maturity assessment. Scored per team (no individual scores in the report, which preserves anonymity).
+
+**Rubric version:** 1.0 · **Date:** 2026-05-08
+**Implementation:** [`scripts/rubric.py`](scripts/rubric.py) · **Runner:** [`scripts/calcular_maturidade.py`](scripts/calcular_maturidade.py)
+
+> **About the answer signals below:** quoted answers are the canonical PT-BR option strings from [`perguntas-para-forms-devs.md`](perguntas-para-forms-devs.md), which are the strings the rubric matches on. An English gloss follows in brackets; the English bank is [`perguntas-para-forms-devs.en.md`](perguntas-para-forms-devs.en.md).
 
 ---
 
-## 🎯 Princípios
+## 🎯 Principles
 
-1. **Determinística** — mesma resposta sempre produz o mesmo nível. Sem LLM, sem aleatoriedade.
-2. **Auditável** — cada regra documentada neste arquivo, código replica 1:1.
-3. **Conservadora** — na dúvida, desce o nível (evita inflar maturidade declarada).
-4. **Anônimo** — calcula por respondente individualmente, mas **só agregados** saem no relatório (média, distribuição).
-5. **Espelho do assessment principal** — usa a mesma escala L0-L4 (Inicial → Otimizando) para comparação direta.
+1. **Deterministic**: the same answer always produces the same level. No LLM, no randomness.
+2. **Auditable**: every rule is documented in this file, and the code replicates it 1:1.
+3. **Conservative**: when in doubt, the level goes down (avoids inflating declared maturity).
+4. **Anonymous**: computed for each respondent individually, but **only aggregates** appear in the report (mean, distribution).
+5. **Mirror of the main assessment**: uses the same L0-L4 scale (Initial → Optimizing) for direct comparison.
 
-## 🧭 Escala (igual ao assessment principal)
+## 🧭 Scale (same as the main assessment)
 
-| Faixa | Rótulo | Descrição |
+| Range | Label | Description |
 |---|---|---|
-| `< 0.5` | **L0 — Inicial** | Sem prática, sem conhecimento, sem ferramenta |
-| `[0.5, 1.5)` | **L1 — Em Desenvolvimento** | Adoção pontual, conhecimento básico |
-| `[1.5, 2.5)` | **L2 — Definido** | Uso regular, conhece conceitos chave |
-| `[2.5, 3.5)` | **L3 — Gerenciado** | Adoção ampla, conhece avançados, mede impacto |
-| `≥ 3.5` | **L4 — Otimizando** | Domínio completo, cria primitivos, otimização contínua |
+| `< 0.5` | **L0 Initial** | No practice, no knowledge, no tooling |
+| `[0.5, 1.5)` | **L1 Developing** | Occasional adoption, basic knowledge |
+| `[1.5, 2.5)` | **L2 Defined** | Regular use, knows key concepts |
+| `[2.5, 3.5)` | **L3 Managed** | Broad adoption, knows advanced concepts, measures impact |
+| `≥ 3.5` | **L4 Optimizing** | Full mastery, creates primitives, continuous optimization |
 
-## 📊 As 7 dimensões
+## 📊 The 7 dimensions
 
-| ID | Dimensão | Vem de | O que mede |
+| ID | Dimension | Comes from | What it measures |
 |---|---|---|---|
-| **D2** | **Copilot Adoption** | S2 (9 q) | Frequência + breadth de modos + features + ganho mensurado |
-| **D3** | **MS/GH Tooling Breadth** | S3 (7 q) | Quantas ferramentas avançadas (Foundry, Spaces, Coding Agent, MCP, Spec Kit) usa |
-| **D4** | **AI Dev Practices** | S4 (9 q) | TDD com IA, SDD, pair programming, debugging, onboarding |
-| **D5** | **Agent Concepts Mastery** | S5 (11 q) | Conhecimento de 9 conceitos chave + criação de primitives + testes |
-| **D6** | **Instructions Maturity** | S6 (6 q) | Uso de instructions files, manutenção, prompt library compartilhada |
-| **D7** | **Best Practices** | S7 (9 q) | Champion, métricas DORA/DX, comunidade, compartilhamento |
-| **D8** | **Security & Governance** | S8 (13 q) | Política, GHAS, scanners, SBOM, JIT, red-lines, audit, treinamento |
+| **D2** | **Copilot Adoption** | S2 (9 q) | Frequency + breadth of modes + features + measured gain |
+| **D3** | **MS/GH Tooling Breadth** | S3 (7 q) | How many advanced tools (Foundry, Spaces, Coding Agent, MCP, Spec Kit) are used |
+| **D4** | **AI Dev Practices** | S4 (9 q) | TDD with AI, SDD, pair programming, debugging, onboarding |
+| **D5** | **Agent Concepts Mastery** | S5 (11 q) | Knowledge of 9 key concepts + creation of primitives + tests |
+| **D6** | **Instructions Maturity** | S6 (6 q) | Use of instructions files, maintenance, shared prompt library |
+| **D7** | **Best Practices** | S7 (9 q) | Champion, DORA/DX metrics, community, sharing |
+| **D8** | **Security & Governance** | S8 (13 q) | Policy, GHAS, scanners, SBOM, JIT, red-lines, audit, training |
 
-> **Excluídas do score:** S1 (perfil — só categoriza) e S9 (texto livre — vira quotes).
+> **Excluded from the score:** S1 (profile, only categorizes) and S9 (free text, becomes quotes).
 
-## ⚖️ Regras detalhadas por dimensão
+## ⚖️ Detailed rules per dimension
 
-### D2 — Copilot Adoption
+### D2: Copilot Adoption
 
-| Resposta-chave | Sinaliza |
+| Key answer | Signals |
 |---|---|
-| `S2-Q1: Não tenho licença` OR `Tenho mas não uso` | **Hard L0** |
-| `S2-Q2: Nunca` | **Hard L0** |
-| `S2-Q2: Raramente` | L1 |
-| `S2-Q2: Diariamente` + `S2-Q5: 2+ features` + `S2-Q3: 1+ modo` | **L2** |
-| Acima + `S2-Q3: usa Agent ou Coding Agent` + `S2-Q5: 4+ features` + ganho positivo | **L3** |
-| Acima + `S2-Q3: Coding Agent` + `S2-Q5: Spaces` + `S2-Q7: ganho >40%` + `S2-Q5: 5+ features` | **L4** |
+| `S2-Q1: Não tenho licença` [no license] OR `Tenho mas não uso` [have one but do not use it] | **Hard L0** |
+| `S2-Q2: Nunca` [never] | **Hard L0** |
+| `S2-Q2: Raramente` [rarely] | L1 |
+| `S2-Q2: Diariamente` [daily] + `S2-Q5: 2+ features` + `S2-Q3: 1+ modo` [1+ mode] | **L2** |
+| Above + `S2-Q3: usa Agent ou Coding Agent` [uses Agent or Coding Agent] + `S2-Q5: 4+ features` + positive gain | **L3** |
+| Above + `S2-Q3: Coding Agent` + `S2-Q5: Spaces` + `S2-Q7: ganho >40%` [gain >40%] + `S2-Q5: 5+ features` | **L4** |
 
-### D3 — MS/GH Tooling Breadth
+### D3: MS/GH Tooling Breadth
 
-Score ponto-a-ponto: `n_tools (S3-Q1) + advanced_signals (S3-Q3, Q4, Q6, Q2)`
+Point-by-point score: `n_tools (S3-Q1) + advanced_signals (S3-Q3, Q4, Q6, Q2)`
 
-- `n_tools` = quantas ferramentas marcadas em S3-Q1 (excluindo "Nenhuma")
-- `advanced_signals` = +1 para cada:
-  - Coding Agent: "Uso ativamente"
-  - Spaces: "Uso e crio"
-  - MCP: "Uso servidores" ou "Configurei custom"
-  - Foundry usado para "MCP", "multi-agent" ou "agentes autônomos"
+- `n_tools` = how many tools are checked in S3-Q1 (excluding "Nenhuma" [none])
+- `advanced_signals` = +1 for each:
+  - Coding Agent: "Uso ativamente" [I use it actively]
+  - Spaces: "Uso e crio" [I use and create them]
+  - MCP: "Uso servidores" [I use servers] or "Configurei custom" [I configured custom ones]
+  - Foundry used for "MCP", "multi-agent", or "agentes autônomos" [autonomous agents]
 
 **Mapping:**
-- `score ≥ 8` → **L4** (5+ ferramentas + 3+ sinais avançados)
+- `score ≥ 8` → **L4** (5+ tools + 3+ advanced signals)
 - `score 5-7` → **L3**
 - `score 3-4` → **L2**
 - `score 1-2` → **L1**
 - `score 0` → **L0**
 
-### D4 — AI Dev Practices
+### D4: AI Dev Practices
 
-Soma ponderada (max ~10 pontos), mapeada para 0-4:
+Weighted sum (max ~10 points), mapped to 0-4:
 
-| Pergunta | Sinal | Pontos |
+| Question | Signal | Points |
 |---|---|---|
-| `S4-Q1` TDD com IA | "Sempre" | +2 |
-|  | "Frequentemente" | +1.5 |
-|  | "Não sei TDD" | -1 |
-| `S4-Q2` SDD | "Uso ativamente" | +2 |
-|  | "Já testei" | +1 |
-|  | "Nunca ouvi falar" | -0.5 |
-| `S4-Q3` Momentos consulta IA (multi) | n_momentos × 0.4 (cap 2.0) | até +2 |
-| `S4-Q4` Pair programmer mindset | "Trato como par" | +1.5 |
-|  | "Às vezes" | +0.5 |
-| `S4-Q5` Refactoring | "Toda semana" | +1 |
-| `S4-Q7` Debugging primeiro com IA | "Pergunto Copilot" | +0.5 |
-| `S4-Q8` Onboarding com IA | "Sempre" | +1 |
+| `S4-Q1` TDD with AI | "Sempre" [always] | +2 |
+|  | "Frequentemente" [frequently] | +1.5 |
+|  | "Não sei TDD" [I do not know TDD] | -1 |
+| `S4-Q2` SDD | "Uso ativamente" [I use it actively] | +2 |
+|  | "Já testei" [I have tried it] | +1 |
+|  | "Nunca ouvi falar" [never heard of it] | -0.5 |
+| `S4-Q3` Moments when AI is consulted (multi) | n_moments × 0.4 (cap 2.0) | up to +2 |
+| `S4-Q4` Pair programmer mindset | "Trato como par" [I treat it as a pair] | +1.5 |
+|  | "Às vezes" [sometimes] | +0.5 |
+| `S4-Q5` Refactoring | "Toda semana" [every week] | +1 |
+| `S4-Q7` Debugging with AI first | "Pergunto Copilot" [I ask Copilot] | +0.5 |
+| `S4-Q8` Onboarding with AI | "Sempre" [always] | +1 |
 
-**Mapping:** `score / 10 × 4` → arredondado.
+**Mapping:** `score / 10 × 4` → rounded.
 
-### D5 — Agent Concepts Mastery
+### D5: Agent Concepts Mastery
 
-3 componentes:
+3 components:
 
-**(a) Coverage de 9 conceitos** (60% do peso): para cada um, +1.0 se "uso/explico", senão 0:
+**(a) Coverage of 9 concepts** (60% of the weight): for each one, +1.0 if "uso/explico" [I use it / I can explain it], otherwise 0:
 - S5-Q1 AI agent
-- S5-Q2 Modos Copilot
+- S5-Q2 Copilot modes
 - S5-Q3 Custom agents
 - S5-Q4 Skills
 - S5-Q5 Prompt files
 - S5-Q6 A2A
 - S5-Q7 Handoffs
-- S5-Q8 Subagentes
-- S5-Q9 Personas Agentic DevOps
+- S5-Q8 Subagents
+- S5-Q9 Agentic DevOps personas
 
-**(b) Primitives criados (S5-Q11 multi)** (25% do peso): n_primitivos × 0.25 (cap 1.0)
+**(b) Primitives created (S5-Q11 multi)** (25% of the weight): n_primitives × 0.25 (cap 1.0)
 
-**(c) Testes de agents (S5-Q10)** (15% do peso):
-- "Sempre — test suite" → +1.0
-- "Frequentemente" → +0.5
-- "Não crio agents" → 0 (neutro)
+**(c) Agent tests (S5-Q10)** (15% of the weight):
+- "Sempre — test suite" [always, with a test suite] → +1.0
+- "Frequentemente" [frequently] → +0.5
+- "Não crio agents" [I do not create agents] → 0 (neutral)
 
-**Fórmula:** `(coverage × 0.6 × 4) + min(n_primitivos × 0.25, 1.0) + (test_bonus × 0.36)`. Cap em 4.0.
+**Formula:** `(coverage × 0.6 × 4) + min(n_primitivos × 0.25, 1.0) + (test_bonus × 0.36)`. Capped at 4.0.
 
-**Cobertura mínima:** se `<5` perguntas respondidas → retorna `None` (não scored).
+**Minimum coverage:** if `<5` questions are answered → returns `None` (not scored).
 
-### D6 — Instructions Maturity
+### D6: Instructions Maturity
 
-| Pergunta | Sinal | Pontos |
+| Question | Signal | Points |
 |---|---|---|
-| `S6-Q1` Files (multi) | "Nenhum" ou vazio | **Hard L0** |
-|  | 4+ tipos | +2 |
-|  | 2-3 tipos | +1.5 |
-|  | 1 tipo | +1 |
-| `S6-Q2` Maintainer | "Time inteiro contribui" | +2 |
-|  | "1-2 dedicadas" | +1.5 |
-|  | "Ninguém mantém" / "Não temos" | -1 |
-| `S6-Q3` Update freq | "Toda semana" | +1 |
-|  | "Mensalmente" | +0.7 |
-|  | "Nunca" | -0.5 |
-| `S6-Q4` Content (multi) | n_tipos × 0.3 (cap 2.0) | até +2 |
-| `S6-Q5` Library shared | "Copilot Space" / "repo dedicado" | +1 |
-|  | "Não compartilhamos" | -0.5 |
+| `S6-Q1` Files (multi) | "Nenhum" [none] or empty | **Hard L0** |
+|  | 4+ types | +2 |
+|  | 2-3 types | +1.5 |
+|  | 1 type | +1 |
+| `S6-Q2` Maintainer | "Time inteiro contribui" [the whole team contributes] | +2 |
+|  | "1-2 dedicadas" [1-2 dedicated people] | +1.5 |
+|  | "Ninguém mantém" [nobody maintains them] / "Não temos" [we do not have them] | -1 |
+| `S6-Q3` Update freq | "Toda semana" [every week] | +1 |
+|  | "Mensalmente" [monthly] | +0.7 |
+|  | "Nunca" [never] | -0.5 |
+| `S6-Q4` Content (multi) | n_types × 0.3 (cap 2.0) | up to +2 |
+| `S6-Q5` Library shared | "Copilot Space" / "repo dedicado" [dedicated repo] | +1 |
+|  | "Não compartilhamos" [we do not share] | -0.5 |
 
 **Mapping:** `score / 9 × 4`.
 
-### D7 — Best Practices
+### D7: Best Practices
 
-| Pergunta | Sinal | Pontos |
+| Question | Signal | Points |
 |---|---|---|
-| `S7-Q1` Learning sources (multi) | n_fontes × 0.3 (cap 1.5) | até +1.5 |
-| `S7-Q2` Champion | "Sim — eu sou" / "outra pessoa" | +1.5 |
-|  | "Cada um se vira" | -0.5 |
-| `S7-Q3` Internal channel | ">5 mensagens/sem" | +1 |
-|  | "pouco ativo" | +0.5 |
-| `S7-Q4` Métricas (multi) | DORA/DX/SPACE/Copilot count × 0.5 (cap 2.0) | até +2 |
-|  | "Não medimos" | -1 |
-| `S7-Q5` Iterações | "1ª tentativa" / "2-3" | +1 |
+| `S7-Q1` Learning sources (multi) | n_sources × 0.3 (cap 1.5) | up to +1.5 |
+| `S7-Q2` Champion | "Sim — eu sou" [yes, it is me] / "outra pessoa" [someone else] | +1.5 |
+|  | "Cada um se vira" [everyone figures it out alone] | -0.5 |
+| `S7-Q3` Internal channel | ">5 mensagens/sem" [>5 messages/week] | +1 |
+|  | "pouco ativo" [not very active] | +0.5 |
+| `S7-Q4` Metrics (multi) | DORA/DX/SPACE/Copilot count × 0.5 (cap 2.0) | up to +2 |
+|  | "Não medimos" [we do not measure] | -1 |
+| `S7-Q5` Iterations | "1ª tentativa" [1st attempt] / "2-3" | +1 |
 |  | "7+" | -0.5 |
-| `S7-Q9` Compartilha prompts | "Frequentemente" | +1 |
-|  | "Nunca" | -0.5 |
+| `S7-Q9` Shares prompts | "Frequentemente" [frequently] | +1 |
+|  | "Nunca" [never] | -0.5 |
 
 **Mapping:** `score / 8 × 4`.
 
-### D8 — Security & Governance (CRÍTICO — conservadora)
+### D8: Security & Governance (CRITICAL, conservative)
 
-Maior número de regras + penalizações por red flags:
+Largest number of rules + penalties for red flags:
 
-| Pergunta | Sinal | Pontos |
+| Question | Signal | Points |
 |---|---|---|
-| `S8-Q1` Política + `S8-Q4` (Sec tools) | "Não temos política" + "Nenhuma ferramenta" | **Hard L0** |
-| `S8-Q1` | "formal e clara" | +2 |
-|  | "pouco clara" | +1 |
+| `S8-Q1` Policy + `S8-Q4` (Sec tools) | "Não temos política" [we have no policy] + "Nenhuma ferramenta" [no tools] | **Hard L0** |
+| `S8-Q1` | "formal e clara" [formal and clear] | +2 |
+|  | "pouco clara" [not very clear] | +1 |
 |  | "informal" | +0.5 |
-| `S8-Q2` Sabe dados sensíveis | "Sei claramente" | +1 |
-| `S8-Q3` Forbidden (multi) | n_tipos × 0.2 (cap 1.0) | até +1 |
-|  | "Nenhuma restrição" | -1 |
-| `S8-Q4` Sec tools (multi) | n_tools × 0.3 (cap 2.0) | até +2 |
-| `S8-Q5` Code scan no PR | "gate obrigatório" | +1 |
-| `S8-Q6` SBOM | "automatizado" | +0.5 |
-| `S8-Q7` Review formal IA | "obrigatório humano + scanner" | +1 |
-| `S8-Q8` Red-lines de agents | "Sempre" | +1 |
-| `S8-Q9` JIT permissions | "JIT obrigatório" | +1 |
-| `S8-Q10` DLP | "bloqueia" | +0.5 |
-| `S8-Q11` Audit | "ativos e revisados" | +0.5 |
-| `S8-Q12` Treinamento | "obrigatório anual" | +0.5 |
+| `S8-Q2` Knows sensitive data | "Sei claramente" [I know clearly] | +1 |
+| `S8-Q3` Forbidden (multi) | n_types × 0.2 (cap 1.0) | up to +1 |
+|  | "Nenhuma restrição" [no restriction] | -1 |
+| `S8-Q4` Sec tools (multi) | n_tools × 0.3 (cap 2.0) | up to +2 |
+| `S8-Q5` Code scan on PR | "gate obrigatório" [mandatory gate] | +1 |
+| `S8-Q6` SBOM | "automatizado" [automated] | +0.5 |
+| `S8-Q7` Formal AI review | "obrigatório humano + scanner" [mandatory human + scanner] | +1 |
+| `S8-Q8` Agent red-lines | "Sempre" [always] | +1 |
+| `S8-Q9` JIT permissions | "JIT obrigatório" [mandatory JIT] | +1 |
+| `S8-Q10` DLP | "bloqueia" [blocks] | +0.5 |
+| `S8-Q11` Audit | "ativos e revisados" [active and reviewed] | +0.5 |
+| `S8-Q12` Training | "obrigatório anual" [mandatory annual] | +0.5 |
 
 **Mapping:** `score / 12 × 4`.
 
-## 🧮 Score overall do respondente
+## 🧮 Respondent overall score
 
 ```
-overall = média(D2..D8)  # apenas dimensões com score != None
+overall = mean(D2..D8)  # only dimensions with score != None
 ```
 
-## 🧮 Agregação para o time
+## 🧮 Team aggregation
 
 ```
-team_score(D) = média(D em todos os respondentes)  # ignora None
-team_overall  = média(overall de todos os respondentes)
-distribuição(D) = % de respondentes em cada L0-L4
+team_score(D) = mean(D across all respondents)  # ignores None
+team_overall  = mean(overall of all respondents)
+distribution(D) = % of respondents in each L0-L4
 ```
 
 ## 📤 Output
@@ -231,12 +235,14 @@ distribuição(D) = % de respondentes em cada L0-L4
 }
 ```
 
-## 🔄 Como rodar
+The sample above shows the PT-BR labels. Human-readable output (the insights report) is now generated in **English by default**, with PT-BR available via `--lang pt-br` on the scripts.
 
-### Via skill no Copilot Chat
+## 🔄 How to run
+
+### Via skill in Copilot Chat
 
 ```
-/insights-developer-survey   # invoca o script automaticamente
+/insights-developer-survey   # invokes the script automatically
 ```
 
 ### Via CLI
@@ -245,45 +251,45 @@ distribuição(D) = % de respondentes em cada L0-L4
 python3 survey-devs/scripts/calcular_maturidade.py
 # Output:
 #   - saida/maturidade-developer-survey-DATE.json
-#   - resumo no stdout (overall + tabela por dimensão + ranking)
+#   - summary on stdout (overall + table per dimension + ranking)
 ```
 
-## 🔗 Cross-reference com o assessment principal
+## 🔗 Cross-reference with the main assessment
 
-A maturidade individual (do survey) **alimenta e valida** as capabilities do assessment organizacional:
+Individual maturity (from the survey) **feeds and validates** the capabilities of the organizational assessment:
 
-| Dimensão do survey | Capability do assessment | O que validar |
+| Survey dimension | Assessment capability | What to validate |
 |---|---|---|
-| **D2** Copilot Adoption | `P1-C1` Assistentes de Codificação IA | Score declarado vs. adoção real declarada por devs |
-| **D3** MS/GH Tooling | `P3-C3` Aplicações IA + `P3-C5` Apps Agênticas | Sofisticação técnica em IA |
-| **D4** AI Dev Practices | `P1-C2` DevEx + `P1-C8` Métricas Produtividade | Práticas estruturadas |
-| **D5** Agent Concepts | `P3-C5` Apps Agênticas | Conhecimento avançado |
-| **D6** Instructions | `P1-C7` Documentação automatizada | Manutenção de contexto IA |
-| **D7** Best Practices | `P1-C5` Onboarding + `P1-C8` Métricas | Cultura de adoção |
-| **D8** Security & Governance | `P2-C4` DevSecOps + `P2-C10` Supply Chain | Governance real |
+| **D2** Copilot Adoption | `P1-C1` AI Coding Assistants | Declared score vs. real adoption declared by developers |
+| **D3** MS/GH Tooling | `P3-C3` AI Applications + `P3-C5` Agentic Apps | Technical sophistication in AI |
+| **D4** AI Dev Practices | `P1-C2` DevEx + `P1-C8` Productivity Metrics | Structured practices |
+| **D5** Agent Concepts | `P3-C5` Agentic Apps | Advanced knowledge |
+| **D6** Instructions | `P1-C7` Automated documentation | Maintenance of AI context |
+| **D7** Best Practices | `P1-C5` Onboarding + `P1-C8` Metrics | Adoption culture |
+| **D8** Security & Governance | `P2-C4` DevSecOps + `P2-C10` Supply Chain | Real governance |
 
-> 💡 **Padrão clássico:** liderança avalia P1-C1 como L3, mas survey D2 mostra L1 (60% dos devs raramente usa) → **dissonância** entre estratégia e prática. A skill `/insights-developer-survey` destaca isso na seção 12 do relatório.
+> 💡 **Classic pattern:** leadership rates P1-C1 as L3, but survey D2 shows L1 (60% of developers rarely use it) → **dissonance** between strategy and practice. The `/insights-developer-survey` skill highlights this in section 12 of the report.
 
-## 📊 Calibração e revisão da rubrica
+## 📊 Rubric calibration and review
 
-Esta é a **versão 1.0**. Recomendado revisar trimestralmente baseado em:
+This is **version 1.0**. Review it quarterly based on:
 
-- Casos onde score parece sub/super-estimado (calibrar pesos)
-- Mudanças no ecossistema (ex.: Copilot lança modo novo → adicionar em S2-Q3 + atualizar D2)
-- Feedback de respondentes ("essa pergunta era ambígua")
+- Cases where the score seems under- or over-estimated (calibrate weights)
+- Ecosystem changes (e.g., Copilot launches a new mode → add it to S2-Q3 + update D2)
+- Respondent feedback ("this question was ambiguous")
 
-**Como propor mudança:**
-1. Editar `scripts/rubric.py` com a regra atualizada
-2. Documentar o porquê neste arquivo
-3. Incrementar `RUBRIC_VERSION` e re-rodar com dados anteriores para comparar
+**How to propose a change:**
+1. Edit `scripts/rubric.py` with the updated rule
+2. Document the reason in this file
+3. Increment `RUBRIC_VERSION` and rerun with previous data to compare
 
-## 🔐 Política de anonimato no scoring
+## 🔐 Anonymity policy in scoring
 
-A rubrica calcula score POR respondente individualmente, mas o output JSON e o relatório:
+The rubric computes a score FOR EACH respondent individually, but the JSON output and the report:
 
-- ✅ Mostram **scores agregados do time** (média, distribuição %)
-- ✅ Mostram **distribuição por nível** (% devs em cada L0-L4)
-- ❌ NÃO mostram score por respondent_id
-- ❌ NÃO mostram cargo/perfil junto com score (agregação por cargo só se ≥3 devs do mesmo cargo)
+- ✅ Show **team aggregate scores** (mean, % distribution)
+- ✅ Show **distribution by level** (% of developers in each L0-L4)
+- ❌ Do NOT show a score per respondent_id
+- ❌ Do NOT show role/profile together with a score (aggregation by role only if ≥3 developers share the same role)
 
-Isso preserva o pacto de anonimato do survey enquanto permite insights úteis ao time.
+This preserves the survey's anonymity pact while still producing useful insights for the team.

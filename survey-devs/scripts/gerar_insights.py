@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
-"""Gera relatório de insights do Developer Survey.
+"""Generate the Developer Survey insights report.
 
-Lê: survey-devs/respostas-devs.json (output de /importar-survey-devs)
-Aplica: rubric.py (calcula maturidade L0-L4 em 7 dimensões)
-Combina: agregação descritiva (% adoção, top tools, pain points)
-Gera:
+Reads: survey-devs/respostas-devs.json (output of /importar-survey-devs)
+Applies: rubric.py (L0-L4 maturity across 7 dimensions)
+Adds: descriptive aggregation (% adoption, top tools, pain points)
+Writes:
   - saida/maturidade-developer-survey-<DATE>.json
-  - saida/insights-developer-survey-<DATE>.md (relatório completo PT-BR)
+  - saida/insights-developer-survey-<DATE>.md (full report)
 
-Uso:
+Usage:
     python3 gerar_insights.py
     python3 gerar_insights.py --input X --out Y
+    python3 gerar_insights.py --lang pt-br
 """
 from __future__ import annotations
 
@@ -24,9 +25,301 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 sys.path.insert(0, str(SCRIPT_DIR.parent.parent / "relatorios" / "scripts"))
-from rubric import score_respondent, aggregate_team, DIMENSIONS, label_for
-from calcular_maturidade import _ranking
-import branding
+from rubric import (  # noqa: E402
+    DIMENSIONS,
+    SUPPORTED_LANGS,
+    aggregate_team,
+    label_for,
+    score_respondent,
+)
+from calcular_maturidade import _ranking  # noqa: E402
+import branding  # noqa: E402
+
+SEP_2 = "|---|---|"
+SEP_3 = "|---|---|---|"
+SEP_4 = "|---|---|---|---|"
+
+STRINGS = {
+    "en": {
+        "missing": "❌ {path} not found. Run /importar-survey-devs first.",
+        "few": "⚠ Only {n} respondents. Insights will be preliminary.",
+        "title": "# Developer Survey: Insights Report",
+        "meta": "**Date:** {date}  ·  **Respondents:** {n} (anonymous)"
+                "  ·  **Rubric version:** 1.0",
+        "author": "**Author:** {author}  ·  **Contact:** {contact}",
+        "prelim": "> ⚠️ **Preliminary result:** only {n} respondents. "
+                  "Consider collecting more answers (15 or more is "
+                  "recommended for a representative team view).",
+        "s1": "## 1 · Executive Summary",
+        "maturity": "### 🎯 Team AI Maturity (deterministic rubric)",
+        "overall": "> **Overall: {score} ({label})**",
+        "based_on": "> Based on {n} respondents, 7 dimensions, and the "
+                    "L0-L4 scale (same as the main assessment)",
+        "dim_header": "| Dimension | Score | Label | % devs at L3+L4 |",
+        "dim_empty": "| {did} {name} | - | No data | - |",
+        "dim_row": "| {did} {name} | **{score:.2f}** | {label} | "
+                   "{pct:.0f}% |",
+        "strong": "### 🏆 3 strongest dimensions",
+        "strong_row": "- **{did}** {name}: score **{score:.2f}** "
+                      "({label})",
+        "gaps": "### ⚠️ 3 largest gaps (roadmap opportunities)",
+        "gap_row": "- 🔴 **{did}** {name}: score **{score:.2f}** "
+                   "({label})",
+        "ins_policy": "**Critical governance risk:** {pct:.0f}% of devs "
+                      "are not aware of a documented AI policy (S8-Q1). "
+                      "It needs to be formalized",
+        "ins_champion": "**Missing Champions:** {pct:.0f}% of devs have "
+                        "no AI Champion on their team (S7-Q2). This is "
+                        "an opportunity to build a Champions Network",
+        "ins_daily": "**High Copilot adoption:** {pct:.0f}% use it daily "
+                     "(S2-Q2). The team is ready to move to advanced "
+                     "modes (Agent, Coding Agent, and Spaces)",
+        "ins_coding": "**Coding Agent underutilization:** only "
+                      "{pct:.0f}% know or use the autonomous Coding "
+                      "Agent (S2-Q3). This is an urgent workshop topic",
+        "ins_mcp": "**Advanced concepts unknown:** only {pct:.0f}% know "
+                   "MCP/A2A. This is a technical skills gap",
+        "top_insights": "### 💡 3 key insights",
+        "s2": "## 2 · Demographics (S1)",
+        "by_role": "### Distribution by role",
+        "h_role": "| Role | N | % |",
+        "s3": "## 3 · GitHub Copilot: Adoption and Modes (S2)",
+        "licenses": "### License coverage (S2-Q1)",
+        "h_type": "| Type | N | % |",
+        "frequency": "### Usage frequency (S2-Q2)",
+        "h_freq": "| Frequency | N | % |",
+        "modes": "### 🆕 Copilot Chat modes used (S2-Q3, multi-select)",
+        "h_mode": "| Mode | N users | % devs |",
+        "features": "### Active features (S2-Q5, multi-select): Top 8",
+        "h_feature": "| Feature | N | % devs |",
+        "gain": "### Perceived productivity gain (S2-Q7)",
+        "h_range": "| Range | N | % |",
+        "s4": "## 4 · Other Microsoft / GitHub AI tools (S3)",
+        "adoption": "### Adoption (S3-Q1, multi-select)",
+        "h_tool_users": "| Tool | N users | % devs |",
+        "s5": "## 5 · AI Development Practices (S4)",
+        "tdd": "### TDD with AI (S4-Q1)",
+        "sdd": "### SDD (Spec-Driven Development) (S4-Q2)",
+        "h_knowledge": "| Knowledge | N | % |",
+        "s6": "## 6 · Agent Concepts (S5)",
+        "by_concept": "### Knowledge by concept",
+        "h_concept": "| Concept | Distribution |",
+        "mcp_insight": "**Insight:** only {pct:.0f}% know MCP. Most of "
+                       "the team does not know the advanced concepts "
+                       "(A2A, handoffs, subagents, and personas). This "
+                       "is an opportunity for a technical workshop.",
+        "s7": "## 7 · Markdown / Memory / Instructions (S6)",
+        "instr_files": "### Instructions files used (S6-Q1, multi)",
+        "h_file": "| File | N users | % |",
+        "s8": "## 8 · Usability and Best Practices (S7)",
+        "champions": "### Champions on the team (S7-Q2)",
+        "h_answer": "| Answer | N | % |",
+        "metrics": "### Productivity metrics (S7-Q4, multi)",
+        "h_framework": "| Framework | N | % |",
+        "s9": "## 9 · 🔒 Security and Governance (S8)",
+        "policy": "### Documented policy (S8-Q1)",
+        "no_policy": "> 🚨 **{pct:.0f}% without a clear policy: high "
+                     "governance risk.**",
+        "sec_tools": "### Active security tools (S8-Q4, multi)",
+        "h_tool": "| Tool | N | % |",
+        "s10": "## 10 · Pain Points & Wishlist (S9, anonymized)",
+        "pains": "### Top frustrations (S9-Q1)",
+        "changes": "### Top changes that would double productivity "
+                   "(S9-Q2)",
+        "wishlist": "### Microsoft/GitHub feature wishlist (S9-Q3)",
+        "s11": "## 11 · 🎯 Prioritized Recommendations",
+        "rec_policy": "Document a formal AI usage policy",
+        "why_policy": "{pct:.0f}% without a policy",
+        "rec_coding": "Coding Agent workshop (autonomous on GitHub.com)",
+        "why_coding": "only {pct:.0f}% know it",
+        "rec_mcp": "Advanced technical training: MCP, A2A, and custom "
+                   "agents",
+        "why_mcp": "only {pct:.0f}% know MCP",
+        "rec_champion": "Build a Champions Network (3-5 devs per team)",
+        "why_champion": "{pct:.0f}% without a Champion",
+        "h_recs": "| Priority | Action | Rationale |",
+        "learning_tip": "> 💡 For a detailed capacitation plan with "
+                        "Champions, cohorts, and a calendar, also run "
+                        "the **Learning & Growth Survey** "
+                        "(`survey-learning/`) and the "
+                        "`/plano-capacitacao` skill.",
+        "s12": "## 12 · 🔗 Connection with the Maturity Assessment",
+        "compare": "If you ran the main assessment, compare:",
+        "h_link": "| Dimension (survey) | Capability (assessment) "
+                  "| Validate |",
+        "link_rows": [
+            "| **D2** Copilot Adoption | P1-C1 AI Assistants "
+            "| Declared score vs. actual adoption |",
+            "| **D3** MS/GH Tooling | P3-C3, P3-C5 "
+            "| Technical sophistication |",
+            "| **D4** AI Dev Practices | P1-C2, P1-C8 "
+            "| Structured practices |",
+            "| **D5** Agent Concepts | P3-C5 | Advanced knowledge |",
+            "| **D6** Instructions | P1-C7 | AI context maintenance |",
+            "| **D7** Best Practices | P1-C5, P1-C8 "
+            "| Adoption culture |",
+            "| **D8** Security & Governance | P2-C4, P2-C10 "
+            "| Real governance |",
+        ],
+        "pattern": "> **Classic pattern:** leadership rates P1-C1 as L3, "
+                   "but survey D2 shows L1. This is a **dissonance** "
+                   "between strategy and practice.",
+        "footer": "*Report generated by the `/insights-developer-survey` "
+                  "skill · Deterministic rubric v1.0 · {date}*",
+        "c_outputs": "\n✅ Outputs generated:",
+        "c_maturity": "\n🎯 Team maturity: {score} ({label}), "
+                      "{n} respondents",
+        "c_insights": "\n💡 Top insights:",
+        "concepts": {
+            "S5-Q1": "AI agent",
+            "S5-Q3": "Custom agents (.agent.md)",
+            "S5-Q4": "Skills (SKILL.md)",
+            "S5-Q5": "Prompt files (.prompt.md)",
+            "S5-Q6": "A2A protocol",
+            "S5-Q9": "Agentic DevOps personas",
+        },
+    },
+    "pt-br": {
+        "missing": "❌ {path} não encontrado. Rode /importar-survey-devs "
+                   "primeiro.",
+        "few": "⚠ Apenas {n} respondentes. Insights serão preliminares.",
+        "title": "# Developer Survey — Relatório de Insights",
+        "meta": "**Data:** {date}  ·  **Respondentes:** {n} (anônimos)"
+                "  ·  **Versão da rubrica:** 1.0",
+        "author": "**Autor:** {author}  ·  **Contato:** {contact}",
+        "prelim": "> ⚠️ **Resultado preliminar** — apenas {n} "
+                  "respondentes. Considere buscar mais respostas "
+                  "(recomendado ≥15 para representatividade do time).",
+        "s1": "## 1 · Sumário Executivo",
+        "maturity": "### 🎯 Maturidade IA do Time (rubrica determinística)",
+        "overall": "> **Overall: {score} ({label})**",
+        "based_on": "> Baseado em {n} respondentes, 7 dimensões, escala "
+                    "L0-L4 (mesma do assessment principal)",
+        "dim_header": "| Dimensão | Score | Rótulo | % devs em L3+L4 |",
+        "dim_empty": "| {did} {name} | — | Sem dados | — |",
+        "dim_row": "| {did} {name} | **{score:.2f}** | {label} | "
+                   "{pct:.0f}% |",
+        "strong": "### 🏆 3 dimensões mais fortes",
+        "strong_row": "- **{did}** {name} — score **{score:.2f}** "
+                      "({label})",
+        "gaps": "### ⚠️ 3 maiores gaps (oportunidades de roadmap)",
+        "gap_row": "- 🔴 **{did}** {name} — score **{score:.2f}** "
+                   "({label})",
+        "ins_policy": "**Risco de governança crítico:** {pct:.0f}% dos "
+                      "devs não conhecem política de IA documentada "
+                      "(S8-Q1) — precisa formalizar",
+        "ins_champion": "**Falta de Champions:** {pct:.0f}% dos devs não "
+                        "têm AI Champion no time (S7-Q2) — oportunidade "
+                        "de criar Champions Network",
+        "ins_daily": "**Adoção alta de Copilot:** {pct:.0f}% usa "
+                     "diariamente (S2-Q2) — pronto para mover para modos "
+                     "avançados (Agent, Coding Agent, Spaces)",
+        "ins_coding": "**Underutilization de Coding Agent:** apenas "
+                      "{pct:.0f}% conhece/usa Coding Agent autônomo "
+                      "(S2-Q3) — tópico de workshop urgente",
+        "ins_mcp": "**Conceitos avançados desconhecidos:** apenas "
+                   "{pct:.0f}% conhece MCP/A2A — gap de capacitação "
+                   "técnica",
+        "top_insights": "### 💡 3 insights principais",
+        "s2": "## 2 · Demografia (S1)",
+        "by_role": "### Distribuição por cargo",
+        "h_role": "| Cargo | N | % |",
+        "s3": "## 3 · GitHub Copilot — Adoção e Modos (S2)",
+        "licenses": "### Cobertura de licenças (S2-Q1)",
+        "h_type": "| Tipo | N | % |",
+        "frequency": "### Frequência de uso (S2-Q2)",
+        "h_freq": "| Frequência | N | % |",
+        "modes": "### 🆕 Modos do Copilot Chat usados (S2-Q3, "
+                 "multi-select)",
+        "h_mode": "| Modo | N usuários | % devs |",
+        "features": "### Features ativas (S2-Q5, multi-select) — Top 8",
+        "h_feature": "| Feature | N | % devs |",
+        "gain": "### Ganho de produtividade percebido (S2-Q7)",
+        "h_range": "| Faixa | N | % |",
+        "s4": "## 4 · Outras ferramentas Microsoft / GitHub AI (S3)",
+        "adoption": "### Adoção (S3-Q1, multi-select)",
+        "h_tool_users": "| Ferramenta | N usuários | % devs |",
+        "s5": "## 5 · Práticas de Desenvolvimento com IA (S4)",
+        "tdd": "### TDD com IA (S4-Q1)",
+        "sdd": "### SDD (Spec-Driven Development) (S4-Q2)",
+        "h_knowledge": "| Conhecimento | N | % |",
+        "s6": "## 6 · Conceitos de Agentes (S5)",
+        "by_concept": "### Conhecimento por conceito",
+        "h_concept": "| Conceito | Distribuição |",
+        "mcp_insight": "**Insight:** apenas {pct:.0f}% conhece MCP — "
+                       "conceitos avançados (A2A, handoffs, subagentes, "
+                       "personas) são desconhecidos pela maioria. "
+                       "Oportunidade de workshop técnico.",
+        "s7": "## 7 · Markdown / Memory / Instructions (S6)",
+        "instr_files": "### Arquivos de instruções usados (S6-Q1, multi)",
+        "h_file": "| Arquivo | N usuários | % |",
+        "s8": "## 8 · Usabilidade e Best Practices (S7)",
+        "champions": "### Champions no time (S7-Q2)",
+        "h_answer": "| Resposta | N | % |",
+        "metrics": "### Métricas de produtividade (S7-Q4, multi)",
+        "h_framework": "| Framework | N | % |",
+        "s9": "## 9 · 🔒 Segurança e Governança (S8)",
+        "policy": "### Política documentada (S8-Q1)",
+        "no_policy": "> 🚨 **{pct:.0f}% sem política clara — risco de "
+                     "governança alto.**",
+        "sec_tools": "### Ferramentas de segurança ativas (S8-Q4, multi)",
+        "h_tool": "| Ferramenta | N | % |",
+        "s10": "## 10 · Pain Points & Wishlist (S9, anonimizadas)",
+        "pains": "### Top frustrações (S9-Q1)",
+        "changes": "### Top mudanças que dobrariam produtividade (S9-Q2)",
+        "wishlist": "### Wishlist de features Microsoft/GitHub (S9-Q3)",
+        "s11": "## 11 · 🎯 Recomendações Priorizadas",
+        "rec_policy": "Documentar política formal de uso de IA",
+        "why_policy": "{pct:.0f}% sem política",
+        "rec_coding": "Workshop de Coding Agent (autônomo no GitHub.com)",
+        "why_coding": "apenas {pct:.0f}% conhece",
+        "rec_mcp": "Treinamento técnico avançado: MCP, A2A, custom agents",
+        "why_mcp": "apenas {pct:.0f}% conhece MCP",
+        "rec_champion": "Formar Champions Network (3-5 devs por time)",
+        "why_champion": "{pct:.0f}% sem Champion",
+        "h_recs": "| Prioridade | Ação | Justificativa |",
+        "learning_tip": "> 💡 Para plano de capacitação detalhado com "
+                        "Champions, cohorts e calendário, rode também o "
+                        "**Learning & Growth Survey** (`survey-learning/`)"
+                        " e a skill `/plano-capacitacao`.",
+        "s12": "## 12 · 🔗 Conexão com Assessment de Maturidade",
+        "compare": "Se você rodou o assessment principal, compare:",
+        "h_link": "| Dimensão (survey) | Capability (assessment) "
+                  "| Validar |",
+        "link_rows": [
+            "| **D2** Copilot Adoption | P1-C1 Assistentes IA "
+            "| Score declarado vs. adoção real |",
+            "| **D3** MS/GH Tooling | P3-C3, P3-C5 "
+            "| Sofisticação técnica |",
+            "| **D4** AI Dev Practices | P1-C2, P1-C8 "
+            "| Práticas estruturadas |",
+            "| **D5** Agent Concepts | P3-C5 | Conhecimento avançado |",
+            "| **D6** Instructions | P1-C7 | Manutenção contexto IA |",
+            "| **D7** Best Practices | P1-C5, P1-C8 "
+            "| Cultura de adoção |",
+            "| **D8** Security & Governance | P2-C4, P2-C10 "
+            "| Governance real |",
+        ],
+        "pattern": "> **Padrão clássico:** liderança avalia P1-C1 como "
+                   "L3, mas survey D2 mostra L1 → **dissonância** entre "
+                   "estratégia e prática.",
+        "footer": "*Relatório gerado pela skill "
+                  "`/insights-developer-survey` · Rubrica determinística "
+                  "v1.0 · {date}*",
+        "c_outputs": "\n✅ Outputs gerados:",
+        "c_maturity": "\n🎯 Maturidade do time: {score} ({label}) — "
+                      "{n} respondentes",
+        "c_insights": "\n💡 Top insights:",
+        "concepts": {
+            "S5-Q1": "AI agent",
+            "S5-Q3": "Custom agents (.agent.md)",
+            "S5-Q4": "Skills (SKILL.md)",
+            "S5-Q5": "Prompt files (.prompt.md)",
+            "S5-Q6": "A2A protocol",
+            "S5-Q9": "Personas Agentic DevOps",
+        },
+    },
+}
 
 
 def safe_pct(num, total):
@@ -54,11 +347,13 @@ def aggregate_responses(respondents, qid, multi=False):
 
 
 def collect_quotes(respondents, qid, max_q=5):
-    """Get text-livre quotes (anonymized — no respondent_id)."""
+    """Free-text quotes, anonymized (no respondent_id)."""
+    placeholders = ("[texto livre", "[resposta livre")
     quotes = []
     for r in respondents:
         v = r["responses"].get(qid, {}).get("value", "").strip()
-        if v and len(v) > 20 and "[texto livre" not in v.lower() and "[resposta livre" not in v.lower():
+        low = v.lower()
+        if v and len(v) > 20 and not any(p in low for p in placeholders):
             quotes.append(v)
     return quotes[:max_q]
 
@@ -68,19 +363,41 @@ def bar(pct, width=20):
     return "█" * filled + "░" * (width - filled)
 
 
+def counter_table(md, title, header, counter, n, limit=None):
+    md.append(title)
+    md.append(header)
+    md.append(SEP_3)
+    for k, v in counter.most_common(limit):
+        md.append(f"| {k} | {v} | {safe_pct(v, n):.0f}% |")
+    md.append("")
+
+
+def section(md, heading):
+    md.extend(["---", "", heading, ""])
+
+
+def _display(path, kit):
+    return path.relative_to(kit) if path.is_relative_to(kit) else path
+
+
 def main():
     ap = argparse.ArgumentParser()
     kit = SCRIPT_DIR.parent.parent
-    ap.add_argument("--input", default=str(kit / "survey-devs/respostas-devs.json"))
+    ap.add_argument("--input",
+                    default=str(kit / "survey-devs/respostas-devs.json"))
     ap.add_argument("--out", default=str(kit / "saida"))
+    ap.add_argument("--lang", choices=SUPPORTED_LANGS, default="en",
+                    help="Report language (default: en)")
     args = ap.parse_args()
+    lang = args.lang
+    t = STRINGS[lang]
 
     inp = Path(args.input)
     out_dir = Path(args.out)
     out_dir.mkdir(parents=True, exist_ok=True)
 
     if not inp.exists():
-        print(f"❌ {inp} não encontrado. Rode /importar-survey-devs primeiro.")
+        print(t["missing"].format(path=inp))
         return 1
 
     data = json.loads(inp.read_text(encoding="utf-8"))
@@ -89,13 +406,15 @@ def main():
     date = datetime.date.today().isoformat()
 
     if n < 3:
-        print(f"⚠ Apenas {n} respondentes. Insights serão preliminares.")
+        print(t["few"].format(n=n))
 
-    # Compute maturity per respondent + aggregate
-    individual_scores = [score_respondent(r["responses"]) for r in respondents]
-    team = aggregate_team(individual_scores)
+    # Maturity per respondent + team aggregate
+    individual_scores = [
+        score_respondent(r["responses"], lang) for r in respondents
+    ]
+    team = aggregate_team(individual_scores, lang)
 
-    # Save maturity JSON (consolidates with calcular_maturidade.py output schema)
+    # Same schema as calcular_maturidade.py output
     maturity_path = out_dir / f"maturidade-developer-survey-{date}.json"
     maturity_data = {
         "metadata": {
@@ -105,6 +424,7 @@ def main():
             "rubric_version": "1.0 (deterministic)",
             "anonymous": True,
             "scope": "team aggregate (no individual scores in output)",
+            "lang": lang,
             **branding.json_metadata(),
         },
         "team_overall": {
@@ -115,349 +435,239 @@ def main():
         "dimensions": team["dimensions"],
         "ranking": _ranking(team["dimensions"]),
     }
-    maturity_path.write_text(json.dumps(maturity_data, ensure_ascii=False, indent=2), encoding="utf-8")
+    maturity_path.write_text(
+        json.dumps(maturity_data, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
 
-    # Build descriptive aggregations (used in report)
-    s2_q1 = aggregate_responses(respondents, "S2-Q1")[0]            # licença
-    s2_q2 = aggregate_responses(respondents, "S2-Q2")[0]            # frequência
-    s2_q3, s2_q3_t = aggregate_responses(respondents, "S2-Q3", multi=True)  # modos
-    s2_q5, s2_q5_t = aggregate_responses(respondents, "S2-Q5", multi=True)  # features
-    s2_q7 = aggregate_responses(respondents, "S2-Q7")[0]            # ganho
-    s2_q8, s2_q8_t = aggregate_responses(respondents, "S2-Q8", multi=True)  # tarefas
+    # Descriptive aggregations used in the report
+    agg = aggregate_responses
+    s2_q1 = agg(respondents, "S2-Q1")[0]                # license
+    s2_q2 = agg(respondents, "S2-Q2")[0]                # frequency
+    s2_q3, _ = agg(respondents, "S2-Q3", multi=True)    # modes
+    s2_q5, _ = agg(respondents, "S2-Q5", multi=True)    # features
+    s2_q7 = agg(respondents, "S2-Q7")[0]                # gain
+    s3_q1, _ = agg(respondents, "S3-Q1", multi=True)    # MS/GH tools
+    s4_q1 = agg(respondents, "S4-Q1")[0]                # TDD
+    s4_q2 = agg(respondents, "S4-Q2")[0]                # SDD
 
-    s3_q1, s3_q1_t = aggregate_responses(respondents, "S3-Q1", multi=True)  # MS/GH tools
-
-    s4_q1 = aggregate_responses(respondents, "S4-Q1")[0]            # TDD
-    s4_q2 = aggregate_responses(respondents, "S4-Q2")[0]            # SDD
-
-    # S5 — knowledge of agent concepts
+    # S5: knowledge of agent concepts
     s5_concepts = {
-        "S5-Q1": ("AI agent", aggregate_responses(respondents, "S5-Q1")[0]),
-        "S5-Q3": ("Custom agents (.agent.md)", aggregate_responses(respondents, "S5-Q3")[0]),
-        "S5-Q4": ("Skills (SKILL.md)", aggregate_responses(respondents, "S5-Q4")[0]),
-        "S5-Q5": ("Prompt files (.prompt.md)", aggregate_responses(respondents, "S5-Q5")[0]),
-        "S5-Q6": ("A2A protocol", aggregate_responses(respondents, "S5-Q6")[0]),
-        "S5-Q9": ("Personas Agentic DevOps", aggregate_responses(respondents, "S5-Q9")[0]),
+        qid: (name, agg(respondents, qid)[0])
+        for qid, name in t["concepts"].items()
     }
 
-    s6_q1, _ = aggregate_responses(respondents, "S6-Q1", multi=True)  # instructions files
-
-    s7_q2 = aggregate_responses(respondents, "S7-Q2")[0]            # Champion?
-    s7_q4, _ = aggregate_responses(respondents, "S7-Q4", multi=True)  # métricas
-
-    s8_q1 = aggregate_responses(respondents, "S8-Q1")[0]            # política IA
-    s8_q4, _ = aggregate_responses(respondents, "S8-Q4", multi=True)  # security tools
+    s6_q1, _ = agg(respondents, "S6-Q1", multi=True)    # instructions
+    s7_q2 = agg(respondents, "S7-Q2")[0]                # Champion?
+    s7_q4, _ = agg(respondents, "S7-Q4", multi=True)    # metrics
+    s8_q1 = agg(respondents, "S8-Q1")[0]                # AI policy
+    s8_q4, _ = agg(respondents, "S8-Q4", multi=True)    # security tools
 
     s9_pain = collect_quotes(respondents, "S9-Q1")
     s9_change = collect_quotes(respondents, "S9-Q2")
     s9_wishlist = collect_quotes(respondents, "S9-Q3")
 
-    # Threshold checks for insights
-    no_policy = sum(c for k, c in s8_q1.items() if "Não temos política" in k or "Não sei" in k)
+    # Threshold checks; match strings are the Portuguese form options
+    no_policy = sum(
+        c for k, c in s8_q1.items()
+        if "Não temos política" in k or "Não sei" in k
+    )
     pct_no_policy = safe_pct(no_policy, n)
 
-    no_champion = s7_q2.get("Não — cada um se vira", 0) + s7_q2.get("Não, mas precisava ter", 0)
+    no_champion = (s7_q2.get("Não — cada um se vira", 0)
+                   + s7_q2.get("Não, mas precisava ter", 0))
     pct_no_champion = safe_pct(no_champion, n)
 
-    daily_copilot = s2_q2.get("Diariamente (várias horas)", 0) + s2_q2.get("Diariamente (esporádico)", 0)
+    daily_copilot = (s2_q2.get("Diariamente (várias horas)", 0)
+                     + s2_q2.get("Diariamente (esporádico)", 0))
     pct_daily = safe_pct(daily_copilot, n)
 
-    uses_coding_agent = sum(c for k, c in s2_q3.items() if "Coding Agent" in k)
+    uses_coding_agent = sum(
+        c for k, c in s2_q3.items() if "Coding Agent" in k
+    )
     pct_coding_agent = safe_pct(uses_coding_agent, n)
 
-    knows_mcp_strong = s5_concepts["S5-Q6"][1].get("Uso (ex.: Foundry A2A Tool)", 0) + \
-                       s5_concepts["S5-Q6"][1].get("Conheço o conceito", 0)
+    a2a = s5_concepts["S5-Q6"][1]
+    knows_mcp_strong = (a2a.get("Uso (ex.: Foundry A2A Tool)", 0)
+                        + a2a.get("Conheço o conceito", 0))
     pct_mcp = safe_pct(knows_mcp_strong, n)
 
     # Build report
     md = []
     md.append(branding.md_header().rstrip())
     md.append("")
-    md.append("# Developer Survey — Relatório de Insights")
+    md.append(t["title"])
     md.append("")
-    md.append(f"**Data:** {date}  ·  **Respondentes:** {n} (anônimos)  ·  **Versão da rubrica:** 1.0")
-    md.append(f"**Autor:** {branding.META_BAR}  ·  **Contato:** {branding.CONTACT}")
+    md.append(t["meta"].format(date=date, n=n))
+    md.append(t["author"].format(author=branding.META_BAR,
+                                 contact=branding.CONTACT))
     md.append("")
 
     if n < 5:
-        md.append(f"> ⚠️ **Resultado preliminar** — apenas {n} respondentes. Considere buscar mais respostas (recomendado ≥15 para representatividade do time).")
+        md.append(t["prelim"].format(n=n))
         md.append("")
 
-    md.append("---")
-    md.append("")
-    md.append("## 1 · Sumário Executivo")
-    md.append("")
+    section(md, t["s1"])
 
-    # Maturity table
     overall = team["team_overall_score"]
-    md.append(f"### 🎯 Maturidade IA do Time (rubrica determinística)")
-    md.append("")
     overall_str = f"{overall:.2f}" if overall is not None else "N/A"
-    md.append(f"> **Overall: {overall_str} ({team['team_overall_label']})**")
-    md.append(f"> Baseado em {n} respondentes, 7 dimensões, escala L0-L4 (mesma do assessment principal)")
+    md.append(t["maturity"])
     md.append("")
-    md.append("| Dimensão | Score | Rótulo | % devs em L3+L4 |")
-    md.append("|---|---|---|---|")
+    md.append(t["overall"].format(score=overall_str,
+                                  label=team["team_overall_label"]))
+    md.append(t["based_on"].format(n=n))
+    md.append("")
+    md.append(t["dim_header"])
+    md.append(SEP_4)
     for did, name, _, _ in DIMENSIONS:
         d = team["dimensions"][did]
         if d["team_score"] is None:
-            md.append(f"| {did} {name} | — | Sem dados | — |")
+            md.append(t["dim_empty"].format(did=did, name=name))
             continue
         dist = d["distribution_pct"]
         pct_l3l4 = dist["L3"] + dist["L4"]
-        md.append(f"| {did} {name} | **{d['team_score']:.2f}** | {d['label']} | {pct_l3l4:.0f}% |")
+        md.append(t["dim_row"].format(
+            did=did, name=name, score=d["team_score"],
+            label=d["label"], pct=pct_l3l4,
+        ))
     md.append("")
 
-    # Top/bottom rankings
     rk = _ranking(team["dimensions"])
-    md.append("### 🏆 3 dimensões mais fortes")
+    md.append(t["strong"])
     for did, name, score in rk["top"]:
-        md.append(f"- **{did}** {name} — score **{score:.2f}** ({label_for(score)})")
+        md.append(t["strong_row"].format(
+            did=did, name=name, score=score, label=label_for(score, lang)
+        ))
     md.append("")
-    md.append("### ⚠️ 3 maiores gaps (oportunidades de roadmap)")
+    md.append(t["gaps"])
     for did, name, score in rk["bottom"]:
-        md.append(f"- 🔴 **{did}** {name} — score **{score:.2f}** ({label_for(score)})")
+        md.append(t["gap_row"].format(
+            did=did, name=name, score=score, label=label_for(score, lang)
+        ))
     md.append("")
 
-    # Top 3 insights
     insights = []
     if pct_no_policy > 30:
-        insights.append(f"**Risco de governança crítico:** {pct_no_policy:.0f}% dos devs não conhecem política de IA documentada (S8-Q1) — precisa formalizar")
+        insights.append(t["ins_policy"].format(pct=pct_no_policy))
     if pct_no_champion > 50:
-        insights.append(f"**Falta de Champions:** {pct_no_champion:.0f}% dos devs não têm AI Champion no time (S7-Q2) — oportunidade de criar Champions Network")
+        insights.append(t["ins_champion"].format(pct=pct_no_champion))
     if pct_daily > 70:
-        insights.append(f"**Adoção alta de Copilot:** {pct_daily:.0f}% usa diariamente (S2-Q2) — pronto para mover para modos avançados (Agent, Coding Agent, Spaces)")
+        insights.append(t["ins_daily"].format(pct=pct_daily))
     if pct_coding_agent < 30:
-        insights.append(f"**Underutilization de Coding Agent:** apenas {pct_coding_agent:.0f}% conhece/usa Coding Agent autônomo (S2-Q3) — tópico de workshop urgente")
+        insights.append(t["ins_coding"].format(pct=pct_coding_agent))
     if pct_mcp < 20:
-        insights.append(f"**Conceitos avançados desconhecidos:** apenas {pct_mcp:.0f}% conhece MCP/A2A — gap de capacitação técnica")
+        insights.append(t["ins_mcp"].format(pct=pct_mcp))
 
-    md.append("### 💡 3 insights principais")
+    md.append(t["top_insights"])
     for i, ins in enumerate(insights[:3], 1):
         md.append(f"{i}. {ins}")
     md.append("")
 
-    md.append("---")
-    md.append("")
-    md.append("## 2 · Demografia (S1)")
-    md.append("")
-    s1_q1 = aggregate_responses(respondents, "S1-Q1")[0]
-    md.append("### Distribuição por cargo")
-    md.append("| Cargo | N | % |")
-    md.append("|---|---|---|")
-    for cargo, count in s1_q1.most_common(10):
-        pct = safe_pct(count, n)
-        md.append(f"| {cargo} | {count} | {pct:.0f}% |")
-    md.append("")
+    section(md, t["s2"])
+    s1_q1 = agg(respondents, "S1-Q1")[0]
+    counter_table(md, t["by_role"], t["h_role"], s1_q1, n, limit=10)
 
-    md.append("---")
-    md.append("")
-    md.append("## 3 · GitHub Copilot — Adoção e Modos (S2)")
-    md.append("")
-    md.append("### Cobertura de licenças (S2-Q1)")
-    md.append("| Tipo | N | % |")
-    md.append("|---|---|---|")
-    for k, v in s2_q1.most_common():
-        md.append(f"| {k} | {v} | {safe_pct(v, n):.0f}% |")
-    md.append("")
+    section(md, t["s3"])
+    counter_table(md, t["licenses"], t["h_type"], s2_q1, n)
+    counter_table(md, t["frequency"], t["h_freq"], s2_q2, n)
+    counter_table(md, t["modes"], t["h_mode"], s2_q3, n)
+    counter_table(md, t["features"], t["h_feature"], s2_q5, n, limit=8)
+    counter_table(md, t["gain"], t["h_range"], s2_q7, n)
 
-    md.append("### Frequência de uso (S2-Q2)")
-    md.append("| Frequência | N | % |")
-    md.append("|---|---|---|")
-    for k, v in s2_q2.most_common():
-        md.append(f"| {k} | {v} | {safe_pct(v, n):.0f}% |")
-    md.append("")
+    section(md, t["s4"])
+    counter_table(md, t["adoption"], t["h_tool_users"], s3_q1, n)
 
-    md.append("### 🆕 Modos do Copilot Chat usados (S2-Q3, multi-select)")
-    md.append("| Modo | N usuários | % devs |")
-    md.append("|---|---|---|")
-    for k, v in s2_q3.most_common():
-        md.append(f"| {k} | {v} | {safe_pct(v, n):.0f}% |")
-    md.append("")
+    section(md, t["s5"])
+    counter_table(md, t["tdd"], t["h_freq"], s4_q1, n)
+    counter_table(md, t["sdd"], t["h_knowledge"], s4_q2, n)
 
-    md.append("### Features ativas (S2-Q5, multi-select) — Top 8")
-    md.append("| Feature | N | % devs |")
-    md.append("|---|---|---|")
-    for k, v in s2_q5.most_common(8):
-        md.append(f"| {k} | {v} | {safe_pct(v, n):.0f}% |")
-    md.append("")
-
-    md.append("### Ganho de produtividade percebido (S2-Q7)")
-    md.append("| Faixa | N | % |")
-    md.append("|---|---|---|")
-    for k, v in s2_q7.most_common():
-        md.append(f"| {k} | {v} | {safe_pct(v, n):.0f}% |")
-    md.append("")
-
-    md.append("---")
-    md.append("")
-    md.append("## 4 · Outras ferramentas Microsoft / GitHub AI (S3)")
-    md.append("")
-    md.append("### Adoção (S3-Q1, multi-select)")
-    md.append("| Ferramenta | N usuários | % devs |")
-    md.append("|---|---|---|")
-    for k, v in s3_q1.most_common():
-        md.append(f"| {k} | {v} | {safe_pct(v, n):.0f}% |")
-    md.append("")
-
-    md.append("---")
-    md.append("")
-    md.append("## 5 · Práticas de Desenvolvimento com IA (S4)")
-    md.append("")
-    md.append("### TDD com IA (S4-Q1)")
-    md.append("| Frequência | N | % |")
-    md.append("|---|---|---|")
-    for k, v in s4_q1.most_common():
-        md.append(f"| {k} | {v} | {safe_pct(v, n):.0f}% |")
-    md.append("")
-    md.append("### SDD (Spec-Driven Development) (S4-Q2)")
-    md.append("| Conhecimento | N | % |")
-    md.append("|---|---|---|")
-    for k, v in s4_q2.most_common():
-        md.append(f"| {k} | {v} | {safe_pct(v, n):.0f}% |")
-    md.append("")
-
-    md.append("---")
-    md.append("")
-    md.append("## 6 · Conceitos de Agentes (S5)")
-    md.append("")
-    md.append("### Conhecimento por conceito")
-    md.append("| Conceito | Distribuição |")
-    md.append("|---|---|")
+    section(md, t["s6"])
+    md.append(t["by_concept"])
+    md.append(t["h_concept"])
+    md.append(SEP_2)
     for qid, (name, counts) in s5_concepts.items():
         top = ", ".join(f"{k}={v}" for k, v in counts.most_common(3))
         md.append(f"| **{qid}** {name} | {top} |")
     md.append("")
-    md.append(f"**Insight:** apenas {pct_mcp:.0f}% conhece MCP — conceitos avançados (A2A, handoffs, subagentes, personas) são desconhecidos pela maioria. Oportunidade de workshop técnico.")
+    md.append(t["mcp_insight"].format(pct=pct_mcp))
     md.append("")
 
-    md.append("---")
-    md.append("")
-    md.append("## 7 · Markdown / Memory / Instructions (S6)")
-    md.append("")
-    md.append("### Arquivos de instruções usados (S6-Q1, multi)")
-    md.append("| Arquivo | N usuários | % |")
-    md.append("|---|---|---|")
-    for k, v in s6_q1.most_common():
-        md.append(f"| {k} | {v} | {safe_pct(v, n):.0f}% |")
-    md.append("")
+    section(md, t["s7"])
+    counter_table(md, t["instr_files"], t["h_file"], s6_q1, n)
 
-    md.append("---")
-    md.append("")
-    md.append("## 8 · Usabilidade e Best Practices (S7)")
-    md.append("")
-    md.append("### Champions no time (S7-Q2)")
-    md.append("| Resposta | N | % |")
-    md.append("|---|---|---|")
-    for k, v in s7_q2.most_common():
-        md.append(f"| {k} | {v} | {safe_pct(v, n):.0f}% |")
-    md.append("")
+    section(md, t["s8"])
+    counter_table(md, t["champions"], t["h_answer"], s7_q2, n)
+    counter_table(md, t["metrics"], t["h_framework"], s7_q4, n)
 
-    md.append("### Métricas de produtividade (S7-Q4, multi)")
-    md.append("| Framework | N | % |")
-    md.append("|---|---|---|")
-    for k, v in s7_q4.most_common():
-        md.append(f"| {k} | {v} | {safe_pct(v, n):.0f}% |")
-    md.append("")
-
-    md.append("---")
-    md.append("")
-    md.append("## 9 · 🔒 Segurança e Governança (S8)")
-    md.append("")
-    md.append("### Política documentada (S8-Q1)")
-    md.append("| Resposta | N | % |")
-    md.append("|---|---|---|")
+    section(md, t["s9"])
+    md.append(t["policy"])
+    md.append(t["h_answer"])
+    md.append(SEP_3)
     for k, v in s8_q1.most_common():
         md.append(f"| {k} | {v} | {safe_pct(v, n):.0f}% |")
     if pct_no_policy > 30:
         md.append("")
-        md.append(f"> 🚨 **{pct_no_policy:.0f}% sem política clara — risco de governança alto.**")
+        md.append(t["no_policy"].format(pct=pct_no_policy))
     md.append("")
+    counter_table(md, t["sec_tools"], t["h_tool"], s8_q4, n)
 
-    md.append("### Ferramentas de segurança ativas (S8-Q4, multi)")
-    md.append("| Ferramenta | N | % |")
-    md.append("|---|---|---|")
-    for k, v in s8_q4.most_common():
-        md.append(f"| {k} | {v} | {safe_pct(v, n):.0f}% |")
-    md.append("")
+    section(md, t["s10"])
+    for key, quotes in (("pains", s9_pain), ("changes", s9_change),
+                        ("wishlist", s9_wishlist)):
+        if quotes:
+            md.append(t[key])
+            for q in quotes:
+                md.append(f"> {q}")
+                md.append("")
 
-    md.append("---")
-    md.append("")
-    md.append("## 10 · Pain Points & Wishlist (S9, anonimizadas)")
-    md.append("")
-    if s9_pain:
-        md.append("### Top frustrações (S9-Q1)")
-        for q in s9_pain:
-            md.append(f"> {q}")
-            md.append("")
-    if s9_change:
-        md.append("### Top mudanças que dobrariam produtividade (S9-Q2)")
-        for q in s9_change:
-            md.append(f"> {q}")
-            md.append("")
-    if s9_wishlist:
-        md.append("### Wishlist de features Microsoft/GitHub (S9-Q3)")
-        for q in s9_wishlist:
-            md.append(f"> {q}")
-            md.append("")
-
-    md.append("---")
-    md.append("")
-    md.append("## 11 · 🎯 Recomendações Priorizadas")
-    md.append("")
+    section(md, t["s11"])
     recs = []
     if pct_no_policy > 30:
-        recs.append(("🔴 P0", "Documentar política formal de uso de IA", f"{pct_no_policy:.0f}% sem política"))
+        recs.append(("🔴 P0", t["rec_policy"],
+                     t["why_policy"].format(pct=pct_no_policy)))
     if pct_coding_agent < 30:
-        recs.append(("🟠 P1", "Workshop de Coding Agent (autônomo no GitHub.com)", f"apenas {pct_coding_agent:.0f}% conhece"))
+        recs.append(("🟠 P1", t["rec_coding"],
+                     t["why_coding"].format(pct=pct_coding_agent)))
     if pct_mcp < 20:
-        recs.append(("🟠 P1", "Treinamento técnico avançado: MCP, A2A, custom agents", f"apenas {pct_mcp:.0f}% conhece MCP"))
+        recs.append(("🟠 P1", t["rec_mcp"],
+                     t["why_mcp"].format(pct=pct_mcp)))
     if pct_no_champion > 50:
-        recs.append(("🟡 P2", "Formar Champions Network (3-5 devs por time)", f"{pct_no_champion:.0f}% sem Champion"))
+        recs.append(("🟡 P2", t["rec_champion"],
+                     t["why_champion"].format(pct=pct_no_champion)))
 
-    md.append("| Prioridade | Ação | Justificativa |")
-    md.append("|---|---|---|")
+    md.append(t["h_recs"])
+    md.append(SEP_3)
     for pri, action, why in recs[:5]:
         md.append(f"| {pri} | {action} | {why} |")
     md.append("")
-    md.append("> 💡 Para plano de capacitação detalhado com Champions, cohorts e calendário, rode também o **Learning & Growth Survey** (`survey-learning/`) e a skill `/plano-capacitacao`.")
+    md.append(t["learning_tip"])
+    md.append("")
+
+    section(md, t["s12"])
+    md.append(t["compare"])
+    md.append("")
+    md.append(t["h_link"])
+    md.append(SEP_3)
+    md.extend(t["link_rows"])
+    md.append("")
+    md.append(t["pattern"])
     md.append("")
 
     md.append("---")
     md.append("")
-    md.append("## 12 · 🔗 Conexão com Assessment de Maturidade")
-    md.append("")
-    md.append("Se você rodou o assessment principal, compare:")
-    md.append("")
-    md.append("| Dimensão (survey) | Capability (assessment) | Validar |")
-    md.append("|---|---|---|")
-    md.append("| **D2** Copilot Adoption | P1-C1 Assistentes IA | Score declarado vs. adoção real |")
-    md.append("| **D3** MS/GH Tooling | P3-C3, P3-C5 | Sofisticação técnica |")
-    md.append("| **D4** AI Dev Practices | P1-C2, P1-C8 | Práticas estruturadas |")
-    md.append("| **D5** Agent Concepts | P3-C5 | Conhecimento avançado |")
-    md.append("| **D6** Instructions | P1-C7 | Manutenção contexto IA |")
-    md.append("| **D7** Best Practices | P1-C5, P1-C8 | Cultura de adoção |")
-    md.append("| **D8** Security & Governance | P2-C4, P2-C10 | Governance real |")
-    md.append("")
-    md.append("> **Padrão clássico:** liderança avalia P1-C1 como L3, mas survey D2 mostra L1 → **dissonância** entre estratégia e prática.")
-    md.append("")
-
-    md.append("---")
-    md.append("")
-    md.append(f"*Relatório gerado pela skill `/insights-developer-survey` · Rubrica determinística v1.0 · {date}*")
-    md.append(branding.md_footer())
+    md.append(t["footer"].format(date=date))
+    md.append(branding.md_footer(lang))
 
     insights_path = out_dir / f"insights-developer-survey-{date}.md"
     insights_path.write_text("\n".join(md), encoding="utf-8")
 
-    # Console summary
-    print(f"\n✅ Outputs gerados:")
-    print(f"   📊 {maturity_path.relative_to(kit) if maturity_path.is_relative_to(kit) else maturity_path}")
-    print(f"   📄 {insights_path.relative_to(kit) if insights_path.is_relative_to(kit) else insights_path}")
-    print(f"\n🎯 Maturidade do time: {overall:.2f} ({team['team_overall_label']}) — {n} respondentes")
-    print(f"\n💡 Top insights:")
+    print(t["c_outputs"])
+    print(f"   📊 {_display(maturity_path, kit)}")
+    print(f"   📄 {_display(insights_path, kit)}")
+    print(t["c_maturity"].format(score=overall_str,
+                                 label=team["team_overall_label"], n=n))
+    print(t["c_insights"])
     for i, ins in enumerate(insights[:3], 1):
-        # truncate for console
         short = ins.split("**")[1] if "**" in ins else ins[:50]
         print(f"   {i}. {short}")
     return 0

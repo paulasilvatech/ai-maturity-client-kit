@@ -1,197 +1,199 @@
-# `survey-learning/` — Learning & Growth Survey (identificado, capacitação)
+# `survey-learning/`: Learning & Growth Survey (identified, capacitation)
 
-**Terceiro pilar do kit:** depois de medir maturidade organizacional (assessment) e comportamento real (survey-devs), este survey gera o **roadmap de capacitação personalizado** — workshops, cohorts, Champions Network, mentoria. **Identificado** (nome+email) para poder convidar as pessoas certas.
+🌐 English · [Português (Brasil)](README.pt-br.md)
 
-## 📐 Diferença vs. outros surveys
+**Third pillar of the kit:** after measuring organizational maturity (assessment) and real behavior (survey-devs), this survey generates the **personalized capacitation roadmap**: workshops, cohorts, Champions Network, and mentoring. **Identified** (name+email) so the right people can be invited.
 
-| Aspecto | Assessment principal | Developer Survey | **Learning Survey** |
+## 📐 Difference vs. the other surveys
+
+| Aspect | Main assessment | Developer Survey | **Learning Survey** |
 | --- | --- | --- | --- |
-| **Audiência** | Liderança | Devs anônimos | **Devs identificados** |
-| **Anônimo?** | Não | Sim | **Não — precisa nome+email** |
-| **Foco** | Maturidade L0-L4 organizacional | Comportamento real (% adoção) | **O que querem APRENDER** |
-| **Tempo por respondente** | 60-90 min | 22-28 min | **5-8 min** |
-| **Quantidade de perguntas** | 158 | 75 | **32** |
-| **Output** | 5 PDFs production | Insights + maturidade calculada | **Plano de capacitação acionável** |
+| **Audience** | Leadership | Anonymous developers | **Identified developers** |
+| **Anonymous?** | No | Yes | **No, requires name+email** |
+| **Focus** | Organizational L0-L4 maturity | Real behavior (% adoption) | **What they want to LEARN** |
+| **Time per respondent** | 60-90 min | 22-28 min | **5-8 min** |
+| **Number of questions** | 158 | 75 | **32** |
+| **Output** | 5 production PDFs | Insights + computed maturity | **Actionable capacitation plan** |
 | **Skills** | `/calcular-scores`, `/gerar-relatorio` | `/importar-survey-devs`, `/insights-developer-survey` | `/importar-survey-learning`, `/plano-capacitacao` |
 
-**Os 3 são complementares** — rodar os 3 dá visão 360°:
+**The 3 are complementary**: running all 3 gives a 360° view:
 
 ```text
-Assessment (estratégia da liderança)
+Assessment (leadership strategy)
          ↓
-Survey-devs (realidade comportamental anônima)
+Survey-devs (anonymous behavioral reality)
          ↓
-Learning Survey (desejo de evolução identificado)
+Learning Survey (identified desire to grow)
          ↓
-WIZARD-IMPLEMENTACAO (consolida em Implementation Guide PDF)
+WIZARD-IMPLEMENTACAO (consolidates into the Implementation Guide PDF)
 ```
 
-## 📋 As 7 seções
+## 📋 The 7 sections
 
-| # | Seção | Foco | Q |
+| # | Section | Focus | Q |
 | --- | --- | --- | --- |
-| **L1** | Identificação | Nome, email, cargo, time | 4 |
-| **L2** | Auto-percepção de maturidade | Auto-avaliação L0-L4 nas 7 dimensões D2-D8 (rubrica) | 7 |
-| **L3** | Onde quer crescer | Top 3 dimensões prioritárias (próximos 6 meses) | 2 |
-| **L4** | Tópicos específicos | Copilot, Foundry, práticas (TDD/SDD), agents, segurança | 5 |
-| **L5** | Formato e cadência | Workshop, cohort vs self-paced, horários, tempo/semana | 4 |
-| **L6** | Champions e mentoria | Quer ser Champion? Mentoria? Quem é referência? | 5 |
-| **L7** | Barreiras e Wishlist | O que impede + workshops + palestrantes desejados | 5 |
+| **L1** | Identification | Name, email, role, team | 4 |
+| **L2** | Self-perceived maturity | L0-L4 self-assessment in the 7 dimensions D2-D8 (rubric) | 7 |
+| **L3** | Where you want to grow | Top 3 priority dimensions (next 6 months) | 2 |
+| **L4** | Specific topics | Copilot, Foundry, practices (TDD/SDD), agents, security | 5 |
+| **L5** | Format and cadence | Workshop, cohort vs self-paced, time slots, hours/week | 4 |
+| **L6** | Champions and mentoring | Want to be a Champion? Mentoring? Who is a reference? | 5 |
+| **L7** | Barriers and Wishlist | What gets in the way + workshops + desired speakers | 5 |
 | | | **TOTAL** | **32** |
 
-## 🗂️ Arquivos nesta pasta
+## 🗂️ Files in this folder
 
-| Arquivo | O que é |
+| File | What it is |
 | --- | --- |
-| **[INSTRUCOES-FORMS-LEARNING.md](INSTRUCOES-FORMS-LEARNING.md)** | Como criar o Microsoft Forms IDENTIFICADO (com configuração + boas práticas + uso ético dos dados) |
-| **[perguntas-para-forms-learning.md](perguntas-para-forms-learning.md)** | As 32 perguntas formatadas para copy/paste no Forms |
-| **[perguntas-para-forms-learning.en.md](perguntas-para-forms-learning.en.md)** | Banco de perguntas em English, preservando IDs `Lx-Qy` para parsing |
-| **[perguntas-para-forms-learning.es.md](perguntas-para-forms-learning.es.md)** | Banco de preguntas en Español, preservando IDs `Lx-Qy` para parsing |
-| **[template-export-forms-learning.xlsx](template-export-forms-learning.xlsx)** | Excel template + 5 respondentes mockados (Maria, João, Ana, Pedro, Sofia) |
-| **[respostas-mock-learning.json](respostas-mock-learning.json)** | JSON estruturado de exemplo |
+| **[INSTRUCOES-FORMS-LEARNING.md](INSTRUCOES-FORMS-LEARNING.md)** | How to build the IDENTIFIED Microsoft Forms (with settings + best practices + ethical use of data) |
+| **[perguntas-para-forms-learning.md](perguntas-para-forms-learning.md)** | The 32 questions formatted for copy/paste into Forms (canonical PT-BR bank) |
+| **[perguntas-para-forms-learning.en.md](perguntas-para-forms-learning.en.md)** | Question bank in English, preserving the `Lx-Qy` IDs for parsing |
+| **[perguntas-para-forms-learning.es.md](perguntas-para-forms-learning.es.md)** | Question bank in Spanish, preserving the `Lx-Qy` IDs for parsing |
+| **[template-export-forms-learning.xlsx](template-export-forms-learning.xlsx)** | Excel template + 5 mock respondents (Maria, João, Ana, Pedro, Sofia) |
+| **[respostas-mock-learning.json](respostas-mock-learning.json)** | Sample structured JSON |
 
-## 🚀 Fluxo de uso
+## 🚀 Usage flow
 
 ```text
-1. Criar Forms seguindo INSTRUCOES-FORMS-LEARNING.md (~30 min)
-2. Compartilhar link com TODOS os devs (Slack/Teams/Email)
-3. Aguardar 2 semanas (lembretes em D+7 e D+12)
+1. Build the Forms following INSTRUCOES-FORMS-LEARNING.md (~30 min)
+2. Share the link with ALL developers (Slack/Teams/Email)
+3. Wait 2 weeks (reminders on D+7 and D+12)
 4. Responses → Open in Excel
-5. Salvar como respostas-survey-learning.xlsx na raiz do kit
+5. Save as respostas-survey-learning.xlsx at the kit root
 6. /importar-survey-learning   → survey-learning/respostas-learning.json
-7. /plano-capacitacao          → saida/plano-capacitacao-DATA.md
+7. /plano-capacitacao          → saida/plano-capacitacao-DATE.md
 ```
 
-## 🧪 Como testar / smoke test (sem coletar respostas reais)
+## 🧪 How to test / smoke test (without collecting real answers)
 
-Antes de criar o Forms para os devs, valide o pipeline com os 5 respondentes mockados:
+Before building the Forms for developers, validate the pipeline with the 5 mock respondents:
 
-### Modo A — Via Copilot Chat (recomendado)
+### Mode A: Via Copilot Chat (recommended)
 
 ```bash
-# Da raiz do kit-cliente:
+# From the kit-cliente root:
 cp survey-learning/respostas-mock-learning.json survey-learning/respostas-learning.json
 ```
 
-No Copilot Chat (modo Agent):
+In Copilot Chat (Agent mode):
 
 ```text
 /plano-capacitacao
 ```
 
-Em ~30 segundos você terá `saida/plano-capacitacao-2026-05-08.md` gerado a partir dos mocks (Maria, João, Ana, Pedro, Sofia). Permite ver "como vai ficar" antes de coletar dados reais.
+In about 30 seconds you will have `saida/plano-capacitacao-2026-05-08.md` generated from the mocks (Maria, João, Ana, Pedro, Sofia). It lets you see "what it will look like" before collecting real data.
 
-### Modo B — Via @ai-maturity-assistant (concierge)
+### Mode B: Via @ai-maturity-assistant (concierge)
 
 ```text
 @ai-maturity-assistant
 ```
 
-Escolha **[C] Learning & Growth Survey** quando o agente perguntar. Ele vai oferecer 3 opções e a `[C] Smoke test imediato com mocks` faz o atalho automaticamente.
+Choose **[C] Learning & Growth Survey** when the agent asks. It offers 3 options, and `[C] Smoke test imediato com mocks` takes the shortcut automatically.
 
-### Modo C — Simulando ciclo completo via Excel mock
+### Mode C: Simulating the full cycle via the mock Excel
 
-Para validar end-to-end (incluindo a skill `/importar-survey-learning`):
+To validate end to end (including the `/importar-survey-learning` skill):
 
 ```bash
-# Renomeie o template para o que a skill espera detectar
+# Rename the template to what the skill expects to detect
 cp survey-learning/template-export-forms-learning.xlsx respostas-survey-learning.xlsx
 
-# No Copilot Chat:
-/importar-survey-learning      # parseia o Excel mock → respostas-learning.json
-/plano-capacitacao             # gera plano dos 5 mocks identificados
+# In Copilot Chat:
+/importar-survey-learning      # parses the mock Excel → respostas-learning.json
+/plano-capacitacao             # generates the plan for the 5 identified mocks
 ```
 
-Depois limpe o estado:
+Then clean up the state:
 
 ```bash
 rm respostas-survey-learning.xlsx survey-learning/respostas-learning.json
 ```
 
-### O que validar no smoke test
+### What to validate in the smoke test
 
-Após `/plano-capacitacao`, abra `saida/plano-capacitacao-DATA.md` e confirme:
+After `/plano-capacitacao`, open `saida/plano-capacitacao-DATE.md` and confirm:
 
-- [ ] Sumário executivo mostra 5 respondentes
-- [ ] Top 10 tópicos demandados aparecem com **nome + email** dos inscritos (Maria, João, Ana, Pedro, Sofia)
-- [ ] Champions Network: Maria + João + Sofia listados como "ativos" (consistente com mocks)
-- [ ] Calendário 90 dias gerado (workshops sequenciados)
-- [ ] Apêndice tem tabela de respondentes (visível para liderança)
+- [ ] Executive summary shows 5 respondents
+- [ ] Top 10 requested topics appear with the **name + email** of attendees (Maria, João, Ana, Pedro, Sofia)
+- [ ] Champions Network: Maria + João + Sofia listed as "active" (consistent with the mocks)
+- [ ] 90-day calendar generated (sequenced workshops)
+- [ ] Appendix has the respondents table (visible to leadership)
 
-Se algum desses falta → reporte como bug da skill `/plano-capacitacao` (não do mock).
+If any of these is missing → report it as a bug in the `/plano-capacitacao` skill (not in the mock).
 
-## 📊 O que sai no plano de capacitação
+## 📊 What the capacitation plan contains
 
-`saida/plano-capacitacao-<DATE>.md` (gerado pela skill) tem **12 seções**:
+`saida/plano-capacitacao-<DATE>.md` (generated by the skill) is written in **English by default**; run the script with `--lang pt-br` to get it in Portuguese (Brazil). It has **12 sections**:
 
-1. **Sumário Executivo** — maturidade percebida + top 3 dimensões prioritárias + Champions identificados + 3 quick wins
-2. **Top 10 tópicos demandados** — com lista de inscritos pré-validados (nome+email)
-3. **Cohorts sugeridos por dimensão D2-D8** — com Champions, formato, cadência
-4. **Champions Network** — 3 tiers (ativos, com suporte, maybe) + mentor pairs + referências naturais
-5. **Calendário de workshops próximos 90 dias** — semana × workshop × audiência × Champion
-6. **Formato e cadência preferidos** — agregado do time
-7. **Barreiras a remover** — priorizado
-8. **Wishlist do time** — workshops, palestrantes, ideias livres
-9. **Conexão com outros surveys** — comparação self-perception (L2) vs rubrica medida (D2-D8) vs assessment principal
-10. **Top 5 ações priorizadas** — impacto × facilidade × alinhamento com gaps
-11. **Próximos 30 dias** — cronograma semana a semana
-12. **Apêndice — respondentes (visível só para liderança)** — tabela com todos os respondentes
+1. **Executive Summary**: perceived maturity + top 3 priority dimensions + identified Champions + 3 quick wins
+2. **Top 10 requested topics**: with a list of pre-validated attendees (name+email)
+3. **Suggested cohorts per dimension D2-D8**: with Champions, format, and cadence
+4. **Champions Network**: 3 tiers (active, with support, maybe) + mentor pairs + natural references
+5. **Workshop calendar for the next 90 days**: week × workshop × audience × Champion
+6. **Preferred format and cadence**: team aggregate
+7. **Barriers to remove**: prioritized
+8. **Team wishlist**: workshops, speakers, free-form ideas
+9. **Connection with the other surveys**: self-perception (L2) vs measured rubric (D2-D8) vs main assessment
+10. **Top 5 prioritized actions**: impact × ease × alignment with gaps
+11. **Next 30 days**: week-by-week schedule
+12. **Appendix: respondents (visible to leadership only)**: table with all respondents
 
-## 🔗 Conexão com outros surveys e wizard
+## 🔗 Connection with the other surveys and the wizard
 
-### ⭐ Mode D — Auto-fill do wizard
+### ⭐ Mode D: Wizard auto-fill
 
-Após `/plano-capacitacao` gerar `saida/plano-capacitacao-DATA.md`, ao rodar `/wizard-implementacao` o Copilot Agent **detecta automaticamente** este plano e oferece **Mode D — Auto-fill** que preenche **6 dos 9 inputs do wizard** automaticamente:
+After `/plano-capacitacao` generates `saida/plano-capacitacao-DATE.md`, running `/wizard-implementacao` makes the Copilot Agent **automatically detect** this plan and offer **Mode D: Auto-fill**, which fills **6 of the 9 wizard inputs** automatically:
 
 ```text
 saida/plano-capacitacao.md
-    ↓ alimenta automaticamente (Mode D)
-.github/skills/wizard-implementacao  (Parte 4 do PDF)
-    ↓ campos populados:
-- executive_steering_committee  ← Champions Network "ativos"
-- communication_plan            ← Calendário sugerido
-- training_plan                 ← Cohorts por dimensão
-- adkar_notes                   ← Workshops top 5 (Knowledge stage)
-- quick_wins_w1_4               ← Calendário 30 dias
-- quick_wins_w5_8               ← Calendário semanas 5-8
-- quick_wins_w9_12              ← Calendário semanas 9-12
+    ↓ feeds automatically (Mode D)
+.github/skills/wizard-implementacao  (Part 4 of the PDF)
+    ↓ populated fields:
+- executive_steering_committee  ← Champions Network "active"
+- communication_plan            ← Suggested calendar
+- training_plan                 ← Cohorts per dimension
+- adkar_notes                   ← Top 5 workshops (Knowledge stage)
+- quick_wins_w1_4               ← 30-day calendar
+- quick_wins_w5_8               ← Calendar weeks 5-8
+- quick_wins_w9_12              ← Calendar weeks 9-12
 
-Você só preenche manualmente: TPO + RACI Matrix
+You only fill in manually: TPO + RACI Matrix
 ```
 
-**Economia estimada do Mode D:** 30-45 min de wizard manual + dados REAIS do seu time (não placeholders do sample Acme).
+**Estimated savings with Mode D:** 30-45 min of manual wizard work + REAL data from your team (not placeholders from the Acme sample).
 
-**Como invocar Mode D:** simplesmente rode `/wizard-implementacao` depois de `/plano-capacitacao`. O agente oferece automaticamente.
+**How to invoke Mode D:** just run `/wizard-implementacao` after `/plano-capacitacao`. The agent offers it automatically.
 
-## 🔐 Sobre identificação (não anonimato)
+## 🔐 About identification (not anonymity)
 
-- Microsoft Forms tem opção "Anonymous responses" — para este survey, deve ficar **DESMARCADA**
-- Devs precisam saber que é identificado AO RESPONDER (transparência)
-- Liderança se compromete a usar dados SÓ para capacitação (não performance review)
-- Plano consolidado é compartilhado com toda a equipe (transparência)
-- Apêndice com nomes/emails é "visível para liderança" no relatório — não compartilhar publicamente
+- Microsoft Forms has an "Anonymous responses" option: for this survey it must stay **UNCHECKED**
+- Developers need to know it is identified WHEN ANSWERING (transparency)
+- Leadership commits to using the data ONLY for capacitation (not performance review)
+- The consolidated plan is shared with the whole team (transparency)
+- The appendix with names/emails is "visible to leadership" in the report: do not share it publicly
 
-## 📅 Cadência sugerida
+## 📅 Suggested cadence
 
-- **Primeira vez:** após estabelecer baseline com assessment + survey-devs
-- **A cada 6 meses:** medir evolução do desejo + comparar com maturidade real
-- **Após eventos grandes** (rollout Copilot, mudança de stack, novo Champion): re-rodar para realinhar plano
+- **First time:** after establishing a baseline with the assessment + survey-devs
+- **Every 6 months:** measure how the desire evolves + compare with real maturity
+- **After major events** (Copilot rollout, stack change, new Champion): rerun to realign the plan
 
-## 📚 Documentação relacionada
+## 📚 Related documentation
 
-- **Skill que importa Excel → JSON:** [`../.github/skills/importar-survey-learning/SKILL.md`](../.github/skills/importar-survey-learning/SKILL.md)
-- **Skill que gera plano:** [`../.github/skills/plano-capacitacao/SKILL.md`](../.github/skills/plano-capacitacao/SKILL.md)
-- **Survey complementar (anônimo):** [`../survey-devs/`](../survey-devs/)
-- **Wizard que consome o plano:** [`../wizard/`](../wizard/) (alimenta Parte 4 do PDF)
-- **Assessment principal:** ver [`../README.md`](../README.md)
+- **Skill that imports Excel → JSON:** [`../.github/skills/importar-survey-learning/SKILL.md`](../.github/skills/importar-survey-learning/SKILL.md)
+- **Skill that generates the plan:** [`../.github/skills/plano-capacitacao/SKILL.md`](../.github/skills/plano-capacitacao/SKILL.md)
+- **Companion survey (anonymous):** [`../survey-devs/`](../survey-devs/)
+- **Wizard that consumes the plan:** [`../wizard/`](../wizard/) (feeds Part 4 of the PDF)
+- **Main assessment:** see [`../README.md`](../README.md)
 
-## 🔗 Fontes para tópicos cobertos no survey
+## 🔗 Sources for topics covered in the survey
 
-Os tópicos de aprendizagem listados em L4 vêm das mesmas fontes oficiais validadas no Developer Survey:
+The learning topics listed in L4 come from the same validated official sources used in the Developer Survey:
 
-- **GitHub Copilot** (modos, Spaces, Coding Agent): docs.github.com/copilot
+- **GitHub Copilot** (modes, Spaces, Coding Agent): docs.github.com/copilot
 - **Microsoft Foundry**: learn.microsoft.com/azure/foundry
-- **MCP / A2A**: protocols + Foundry support (mar/2026)
+- **MCP / A2A**: protocols + Foundry support (Mar/2026)
 - **Spec Kit (SDD)**: github.com/github/spec-kit
 - **Agentic DevOps personas**: learn.microsoft.com/azure/well-architected/ai/personas
 - **GHAS, CodeQL, SBOM, Defender**: GitHub Advanced Security + Microsoft Defender for DevOps docs

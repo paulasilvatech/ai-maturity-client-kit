@@ -1,119 +1,124 @@
-# `wizard/` — Implementation Guide Wizard (Parte 4 do PDF)
+# `wizard/`: Implementation Guide Wizard (PDF Part 4)
 
-**`🧙 WIZARD`** · _Parte 4 personalizada_ · 📖 [🏠 Índice](../README.md) · [« Learning Survey](../survey-learning/INSTRUCOES-FORMS-LEARNING.md) · Você está aqui
+🌐 English · [Português (Brasil)](README.pt-br.md)
 
-Esta pasta tem **3 maneiras** de preencher os 9 inputs estruturados que populam a **Parte 4 do `roadmap_part4.pdf`** (Implementation Guide consolidado: comitês, RACI, ADKAR, quick wins, etc.). Espelha o wizard React da plataforma web (`app/frontend/src/components/dashboard/ImplementationGuideWizard.tsx`).
+**`🧙 WIZARD`** · _Custom Part 4_ · 📖 [🏠 Index](../README.md) · [« Learning Survey](../survey-learning/INSTRUCOES-FORMS-LEARNING.md) · You are here
+
+This folder offers **3 ways** to fill in the 9 structured inputs that populate **Part 4 of `roadmap_part4.pdf`** (the consolidated Implementation Guide: committees, RACI, ADKAR, quick wins, and more). It mirrors the React wizard of the web platform (`app/frontend/src/components/dashboard/ImplementationGuideWizard.tsx`).
 
 > [!NOTE]
-> **Output em qualquer modo:** `implementation-guide-inputs.json` na **raiz do kit-cliente/** (não nesta pasta). A skill `/gerar-relatorio` detecta automaticamente e mescla no payload.
+> **Output in every mode:** `implementation-guide-inputs.json` at the **root of kit-cliente/** (not in this folder). The `/gerar-relatorio` skill detects it automatically and merges it into the payload.
 
-## Os 9 inputs
+## The 9 inputs
 
-| # | Input | O que é |
+| # | Input | What it is |
 |---|---|---|
-| 1 | **Steering Committee** | 5-8 nomes — Sponsor, Programa Lead, CFO, CISO, Change Champion |
-| 2 | **TPO** (Technology Product Owner) | Programa Manager + escritório (3-5 pessoas) + autoridade de decisão |
-| 3 | **RACI Matrix** | 5-8 atividades × R/A/C/I |
-| 4 | **Plano de Comunicação** | Audiência × canal × frequência × owner |
-| 5 | **Plano de Treinamento** | Cohort × formato × cadência × critério |
+| 1 | **Steering Committee** | 5-8 names: Sponsor, Program Lead, CFO, CISO, Change Champion |
+| 2 | **TPO** (Technology Product Owner) | Program Manager + office (3-5 people) + decision authority |
+| 3 | **RACI Matrix** | 5-8 activities × R/A/C/I |
+| 4 | **Communication Plan** | Audience × channel × frequency × owner |
+| 5 | **Training Plan** | Cohort × format × cadence × criteria |
 | 6 | **ADKAR** | Awareness · Desire · Knowledge · Ability · Reinforcement |
-| 7 | **Quick Wins W1-4** | 4-6 iniciativas do primeiro mês |
-| 8 | **Quick Wins W5-8** | Segunda onda |
-| 9 | **Quick Wins W9-12** | Terceira onda |
+| 7 | **Quick Wins W1-4** | 4-6 initiatives for the first month |
+| 8 | **Quick Wins W5-8** | Second wave |
+| 9 | **Quick Wins W9-12** | Third wave |
 
-## Os 3 modos
+## The 3 modes
 
-### A. Wizard HTML standalone (recomendado para visual)
+### A. Standalone HTML wizard (recommended for a visual flow)
 
 ```bash
 open wizard/implementation-guide-wizard.html
 ```
 
-- Browser abre página com 9 steps (cada um com helper + textarea grande)
-- Salva automaticamente no `localStorage` — pode pausar e voltar depois
-- Stepper no topo mostra progresso (✓ verde quando preenchido)
-- Ao final: clique **💾 Baixar JSON** → mova `implementation-guide-inputs.json` para a raiz
+- The browser opens a page with 9 steps (each with helper text and a large textarea)
+- Saves automatically to `localStorage`, so you can pause and come back later
+- The stepper at the top shows progress (green ✓ when filled in)
+- At the end: click **💾 Download JSON** and move `implementation-guide-inputs.json` to the root
 
-**Tempo:** 30-60 min para preencher os 9 detalhadamente (15 min para rascunho).
+A Portuguese (Brazil) version is available at [implementation-guide-wizard.pt-br.html](implementation-guide-wizard.pt-br.html).
 
-### B. JSON template editável (recomendado para devs)
+**Time:** 30-60 min to fill in all 9 in detail (15 min for a draft).
+
+### B. Editable JSON template (recommended for developers)
 
 ```bash
 cp wizard/implementation-guide-inputs.template.json implementation-guide-inputs.json
 code implementation-guide-inputs.json
 ```
 
-O template tem placeholders ricos com instruções inline (`_help`, `_dicas`, exemplos por campo). Apague os exemplos e substitua pelos seus dados.
+The template has rich placeholders with inline instructions (`_help`, `_dicas`, examples per field). Delete the examples and replace them with your own data.
 
-### C. Conversa via Copilot Chat (recomendado para rascunho colaborativo)
+### C. Conversation in Copilot Chat (recommended for a collaborative draft)
 
-No Copilot Chat (modo Agent):
+In Copilot Chat (Agent mode):
 
 ```
 /wizard-implementacao
 ```
 
-Selecione modo **C** quando o Copilot perguntar. Ele:
-1. Faz 9 perguntas, uma por vez
-2. Você responde livremente em PT-BR
-3. No fim, monta o JSON e te pede confirmação para salvar
+Select mode **C** when Copilot asks. It will:
+1. Ask 9 questions, one at a time
+2. Let you answer in free text
+3. At the end, build the JSON and ask you to confirm before saving
 
-## Arquivos
+## Files
 
-| Arquivo | Tamanho | Para que serve |
+| File | Size | Purpose |
 |---|---|---|
-| **[implementation-guide-wizard.html](implementation-guide-wizard.html)** | ~22 KB | Modo A — wizard visual standalone (Tailwind + JavaScript, salva em localStorage) |
-| **[implementation-guide-inputs.template.json](implementation-guide-inputs.template.json)** | ~12 KB | Modo B — template JSON com 9 campos pré-preenchidos com instruções e exemplos |
+| **[implementation-guide-wizard.html](implementation-guide-wizard.html)** | ~22 KB | Mode A: standalone visual wizard (Tailwind + JavaScript, saves to localStorage) |
+| **[implementation-guide-wizard.pt-br.html](implementation-guide-wizard.pt-br.html)** | ~22 KB | Mode A, Portuguese (Brazil) UI |
+| **[implementation-guide-inputs.template.json](implementation-guide-inputs.template.json)** | ~12 KB | Mode B: JSON template with the 9 fields prefilled with instructions and examples |
 
-## Após preencher
+## After filling in
 
 ```bash
-# Verificar que o JSON está na raiz do kit
+# Check that the JSON is at the kit root
 ls implementation-guide-inputs.json
 
-# Re-renderizar PDFs com a Parte 4 personalizada
+# Re-render the PDFs with the custom Part 4
 /gerar-relatorio                 # via Copilot Chat
-# ou
+# or
 python3 relatorios/scripts/build_payload_and_render.py   # via CLI
 ```
 
-## Skip e reuso
+## Skipping and reuse
 
-- Não preencher é OK — `/gerar-relatorio` usa placeholders profissionais do `sample_payload.json` (com nomes do "Acme Insurance Group"). Cliente pode rodar o wizard depois e re-gerar quando quiser.
-- Você pode preencher só alguns dos 9 — campos vazios mantêm placeholders.
-- Re-rodar o wizard sobrescreve apenas os campos preenchidos novamente.
+- Skipping is fine: `/gerar-relatorio` uses professional placeholders from `sample_payload.json` (with names from "Acme Insurance Group"). The client can run the wizard later and regenerate at any time.
+- You can fill in only some of the 9 inputs; empty fields keep their placeholders.
+- Rerunning the wizard overwrites only the fields you fill in again.
 
-## Documentação relacionada
+## Related documentation
 
-- Skill que orquestra → [`../.github/skills/wizard-implementacao/SKILL.md`](../.github/skills/wizard-implementacao/SKILL.md)
-- Wizard original (React/TS) que espelhamos → `app/frontend/src/components/dashboard/ImplementationGuideWizard.tsx`
-- Como o JSON entra no PDF → [`../relatorios/templates/roadmap_part4.html.j2`](../relatorios/templates/roadmap_part4.html.j2) (procure por `wiz.`)
+- Orchestrating skill → [`../.github/skills/wizard-implementacao/SKILL.md`](../.github/skills/wizard-implementacao/SKILL.md)
+- Original wizard (React/TS) that this mirrors → `app/frontend/src/components/dashboard/ImplementationGuideWizard.tsx`
+- How the JSON reaches the PDF → [`../relatorios/templates/roadmap_part4.html.j2`](../relatorios/templates/roadmap_part4.html.j2) (search for `wiz.`)
 
 ---
 
-## Travou em algum desses passos?
+## Stuck on one of these steps?
 
 <details>
-<summary><strong>FAQ — dúvidas comuns no Wizard</strong></summary>
+<summary><strong>FAQ: common Wizard questions</strong></summary>
 
-| Sintoma | Causa provável | Como resolver |
+| Symptom | Likely cause | How to fix |
 |---|---|---|
-| `implementation-guide-inputs.json` não entra no PDF | Arquivo está em `wizard/` em vez da raiz | Mova para a **raiz** do kit (mesma pasta de `respostas.json`) |
-| Modo D (auto-fill) falha | Você ainda não rodou `/plano-capacitacao` | Rode o Learning Survey primeiro — ele gera o input do modo D |
-| HTML wizard não salva progresso | `localStorage` desabilitado / modo anônimo | Abra em janela normal ou use o modo B (editar JSON) |
-| Preciso preencher todos os 9 inputs? | Não — modo D preenche 6 deles automaticamente | Você preenche manualmente só **TPO** e **RACI Matrix** |
-| PDF gerado tem placeholders genéricos | Você pulou o wizard | Re-rode `/wizard-implementacao` → `/gerar-relatorio` |
-| Posso editar o JSON depois de gerar? | Sim, e re-renderizar | Edite `implementation-guide-inputs.json` → `make pipeline` |
+| `implementation-guide-inputs.json` does not show up in the PDF | The file is in `wizard/` instead of the root | Move it to the kit **root** (same folder as `respostas.json`) |
+| Mode D (auto-fill) fails | You have not run `/plano-capacitacao` yet | Run the Learning Survey first; it generates the input for mode D |
+| The HTML wizard does not save progress | `localStorage` disabled / private browsing | Open a normal window or use mode B (edit the JSON) |
+| Do I need to fill in all 9 inputs? | No, mode D fills in 6 of them automatically | You fill in only **TPO** and **RACI Matrix** manually |
+| The generated PDF has generic placeholders | You skipped the wizard | Rerun `/wizard-implementacao` → `/gerar-relatorio` |
+| Can I edit the JSON after generating? | Yes, and re-render | Edit `implementation-guide-inputs.json` → `make pipeline` |
 
 </details>
 
 ---
 
-## Continuar a leitura
+## Continue reading
 
-| ← ANTERIOR | PRÓXIMO → |
+| ← PREVIOUS | NEXT → |
 |:---|---:|
-| **[Learning & Growth Survey](../survey-learning/INSTRUCOES-FORMS-LEARNING.md)** | **[🏠 Índice do kit](../README.md)** 🎉 |
-| 32 perguntas identificadas: plano de capacitação personalizado. | Você completou o fluxo. Volte ao hub para revisitar qualquer etapa. |
+| **[Learning & Growth Survey](../survey-learning/INSTRUCOES-FORMS-LEARNING.md)** | **[🏠 Kit index](../README.md)** 🎉 |
+| 32 identified questions: personalized capacitation plan. | You have completed the flow. Go back to the hub to revisit any step. |
 
-↑ [Voltar ao Índice do kit](../README.md)
+↑ [Back to the kit index](../README.md)

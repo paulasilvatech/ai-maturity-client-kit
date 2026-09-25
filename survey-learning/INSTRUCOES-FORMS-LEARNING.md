@@ -1,286 +1,288 @@
-# Como criar o Microsoft Forms para o Learning & Growth Survey
+# How to build the Microsoft Forms for the Learning & Growth Survey
 
-**`🅲️ SURVEY-LEARNING`** · _identificado_ · 📖 [🏠 Índice](../README.md) · [« Survey-devs](../survey-devs/INSTRUCOES-FORMS-DEVS.md) · Você está aqui · [» Wizard](../wizard/README.md)
+🌐 English · [Português (Brasil)](INSTRUCOES-FORMS-LEARNING.pt-br.md)
+
+**`🅲️ SURVEY-LEARNING`** · _identified_ · 📖 [🏠 Index](../README.md) · [« Survey-devs](../survey-devs/INSTRUCOES-FORMS-DEVS.md) · You are here · [» Wizard](../wizard/README.md)
 
 > [!WARNING]
-> Diferente dos outros 2 surveys, este é **IDENTIFICADO** (nome + email obrigatórios). É 32 perguntas em 7 seções para construir o **roadmap de capacitação personalizado** da equipe — workshops, cohorts, Champions Network, mentoria. Tempo estimado por dev: **5-8 min**.
+> Unlike the other 2 surveys, this one is **IDENTIFIED** (name + email required). It has 32 questions in 7 sections to build the team's **personalized capacitation roadmap**: workshops, cohorts, Champions Network, and mentoring. Estimated time per developer: **5-8 min**.
 
-**Diferente dos outros 2 surveys:**
-- Assessment principal: maturidade organizacional (Likert L0-L4 declarada por liderança)
-- Developer Survey: comportamento real ANÔNIMO
-- **Este Learning Survey: roadmap de capacitação IDENTIFICADO** — precisa nome+email para convidar pessoas certas para workshops certos
-
----
-
-## ⚠️ Por que IDENTIFICADO (não anônimo)?
-
-Para gerar valor acionável, este survey **precisa saber quem é quem**:
-- Convocar **as pessoas certas** para cada workshop (10 inscritos pré-validados é melhor que "70% mostraram interesse")
-- Formar **Champions Network** com nomes (não anônimos)
-- Mapear **mentor↔mentee pairs** (precisa nome dos dois lados)
-- Atribuir **dono** dos quick wins identificados
-
-**Trade-off honesto:** algumas perguntas (ex.: "qual seu nível em D8 Security?") podem ser respondidas com pouca honestidade se devs sentirem julgamento. Por isso:
-- Liderança deve **comunicar claramente**: "respostas usadas para CAPACITAR, não para AVALIAR performance"
-- Não usar respostas em performance reviews
-- Compartilhar plano consolidado com toda a equipe (transparência)
-
-Se sua organização preferir **anonimato puro**: rode o **Developer Survey** (`survey-devs/`) em paralelo e use a rubrica determinística como "termômetro objetivo".
+**Different from the other 2 surveys:**
+- Main assessment: organizational maturity (Likert L0-L4 declared by leadership)
+- Developer Survey: ANONYMOUS real behavior
+- **This Learning Survey: IDENTIFIED capacitation roadmap**: it needs name+email to invite the right people to the right workshops
 
 ---
 
-## 📋 Os 7 temas cobertos
+## ⚠️ Why IDENTIFIED (not anonymous)?
 
-| # | Seção | Foco | Q |
+To produce actionable value, this survey **needs to know who is who**:
+- Invite **the right people** to each workshop (10 pre-validated attendees is better than "70% showed interest")
+- Build a **Champions Network** with names (not anonymous)
+- Map **mentor↔mentee pairs** (needs names on both sides)
+- Assign an **owner** to the identified quick wins
+
+**Honest trade-off:** some questions (e.g., "what is your level in D8 Security?") may be answered less honestly if developers feel judged. That is why:
+- Leadership must **communicate clearly**: "answers are used to BUILD SKILLS, not to EVALUATE performance"
+- Do not use answers in performance reviews
+- Share the consolidated plan with the whole team (transparency)
+
+If your organization prefers **pure anonymity**: run the **Developer Survey** (`survey-devs/`) in parallel and use the deterministic rubric as an "objective thermometer".
+
+---
+
+## 📋 The 7 topics covered
+
+| # | Section | Focus | Q |
 |---|---|---|---|
-| **L1** | Identificação | Nome, email, cargo, time | 4 |
-| **L2** | Auto-percepção de maturidade | Auto-avaliação L0-L4 nas 7 dimensões D2-D8 | 7 |
-| **L3** | Onde quer crescer | Top 3 dimensões prioritárias (próximos 6 meses) + por quê | 2 |
-| **L4** | Tópicos específicos | Copilot, Foundry, práticas (TDD/SDD), agents, segurança — checkbox | 5 |
-| **L5** | Formato e cadência | Workshop hands-on, cohort, self-paced, horários, tempo/semana | 4 |
-| **L6** | Champions e mentoria | Quer ser Champion? Mentoria? Quem é referência? | 5 |
-| **L7** | Barreiras e Wishlist | O que impede + workshops desejados + palestrantes | 5 |
+| **L1** | Identification | Name, email, role, team | 4 |
+| **L2** | Self-perceived maturity | L0-L4 self-assessment in the 7 dimensions D2-D8 | 7 |
+| **L3** | Where you want to grow | Top 3 priority dimensions (next 6 months) + why | 2 |
+| **L4** | Specific topics | Copilot, Foundry, practices (TDD/SDD), agents, security (checkbox) | 5 |
+| **L5** | Format and cadence | Hands-on workshop, cohort, self-paced, time slots, hours/week | 4 |
+| **L6** | Champions and mentoring | Want to be a Champion? Mentoring? Who is a reference? | 5 |
+| **L7** | Barriers and Wishlist | What gets in the way + desired workshops + speakers | 5 |
 | | | **TOTAL** | **32** |
 
 ---
 
-## 🛠️ Como criar o Forms (passo a passo)
+## 🛠️ How to build the Forms (step by step)
 
-### Passo 1 · Criar formulário
+### Step 1 · Create the form
 
-1. Acesse <https://forms.office.com> → **+ New Form**
-2. Título: `Learning & Growth IA — O que você quer aprender nos próximos 6 meses?`
-3. Subtítulo (cole):
+1. Go to <https://forms.office.com> → **+ New Form**
+2. Title: `AI Learning & Growth: What do you want to learn in the next 6 months?`
+3. Subtitle (paste):
 
 ```
-Survey de 5-8 min sobre seu plano de capacitação em IA.
+5-8 min survey about your AI capacitation plan.
 
-⚠️ IDENTIFICADO: vamos usar seu nome+email para CONVIDAR você para os
-workshops/cohorts certos. As respostas individuais NÃO serão compartilhadas
-publicamente — apenas insights agregados + listas de inscritos por workshop.
+⚠️ IDENTIFIED: we will use your name+email to INVITE you to the right
+workshops/cohorts. Individual answers will NOT be shared publicly,
+only aggregated insights + attendee lists per workshop.
 
-Resultado: plano de capacitação personalizado + cohorts + Champions Network.
+Result: personalized capacitation plan + cohorts + Champions Network.
 ```
 
-### Passo 2 · ⚠️ CONFIGURAR como IDENTIFICADO (não anônimo)
+### Step 2 · ⚠️ CONFIGURE as IDENTIFIED (not anonymous)
 
 **Settings (⚙️):**
 
-| Setting | Valor |
+| Setting | Value |
 |---|---|
-| **Anonymous responses** | ☐ **DESMARCADO** (queremos identificação) |
-| **Who can respond** | "Only people in my organization" (recomendado) |
-| **One response per person** | ☑ MARCADO (1 por dev) |
-| **Accept responses** | ☑ MARCADO |
-| **Customize thank you message** | "Obrigado! Você receberá convites de workshops baseados nas suas respostas." |
+| **Anonymous responses** | ☐ **UNCHECKED** (we want identification) |
+| **Who can respond** | "Only people in my organization" (recommended) |
+| **One response per person** | ☑ CHECKED (1 per developer) |
+| **Accept responses** | ☑ CHECKED |
+| **Customize thank you message** | "Thank you! You will receive workshop invitations based on your answers." |
 
-> 🔍 **Diferente do Developer Survey** (`survey-devs/INSTRUCOES-FORMS-DEVS.md`): aquele você marca Anonymous ON, este você deixa OFF.
+> 🔍 **Different from the Developer Survey** (`survey-devs/INSTRUCOES-FORMS-DEVS.md`): there you turn Anonymous ON; here you leave it OFF.
 
-### Passo 3 · Criar 7 seções
+### Step 3 · Create 7 sections
 
 ```
-Section 1: L1 — Identificação                  (4 questões)
-Section 2: L2 — Auto-percepção (D2-D8)         (7 questões)
-Section 3: L3 — Onde quer crescer              (2 questões)
-Section 4: L4 — Tópicos específicos            (5 questões)
-Section 5: L5 — Formato e cadência             (4 questões)
-Section 6: L6 — Champions e mentoria           (5 questões)
-Section 7: L7 — Barreiras e Wishlist           (5 questões)
+Section 1: L1 - Identification                 (4 questions)
+Section 2: L2 - Self-perception (D2-D8)        (7 questions)
+Section 3: L3 - Where you want to grow         (2 questions)
+Section 4: L4 - Specific topics                (5 questions)
+Section 5: L5 - Format and cadence             (4 questions)
+Section 6: L6 - Champions and mentoring        (5 questions)
+Section 7: L7 - Barriers and Wishlist          (5 questions)
 ```
 
-### Passo 4 · Adicionar as 32 perguntas
+### Step 4 · Add the 32 questions
 
-Use [`perguntas-para-forms-learning.md`](perguntas-para-forms-learning.md) como fonte de copy/paste.
+Use the English bank [`perguntas-para-forms-learning.en.md`](perguntas-para-forms-learning.en.md) as the copy/paste source. The canonical question bank is the PT-BR version, [`perguntas-para-forms-learning.md`](perguntas-para-forms-learning.md); use it if your respondents answer in Portuguese.
 
-**Para cada pergunta:**
+**For each question:**
 
-1. Tipo:
+1. Type:
    - `choice` (Single answer) → **Choice**
-   - `multi` (Multiple answers) → **Choice** com Multiple answers MARCADO
-   - `text-short` (Short Text 1 linha) → **Short answer**
+   - `multi` (Multiple answers) → **Choice** with Multiple answers CHECKED
+   - `text-short` (Short Text, 1 line) → **Short answer**
    - `text` (Long Text) → **Long answer**
 
-2. **TÍTULO inicia SEMPRE com o ID + dois pontos**:
+2. **The TITLE ALWAYS starts with the ID + colon**:
    ```
-   L4-Q1: Quais tópicos de GitHub Copilot você quer dominar?
+   L4-Q1: Which GitHub Copilot topics do you want to master?
    ```
 
-3. **Required**: marque **L1-Q1 (nome) + L1-Q2 (email)** como required. Demais opcionais (devs podem pular).
+3. **Required**: mark **L1-Q1 (name) + L1-Q2 (email)** as required. Leave the rest optional (developers can skip them).
 
-### Passo 5 · Customizar L1-Q4 (lista de squads)
+### Step 5 · Customize L1-Q4 (squad list)
 
-A pergunta L1-Q4 ("Time / Squad") tem placeholder `[Lista a customizar pela org]` — substitua pelos nomes reais dos squads da sua organização. Exemplo:
+Question L1-Q4 ("Team / Squad") has a placeholder (`[Customize with the organization's team list]` in the English bank, `[Lista a customizar pela org]` in the PT-BR bank). Replace it with the real squad names in your organization. Example:
 
 ```
-- Squad Pagamentos
-- Squad Onboarding
-- Squad Plataforma
+- Payments Squad
+- Onboarding Squad
+- Platform Squad
 - SRE Core
 - Data Platform
-- Outro / não pertenço a um squad fixo
+- Other / I do not belong to a fixed squad
 ```
 
-### Passo 6 · Compartilhar
+### Step 6 · Share
 
 1. **+ Send / Collect responses** → **Link**
-2. Compartilhar com **TODOS os devs**:
-   - Email do líder de engenharia: "Nas próximas 2 semanas, queremos ouvir o que vocês querem aprender em IA — survey de 5-8 min, IDENTIFICADO. Resultado: plano de capacitação personalizado."
-   - Slack/Teams canal #engineering
-   - All-hands (apresentar o link)
+2. Share with **ALL developers**:
+   - Email from the engineering leader: "Over the next 2 weeks, we want to hear what you want to learn about AI: a 5-8 min IDENTIFIED survey. Result: a personalized capacitation plan."
+   - Slack/Teams channel #engineering
+   - All-hands (present the link)
 
-3. **Deadline:** 2 semanas. Lembrete D+7 e D+12.
+3. **Deadline:** 2 weeks. Reminders on D+7 and D+12.
 
-### Passo 7 · Acompanhar respostas
+### Step 7 · Track responses
 
-- Aba **Responses** mostra contagem em tempo real
-- Recomendado: **mínimo 5 devs**, ideal **>50% do time**
-- Como é identificado, você consegue ver "X de Y devs ainda não responderam" e fazer 1-on-1
+- The **Responses** tab shows the count in real time
+- Recommended: **at least 5 developers**, ideally **>50% of the team**
+- Because it is identified, you can see "X of Y developers have not answered yet" and follow up 1-on-1
 
-### Passo 8 · Exportar
+### Step 8 · Export
 
 1. **Responses → Open in Excel**
-2. Salvar como **`respostas-survey-learning.xlsx`**
-3. Mover para **raiz do `kit-cliente/`**
-4. Verificar: colunas D (Email) e E (Name) devem estar PREENCHIDAS
+2. Save as **`respostas-survey-learning.xlsx`**
+3. Move to the **root of `kit-cliente/`**
+4. Check: columns D (Email) and E (Name) must be FILLED IN
 
-### Passo 9 · Analisar com o kit
+### Step 9 · Analyze with the kit
 
-No Copilot Chat (modo Agent):
+In Copilot Chat (Agent mode):
 
 ```
 /importar-survey-learning
 ```
 
-Gera `survey-learning/respostas-learning.json` (estruturado).
+Generates `survey-learning/respostas-learning.json` (structured).
 
 ```
 /plano-capacitacao
 ```
 
-Gera `saida/plano-capacitacao-<DATE>.md` com:
-- Top 10 tópicos demandados (com lista de inscritos pré-validados)
-- Cohorts sugeridos por dimensão D2-D8
-- Champions Network identificados (3 tiers)
+Generates `saida/plano-capacitacao-<DATE>.md` (in **English by default**; the script accepts `--lang pt-br` for Portuguese (Brazil)) with:
+- Top 10 requested topics (with a list of pre-validated attendees)
+- Suggested cohorts per dimension D2-D8
+- Identified Champions Network (3 tiers)
 - Mentor ↔ mentee pairs
-- Calendário de workshops (próximos 90 dias)
-- Barreiras priorizadas
-- 5 ações priorizadas (impacto × facilidade)
-- Conexão com /insights-developer-survey + /calcular-scores
+- Workshop calendar (next 90 days)
+- Prioritized barriers
+- 5 prioritized actions (impact × ease)
+- Connection with /insights-developer-survey + /calcular-scores
 
-### Passo 10 · ⭐ Auto-fill do wizard (Mode D)
+### Step 10 · ⭐ Wizard auto-fill (Mode D)
 
-Depois de gerar o plano, ao rodar `/wizard-implementacao`, o Copilot Agent **detecta automaticamente** o `saida/plano-capacitacao-*.md` e oferece **Mode D — Auto-fill** que preenche **6 dos 9 inputs** do wizard automaticamente:
+After generating the plan, running `/wizard-implementacao` makes the Copilot Agent **automatically detect** `saida/plano-capacitacao-*.md` and offer **Mode D: Auto-fill**, which fills **6 of the 9** wizard inputs automatically:
 
-| Input do wizard (Parte 4 do PDF) | Vem de |
+| Wizard input (Part 4 of the PDF) | Comes from |
 |---|---|
-| `executive_steering_committee` | Champions Network "ativos" |
-| `communication_plan` | Calendário de workshops |
-| `training_plan` | Cohorts por dimensão |
-| `adkar_notes` | Workshops top 5 (Knowledge stage) |
-| `quick_wins_w1_4` / `quick_wins_w5_8` / `quick_wins_w9_12` | Calendário 90 dias |
+| `executive_steering_committee` | Champions Network "active" |
+| `communication_plan` | Workshop calendar |
+| `training_plan` | Cohorts per dimension |
+| `adkar_notes` | Top 5 workshops (Knowledge stage) |
+| `quick_wins_w1_4` / `quick_wins_w5_8` / `quick_wins_w9_12` | 90-day calendar |
 
-Você só precisa preencher manualmente: **TPO** + **RACI Matrix** (que o learning survey não cobre).
+You only need to fill in manually: **TPO** + **RACI Matrix** (which the learning survey does not cover).
 
-**Economia estimada:** 30-45 min de wizard manual. E os dados são REAIS do seu time, não placeholders do sample.
+**Estimated savings:** 30-45 min of manual wizard work. And the data is REAL data from your team, not placeholders from the sample.
 
-### Passo 11 · Re-renderizar PDFs com plano + wizard auto-fill
+### Step 11 · Re-render the PDFs with the plan + wizard auto-fill
 
 ```
 /gerar-relatorio
 ```
 
-A skill detecta:
-- ✅ `implementation-guide-inputs.json` (do wizard Mode D auto-fill) → popula Parte 4 com seus Champions e workshops
-- ✅ `saida/plano-capacitacao-*.md` (deste survey) → enriquece roadmap_part4.pdf
-- ✅ `saida/insights-developer-survey-*.md` (se você rodou) → cross-references no apêndice
-- ✅ `saida/maturidade-developer-survey-*.json` (se você rodou) → score_justification.pdf inclui "maturity vs declared"
+The skill detects:
+- ✅ `implementation-guide-inputs.json` (from wizard Mode D auto-fill) → populates Part 4 with your Champions and workshops
+- ✅ `saida/plano-capacitacao-*.md` (from this survey) → enriches roadmap_part4.pdf
+- ✅ `saida/insights-developer-survey-*.md` (if you ran it) → cross-references in the appendix
+- ✅ `saida/maturidade-developer-survey-*.json` (if you ran it) → score_justification.pdf includes "maturity vs declared"
 
-**Output:** 5 PDFs production-quality com dados REAIS do learning survey embarcados.
+**Output:** 5 production-quality PDFs with REAL learning survey data embedded.
 
 ---
 
-## 🅱️ Caminho alternativo — Excel/SharePoint direto
+## 🅱️ Alternative path: Excel/SharePoint directly
 
-Para times pequenos (3-5 devs):
+For small teams (3-5 developers):
 
 ```bash
 cp survey-learning/template-export-forms-learning.xlsx respostas-survey-learning.xlsx
-# Limpar linhas de mocks (linhas 2-6)
-# Subir SharePoint com edit
-# Cada dev preenche uma linha (incluindo nome+email)
-# Baixar e mover para raiz
+# Clear the mock rows (rows 2-6)
+# Upload to SharePoint with edit permission
+# Each developer fills in one row (including name+email)
+# Download and move to the root
 /importar-survey-learning + /plano-capacitacao
 ```
 
 ---
 
-## 💡 Boas práticas
+## 💡 Best practices
 
-### Compromisso de uso ético dos dados
-Comunique antes de lançar:
+### Commitment to ethical use of the data
+Communicate before launching:
 
-> "Suas respostas serão usadas para: (1) construir nosso roadmap de capacitação, (2) convidar você para workshops específicos que pediu, (3) formar Champions Network. **NÃO** serão usadas para performance review, comparação entre devs, ou compartilhadas com clientes externos."
+> "Your answers will be used to: (1) build our capacitation roadmap, (2) invite you to the specific workshops you asked for, and (3) build the Champions Network. They will **NOT** be used for performance review, comparison between developers, or shared with external clients."
 
-### Cadência de relançamento
-- **A cada 6 meses** ou após eventos grandes (rollout Copilot, mudança de stack, etc.)
-- **Compare evoluções**: dev que estava L1 em D5 e agora se auto-avalia L3? Champion natural
+### Relaunch cadence
+- **Every 6 months** or after major events (Copilot rollout, stack change, etc.)
+- **Compare evolution**: a developer who was L1 in D5 now self-rates L3? A natural Champion
 
-### Transparência do plano
-- Apresentar o `plano-capacitacao-DATA.md` em all-hands
-- Pessoas que pediram workshop X recebem convite — fechar o loop
-- Champions identificados são reconhecidos publicamente (com consentimento)
+### Plan transparency
+- Present `plano-capacitacao-DATE.md` at an all-hands
+- People who asked for workshop X receive an invitation: close the loop
+- Identified Champions are recognized publicly (with consent)
 
 ---
 
 ## 🆘 Troubleshooting
 
-| Problema | Solução |
+| Problem | Solution |
 |---|---|
-| Skill não detecta arquivo | Mover para raiz do `kit-cliente/` |
-| Email/Name vazios em algumas linhas | Forms config OFF Anonymous + L1-Q1/Q2 required |
-| Headers não reconhecidos | Garantir que cada pergunta começa com `L[1-7]-Q\d+:` |
-| Dev recusou identificar | Aceitar resposta parcial; redirecionar para `survey-devs` (anônimo) |
-| Baixa adesão (< 50% do time) | Líder de engenharia deve ENDORSE explicitamente |
+| Skill does not detect the file | Move it to the root of `kit-cliente/` |
+| Email/Name empty in some rows | Forms config: Anonymous OFF + L1-Q1/Q2 required |
+| Headers not recognized | Make sure each question starts with `L[1-7]-Q\d+:` |
+| Developer refused to identify | Accept the partial answer; redirect to `survey-devs` (anonymous) |
+| Low participation (< 50% of the team) | The engineering leader must ENDORSE it explicitly |
 
 ---
 
-## 📚 Referências
+## 📚 References
 
-- **As 32 perguntas formatadas:** [`perguntas-para-forms-learning.md`](perguntas-para-forms-learning.md)
-- **Template Excel pronto:** [`template-export-forms-learning.xlsx`](template-export-forms-learning.xlsx)
-- **JSON estruturado de exemplo:** [`respostas-mock-learning.json`](respostas-mock-learning.json)
-- **Skill de import:** [`../.github/skills/importar-survey-learning/SKILL.md`](../.github/skills/importar-survey-learning/SKILL.md)
-- **Skill de plano:** [`../.github/skills/plano-capacitacao/SKILL.md`](../.github/skills/plano-capacitacao/SKILL.md)
-- **Cross-reference com Developer Survey** (anônimo): [`../survey-devs/`](../survey-devs/)
-
----
-
-**Versão:** 1.0 · **Data:** 2026-05-08
+- **The 32 formatted questions (English):** [`perguntas-para-forms-learning.en.md`](perguntas-para-forms-learning.en.md) (canonical PT-BR bank: [`perguntas-para-forms-learning.md`](perguntas-para-forms-learning.md))
+- **Ready Excel template:** [`template-export-forms-learning.xlsx`](template-export-forms-learning.xlsx)
+- **Sample structured JSON:** [`respostas-mock-learning.json`](respostas-mock-learning.json)
+- **Import skill:** [`../.github/skills/importar-survey-learning/SKILL.md`](../.github/skills/importar-survey-learning/SKILL.md)
+- **Plan skill:** [`../.github/skills/plano-capacitacao/SKILL.md`](../.github/skills/plano-capacitacao/SKILL.md)
+- **Cross-reference with the Developer Survey** (anonymous): [`../survey-devs/`](../survey-devs/)
 
 ---
 
-## Travou em algum desses passos?
+**Version:** 1.0 · **Date:** 2026-05-08
+
+---
+
+## Stuck on one of these steps?
 
 <details>
-<summary><strong>FAQ — dúvidas comuns no Learning & Growth Survey (identificado)</strong></summary>
+<summary><strong>FAQ: common questions about the Learning & Growth Survey (identified)</strong></summary>
 
-| Sintoma | Causa provável | Como resolver |
+| Symptom | Likely cause | How to fix |
 |---|---|---|
-| Excel chega sem nome/email | **Anonymous responses** está marcado (este survey precisa ser identificado) | Settings do Forms → ❌ DESmarcar **Anonymous responses** |
-| Como uso o plano para convidar pessoas? | O plano traz nome+email por workshop | Copie lista de inscritos do markdown → cole em Outlook/Teams meeting invite |
-| Champions Network está vazio no plano gerado | Ninguém respondeu "sim" em L6-Q1 | Sem Champions auto-declarados — use ranking por dimensão como proxy |
-| Cohorts estão vazios em algumas dimensões | Menos de 3 respondentes por dimensão | Peça reforço na campanha ou aceite cohorts menores |
-| Posso re-rodar o plano se mais respostas chegarem? | Sim, é idempotente | Re-exporte Excel → `/importar-survey-learning` → `/plano-capacitacao` |
+| Excel arrives without name/email | **Anonymous responses** is checked (this survey must be identified) | Forms Settings → ❌ UNcheck **Anonymous responses** |
+| How do I use the plan to invite people? | The plan lists name+email per workshop | Copy the attendee list from the Markdown → paste into an Outlook/Teams meeting invite |
+| Champions Network is empty in the generated plan | Nobody answered "yes" in L6-Q1 | No self-declared Champions: use the per-dimension ranking as a proxy |
+| Cohorts are empty in some dimensions | Fewer than 3 respondents per dimension | Ask for more participation or accept smaller cohorts |
+| Can I rerun the plan if more answers arrive? | Yes, it is idempotent | Re-export Excel → `/importar-survey-learning` → `/plano-capacitacao` |
 
 </details>
 
 ---
 
-## Continuar a leitura
+## Continue reading
 
-| ← ANTERIOR | PRÓXIMO → |
+| ← PREVIOUS | NEXT → |
 |:---|---:|
-| **[Developer Survey (anônimo)](../survey-devs/INSTRUCOES-FORMS-DEVS.md)** | **[Wizard — Parte 4](../wizard/README.md)** |
-| 75 perguntas anônimas: Copilot, agentes, governança. | Personalizar Steering Committee, RACI, ADKAR, Quick Wins do PDF executivo. |
+| **[Developer Survey (anonymous)](../survey-devs/INSTRUCOES-FORMS-DEVS.md)** | **[Wizard: Part 4](../wizard/README.md)** |
+| 75 anonymous questions: Copilot, agents, governance. | Customize the Steering Committee, RACI, ADKAR, and Quick Wins of the executive PDF. |
 
-↑ [Voltar ao Índice do kit](../README.md)
+↑ [Back to the kit Index](../README.md)
