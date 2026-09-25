@@ -1,54 +1,56 @@
 # Brand Voice (paulasilva-ms)
 
-Voz unificada do design system. Todo conteúdo escrito sob identidade Microsoft segue estas regras.
+🌐 English · [Português (Brasil)](VOICE.pt-br.md)
 
-## Três pilares
+Unified voice of the design system. All content written under the Microsoft identity follows these rules.
 
-1. **Pedagógico sem condescendência.** Explique como se ensinasse engenheiro inteligente que não viu este tópico específico. Não fale como se fosse iniciante precisando de hand-holding.
-2. **Provocativo por dado, não por hype.** Faça afirmações que desafiam suposições, mas embase cada afirmação com número, citação ou cenário concreto. Nunca use superlativo vago.
-3. **Pessoal com cicatrizes nomeadas.** Referencie modos de falha reais que você viu. Não fale em abstração quando pode falar de experiência.
+## Three pillars
 
-## Vocabulário banido (nunca use em nenhum output)
+1. **Pedagogical without condescension.** Explain as if you were teaching a smart engineer who has not seen this specific topic. Do not talk as if they were a beginner who needs hand-holding.
+2. **Provocative through data, not hype.** Make claims that challenge assumptions, but ground every claim in a number, a citation, or a concrete scenario. Never use a vague superlative.
+3. **Personal, with named scars.** Reference real failure modes you have seen. Do not speak in the abstract when you can speak from experience.
 
-| Banido | Por que | Alternativa |
+## Banned vocabulary (never use in any output)
+
+| Banned | Why | Alternative |
 |---|---|---|
-| `AI-powered` | Filler de marketing | Descreva o que a IA faz |
-| `revolutionary` | Auto-elogio sem prova | Descreva a mudança concreta |
-| `game-changer` | Clichê | Diga o que mudou e por quê importa |
-| `next-generation` | Sinal vazio | Dê a versão ou a nova capability |
-| `world-class` | Auto-elogio | Cite o benchmark |
-| `best-in-class` | Auto-elogio | Cite o benchmark |
-| `cutting-edge` | Vago | Nomeie a técnica específica |
-| `this changes everything` | Hipérbole | Liste o que muda e o que não muda |
-| `the future is here` | Hype | Descreva o estado presente |
-| `obviously` | Implica que leitor é burro | Apenas afirme |
-| `as everyone knows` | Idem | Apenas afirme |
-| `synergy` | Vazio | Descreva a interação específica |
-| `leverage` (verbo) | Filler | `use`, `apply`, `build on` |
-| `circle back` | Filler corporativo | `revisit`, `come back to` |
-| `low-hanging fruit` | Clichê | Nomeie a oportunidade |
-| `I am no expert but...` | Falsa modéstia | Apenas afirme |
-| `just sharing my humble thoughts` | Idem | Idem |
+| `AI-powered` | Marketing filler | Describe what the AI does |
+| `revolutionary` | Self-praise without proof | Describe the concrete change |
+| `game-changer` | Cliché | Say what changed and why it matters |
+| `next-generation` | Empty signal | Give the version or the new capability |
+| `world-class` | Self-praise | Cite the benchmark |
+| `best-in-class` | Self-praise | Cite the benchmark |
+| `cutting-edge` | Vague | Name the specific technique |
+| `this changes everything` | Hyperbole | List what changes and what does not |
+| `the future is here` | Hype | Describe the present state |
+| `obviously` | Implies the reader is dumb | Just state it |
+| `as everyone knows` | Same | Just state it |
+| `synergy` | Empty | Describe the specific interaction |
+| `leverage` (verb) | Filler | `use`, `apply`, `build on` |
+| `circle back` | Corporate filler | `revisit`, `come back to` |
+| `low-hanging fruit` | Cliché | Name the opportunity |
+| `I am no expert but...` | False modesty | Just state it |
+| `just sharing my humble thoughts` | Same | Same |
 
-## Pontuação
+## Punctuation
 
-- ❌ **Sem em-dashes** (`—`). Use vírgula, ponto, dois-pontos ou ponto-e-vírgula.
-- ❌ **Sem en-dashes** (`–`) em ranges. Use hífen com espaços (`08:00 - 12:00`) ou "to" / "a".
-- ❌ **Sem espaço duplo** após ponto. Espaço simples.
-- ✅ **Vírgula serial** (Oxford). "Specs, agents, and humans in the loop."
+- ❌ **No em-dashes** (`—`). Use a comma, period, colon, or semicolon.
+- ❌ **No en-dashes** (`–`) in ranges. Use a hyphen with spaces (`08:00 - 12:00`) or "to" / "a".
+- ❌ **No double space** after a period. Single space.
+- ✅ **Serial comma** (Oxford). "Specs, agents, and humans in the loop."
 
-## Tom por audiência
+## Tone per audience
 
-| Audiência | Tom | Exemplo de abertura |
+| Audience | Tone | Opening example |
 |---|---|---|
-| Executiva (board, VP) | Conciso, números primeiro, ações claras | "3 capabilities em P0. Ação imediata: investir 8 FTE em S7 (Security)." |
-| Tech Lead / Arquiteto | Trade-offs explícitos, citações técnicas | "Foundry Agent Service GA traz MCP nativo. Trade-off: vendor lock-in vs. integração rápida." |
-| Desenvolvedor | Concreto, código quando útil, jargão OK | "Custom agent em `.github/agents/*.agent.md`. Frontmatter `tools:`, `handoffs:`. Ver paulasilva-ms showcase." |
-| Cliente externo | Pedagógico, sem siglas internas | "AI Maturity Assessment é uma avaliação em 158 perguntas que mede 28 capabilities organizacionais." |
+| Executive (board, VP) | Concise, numbers first, clear actions | "3 capabilities in P0. Immediate action: invest 8 FTE in S7 (Security)." |
+| Tech Lead / Architect | Explicit trade-offs, technical citations | "Foundry Agent Service GA brings native MCP. Trade-off: vendor lock-in vs. fast integration." |
+| Developer | Concrete, code when useful, jargon OK | "Custom agent in `.github/agents/*.agent.md`. Frontmatter `tools:`, `handoffs:`. See the paulasilva-ms showcase." |
+| External client | Pedagogical, no internal acronyms | "The AI Maturity Assessment is a 158-question evaluation that measures 28 organizational capabilities." |
 
-## Padrões de citação
+## Citation patterns
 
-- Microsoft-first: cite docs.microsoft.com, learn.microsoft.com, github.blog antes de outras fontes.
-- Sempre dê a URL completa.
-- Cite com data quando relevante (ex.: "GA setembro 2025").
-- Para conceitos do paulasilva-ms DS, referencie o caminho da skill (`.github/skills/paulasilva-ms/references/X.md`).
+- Microsoft-first: cite docs.microsoft.com, learn.microsoft.com, and github.blog before other sources.
+- Always give the full URL.
+- Cite with a date when relevant (e.g., "GA September 2025").
+- For paulasilva-ms DS concepts, reference the skill path (`.github/skills/paulasilva-ms/references/X.md`).

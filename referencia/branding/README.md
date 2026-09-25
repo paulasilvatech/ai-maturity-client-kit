@@ -1,43 +1,45 @@
-# `referencia/branding/` — Identidade visual paulasilva-ms (Microsoft)
+# `referencia/branding/`: paulasilva-ms visual identity (Microsoft)
 
-Esta pasta contém os assets de branding aplicados aos artefatos visuais standalone deste kit (HTMLs interativos). Forka o design system canônico [paulasilva-ms v1.7.0](../../../../.github/skills/paulasilva-ms/).
+🌐 English · [Português (Brasil)](README.pt-br.md)
 
-## Arquivos
+This folder contains the branding assets applied to the standalone visual artifacts of this kit (interactive HTMLs). It forks the canonical design system [paulasilva-ms v1.7.0](../../../../.github/skills/paulasilva-ms/).
 
-| Arquivo | Para que serve |
+## Files
+
+| File | What it is for |
 |---|---|
-| **[tokens-paulasilva-ms.css](tokens-paulasilva-ms.css)** | Design tokens canônicos: paleta Microsoft 4 cores (#F25022, #7FBA00, #FFB900, #00A4EF), neutros, dark mode, accent classes (.acc-blue, .acc-green, .acc-yellow, .acc-red), tipografia (Inter + JetBrains Mono) |
-| **[IDENTITY.md](IDENTITY.md)** | Strings canônicas (nome, role, contato), logo SVG inline, chrome bar, padrões obrigatórios |
-| **[VOICE.md](VOICE.md)** | Pilares de voz, vocabulário banido, regras de pontuação, tom por audiência |
+| **[tokens-paulasilva-ms.css](tokens-paulasilva-ms.css)** | Canonical design tokens: Microsoft 4-color palette (#F25022, #7FBA00, #FFB900, #00A4EF), neutrals, dark mode, accent classes (.acc-blue, .acc-green, .acc-yellow, .acc-red), typography (Inter + JetBrains Mono) |
+| **[IDENTITY.md](IDENTITY.md)** | Canonical strings (name, role, contact), inline SVG logo, chrome bar, and mandatory patterns |
+| **[VOICE.md](VOICE.md)** | Voice pillars, banned vocabulary, punctuation rules, and tone per audience |
 
-## Onde o branding está aplicado
+## Where the branding is applied
 
-### ✅ Aplicado nos HTMLs standalone do kit
+### ✅ Applied to the kit's standalone HTMLs
 
-Os seguintes arquivos carregam `tokens-paulasilva-ms.css` e mostram o chrome bar:
+The following files load `tokens-paulasilva-ms.css` and show the chrome bar:
 
-- [`../calculadora-pontuacao.html`](../calculadora-pontuacao.html) — calculadora interativa
+- [`../calculadora-pontuacao.html`](../calculadora-pontuacao.html): interactive calculator
 - [`../../formularios/P1-produtividade-do-desenvolvedor.html`](../../formularios/P1-produtividade-do-desenvolvedor.html)
 - [`../../formularios/P2-ciclo-de-vida-devops.html`](../../formularios/P2-ciclo-de-vida-devops.html)
 - [`../../formularios/P3-plataforma-de-aplicações.html`](../../formularios/P3-plataforma-de-aplicações.html)
 - [`../../wizard/implementation-guide-wizard.html`](../../wizard/implementation-guide-wizard.html)
 
-### ❌ NÃO aplicado nos PDFs Jinja2
+### ❌ NOT applied to the Jinja2 PDFs
 
-Os 5 PDFs production-quality (`relatorios/templates/*.html.j2` + `_print.css`) **mantêm a paleta oficial da plataforma** (espelho fiel de `app/src/report-service/templates/`). Branding paulasilva-ms aplica-se aos HTMLs do kit, não aos PDFs.
+The 5 production-quality PDFs (`relatorios/templates/*.html.j2` + `_print.css`) **keep the official platform palette** (a faithful mirror of `app/src/report-service/templates/`). The paulasilva-ms branding applies to the kit's HTMLs, not to the PDFs.
 
-Razão: os PDFs são entregáveis production que precisam ser idênticos à futura plataforma web. Modificar o CSS deles quebraria essa paridade.
+Reason: the PDFs are production deliverables that must be identical to the future web platform. Modifying their CSS would break that parity.
 
-## Atribuição (todo HTML novo deste kit deve ter)
+## Attribution (every new HTML in this kit must have it)
 
 ```
 Paula Silva | Software Global Black Belt
 paulasilva@microsoft.com
 ```
 
-Sem LinkedIn, sem GitHub, sem website. Email apenas.
+No LinkedIn, no GitHub, no website. Email only.
 
-## Como criar novo HTML alinhado
+## How to create a new aligned HTML
 
 ```html
 <!doctype html>
@@ -54,22 +56,22 @@ Sem LinkedIn, sem GitHub, sem website. Email apenas.
 </head>
 <body>
   <div class="deck-brand">
-    <!-- 22px logo SVG (copiar de IDENTITY.md) -->
+    <!-- 22px logo SVG (copy from IDENTITY.md) -->
     <span class="deck-brand__text">Paula Silva | Software Global Black Belt</span>
   </div>
-  <!-- conteúdo aqui -->
+  <!-- content here -->
 </body>
 </html>
 ```
 
-## Skill canônica completa
+## Full canonical skill
 
-Para showcase visual completo, deck patterns, simulações, layouts de playbook multi-página:
+For the full visual showcase, deck patterns, simulations, and multi-page playbook layouts:
 
-- Caminho: [`/Users/paulasilva/Documents/ai-maturuty-client-platform/.github/skills/paulasilva-ms/`](../../../../.github/skills/paulasilva-ms/)
-- `assets/showcase.html` abre no browser e mostra todos os componentes
-- `references/components.md` documenta cards, badges, tables, buttons
-- `references/playbook.md` documenta pattern de playbook multi-página
-- `references/pdf-generation.md` documenta deck → PDF via Playwright
+- Path: [`/Users/paulasilva/Documents/ai-maturuty-client-platform/.github/skills/paulasilva-ms/`](../../../../.github/skills/paulasilva-ms/)
+- `assets/showcase.html` opens in the browser and shows all components
+- `references/components.md` documents cards, badges, tables, and buttons
+- `references/playbook.md` documents the multi-page playbook pattern
+- `references/pdf-generation.md` documents deck → PDF via Playwright
 
-Quando precisar criar novo deck, playbook ou material formal Microsoft fora deste kit, invoque a skill `paulasilva-ms` no Copilot Chat.
+When you need to create a new deck, playbook, or formal Microsoft material outside this kit, invoke the `paulasilva-ms` skill in Copilot Chat.

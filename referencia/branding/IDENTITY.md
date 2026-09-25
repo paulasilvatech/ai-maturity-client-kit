@@ -1,8 +1,10 @@
-# Identidade visual paulasilva-ms (Microsoft)
+# paulasilva-ms visual identity (Microsoft)
 
-Identidade aplicada aos artefatos visuais deste kit. Forka o design system [paulasilva-ms](../../../../.github/skills/paulasilva-ms/) v1.7.0.
+🌐 English · [Português (Brasil)](IDENTITY.pt-br.md)
 
-## Strings canônicas (use exatamente)
+Identity applied to the visual artifacts of this kit. It forks the design system [paulasilva-ms](../../../../.github/skills/paulasilva-ms/) v1.7.0.
+
+## Canonical strings (use exactly)
 
 ```text
 Author name:     Paula Silva
@@ -13,24 +15,24 @@ Contact:         paulasilva@microsoft.com
 Tagline (EN):    Building the future of software development with AI and Agentic DevOps
 ```
 
-A função é **Software Global Black Belt** (não "GBB Americas", não "Microsoft Global Black Belt", não abreviado). Não tem organização, não tem região.
+The role is **Software Global Black Belt** (not "GBB Americas", not "Microsoft Global Black Belt", not abbreviated). It has no organization and no region.
 
-O contato é **email apenas**. Sem LinkedIn público, sem GitHub, sem website em material Microsoft.
+The contact is **email only**. No public LinkedIn, no GitHub, and no website in Microsoft material.
 
-A tagline é **inglês apenas** em material MS. Não traduzir.
+The tagline is **English only** in MS material. Do not translate it.
 
-## Paleta de logo (4 cores Microsoft oficiais)
+## Logo palette (4 official Microsoft colors)
 
-| Token | Hex | Uso |
+| Token | Hex | Use |
 |---|---|---|
-| `--c-blue-500` | `#00A4EF` | Accent default, botões primários, links |
-| `--c-green-500` | `#7FBA00` | Sucesso, confirmação, métricas positivas |
-| `--c-yellow-500` | `#FFB900` | Atenção, destaque |
-| `--c-red-500` | `#F25022` | Erro, gap crítico, alerta |
+| `--c-blue-500` | `#00A4EF` | Default accent, primary buttons, links |
+| `--c-green-500` | `#7FBA00` | Success, confirmation, positive metrics |
+| `--c-yellow-500` | `#FFB900` | Attention, highlight |
+| `--c-red-500` | `#F25022` | Error, critical gap, alert |
 
-Cada cor tem variantes `-50` (muito claro, fundo), `-100` (claro), `-700` (escuro, texto). Veja [`tokens-paulasilva-ms.css`](tokens-paulasilva-ms.css).
+Each color has `-50` (very light, background), `-100` (light), and `-700` (dark, text) variants. See [`tokens-paulasilva-ms.css`](tokens-paulasilva-ms.css).
 
-## Logo SVG (inline, nunca link externo)
+## SVG logo (inline, never an external link)
 
 22px (chrome bar):
 
@@ -44,11 +46,11 @@ Cada cor tem variantes `-50` (muito claro, fundo), `-100` (claro), `-700` (escur
 </svg>
 ```
 
-## Chrome bar (topo de qualquer HTML standalone)
+## Chrome bar (top of any standalone HTML)
 
 ```html
 <div class="deck-brand">
-  <!-- 22px logo SVG aqui -->
+  <!-- 22px logo SVG here -->
   <span class="deck-brand__text">Paula Silva | Software Global Black Belt</span>
 </div>
 ```
@@ -67,49 +69,49 @@ Cada cor tem variantes `-50` (muito claro, fundo), `-100` (claro), `-700` (escur
 }
 ```
 
-## Tipografia
+## Typography
 
-- **Sans:** Inter (carregar de Google Fonts ou CDN)
-- **Mono:** JetBrains Mono (carregar de Google Fonts)
+- **Sans:** Inter (load from Google Fonts or a CDN)
+- **Mono:** JetBrains Mono (load from Google Fonts)
 
 ```html
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 ```
 
-## Forbidden patterns (revisar antes de publicar)
+## Forbidden patterns (review before publishing)
 
-- ❌ Em-dashes (`—`). Use vírgula, ponto, dois-pontos ou ponto-e-vírgula.
-- ❌ En-dashes (`–`) em ranges. Use hífen com espaços (`08:00 - 12:00`) ou "to" / "a".
-- ❌ Vocabulário banido: ver [`VOICE.md`](VOICE.md).
-- ❌ Cores fora da paleta MS sem token explícito.
-- ❌ Logo com cores diferentes das 4 oficiais (`#F25022 / #7FBA00 / #FFB900 / #00A4EF`).
-- ❌ "Microsoft GBB Americas", "MS Global Black Belt", abreviações de role.
-- ❌ Adicionar LinkedIn, GitHub, website ao contato. Email apenas.
+- ❌ Em-dashes (`—`). Use a comma, period, colon, or semicolon.
+- ❌ En-dashes (`–`) in ranges. Use a hyphen with spaces (`08:00 - 12:00`) or "to" / "a".
+- ❌ Banned vocabulary: see [`VOICE.md`](VOICE.md).
+- ❌ Colors outside the MS palette without an explicit token.
+- ❌ A logo with colors other than the 4 official ones (`#F25022 / #7FBA00 / #FFB900 / #00A4EF`).
+- ❌ "Microsoft GBB Americas", "MS Global Black Belt", or role abbreviations.
+- ❌ Adding LinkedIn, GitHub, or a website to the contact. Email only.
 
-## Como usar nos artefatos do kit
+## How to use in the kit's artifacts
 
-1. Os 4 HTMLs interativos do kit já carregam `tokens-paulasilva-ms.css`:
+1. The kit's interactive HTMLs already load `tokens-paulasilva-ms.css`:
    - [`../calculadora-pontuacao.html`](../calculadora-pontuacao.html)
    - [`../../formularios/P1-produtividade-do-desenvolvedor.html`](../../formularios/P1-produtividade-do-desenvolvedor.html)
    - [`../../formularios/P2-ciclo-de-vida-devops.html`](../../formularios/P2-ciclo-de-vida-devops.html)
    - [`../../formularios/P3-plataforma-de-aplicações.html`](../../formularios/P3-plataforma-de-aplicações.html)
    - [`../../wizard/implementation-guide-wizard.html`](../../wizard/implementation-guide-wizard.html)
 
-2. Os PDFs Jinja2 (`relatorios/templates/*.html.j2` + `_print.css`) **mantêm a paleta oficial da plataforma** (não foram alterados). Branding MS aplica-se aos HTMLs standalone do kit, não aos PDFs production.
+2. The Jinja2 PDFs (`relatorios/templates/*.html.j2` + `_print.css`) **keep the official platform palette** (they were not changed). MS branding applies to the kit's standalone HTMLs, not to the production PDFs.
 
-3. Para criar novo HTML alinhado:
-   - Carregue Inter + JetBrains Mono via Google Fonts
-   - `<link rel="stylesheet" href="referencia/branding/tokens-paulasilva-ms.css">` (relativo)
+3. To create a new aligned HTML:
+   - Load Inter + JetBrains Mono via Google Fonts
+   - `<link rel="stylesheet" href="referencia/branding/tokens-paulasilva-ms.css">` (relative)
    - Use tokens (`var(--c-blue-500)`, `var(--accent)`, `var(--ink)`, etc.)
-   - Adicione chrome bar com logo + meta-text
+   - Add the chrome bar with logo + meta-text
 
-## Referência completa
+## Full reference
 
-Para detalhe completo do design system (showcase, deck patterns, simulações, layouts), veja a skill canônica:
+For the full detail of the design system (showcase, deck patterns, simulations, layouts), see the canonical skill:
 
 - [`/Users/paulasilva/Documents/ai-maturuty-client-platform/.github/skills/paulasilva-ms/`](../../../../.github/skills/paulasilva-ms/)
-- `references/identity.md` — strings canônicas + logo
-- `references/voice.md` — vocabulário banido + tom
-- `references/components.md` — componentes (cards, badges, tables)
-- `references/playbook.md` — pattern de playbook multi-página
-- `assets/showcase.html` — visual reference de todos os patterns
+- `references/identity.md`: canonical strings + logo
+- `references/voice.md`: banned vocabulary + tone
+- `references/components.md`: components (cards, badges, tables)
+- `references/playbook.md`: multi-page playbook pattern
+- `assets/showcase.html`: visual reference of all patterns

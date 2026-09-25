@@ -1,41 +1,43 @@
-# `referencia/` — Documentação técnica e exemplos
+# `referencia/`: Technical documentation and examples
 
-Esta pasta contém **documentação read-only**: algoritmo oficial, descrição das 158 questões, planilha auditável, calculadora interativa e exemplos finais de output.
+🌐 English · [Português (Brasil)](README.pt-br.md)
 
-## Arquivos
+This folder contains **read-only documentation**: the official algorithm, the description of the 158 questions, the auditable workbook, the interactive calculator, and final output examples.
 
-### 📊 Documentação do algoritmo de scoring
+## Files
 
-| Arquivo | O que é |
+### 📊 Scoring algorithm documentation
+
+| File | What it is |
 |---|---|
-| **[pontuacao-e-calculo.md](pontuacao-e-calculo.md)** | Referência oficial em PT-BR — todas as fórmulas (capability/pillar/overall), threshold (25/40), multi-respondente, gap analysis (P0-P3), mapping rótulos, edge cases, glossário. **Espelha 1:1** o código `app/backend/src/scoring.rs` |
-| **[pontuacao-e-calculo.xlsx](pontuacao-e-calculo.xlsx)** | Planilha Excel auditável com 5 abas: Como ler, Exemplo P1, Exemplo P2, Exemplo P3, Resumo. Fórmulas SUMPRODUCT visíveis célula por célula |
-| **[calculadora-pontuacao.html](calculadora-pontuacao.html)** | Calculadora interativa standalone (Tailwind + JavaScript) — 17 questões reais (1 capability por pillar), edite níveis e pesos, vê scores recalculando ao vivo. Abre no browser |
+| **[pontuacao-e-calculo.md](pontuacao-e-calculo.md)** | Official reference (PT-BR copy in [pontuacao-e-calculo.pt-br.md](pontuacao-e-calculo.pt-br.md)): all formulas (capability/pillar/overall), threshold (25/40), multi-respondent, gap analysis (P0-P3), label mapping, edge cases, and glossary. **Mirrors 1:1** the code in `app/backend/src/scoring.rs` |
+| **[pontuacao-e-calculo.xlsx](pontuacao-e-calculo.xlsx)** | Auditable Excel workbook with 5 tabs: How to read, Example P1, Example P2, Example P3, Summary. SUMPRODUCT formulas visible cell by cell |
+| **[calculadora-pontuacao.html](calculadora-pontuacao.html)** | Standalone interactive calculator (Tailwind + JavaScript): 17 real questions (1 capability per pillar); edit levels and weights and watch the scores recalculate live. Opens in the browser |
 
-### 📚 Documentação das 158 questões
+### 📚 Documentation of the 158 questions
 
-| Arquivo | Conteúdo |
+| File | Content |
 |---|---|
-| **[P1-produtividade-do-desenvolvedor.md](P1-produtividade-do-desenvolvedor.md)** | 53 questões do P1 com: KPI, contexto (o que mede / por que importa), descrição completa de cada nível L0-L4 com evidências esperadas |
-| **[P2-ciclo-de-vida-devops.md](P2-ciclo-de-vida-devops.md)** | 59 questões do P2 (mesmo formato) |
-| **[P3-plataforma-de-aplicações.md](P3-plataforma-de-aplicações.md)** | 46 questões do P3 (mesmo formato) |
+| **[P1-produtividade-do-desenvolvedor.md](P1-produtividade-do-desenvolvedor.md)** | 53 P1 questions with: KPI, context (what it measures / why it matters), and a full description of each level L0-L4 with expected evidence |
+| **[P2-ciclo-de-vida-devops.md](P2-ciclo-de-vida-devops.md)** | 59 P2 questions (same format) |
+| **[P3-plataforma-de-aplicações.md](P3-plataforma-de-aplicações.md)** | 46 P3 questions (same format) |
 
-### 🎯 Exemplos finais (output do pipeline)
+### 🎯 Final examples (pipeline output)
 
-| Pasta | O que é |
+| Folder | What it is |
 |---|---|
-| **[exemplo-saida/](exemplo-saida/)** | **5 PDFs reais** + JSONs intermediários gerados a partir de `respostas.json.example` (Cliente Exemplo S.A.). Inclui versão PT-BR (raiz) e EN (`exemplo-saida/en/`). É o **preview exato** do que o cliente vai gerar. Tem README detalhado dentro. |
+| **[exemplo-saida/](exemplo-saida/)** | **5 real PDFs** + intermediate JSONs generated from `respostas.json.example` (Cliente Exemplo S.A.). Includes the PT-BR version (root), EN (`exemplo-saida/en/`), and ES (`exemplo-saida/es/`). It is the **exact preview** of what the client will generate. Has a detailed README inside. |
 
-## Quando usar cada arquivo
+## When to use each file
 
-- **Quer entender como os scores são calculados?** → `pontuacao-e-calculo.md`
-- **Cliente perguntou "como esse score saiu?" e quer ver fórmula?** → abra `pontuacao-e-calculo.xlsx` no Excel
-- **Quer brincar com diferentes respostas e ver scores ao vivo?** → abra `calculadora-pontuacao.html` no browser
-- **Vai responder uma questão e tem dúvida sobre o que cada nível significa?** → consulte `P1/P2/P3-…md` (mais detalhe que os HTMLs visuais em `formularios/`)
-- **Quer ver "como vai ficar o relatório final"?** → abra os PDFs em `exemplo-saida/`
+- **Want to understand how the scores are calculated?** → `pontuacao-e-calculo.md`
+- **Client asked "how did this score come out?" and wants to see the formula?** → open `pontuacao-e-calculo.xlsx` in Excel
+- **Want to play with different answers and see the scores live?** → open `calculadora-pontuacao.html` in the browser
+- **About to answer a question and unsure what each level means?** → check `P1/P2/P3-…md` (more detail than the visual HTMLs in `formularios/`)
+- **Want to see "what the final report will look like"?** → open the PDFs in `exemplo-saida/`
 
-## ⚠️ Importante
+## ⚠️ Important
 
-**Não modifique** nenhum arquivo desta pasta — eles são **read-only** (referência técnica que deve permanecer canônica). Se precisar customizar para seu cliente, copie para outro lugar e edite a cópia.
+**Do not modify** any file in this folder: they are **read-only** (technical reference that must remain canonical). If you need to customize for your client, copy the file elsewhere and edit the copy.
 
-A única exceção: a subpasta `exemplo-saida/` pode ser regenerada rodando o pipeline com `respostas.json.example`.
+The only exception: the `exemplo-saida/` subfolder can be regenerated by running the pipeline with `respostas.json.example`.

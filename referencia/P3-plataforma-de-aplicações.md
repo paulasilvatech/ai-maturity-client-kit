@@ -1,1487 +1,1489 @@
-# Assessment de Maturidade IA — Pilar P3: Plataforma de Aplicações
+# AI Maturity Assessment: Pillar P3, Application Platform
 
-> Mede a sofisticação da plataforma — arquitetura cloud-native, APIs, IA, dados, agentes, identidade, multi-cloud, performance e FinOps.
+🌐 English · [Português (Brasil)](P3-plataforma-de-aplicações.pt-br.md)
 
-## Visão geral
+> Measures platform sophistication: cloud-native architecture, APIs, AI, data, agents, identity, multi-cloud, performance, and FinOps.
 
-- **Pilar:** `P3` — Plataforma de Aplicações
-- **Capacidades (capabilities):** 9
-- **Questões totais:** 46
-- **Escala:** Likert L0–L4 (Inicial → Otimizando)
-- **Idioma da pergunta:** Português (Brasil)
-- **Idioma de KPI/contexto/evidência:** Inglês (termos técnicos universais)
-- **Resposta esperada por questão:** 1 nível selecionado + texto de evidência (mín. recomendado 80 caracteres) + anexo opcional
+## Overview
 
-## Como interpretar a escala
+- **Pillar:** `P3`: Application Platform
+- **Capabilities:** 9
+- **Total questions:** 46
+- **Scale:** Likert L0 to L4 (Initial → Optimizing)
+- **Question language:** English (translated from the Portuguese (Brazil) source)
+- **KPI/context/evidence language:** English (universal technical terms)
+- **Expected response per question:** 1 selected level + evidence text (recommended minimum 80 characters) + optional attachment
 
-| Nível | Rótulo | Significado |
+## How to interpret the scale
+
+| Level | Label | Meaning |
 |---|---|---|
-| **L0** | Inicial | Sem prática estabelecida; ações ad-hoc, sem ferramenta ou política. |
-| **L1** | Em Desenvolvimento | Pilotos isolados, cobertura <25%, sem governança. |
-| **L2** | Definido | Adoção em 25–50% das equipes, com diretrizes e treinamento básico. |
-| **L3** | Gerenciado | Cobertura >75% com métricas de impacto e bibliotecas/templates compartilhados. |
-| **L4** | Otimizando | Cobertura quase universal (>95%), automação, ajuste fino, melhoria contínua mensurada. |
+| **L0** | Initial | No established practice; ad-hoc actions, no tool or policy. |
+| **L1** | Developing | Isolated pilots, coverage <25%, no governance. |
+| **L2** | Defined | Adoption in 25-50% of teams, with guidelines and basic training. |
+| **L3** | Managed | Coverage >75% with impact metrics and shared libraries/templates. |
+| **L4** | Optimizing | Near-universal coverage (>95%), automation, fine-tuning, measured continuous improvement. |
 
-## Tipos de informação coletada por questão
+## Types of information collected per question
 
-Cada questão captura simultaneamente **três tipos de dado**:
+Each question simultaneously captures **three types of data**:
 
-1. **Quantitativo (KPI):** uma métrica numérica explícita (ex.: % desenvolvedores ativos, MTTR, lead time, taxa de cobertura). Use o KPI sugerido para padronizar comparação entre equipes.
+1. **Quantitative (KPI):** an explicit numeric metric (e.g., % active developers, MTTR, lead time, coverage rate). Use the suggested KPI to standardize comparison across teams.
 
-2. **Qualitativo (descrição do nível):** o respondente seleciona o nível L0–L4 cuja descrição melhor representa a realidade observada hoje (não a aspiracional).
+2. **Qualitative (level description):** the respondent selects the L0 to L4 level whose description best represents the reality observed today (not the aspirational one).
 
-3. **Evidência (texto + anexos):** prova documental — link de pipeline, screenshot de dashboard, política, runbook, contrato de licenças, métrica exportada. Quanto mais específica, maior a qualidade da evidência (escala: nenhuma → mínima → adequada → detalhada → exemplar).
+3. **Evidence (text + attachments):** documentary proof, such as a pipeline link, dashboard screenshot, policy, runbook, license contract, or exported metric. The more specific, the higher the evidence quality (scale: none → minimal → adequate → detailed → exemplary).
 
-## Critérios de qualidade da evidência
+## Evidence quality criteria
 
-- **Mínima (<80 caracteres):** texto genérico, sem nome de ferramenta, métrica ou link.
-- **Adequada (80–250):** menciona ferramenta + cobertura/escopo aproximado.
-- **Detalhada (250–500):** inclui métrica numérica + link/anexo + período de medição.
-- **Exemplar (>500 ou múltiplos anexos):** múltiplas fontes corroborantes, série temporal, comparativo antes/depois.
+- **Minimal (<80 characters):** generic text, without a tool name, metric, or link.
+- **Adequate (80-250):** mentions the tool + approximate coverage/scope.
+- **Detailed (250-500):** includes a numeric metric + link/attachment + measurement period.
+- **Exemplary (>500 or multiple attachments):** multiple corroborating sources, time series, before/after comparison.
 
-## Capacidades do pilar P3
+## Capabilities of pillar P3
 
-- **P3-C1** — Arquitetura Cloud-Native (5 questões)
-- **P3-C2** — Gestão de APIs (5 questões)
-- **P3-C3** — Desenvolvimento de Aplicações IA (5 questões)
-- **P3-C4** — Plataforma de Dados e Lakehouse (5 questões)
-- **P3-C5** — Aplicações Agênticas (6 questões)
-- **P3-C6** — Gestão de Identidades e Acessos (5 questões)
-- **P3-C7** — Multi-Cloud e Portabilidade (5 questões)
-- **P3-C8** — Desempenho e Escalabilidade (5 questões)
-- **P3-C9** — FinOps e Otimização de Custos (5 questões)
+- **P3-C1**: Cloud-Native Architecture (5 questions)
+- **P3-C2**: API Management (5 questions)
+- **P3-C3**: AI Application Development (5 questions)
+- **P3-C4**: Data Platform and Lakehouse (5 questions)
+- **P3-C5**: Agentic Applications (6 questions)
+- **P3-C6**: Identity and Access Management (5 questions)
+- **P3-C7**: Multi-Cloud and Portability (5 questions)
+- **P3-C8**: Performance and Scalability (5 questions)
+- **P3-C9**: FinOps and Cost Optimization (5 questions)
 
 ---
 
-## P3-C1 — Arquitetura Cloud-Native
+## P3-C1: Cloud-Native Architecture
 
-**5 questões neste capability.**
+**5 questions in this capability.**
 
-### P3-C1-Q1 — Qual é a maturidade da adoção de arquitetura cloud-native?
+### P3-C1-Q1: How mature is the adoption of cloud-native architecture?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** Arquiteto, Engenheiro de Plataforma, product-owner
-- **Peso:** 1.0
-- **Professional Edition:** Sim
-- **KPI principal:** `% workloads containerized`
+- **Target audience:** Architect, Platform Engineer, product-owner
+- **Weight:** 1.0
+- **Professional Edition:** Yes
+- **Primary KPI:** `% workloads containerized`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Measures adoption of cloud-native patterns including containerization, orchestration, and service decomposition.
-- **Por que importa (why):** Cloud-native architectures enable 10x faster scaling, 99.99% availability, and 50% infrastructure cost reduction.
+- **What it measures (what):** Measures adoption of cloud-native patterns including containerization, orchestration, and service decomposition.
+- **Why it matters (why):** Cloud-native architectures enable 10x faster scaling, 99.99% availability, and 50% infrastructure cost reduction.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Monolithic applications deployed on VMs or bare metal. No containerization. | • No container adoption<br>• VM-based deployment topology<br>• Monolithic architecture in use |
-| **L1** | Em Desenvolvimento | Some applications containerized (<30%). Docker used for development but not production. | • <30% containerized rate measured<br>• Docker in dev only<br>• No orchestration platform |
-| **L2** | Definido | 50-70% of workloads containerized. Kubernetes or container orchestration in production. Basic microservice decomposition. | • 50-70% containerized rate measured<br>• K8s in production<br>• Some microservices deployed |
-| **L3** | Gerenciado | >85% workloads cloud-native. Service mesh, GitOps deployment, automated scaling. Well-defined service boundaries. | • >85% cloud-native rate measured<br>• Service mesh deployed<br>• GitOps workflow adopted<br>• Automated scaling rules configured |
-| **L4** | Otimizando | Full cloud-native with AI-optimized resource allocation, predictive auto-scaling, self-healing infrastructure, and serverless where appropriate. | • AI resource optimization<br>• Predictive automated scaling enabled<br>• Self-healing infrastructure enabled<br>• Serverless platform adoption |
+| **L0** | Initial | Monolithic applications deployed on VMs or bare metal. No containerization. | • No container adoption<br>• VM-based deployment topology<br>• Monolithic architecture in use |
+| **L1** | Developing | Some applications containerized (<30%). Docker used for development but not production. | • <30% containerized rate measured<br>• Docker in dev only<br>• No orchestration platform |
+| **L2** | Defined | 50-70% of workloads containerized. Kubernetes or container orchestration in production. Basic microservice decomposition. | • 50-70% containerized rate measured<br>• K8s in production<br>• Some microservices deployed |
+| **L3** | Managed | >85% workloads cloud-native. Service mesh, GitOps deployment, automated scaling. Well-defined service boundaries. | • >85% cloud-native rate measured<br>• Service mesh deployed<br>• GitOps workflow adopted<br>• Automated scaling rules configured |
+| **L4** | Optimizing | Full cloud-native with AI-optimized resource allocation, predictive auto-scaling, self-healing infrastructure, and serverless where appropriate. | • AI resource optimization<br>• Predictive automated scaling enabled<br>• Self-healing infrastructure enabled<br>• Serverless platform adoption |
 
 ---
 
-### P3-C1-Q2 — Em que medida Arquitetura Nativa da Nuvem (container adoption) foi adotado entre as equipes?
+### P3-C1-Q2: To what extent has Cloud-Native Architecture (container adoption) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** Arquiteto, Engenheiro de Plataforma
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% workloads containerized`
+- **Target audience:** Architect, Platform Engineer
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% workloads containerized`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Workloads run as containers on Kubernetes or managed platforms.
-- **Por que importa (why):** Containers enable density, portability, and declarative deploys.
+- **What it measures (what):** Workloads run as containers on Kubernetes or managed platforms.
+- **Why it matters (why):** Containers enable density, portability, and declarative deploys.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem container adoption implementado. As equipes operam sem esta capacidade. | • No container adoption deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de container adoption com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | container adoption adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | container adoption padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | container adoption é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No container adoption implemented. Teams operate without this capability. | • No container adoption deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of container adoption with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | container adoption adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | container adoption standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | container adoption is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C1-Q3 — Em que medida Arquitetura Nativa da Nuvem (service mesh / zero trust networking) foi adotado entre as equipes?
+### P3-C1-Q3: To what extent has Cloud-Native Architecture (service mesh / zero trust networking) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** Arquiteto, Engenheiro de Plataforma
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% services on mesh`
+- **Target audience:** Architect, Platform Engineer
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% services on mesh`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Service mesh handles mTLS, retries, and traffic shaping.
-- **Por que importa (why):** Mesh moves reliability and security out of app code.
+- **What it measures (what):** Service mesh handles mTLS, retries, and traffic shaping.
+- **Why it matters (why):** Mesh moves reliability and security out of app code.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem service mesh / zero trust networking implementado. As equipes operam sem esta capacidade. | • No service mesh / zero trust networking deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de service mesh / zero trust networking com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | service mesh / zero trust networking adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | service mesh / zero trust networking padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | service mesh / zero trust networking é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No service mesh / zero trust networking implemented. Teams operate without this capability. | • No service mesh / zero trust networking deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of service mesh / zero trust networking with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | service mesh / zero trust networking adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | service mesh / zero trust networking standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | service mesh / zero trust networking is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C1-Q4 — Em que medida Arquitetura Nativa da Nuvem (event-driven architecture) foi adotado entre as equipes?
+### P3-C1-Q4: To what extent has Cloud-Native Architecture (event-driven architecture) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** Arquiteto, Engenheiro de Plataforma
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% flows async`
+- **Target audience:** Architect, Platform Engineer
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% flows async`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Events and queues decouple services for resilience and scale.
-- **Por que importa (why):** EDA enables loose coupling and graceful degradation.
+- **What it measures (what):** Events and queues decouple services for resilience and scale.
+- **Why it matters (why):** EDA enables loose coupling and graceful degradation.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem event-driven architecture implementado. As equipes operam sem esta capacidade. | • No event-driven architecture deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de event-driven architecture com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | event-driven architecture adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | event-driven architecture padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | event-driven architecture é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No event-driven architecture implemented. Teams operate without this capability. | • No event-driven architecture deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of event-driven architecture with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | event-driven architecture adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | event-driven architecture standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | event-driven architecture is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C1-Q5 — Em que medida Arquitetura Nativa da Nuvem (managed services preference) foi adotado entre as equipes?
+### P3-C1-Q5: To what extent has Cloud-Native Architecture (managed services preference) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** Arquiteto, Engenheiro de Plataforma
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% managed vs self-hosted`
+- **Target audience:** Architect, Platform Engineer
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% managed vs self-hosted`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Prefer managed databases, queues, and caches over self-operated.
-- **Por que importa (why):** Managed services shift ops burden to the cloud provider.
+- **What it measures (what):** Prefer managed databases, queues, and caches over self-operated.
+- **Why it matters (why):** Managed services shift ops burden to the cloud provider.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem managed services preference implementado. As equipes operam sem esta capacidade. | • No managed services preference deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de managed services preference com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | managed services preference adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | managed services preference padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | managed services preference é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No managed services preference implemented. Teams operate without this capability. | • No managed services preference deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of managed services preference with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | managed services preference adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | managed services preference standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | managed services preference is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-## P3-C2 — Gestão de APIs
+## P3-C2: API Management
 
-**5 questões neste capability.**
+**5 questions in this capability.**
 
-### P3-C2-Q1 — Quão madura é sua estratégia de gestão de APIs?
+### P3-C2-Q1: How mature is your API management strategy?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** Arquiteto, Engenheiro de Plataforma, Desenvolvedor, engineering-leader, Segurança
-- **Peso:** 1.0
-- **Professional Edition:** Sim
-- **KPI principal:** `% APIs with OpenAPI spec`
+- **Target audience:** Architect, Platform Engineer, Developer, engineering-leader, Security
+- **Weight:** 1.0
+- **Professional Edition:** Yes
+- **Primary KPI:** `% APIs with OpenAPI spec`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Measures the maturity of API design, documentation, versioning, and governance practices.
-- **Por que importa (why):** Well-managed APIs reduce integration time by 70% and enable partner ecosystem growth.
+- **What it measures (what):** Measures the maturity of API design, documentation, versioning, and governance practices.
+- **Why it matters (why):** Well-managed APIs reduce integration time by 70% and enable partner ecosystem growth.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | No API standards. APIs designed ad-hoc. No documentation beyond source code. | • No API standards<br>• Ad-hoc API design<br>• No API documentation |
-| **L1** | Em Desenvolvimento | Some APIs have basic documentation. No versioning strategy. Inconsistent error handling. | • Basic API docs exist<br>• No versioning policy<br>• Inconsistent error formats |
-| **L2** | Definido | OpenAPI specs for >50% of APIs. API design guidelines documented. Versioning strategy defined. | • >50% APIs with OpenAPI<br>• Design guidelines doc<br>• API versioning strategy documented |
-| **L3** | Gerenciado | API gateway with centralized management. >80% APIs documented. Rate limiting, auth, and monitoring standardized. API lifecycle management. | • API gateway deployed<br>• >80% documented rate measured<br>• Standardized auth/rate limiting |
-| **L4** | Otimizando | AI-powered API management: auto-generated docs from code, anomaly detection on API traffic, predictive capacity planning, automated backward compatibility checks. | • Auto-generated API docs<br>• Traffic anomaly detection<br>• Predictive capacity planning<br>• Auto compatibility checks |
+| **L0** | Initial | No API standards. APIs designed ad-hoc. No documentation beyond source code. | • No API standards<br>• Ad-hoc API design<br>• No API documentation |
+| **L1** | Developing | Some APIs have basic documentation. No versioning strategy. Inconsistent error handling. | • Basic API docs exist<br>• No versioning policy<br>• Inconsistent error formats |
+| **L2** | Defined | OpenAPI specs for >50% of APIs. API design guidelines documented. Versioning strategy defined. | • >50% APIs with OpenAPI<br>• Design guidelines doc<br>• API versioning strategy documented |
+| **L3** | Managed | API gateway with centralized management. >80% APIs documented. Rate limiting, auth, and monitoring standardized. API lifecycle management. | • API gateway deployed<br>• >80% documented rate measured<br>• Standardized auth/rate limiting |
+| **L4** | Optimizing | AI-powered API management: auto-generated docs from code, anomaly detection on API traffic, predictive capacity planning, automated backward compatibility checks. | • Auto-generated API docs<br>• Traffic anomaly detection<br>• Predictive capacity planning<br>• Auto compatibility checks |
 
 ---
 
-### P3-C2-Q2 — Em que medida Gestão de APIs (API gateway for all external APIs) foi adotado entre as equipes?
+### P3-C2-Q2: To what extent has API Management (API gateway for all external APIs) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** Arquiteto, Engenheiro de Plataforma, Desenvolvedor
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% APIs behind gateway`
+- **Target audience:** Architect, Platform Engineer, Developer
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% APIs behind gateway`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Gateway handles auth, rate limiting, and observability.
-- **Por que importa (why):** A gateway centralizes cross-cutting API concerns.
+- **What it measures (what):** Gateway handles auth, rate limiting, and observability.
+- **Why it matters (why):** A gateway centralizes cross-cutting API concerns.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem api gateway for all external apis implementado. As equipes operam sem esta capacidade. | • No API gateway for all external APIs deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de api gateway for all external apis com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | API gateway for all external APIs adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | API gateway for all external APIs padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | API gateway for all external APIs é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No api gateway for all external apis implemented. Teams operate without this capability. | • No API gateway for all external APIs deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of api gateway for all external apis with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | API gateway for all external APIs adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | API gateway for all external APIs standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | API gateway for all external APIs is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C2-Q3 — Em que medida Gestão de APIs (OpenAPI contracts) foi adotado entre as equipes?
+### P3-C2-Q3: To what extent has API Management (OpenAPI contracts) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** Arquiteto, Engenheiro de Plataforma, Desenvolvedor, qa-test
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% APIs with spec`
+- **Target audience:** Architect, Platform Engineer, Developer, qa-test
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% APIs with spec`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Every API has a machine-readable contract.
-- **Por que importa (why):** Contracts enable codegen, mock servers, and compatibility testing.
+- **What it measures (what):** Every API has a machine-readable contract.
+- **Why it matters (why):** Contracts enable codegen, mock servers, and compatibility testing.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem openapi contracts implementado. As equipes operam sem esta capacidade. | • No OpenAPI contracts deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de openapi contracts com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | OpenAPI contracts adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | OpenAPI contracts padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | OpenAPI contracts é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No openapi contracts implemented. Teams operate without this capability. | • No OpenAPI contracts deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of openapi contracts with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | OpenAPI contracts adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | OpenAPI contracts standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | OpenAPI contracts is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C2-Q4 — Em que medida Gestão de APIs (versioning & deprecation policy) foi adotado entre as equipes?
+### P3-C2-Q4: To what extent has API Management (versioning & deprecation policy) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** Arquiteto, Engenheiro de Plataforma, Desenvolvedor, Segurança
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `deprecated APIs retired on time`
+- **Target audience:** Architect, Platform Engineer, Developer, Security
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `deprecated APIs retired on time`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Explicit versioning and deprecation schedules.
-- **Por que importa (why):** Clear policy preserves customer trust and avoids breakage.
+- **What it measures (what):** Explicit versioning and deprecation schedules.
+- **Why it matters (why):** Clear policy preserves customer trust and avoids breakage.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem versioning & deprecation policy implementado. As equipes operam sem esta capacidade. | • No versioning & deprecation policy deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de versioning & deprecation policy com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | versioning & deprecation policy adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | versioning & deprecation policy padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | versioning & deprecation policy é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No versioning & deprecation policy implemented. Teams operate without this capability. | • No versioning & deprecation policy deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of versioning & deprecation policy with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | versioning & deprecation policy adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | versioning & deprecation policy standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | versioning & deprecation policy is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C2-Q5 — Em que medida Gestão de APIs (developer portal with self-serve keys) foi adotado entre as equipes?
+### P3-C2-Q5: To what extent has API Management (developer portal with self-serve keys) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** Arquiteto, Engenheiro de Plataforma, Desenvolvedor
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `time-to-first-call`
+- **Target audience:** Architect, Platform Engineer, Developer
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `time-to-first-call`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Self-service key issuance and interactive docs.
-- **Por que importa (why):** Dev portals accelerate partner integration.
+- **What it measures (what):** Self-service key issuance and interactive docs.
+- **Why it matters (why):** Dev portals accelerate partner integration.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem developer portal with self-serve keys implementado. As equipes operam sem esta capacidade. | • No developer portal with self-serve keys deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de developer portal with self-serve keys com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | developer portal with self-serve keys adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | developer portal with self-serve keys padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | developer portal with self-serve keys é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No developer portal with self-serve keys implemented. Teams operate without this capability. | • No developer portal with self-serve keys deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of developer portal with self-serve keys with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | developer portal with self-serve keys adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | developer portal with self-serve keys standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | developer portal with self-serve keys is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-## P3-C3 — Desenvolvimento de Aplicações IA
+## P3-C3: AI Application Development
 
-**5 questões neste capability.**
+**5 questions in this capability.**
 
-### P3-C3-Q1 — Quão madura é a capacidade da sua organização de construir e implantar aplicações com IA?
+### P3-C3-Q1: How mature is your organization's ability to build and deploy AI-powered applications?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** data-ai, Desenvolvedor, Arquiteto
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `# AI features in production`
+- **Target audience:** data-ai, Developer, Architect
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `# AI features in production`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Measures the organization's capability to develop, deploy, and maintain AI-powered application features.
-- **Por que importa (why):** Organizations with mature AI application development ship AI features 5x faster and with 3x fewer production incidents.
+- **What it measures (what):** Measures the organization's capability to develop, deploy, and maintain AI-powered application features.
+- **Why it matters (why):** Organizations with mature AI application development ship AI features 5x faster and with 3x fewer production incidents.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | No AI features in production applications. No team capability for AI development. | • No AI features deployed<br>• No ML/AI engineering skills<br>• No AI development tools |
-| **L1** | Em Desenvolvimento | Experimenting with AI APIs (OpenAI, Azure AI) in 1-2 applications. No MLOps practices. | • 1-2 AI experiments<br>• Direct API integration<br>• No MLOps tooling in place |
-| **L2** | Definido | 3-5 AI-powered features in production. Basic prompt engineering practices. RAG pattern for knowledge retrieval. | • 3-5 AI features live<br>• Prompt engineering guidelines<br>• RAG implementation deployed |
-| **L3** | Gerenciado | Standardized AI development framework. Model evaluation pipeline. Prompt versioning and A/B testing. >10 AI features in production. | • AI dev framework docs<br>• Model evaluation pipeline<br>• Prompt versioning workflow<br>• >10 AI features |
-| **L4** | Otimizando | AI-native applications with autonomous agents, multi-model orchestration, continuous model evaluation, and automated prompt optimization. AI features are core to product. | • Autonomous agent deployments<br>• Multi-model orchestration enabled<br>• Continuous model eval<br>• Automated prompt optimization |
+| **L0** | Initial | No AI features in production applications. No team capability for AI development. | • No AI features deployed<br>• No ML/AI engineering skills<br>• No AI development tools |
+| **L1** | Developing | Experimenting with AI APIs (OpenAI, Azure AI) in 1-2 applications. No MLOps practices. | • 1-2 AI experiments<br>• Direct API integration<br>• No MLOps tooling in place |
+| **L2** | Defined | 3-5 AI-powered features in production. Basic prompt engineering practices. RAG pattern for knowledge retrieval. | • 3-5 AI features live<br>• Prompt engineering guidelines<br>• RAG implementation deployed |
+| **L3** | Managed | Standardized AI development framework. Model evaluation pipeline. Prompt versioning and A/B testing. >10 AI features in production. | • AI dev framework docs<br>• Model evaluation pipeline<br>• Prompt versioning workflow<br>• >10 AI features |
+| **L4** | Optimizing | AI-native applications with autonomous agents, multi-model orchestration, continuous model evaluation, and automated prompt optimization. AI features are core to product. | • Autonomous agent deployments<br>• Multi-model orchestration enabled<br>• Continuous model eval<br>• Automated prompt optimization |
 
 ---
 
-### P3-C3-Q2 — Em que medida Desenvolvimento de Aplicações de IA (LLM application frameworks) foi adotado entre as equipes?
+### P3-C3-Q2: To what extent has AI Application Development (LLM application frameworks) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** data-ai, Desenvolvedor, Arquiteto
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% AI apps on framework`
+- **Target audience:** data-ai, Developer, Architect
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% AI apps on framework`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Teams use frameworks (LangChain, Semantic Kernel) for LLM apps.
-- **Por que importa (why):** Frameworks accelerate RAG, agents, and evaluation patterns.
+- **What it measures (what):** Teams use frameworks (LangChain, Semantic Kernel) for LLM apps.
+- **Why it matters (why):** Frameworks accelerate RAG, agents, and evaluation patterns.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem llm application frameworks implementado. As equipes operam sem esta capacidade. | • No LLM application frameworks deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de llm application frameworks com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | LLM application frameworks adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | LLM application frameworks padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | LLM application frameworks é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No llm application frameworks implemented. Teams operate without this capability. | • No LLM application frameworks deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of llm application frameworks with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | LLM application frameworks adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | LLM application frameworks standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | LLM application frameworks is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C3-Q3 — Em que medida Desenvolvimento de Aplicações de IA (evaluation harness for AI) foi adotado entre as equipes?
+### P3-C3-Q3: To what extent has AI Application Development (evaluation harness for AI) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** data-ai, Desenvolvedor, Arquiteto, qa-test
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `evals per release`
+- **Target audience:** data-ai, Developer, Architect, qa-test
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `evals per release`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Automated evals run on every model or prompt change.
-- **Por que importa (why):** AI evals catch regressions that unit tests cannot.
+- **What it measures (what):** Automated evals run on every model or prompt change.
+- **Why it matters (why):** AI evals catch regressions that unit tests cannot.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem evaluation harness for ai implementado. As equipes operam sem esta capacidade. | • No evaluation harness for AI deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de evaluation harness for ai com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | evaluation harness for AI adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | evaluation harness for AI padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | evaluation harness for AI é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No evaluation harness for ai implemented. Teams operate without this capability. | • No evaluation harness for AI deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of evaluation harness for ai with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | evaluation harness for AI adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | evaluation harness for AI standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | evaluation harness for AI is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C3-Q4 — Em que medida Desenvolvimento de Aplicações de IA (vector database / RAG platform) foi adotado entre as equipes?
+### P3-C3-Q4: To what extent has AI Application Development (vector database / RAG platform) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** data-ai, Desenvolvedor, Arquiteto
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `RAG apps in prod`
+- **Target audience:** data-ai, Developer, Architect
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `RAG apps in prod`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** A shared vector store/RAG platform serves multiple apps.
-- **Por que importa (why):** Centralized RAG reduces duplicated work across teams.
+- **What it measures (what):** A shared vector store/RAG platform serves multiple apps.
+- **Why it matters (why):** Centralized RAG reduces duplicated work across teams.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem vector database / rag platform implementado. As equipes operam sem esta capacidade. | • No vector database / RAG platform deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de vector database / rag platform com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | vector database / RAG platform adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | vector database / RAG platform padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | vector database / RAG platform é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No vector database / rag platform implemented. Teams operate without this capability. | • No vector database / RAG platform deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of vector database / rag platform with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | vector database / RAG platform adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | vector database / RAG platform standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | vector database / RAG platform is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C3-Q5 — Em que medida Desenvolvimento de Aplicações de IA (responsible AI / safety filters) foi adotado entre as equipes?
+### P3-C3-Q5: To what extent has AI Application Development (responsible AI / safety filters) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** data-ai, Desenvolvedor, Arquiteto, Segurança
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% AI apps with guardrails`
+- **Target audience:** data-ai, Developer, Architect, Security
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% AI apps with guardrails`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** All AI apps integrate content safety and audit logging.
-- **Por que importa (why):** Responsible AI is table stakes; retrofitting is expensive.
+- **What it measures (what):** All AI apps integrate content safety and audit logging.
+- **Why it matters (why):** Responsible AI is table stakes; retrofitting is expensive.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem responsible ai / safety filters implementado. As equipes operam sem esta capacidade. | • No responsible AI / safety filters deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de responsible ai / safety filters com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | responsible AI / safety filters adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | responsible AI / safety filters padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | responsible AI / safety filters é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No responsible ai / safety filters implemented. Teams operate without this capability. | • No responsible AI / safety filters deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of responsible ai / safety filters with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | responsible AI / safety filters adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | responsible AI / safety filters standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | responsible AI / safety filters is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-## P3-C4 — Plataforma de Dados e Lakehouse
+## P3-C4: Data Platform and Lakehouse
 
-**5 questões neste capability.**
+**5 questions in this capability.**
 
-### P3-C4-Q1 — Em que medida Plataforma de Dados e Lakehouse (lakehouse or data platform in use) foi adotado entre as equipes?
+### P3-C4-Q1: To what extent has Data Platform and Lakehouse (lakehouse or data platform in use) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** data-ai, Arquiteto
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% data in platform`
+- **Target audience:** data-ai, Architect
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% data in platform`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** A lakehouse unifies structured and unstructured data.
-- **Por que importa (why):** Lakehouses combine warehouse performance with lake flexibility.
+- **What it measures (what):** A lakehouse unifies structured and unstructured data.
+- **Why it matters (why):** Lakehouses combine warehouse performance with lake flexibility.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem lakehouse or data platform in use implementado. As equipes operam sem esta capacidade. | • No lakehouse or data platform in use deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de lakehouse or data platform in use com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | lakehouse or data platform in use adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | lakehouse or data platform in use padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | lakehouse or data platform in use é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No lakehouse or data platform in use implemented. Teams operate without this capability. | • No lakehouse or data platform in use deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of lakehouse or data platform in use with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | lakehouse or data platform in use adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | lakehouse or data platform in use standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | lakehouse or data platform in use is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C4-Q2 — Em que medida Plataforma de Dados e Lakehouse (data contracts between producers & consumers) foi adotado entre as equipes?
+### P3-C4-Q2: To what extent has Data Platform and Lakehouse (data contracts between producers & consumers) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** data-ai, Arquiteto, qa-test
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% pipelines with contracts`
+- **Target audience:** data-ai, Architect, qa-test
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% pipelines with contracts`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Data contracts declare schema and quality guarantees.
-- **Por que importa (why):** Contracts prevent silent breakage between teams.
+- **What it measures (what):** Data contracts declare schema and quality guarantees.
+- **Why it matters (why):** Contracts prevent silent breakage between teams.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem data contracts between producers & consumers implementado. As equipes operam sem esta capacidade. | • No data contracts between producers & consumers deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de data contracts between producers & consumers com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | data contracts between producers & consumers adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | data contracts between producers & consumers padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | data contracts between producers & consumers é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No data contracts between producers & consumers implemented. Teams operate without this capability. | • No data contracts between producers & consumers deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of data contracts between producers & consumers with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | data contracts between producers & consumers adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | data contracts between producers & consumers standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | data contracts between producers & consumers is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C4-Q3 — Em que medida Plataforma de Dados e Lakehouse (catalog and lineage tracking) foi adotado entre as equipes?
+### P3-C4-Q3: To what extent has Data Platform and Lakehouse (catalog and lineage tracking) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** data-ai, Arquiteto, qa-test
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% datasets cataloged`
+- **Target audience:** data-ai, Architect, qa-test
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% datasets cataloged`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Every dataset has ownership, lineage, and quality metadata.
-- **Por que importa (why):** Catalogs accelerate discovery and investigations.
+- **What it measures (what):** Every dataset has ownership, lineage, and quality metadata.
+- **Why it matters (why):** Catalogs accelerate discovery and investigations.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem catalog and lineage tracking implementado. As equipes operam sem esta capacidade. | • No catalog and lineage tracking deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de catalog and lineage tracking com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | catalog and lineage tracking adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | catalog and lineage tracking padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | catalog and lineage tracking é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No catalog and lineage tracking implemented. Teams operate without this capability. | • No catalog and lineage tracking deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of catalog and lineage tracking with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | catalog and lineage tracking adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | catalog and lineage tracking standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | catalog and lineage tracking is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C4-Q4 — Em que medida Plataforma de Dados e Lakehouse (self-service analytics) foi adotado entre as equipes?
+### P3-C4-Q4: To what extent has Data Platform and Lakehouse (self-service analytics) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** data-ai, Arquiteto
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% decisions using data`
+- **Target audience:** data-ai, Architect
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% decisions using data`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Business users query data themselves via governed tools.
-- **Por que importa (why):** Self-service shifts the bottleneck off the data team.
+- **What it measures (what):** Business users query data themselves via governed tools.
+- **Why it matters (why):** Self-service shifts the bottleneck off the data team.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem self-service analytics implementado. As equipes operam sem esta capacidade. | • No self-service analytics deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de self-service analytics com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | self-service analytics adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | self-service analytics padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | self-service analytics é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No self-service analytics implemented. Teams operate without this capability. | • No self-service analytics deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of self-service analytics with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | self-service analytics adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | self-service analytics standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | self-service analytics is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C4-Q5 — Em que medida Plataforma de Dados e Lakehouse (real-time streaming ingestion) foi adotado entre as equipes?
+### P3-C4-Q5: To what extent has Data Platform and Lakehouse (real-time streaming ingestion) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** data-ai, Arquiteto
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% use-cases real-time`
+- **Target audience:** data-ai, Architect
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% use-cases real-time`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Streaming is available for time-sensitive use cases.
-- **Por que importa (why):** Real-time data enables fresher AI and operational decisions.
+- **What it measures (what):** Streaming is available for time-sensitive use cases.
+- **Why it matters (why):** Real-time data enables fresher AI and operational decisions.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem real-time streaming ingestion implementado. As equipes operam sem esta capacidade. | • No real-time streaming ingestion deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de real-time streaming ingestion com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | real-time streaming ingestion adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | real-time streaming ingestion padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | real-time streaming ingestion é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No real-time streaming ingestion implemented. Teams operate without this capability. | • No real-time streaming ingestion deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of real-time streaming ingestion with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | real-time streaming ingestion adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | real-time streaming ingestion standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | real-time streaming ingestion is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-## P3-C5 — Aplicações Agênticas
+## P3-C5: Agentic Applications
 
-**6 questões neste capability.**
+**6 questions in this capability.**
 
-### P3-C5-Q1 — Em que medida Aplicações Agênticas (agents with tool-use in prod) foi adotado entre as equipes?
+### P3-C5-Q1: To what extent has Agentic Applications (agents with tool-use in prod) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** data-ai, Arquiteto, Engenheiro de Plataforma
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `agents in production`
+- **Target audience:** data-ai, Architect, Platform Engineer
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `agents in production`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Agents call tools and APIs to perform multi-step work.
-- **Por que importa (why):** Agentic workflows automate complex tasks humans used to route.
+- **What it measures (what):** Agents call tools and APIs to perform multi-step work.
+- **Why it matters (why):** Agentic workflows automate complex tasks humans used to route.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem agents with tool-use in prod implementado. As equipes operam sem esta capacidade. | • No agents with tool-use in prod deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de agents with tool-use in prod com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | agents with tool-use in prod adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | agents with tool-use in prod padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | agents with tool-use in prod é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No agents with tool-use in prod implemented. Teams operate without this capability. | • No agents with tool-use in prod deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of agents with tool-use in prod with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | agents with tool-use in prod adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | agents with tool-use in prod standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | agents with tool-use in prod is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C5-Q2 — Em que medida Aplicações Agênticas (orchestration framework (Semantic Kernel, etc)) foi adotado entre as equipes?
+### P3-C5-Q2: To what extent has Agentic Applications (orchestration framework (Semantic Kernel, etc)) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** data-ai, Arquiteto, Engenheiro de Plataforma, product-owner
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% agents on framework`
+- **Target audience:** data-ai, Architect, Platform Engineer, product-owner
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% agents on framework`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Agents are built on a standard orchestration runtime.
-- **Por que importa (why):** Standard runtimes reduce per-agent engineering cost.
+- **What it measures (what):** Agents are built on a standard orchestration runtime.
+- **Why it matters (why):** Standard runtimes reduce per-agent engineering cost.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem orchestration framework (semantic kernel, etc) implementado. As equipes operam sem esta capacidade. | • No orchestration framework (Semantic Kernel, etc) deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de orchestration framework (semantic kernel, etc) com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | orchestration framework (Semantic Kernel, etc) adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | orchestration framework (Semantic Kernel, etc) padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | orchestration framework (Semantic Kernel, etc) é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No orchestration framework (semantic kernel, etc) implemented. Teams operate without this capability. | • No orchestration framework (Semantic Kernel, etc) deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of orchestration framework (semantic kernel, etc) with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | orchestration framework (Semantic Kernel, etc) adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | orchestration framework (Semantic Kernel, etc) standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | orchestration framework (Semantic Kernel, etc) is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C5-Q3 — Em que medida Aplicações Agênticas (evaluation and safety for agents) foi adotado entre as equipes?
+### P3-C5-Q3: To what extent has Agentic Applications (evaluation and safety for agents) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** data-ai, Arquiteto, Engenheiro de Plataforma, product-owner
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `eval scenarios per agent`
+- **Target audience:** data-ai, Architect, Platform Engineer, product-owner
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `eval scenarios per agent`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Agents are evaluated for safety, cost, and task completion.
-- **Por que importa (why):** Agent evaluation is different from LLM evaluation.
+- **What it measures (what):** Agents are evaluated for safety, cost, and task completion.
+- **Why it matters (why):** Agent evaluation is different from LLM evaluation.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem evaluation and safety for agents implementado. As equipes operam sem esta capacidade. | • No evaluation and safety for agents deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de evaluation and safety for agents com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | evaluation and safety for agents adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | evaluation and safety for agents padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | evaluation and safety for agents é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No evaluation and safety for agents implemented. Teams operate without this capability. | • No evaluation and safety for agents deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of evaluation and safety for agents with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | evaluation and safety for agents adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | evaluation and safety for agents standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | evaluation and safety for agents is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C5-Q4 — Em que medida Aplicações Agênticas (tool/action registry) foi adotado entre as equipes?
+### P3-C5-Q4: To what extent has Agentic Applications (tool/action registry) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** data-ai, Arquiteto, Engenheiro de Plataforma, Segurança
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `tools available to agents`
+- **Target audience:** data-ai, Architect, Platform Engineer, Security
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `tools available to agents`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** A governed registry lists tools agents may call.
-- **Por que importa (why):** A registry controls blast radius and enables auditing.
+- **What it measures (what):** A governed registry lists tools agents may call.
+- **Why it matters (why):** A registry controls blast radius and enables auditing.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem tool/action registry implementado. As equipes operam sem esta capacidade. | • No tool/action registry deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de tool/action registry com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | tool/action registry adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | tool/action registry padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | tool/action registry é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No tool/action registry implemented. Teams operate without this capability. | • No tool/action registry deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of tool/action registry with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | tool/action registry adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | tool/action registry standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | tool/action registry is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C5-Q5 — Em que medida Aplicações Agênticas (human-in-the-loop controls) foi adotado entre as equipes?
+### P3-C5-Q5: To what extent has Agentic Applications (human-in-the-loop controls) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** data-ai, Arquiteto, Engenheiro de Plataforma
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% agents with HITL`
+- **Target audience:** data-ai, Architect, Platform Engineer
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% agents with HITL`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** High-stakes actions require human confirmation.
-- **Por que importa (why):** HITL lets teams ship agents safely while learning.
+- **What it measures (what):** High-stakes actions require human confirmation.
+- **Why it matters (why):** HITL lets teams ship agents safely while learning.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem human-in-the-loop controls implementado. As equipes operam sem esta capacidade. | • No human-in-the-loop controls deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de human-in-the-loop controls com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | human-in-the-loop controls adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | human-in-the-loop controls padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | human-in-the-loop controls é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No human-in-the-loop controls implemented. Teams operate without this capability. | • No human-in-the-loop controls deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of human-in-the-loop controls with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | human-in-the-loop controls adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | human-in-the-loop controls standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | human-in-the-loop controls is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C5-Q6 — Em que medida Aplicações Agênticas (agent cost and latency telemetry) foi adotado entre as equipes?
+### P3-C5-Q6: To what extent has Agentic Applications (agent cost and latency telemetry) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** data-ai, Arquiteto, Engenheiro de Plataforma, product-owner
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `p95 agent step latency`
+- **Target audience:** data-ai, Architect, Platform Engineer, product-owner
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `p95 agent step latency`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Agent performance and cost are tracked per step.
-- **Por que importa (why):** Telemetry is required to run agents profitably at scale.
+- **What it measures (what):** Agent performance and cost are tracked per step.
+- **Why it matters (why):** Telemetry is required to run agents profitably at scale.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem agent cost and latency telemetry implementado. As equipes operam sem esta capacidade. | • No agent cost and latency telemetry deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de agent cost and latency telemetry com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | agent cost and latency telemetry adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | agent cost and latency telemetry padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | agent cost and latency telemetry é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No agent cost and latency telemetry implemented. Teams operate without this capability. | • No agent cost and latency telemetry deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of agent cost and latency telemetry with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | agent cost and latency telemetry adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | agent cost and latency telemetry standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | agent cost and latency telemetry is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-## P3-C6 — Gestão de Identidades e Acessos
+## P3-C6: Identity and Access Management
 
-**5 questões neste capability.**
+**5 questions in this capability.**
 
-### P3-C6-Q1 — Em que medida Gestão de Identidades e Acessos (SSO for all apps) foi adotado entre as equipes?
+### P3-C6-Q1: To what extent has Identity and Access Management (SSO for all apps) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** Segurança, Engenheiro de Plataforma
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% apps behind SSO`
+- **Target audience:** Security, Platform Engineer
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% apps behind SSO`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** All apps authenticate via central SSO.
-- **Por que importa (why):** SSO is the foundation of user lifecycle and revocation.
+- **What it measures (what):** All apps authenticate via central SSO.
+- **Why it matters (why):** SSO is the foundation of user lifecycle and revocation.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem sso for all apps implementado. As equipes operam sem esta capacidade. | • No SSO for all apps deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de sso for all apps com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | SSO for all apps adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | SSO for all apps padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | SSO for all apps é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No sso for all apps implemented. Teams operate without this capability. | • No SSO for all apps deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of sso for all apps with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | SSO for all apps adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | SSO for all apps standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | SSO for all apps is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C6-Q2 — Em que medida Gestão de Identidades e Acessos (workload identity (no long-lived secrets)) foi adotado entre as equipes?
+### P3-C6-Q2: To what extent has Identity and Access Management (workload identity (no long-lived secrets)) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** Segurança, Engenheiro de Plataforma
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% workloads using WI`
+- **Target audience:** Security, Platform Engineer
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% workloads using WI`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Workloads use managed identity, not static keys.
-- **Por que importa (why):** Managed identities eliminate an entire class of leak.
+- **What it measures (what):** Workloads use managed identity, not static keys.
+- **Why it matters (why):** Managed identities eliminate an entire class of leak.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem workload identity (no long-lived secrets) implementado. As equipes operam sem esta capacidade. | • No workload identity (no long-lived secrets) deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de workload identity (no long-lived secrets) com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | workload identity (no long-lived secrets) adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | workload identity (no long-lived secrets) padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | workload identity (no long-lived secrets) é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No workload identity (no long-lived secrets) implemented. Teams operate without this capability. | • No workload identity (no long-lived secrets) deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of workload identity (no long-lived secrets) with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | workload identity (no long-lived secrets) adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | workload identity (no long-lived secrets) standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | workload identity (no long-lived secrets) is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C6-Q3 — Em que medida Gestão de Identidades e Acessos (least-privilege with JIT elevation) foi adotado entre as equipes?
+### P3-C6-Q3: To what extent has Identity and Access Management (least-privilege with JIT elevation) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** Segurança, Engenheiro de Plataforma
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% access through JIT`
+- **Target audience:** Security, Platform Engineer
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% access through JIT`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Standing admin is replaced by just-in-time elevation.
-- **Por que importa (why):** JIT dramatically reduces blast radius of compromised accounts.
+- **What it measures (what):** Standing admin is replaced by just-in-time elevation.
+- **Why it matters (why):** JIT dramatically reduces blast radius of compromised accounts.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem least-privilege with jit elevation implementado. As equipes operam sem esta capacidade. | • No least-privilege with JIT elevation deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de least-privilege with jit elevation com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | least-privilege with JIT elevation adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | least-privilege with JIT elevation padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | least-privilege with JIT elevation é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No least-privilege with jit elevation implemented. Teams operate without this capability. | • No least-privilege with JIT elevation deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of least-privilege with jit elevation with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | least-privilege with JIT elevation adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | least-privilege with JIT elevation standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | least-privilege with JIT elevation is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C6-Q4 — Em que medida Gestão de Identidades e Acessos (conditional access policies) foi adotado entre as equipes?
+### P3-C6-Q4: To what extent has Identity and Access Management (conditional access policies) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** Segurança, Engenheiro de Plataforma
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% sessions policy-evaluated`
+- **Target audience:** Security, Platform Engineer
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% sessions policy-evaluated`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Access is granted based on device, location, and risk.
-- **Por que importa (why):** Conditional access adapts security to context.
+- **What it measures (what):** Access is granted based on device, location, and risk.
+- **Why it matters (why):** Conditional access adapts security to context.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem conditional access policies implementado. As equipes operam sem esta capacidade. | • No conditional access policies deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de conditional access policies com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | conditional access policies adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | conditional access policies padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | conditional access policies é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No conditional access policies implemented. Teams operate without this capability. | • No conditional access policies deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of conditional access policies with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | conditional access policies adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | conditional access policies standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | conditional access policies is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C6-Q5 — Em que medida Gestão de Identidades e Acessos (access reviews and audit) foi adotado entre as equipes?
+### P3-C6-Q5: To what extent has Identity and Access Management (access reviews and audit) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** Segurança, Engenheiro de Plataforma
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `access reviews per year`
+- **Target audience:** Security, Platform Engineer
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `access reviews per year`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Access is reviewed at least quarterly and logged.
-- **Por que importa (why):** Reviews prevent access drift from acquisitions and reorgs.
+- **What it measures (what):** Access is reviewed at least quarterly and logged.
+- **Why it matters (why):** Reviews prevent access drift from acquisitions and reorgs.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem access reviews and audit implementado. As equipes operam sem esta capacidade. | • No access reviews and audit deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de access reviews and audit com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | access reviews and audit adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | access reviews and audit padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | access reviews and audit é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No access reviews and audit implemented. Teams operate without this capability. | • No access reviews and audit deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of access reviews and audit with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | access reviews and audit adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | access reviews and audit standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | access reviews and audit is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-## P3-C7 — Multi-Cloud e Portabilidade
+## P3-C7: Multi-Cloud and Portability
 
-**5 questões neste capability.**
+**5 questions in this capability.**
 
-### P3-C7-Q1 — Em que medida Multi-Cloud e Portabilidade (container-based workloads for portability) foi adotado entre as equipes?
+### P3-C7-Q1: To what extent has Multi-Cloud and Portability (container-based workloads for portability) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** Arquiteto, Engenheiro de Plataforma
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% workloads portable`
+- **Target audience:** Architect, Platform Engineer
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% workloads portable`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Workloads run in containers on any cloud.
-- **Por que importa (why):** Portability is a hedge against lock-in and outages.
+- **What it measures (what):** Workloads run in containers on any cloud.
+- **Why it matters (why):** Portability is a hedge against lock-in and outages.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem container-based workloads for portability implementado. As equipes operam sem esta capacidade. | • No container-based workloads for portability deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de container-based workloads for portability com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | container-based workloads for portability adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | container-based workloads for portability padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | container-based workloads for portability é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No container-based workloads for portability implemented. Teams operate without this capability. | • No container-based workloads for portability deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of container-based workloads for portability with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | container-based workloads for portability adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | container-based workloads for portability standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | container-based workloads for portability is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C7-Q2 — Em que medida Multi-Cloud e Portabilidade (abstracted data tier (Postgres, etc)) foi adotado entre as equipes?
+### P3-C7-Q2: To what extent has Multi-Cloud and Portability (abstracted data tier (Postgres, etc)) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** Arquiteto, Engenheiro de Plataforma, product-owner
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% data on portable engines`
+- **Target audience:** Architect, Platform Engineer, product-owner
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% data on portable engines`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Data services use open standards (Postgres, MySQL).
-- **Por que importa (why):** Open engines keep migration costs bounded.
+- **What it measures (what):** Data services use open standards (Postgres, MySQL).
+- **Why it matters (why):** Open engines keep migration costs bounded.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem abstracted data tier (postgres, etc) implementado. As equipes operam sem esta capacidade. | • No abstracted data tier (Postgres, etc) deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de abstracted data tier (postgres, etc) com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | abstracted data tier (Postgres, etc) adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | abstracted data tier (Postgres, etc) padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | abstracted data tier (Postgres, etc) é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No abstracted data tier (postgres, etc) implemented. Teams operate without this capability. | • No abstracted data tier (Postgres, etc) deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of abstracted data tier (postgres, etc) with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | abstracted data tier (Postgres, etc) adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | abstracted data tier (Postgres, etc) standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | abstracted data tier (Postgres, etc) is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C7-Q3 — Em que medida Multi-Cloud e Portabilidade (multi-region deployment capability) foi adotado entre as equipes?
+### P3-C7-Q3: To what extent has Multi-Cloud and Portability (multi-region deployment capability) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** Arquiteto, Engenheiro de Plataforma, Segurança
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% services multi-region`
+- **Target audience:** Architect, Platform Engineer, Security
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% services multi-region`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Services can run active-active across regions.
-- **Por que importa (why):** Multi-region capability is required for DR and compliance.
+- **What it measures (what):** Services can run active-active across regions.
+- **Why it matters (why):** Multi-region capability is required for DR and compliance.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem multi-region deployment capability implementado. As equipes operam sem esta capacidade. | • No multi-region deployment capability deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de multi-region deployment capability com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | multi-region deployment capability adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | multi-region deployment capability padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | multi-region deployment capability é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No multi-region deployment capability implemented. Teams operate without this capability. | • No multi-region deployment capability deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of multi-region deployment capability with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | multi-region deployment capability adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | multi-region deployment capability standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | multi-region deployment capability is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C7-Q4 — Em que medida Multi-Cloud e Portabilidade (cloud-agnostic IaC modules) foi adotado entre as equipes?
+### P3-C7-Q4: To what extent has Multi-Cloud and Portability (cloud-agnostic IaC modules) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** Arquiteto, Engenheiro de Plataforma
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% modules cloud-agnostic`
+- **Target audience:** Architect, Platform Engineer
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% modules cloud-agnostic`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** IaC modules abstract provider specifics where sensible.
-- **Por que importa (why):** Thoughtful abstraction limits porting pain.
+- **What it measures (what):** IaC modules abstract provider specifics where sensible.
+- **Why it matters (why):** Thoughtful abstraction limits porting pain.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem cloud-agnostic iac modules implementado. As equipes operam sem esta capacidade. | • No cloud-agnostic IaC modules deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de cloud-agnostic iac modules com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | cloud-agnostic IaC modules adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | cloud-agnostic IaC modules padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | cloud-agnostic IaC modules é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No cloud-agnostic iac modules implemented. Teams operate without this capability. | • No cloud-agnostic IaC modules deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of cloud-agnostic iac modules with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | cloud-agnostic IaC modules adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | cloud-agnostic IaC modules standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | cloud-agnostic IaC modules is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C7-Q5 — Em que medida Multi-Cloud e Portabilidade (disaster recovery drills) foi adotado entre as equipes?
+### P3-C7-Q5: To what extent has Multi-Cloud and Portability (disaster recovery drills) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** Arquiteto, Engenheiro de Plataforma, qa-test
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `DR drills per year`
+- **Target audience:** Architect, Platform Engineer, qa-test
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `DR drills per year`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Annual DR drills validate recovery time and process.
-- **Por que importa (why):** Untested DR is not DR.
+- **What it measures (what):** Annual DR drills validate recovery time and process.
+- **Why it matters (why):** Untested DR is not DR.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem disaster recovery drills implementado. As equipes operam sem esta capacidade. | • No disaster recovery drills deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de disaster recovery drills com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | disaster recovery drills adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | disaster recovery drills padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | disaster recovery drills é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No disaster recovery drills implemented. Teams operate without this capability. | • No disaster recovery drills deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of disaster recovery drills with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | disaster recovery drills adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | disaster recovery drills standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | disaster recovery drills is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-## P3-C8 — Desempenho e Escalabilidade
+## P3-C8: Performance and Scalability
 
-**5 questões neste capability.**
+**5 questions in this capability.**
 
-### P3-C8-Q1 — Em que medida Desempenho e Escalabilidade (performance budgets per service) foi adotado entre as equipes?
+### P3-C8-Q1: To what extent has Performance and Scalability (performance budgets per service) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** devops, Arquiteto, product-owner
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% services with perf budget`
+- **Target audience:** devops, Architect, product-owner
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% services with perf budget`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Services declare latency and throughput budgets.
-- **Por que importa (why):** Budgets turn performance into a first-class requirement.
+- **What it measures (what):** Services declare latency and throughput budgets.
+- **Why it matters (why):** Budgets turn performance into a first-class requirement.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem performance budgets per service implementado. As equipes operam sem esta capacidade. | • No performance budgets per service deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de performance budgets per service com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | performance budgets per service adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | performance budgets per service padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | performance budgets per service é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No performance budgets per service implemented. Teams operate without this capability. | • No performance budgets per service deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of performance budgets per service with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | performance budgets per service adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | performance budgets per service standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | performance budgets per service is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C8-Q2 — Em que medida Desempenho e Escalabilidade (load/stress testing in CI) foi adotado entre as equipes?
+### P3-C8-Q2: To what extent has Performance and Scalability (load/stress testing in CI) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** devops, Arquiteto, qa-test
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% services load-tested`
+- **Target audience:** devops, Architect, qa-test
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% services load-tested`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Load tests run on every release candidate.
-- **Por que importa (why):** Catching regressions in CI beats catching them in prod.
+- **What it measures (what):** Load tests run on every release candidate.
+- **Why it matters (why):** Catching regressions in CI beats catching them in prod.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem load/stress testing in ci implementado. As equipes operam sem esta capacidade. | • No load/stress testing in CI deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de load/stress testing in ci com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | load/stress testing in CI adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | load/stress testing in CI padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | load/stress testing in CI é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No load/stress testing in ci implemented. Teams operate without this capability. | • No load/stress testing in CI deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of load/stress testing in ci with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | load/stress testing in CI adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | load/stress testing in CI standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | load/stress testing in CI is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C8-Q3 — Em que medida Desempenho e Escalabilidade (autoscaling based on real demand) foi adotado entre as equipes?
+### P3-C8-Q3: To what extent has Performance and Scalability (autoscaling based on real demand) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** devops, Arquiteto, product-owner
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% services autoscaled`
+- **Target audience:** devops, Architect, product-owner
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% services autoscaled`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Services autoscale on CPU, latency, or queue depth.
-- **Por que importa (why):** Autoscaling matches cost to demand.
+- **What it measures (what):** Services autoscale on CPU, latency, or queue depth.
+- **Why it matters (why):** Autoscaling matches cost to demand.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem autoscaling based on real demand implementado. As equipes operam sem esta capacidade. | • No autoscaling based on real demand deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de autoscaling based on real demand com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | autoscaling based on real demand adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | autoscaling based on real demand padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | autoscaling based on real demand é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No autoscaling based on real demand implemented. Teams operate without this capability. | • No autoscaling based on real demand deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of autoscaling based on real demand with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | autoscaling based on real demand adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | autoscaling based on real demand standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | autoscaling based on real demand is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C8-Q4 — Em que medida Desempenho e Escalabilidade (profiling in production) foi adotado entre as equipes?
+### P3-C8-Q4: To what extent has Performance and Scalability (profiling in production) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** devops, Arquiteto
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% services continuously profiled`
+- **Target audience:** devops, Arquiteto
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% services continuously profiled`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Always-on profiling (e.g., pyroscope, parca) runs in prod.
-- **Por que importa (why):** Prod profiling surfaces bottlenecks real users hit.
+- **What it measures (what):** Always-on profiling (e.g., pyroscope, parca) runs in prod.
+- **Why it matters (why):** Prod profiling surfaces bottlenecks real users hit.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem profiling in production implementado. As equipes operam sem esta capacidade. | • No profiling in production deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de profiling in production com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | profiling in production adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | profiling in production padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | profiling in production é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No profiling in production implemented. Teams operate without this capability. | • No profiling in production deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of profiling in production with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | profiling in production adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | profiling in production standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | profiling in production is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C8-Q5 — Em que medida Desempenho e Escalabilidade (capacity planning cadence) foi adotado entre as equipes?
+### P3-C8-Q5: To what extent has Performance and Scalability (capacity planning cadence) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** devops, Arquiteto
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `capacity reviews per year`
+- **Target audience:** devops, Arquiteto
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `capacity reviews per year`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Capacity is reviewed with growth projections.
-- **Por que importa (why):** Planning prevents painful migrations at peak load.
+- **What it measures (what):** Capacity is reviewed with growth projections.
+- **Why it matters (why):** Planning prevents painful migrations at peak load.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem capacity planning cadence implementado. As equipes operam sem esta capacidade. | • No capacity planning cadence deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de capacity planning cadence com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | capacity planning cadence adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | capacity planning cadence padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | capacity planning cadence é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No capacity planning cadence implemented. Teams operate without this capability. | • No capacity planning cadence deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of capacity planning cadence with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | capacity planning cadence adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | capacity planning cadence standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | capacity planning cadence is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-## P3-C9 — FinOps e Otimização de Custos
+## P3-C9: FinOps and Cost Optimization
 
-**5 questões neste capability.**
+**5 questions in this capability.**
 
-### P3-C9-Q1 — Em que medida FinOps e Otimização de Custos (cost allocation & showback) foi adotado entre as equipes?
+### P3-C9-Q1: To what extent has FinOps and Cost Optimization (cost allocation & showback) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** product-owner, engineering-leader, Engenheiro de Plataforma
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% cost tagged to team`
+- **Target audience:** product-owner, engineering-leader, Platform Engineer
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% cost tagged to team`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Every resource is tagged and attributed to a team.
-- **Por que importa (why):** Showback creates ownership for cost.
+- **What it measures (what):** Every resource is tagged and attributed to a team.
+- **Why it matters (why):** Showback creates ownership for cost.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem cost allocation & showback implementado. As equipes operam sem esta capacidade. | • No cost allocation & showback deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de cost allocation & showback com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | cost allocation & showback adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | cost allocation & showback padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | cost allocation & showback é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No cost allocation & showback implemented. Teams operate without this capability. | • No cost allocation & showback deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of cost allocation & showback with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | cost allocation & showback adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | cost allocation & showback standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | cost allocation & showback is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C9-Q2 — Em que medida FinOps e Otimização de Custos (committed use / savings plans) foi adotado entre as equipes?
+### P3-C9-Q2: To what extent has FinOps and Cost Optimization (committed use / savings plans) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** product-owner, engineering-leader, Engenheiro de Plataforma
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% eligible spend committed`
+- **Target audience:** product-owner, engineering-leader, Platform Engineer
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% eligible spend committed`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Commit spend is used where usage is predictable.
-- **Por que importa (why):** Commitments cut spend 20-50% at minimal risk.
+- **What it measures (what):** Commit spend is used where usage is predictable.
+- **Why it matters (why):** Commitments cut spend 20-50% at minimal risk.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem committed use / savings plans implementado. As equipes operam sem esta capacidade. | • No committed use / savings plans deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de committed use / savings plans com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | committed use / savings plans adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | committed use / savings plans padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | committed use / savings plans é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No committed use / savings plans implemented. Teams operate without this capability. | • No committed use / savings plans deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of committed use / savings plans with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | committed use / savings plans adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | committed use / savings plans standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | committed use / savings plans is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C9-Q3 — Em que medida FinOps e Otimização de Custos (idle and unused resource cleanup) foi adotado entre as equipes?
+### P3-C9-Q3: To what extent has FinOps and Cost Optimization (idle and unused resource cleanup) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** product-owner, engineering-leader, Engenheiro de Plataforma, data-ai
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `$/month saved by cleanup`
+- **Target audience:** product-owner, engineering-leader, Platform Engineer, data-ai
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `$/month saved by cleanup`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Automation flags and removes idle resources.
-- **Por que importa (why):** Cleanup is the highest-leverage FinOps activity.
+- **What it measures (what):** Automation flags and removes idle resources.
+- **Why it matters (why):** Cleanup is the highest-leverage FinOps activity.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem idle and unused resource cleanup implementado. As equipes operam sem esta capacidade. | • No idle and unused resource cleanup deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de idle and unused resource cleanup com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | idle and unused resource cleanup adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | idle and unused resource cleanup padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | idle and unused resource cleanup é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No idle and unused resource cleanup implemented. Teams operate without this capability. | • No idle and unused resource cleanup deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of idle and unused resource cleanup with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | idle and unused resource cleanup adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | idle and unused resource cleanup standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | idle and unused resource cleanup is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C9-Q4 — Em que medida FinOps e Otimização de Custos (rightsizing recommendations) foi adotado entre as equipes?
+### P3-C9-Q4: To what extent has FinOps and Cost Optimization (rightsizing recommendations) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** product-owner, engineering-leader, Engenheiro de Plataforma
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% rightsizing applied`
+- **Target audience:** product-owner, engineering-leader, Platform Engineer
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% rightsizing applied`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Automated recommendations drive continuous rightsizing.
-- **Por que importa (why):** Rightsizing closes the gap between provisioned and needed.
+- **What it measures (what):** Automated recommendations drive continuous rightsizing.
+- **Why it matters (why):** Rightsizing closes the gap between provisioned and needed.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem rightsizing recommendations implementado. As equipes operam sem esta capacidade. | • No rightsizing recommendations deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de rightsizing recommendations com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | rightsizing recommendations adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | rightsizing recommendations padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | rightsizing recommendations é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No rightsizing recommendations implemented. Teams operate without this capability. | • No rightsizing recommendations deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of rightsizing recommendations with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | rightsizing recommendations adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | rightsizing recommendations standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | rightsizing recommendations is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
-### P3-C9-Q5 — Em que medida FinOps e Otimização de Custos (unit economics per product) foi adotado entre as equipes?
+### P3-C9-Q5: To what extent has FinOps and Cost Optimization (unit economics per product) been adopted across teams?
 
-**Metadados**
+**Metadata**
 
-- **Público-alvo:** product-owner, engineering-leader, Engenheiro de Plataforma
-- **Peso:** 1.0
-- **Professional Edition:** Não
-- **KPI principal:** `% products with $/user`
+- **Target audience:** product-owner, engineering-leader, Platform Engineer
+- **Weight:** 1.0
+- **Professional Edition:** No
+- **Primary KPI:** `% products with $/user`
 
-**Contexto**
+**Context**
 
-- **O que mede (what):** Products track cost per user, request, or transaction.
-- **Por que importa (why):** Unit economics align engineering and business decisions.
+- **What it measures (what):** Products track cost per user, request, or transaction.
+- **Why it matters (why):** Unit economics align engineering and business decisions.
 
-**Formato da resposta**
+**Response format**
 
-Escala Likert de 5 níveis (L0–L4). Selecione **um** nível que melhor descreve a sua organização hoje. Adicione evidência textual e/ou anexos (PDF, DOCX, XLSX, PNG, JPEG — até 10 MB).
+5-level Likert scale (L0 to L4). Select **one** level that best describes your organization today. Add text evidence and/or attachments (PDF, DOCX, XLSX, PNG, JPEG, up to 10 MB).
 
-**Níveis e evidências esperadas**
+**Levels and expected evidence**
 
-| Nível | Rótulo | Descrição | Evidências sugeridas |
+| Level | Label | Description | Suggested evidence |
 |---|---|---|---|
-| **L0** | Inicial | Sem unit economics per product implementado. As equipes operam sem esta capacidade. | • No unit economics per product deployed<br>• No documented policy<br>• No owner assigned |
-| **L1** | Em Desenvolvimento | Implementação piloto de unit economics per product com <10% de cobertura de equipes e uso ad-hoc. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
-| **L2** | Definido | unit economics per product adotado por 25-50% das equipes com diretrizes básicas e treinamento. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
-| **L3** | Gerenciado | unit economics per product padronizado em >75% das equipes com resultados medidos e governança. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
-| **L4** | Otimizando | unit economics per product é otimizado, automatizado e continuamente melhorado com insights baseados em dados. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
+| **L0** | Initial | No unit economics per product implemented. Teams operate without this capability. | • No unit economics per product deployed<br>• No documented policy<br>• No owner assigned |
+| **L1** | Developing | Pilot implementation of unit economics per product with <10% team coverage and ad-hoc usage. | • Pilot program documentation<br>• <10% team coverage<br>• No formal policy |
+| **L2** | Defined | unit economics per product adopted by 25-50% of teams with basic guidelines and training. | • Adoption 25-50% rate measured<br>• Usage guidelines published<br>• Onboarding materials exist |
+| **L3** | Managed | unit economics per product standardized across >75% of teams with measured results and governance. | • >75% adoption rate measured<br>• KPIs tracked monthly<br>• Governance reviews in place |
+| **L4** | Optimizing | unit economics per product is optimized, automated, and continuously improved with data-driven insights. | • >95% adoption rate measured<br>• Automated telemetry feedback loops<br>• Continuous improvement program |
 
 ---
 
 
-## Como esta seção é pontuada
+## How this section is scored
 
-- Cada questão recebe um valor numérico do nível selecionado: L0=0, L1=1, L2=2, L3=3, L4=4.
-- A pontuação da capacidade é a média ponderada das questões (peso default = 1.0; questões com peso 1.5 ou 2.0 contam mais).
-- A pontuação do pilar **P3** é a média das 9 capacidades.
-- O resultado é exibido em escala 0–4 e convertido para % de maturidade (nível / 4 × 100).
+- Each question receives a numeric value from the selected level: L0=0, L1=1, L2=2, L3=3, L4=4.
+- The capability score is the weighted average of its questions (default weight = 1.0; questions with weight 1.5 or 2.0 count more).
+- The **P3** pillar score is the average of the 9 capabilities.
+- The result is shown on a 0 to 4 scale and converted to a maturity % (level / 4 × 100).
 
-## Glossário rápido
+## Quick glossary
 
-- **Pillar:** dimensão estratégica de maturidade.
-- **Capability:** subdomínio funcional dentro de um pilar.
-- **Question:** item de avaliação concreto, ID padrão `P[1-3]-C[1-19]-Q[1-99]`.
-- **Level (L0–L4):** ponto na escala Likert de maturidade.
-- **KPI:** indicador-chave que valida objetivamente o nível declarado.
-- **Evidence:** prova qualitativa (texto) ou quantitativa (anexo) que sustenta a resposta.
+- **Pillar:** strategic maturity dimension.
+- **Capability:** functional subdomain within a pillar.
+- **Question:** concrete assessment item, standard ID `P[1-3]-C[1-19]-Q[1-99]`.
+- **Level (L0-L4):** point on the Likert maturity scale.
+- **KPI:** key indicator that objectively validates the declared level.
+- **Evidence:** qualitative (text) or quantitative (attachment) proof that supports the response.
