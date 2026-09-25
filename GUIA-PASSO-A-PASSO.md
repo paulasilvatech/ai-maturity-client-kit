@@ -1,31 +1,33 @@
 <!-- paulasilva-ms identity: Paula Silva, Software Global Black Belt · LinkedIn https://linkedin.com/in/paulanunes -->
 
-# Guia Passo-a-Passo · Kit AI Maturity Assessment
+# Step-by-Step Guide · AI Maturity Assessment Kit
 
-**`📘 GUIA`** · 📖 [🏠 Índice](README.md) · Você está aqui · [» Coleta via Forms](coleta/INSTRUCOES-FORMS.md)
+🌐 English · [Português (Brasil)](GUIA-PASSO-A-PASSO.pt-br.md) · [Español](kit-es/PASO-A-PASO.md)
+
+**`📘 GUIDE`** · 📖 [🏠 Index](README.md) · You are here · [» Collection via Forms](coleta/INSTRUCOES-FORMS.md)
 
 > [!NOTE]
-> Este guia é para você que **nunca usou o kit antes**. Vamos do zero (instalar pré-requisitos) até o relatório executivo na sua mão. **Tempo total estimado: 30–60 minutos** para o assessment principal (15 min setup + 15–45 min preenchendo). Para o fluxo completo dos 3 surveys: **~6 semanas** (incluindo coleta).
+> This guide is for you if you **have never used the kit before**. We go from zero (installing prerequisites) to the executive report in your hands. **Estimated total time: 30 to 60 minutes** for the main assessment (15 min setup + 15 to 45 min filling in). For the full flow with all 3 surveys: **about 6 weeks** (including collection).
 
 ---
 
-## 🗺️ Mapa do que você vai fazer
+## 🗺️ Map of what you will do
 
 ```mermaid
 flowchart TD
-    Start([📦 Abriu o kit]) --> Setup[🔧 Partes 1-2<br/>Setup + abrir pasta]
-    Setup --> Demo{Testar com<br/>exemplo primeiro?}
-    Demo -- sim --> Demo1[🧪 Parte 3<br/>Smoke test com<br/>respostas.json.example]
-    Demo -- não --> Choice
-    Demo1 --> Choice{Qual fluxo<br/>rodar?}
-    Choice -- "🅰️" --> A[Assessment principal<br/>158 perguntas L0-L4<br/>Partes 4-6]
-    Choice -- "🅱️" --> B[Developer Survey<br/>75 perguntas anônimo<br/>Parte 9]
-    Choice -- "🅲" --> C[Learning Survey<br/>32 perguntas identificado<br/>Parte 10]
-    Choice -- "🅳 ★" --> D[OS 3 SURVEYS<br/>pacote completo<br/>Parte 11]
-    A --> Out1[📄 5 PDFs executivos]
-    B --> Out2[📊 Insights + maturidade rubrica]
-    C --> Out3[🎓 Plano de capacitação]
-    D --> Out4[📦 Tudo + cross-validation]
+    Start([📦 Opened the kit]) --> Setup[🔧 Parts 1-2<br/>Setup + open folder]
+    Setup --> Demo{Test with the<br/>example first?}
+    Demo -- yes --> Demo1[🧪 Part 3<br/>Smoke test with<br/>respostas.json.example]
+    Demo -- no --> Choice
+    Demo1 --> Choice{Which flow<br/>to run?}
+    Choice -- "🅰️" --> A[Main assessment<br/>158 questions L0-L4<br/>Parts 4-6]
+    Choice -- "🅱️" --> B[Developer Survey<br/>75 questions anonymous<br/>Part 9]
+    Choice -- "🅲" --> C[Learning Survey<br/>32 questions identified<br/>Part 10]
+    Choice -- "🅳 ★" --> D[ALL 3 SURVEYS<br/>complete package<br/>Part 11]
+    A --> Out1[📄 5 executive PDFs]
+    B --> Out2[📊 Insights + rubric maturity]
+    C --> Out3[🎓 Capacitation plan]
+    D --> Out4[📦 Everything + cross-validation]
     style Start fill:#FFB900,stroke:#333,color:#000
     style D fill:#7FBA00,stroke:#333,color:#000
     style Out1 fill:#00A4EF,stroke:#333,color:#fff
@@ -35,729 +37,731 @@ flowchart TD
 ```
 
 > [!TIP]
-> **Como invocar qualquer fluxo:** abra Copilot Chat e digite `@ai-maturity-assistant` (modo guiado, recomendado para a primeira vez) ou `/pipeline-completo` (direto ao ponto).
+> **How to invoke any flow:** open Copilot Chat and type `@ai-maturity-assistant` (guided mode, recommended the first time) or `/pipeline-completo` (straight to the point).
 
-### Detalhamento textual
+### Text breakdown
 
 ```
-[ Partes 1-2: Setup + abrir pasta ]
+[ Parts 1-2: Setup + open folder ]
             ↓
-[ Parte 3 (opcional): Testar com dados de exemplo ]   ← recomendado na 1ª vez
+[ Part 3 (optional): Test with example data ]   ← recommended the 1st time
             ↓
         ┌─────────────────────────────────────────────────────────┐
-        │  ESCOLHA QUAL FLUXO RODAR:                              │
+        │  CHOOSE WHICH FLOW TO RUN:                              │
         │                                                          │
-        │  🅰️ Assessment principal apenas (Partes 4-6)            │
-        │     → 158 perguntas L0-L4, gera 5 PDFs executivos       │
-        │     → Tempo: 60-90 min coletar + 5 min gerar            │
+        │  🅰️ Main assessment only (Parts 4-6)                    │
+        │     → 158 questions L0-L4, generates 5 executive PDFs   │
+        │     → Time: 60-90 min to collect + 5 min to generate    │
         │                                                          │
-        │  🅱️ Developer Survey apenas (Parte 9)                   │
-        │     → 75 perguntas anônimas, comportamento + maturidade │
-        │     → Tempo: 22-28 min/dev                              │
+        │  🅱️ Developer Survey only (Part 9)                      │
+        │     → 75 anonymous questions, behavior + maturity       │
+        │     → Time: 22-28 min/dev                               │
         │                                                          │
-        │  🅲 Learning & Growth Survey apenas (Parte 10)          │
-        │     → 32 perguntas identificadas, plano de capacitação  │
-        │     → Tempo: 5-8 min/dev                                │
+        │  🅲 Learning & Growth Survey only (Part 10)             │
+        │     → 32 identified questions, capacitation plan        │
+        │     → Time: 5-8 min/dev                                 │
         │                                                          │
-        │  🅳 OS TRÊS — pacote completo (Parte 11) ★              │
-        │     → Visão 360° + cross-validation + plano com nomes   │
-        │     → Tempo: ~6 semanas (incluindo coleta)              │
+        │  🅳 ALL THREE: complete package (Part 11) ★              │
+        │     → 360° view + cross-validation + plan with names    │
+        │     → Time: about 6 weeks (including collection)        │
         │                                                          │
-        │  COMO INVOCAR (qualquer um dos 4):                      │
-        │  • 🤖 Modo guiado: @ai-maturity-assistant               │
-        │       (concierge oferece os 4 caminhos)                 │
-        │  • 🚀 Modo direto: /pipeline-completo (só A)            │
-        │       ou skills individuais (qualquer fluxo)            │
+        │  HOW TO INVOKE (any of the 4):                          │
+        │  • 🤖 Guided mode: @ai-maturity-assistant               │
+        │       (the concierge offers the 4 paths)                │
+        │  • 🚀 Direct mode: /pipeline-completo (A only)          │
+        │       or individual skills (any flow)                   │
         └─────────────────────────────────────────────────────────┘
             ↓
-[ Parte 7B: Wizard com Mode D auto-fill (se rodou Learning Survey) ]
+[ Part 7B: Wizard with Mode D auto-fill (if you ran the Learning Survey) ]
             ↓
-[ Abrir os 5 PDFs + JSONs gerados em saida/ ]
+[ Open the 5 PDFs + JSONs generated in saida/ ]
 ```
 
-> 💡 **Nova aqui? Use o concierge.** Digite `@ai-maturity-assistant` no Copilot Chat (modo Agent) e ele vai te perguntar onde você está no processo, oferecer botões clicáveis para o próximo passo, e te avisar quando algo precisa atenção. Não precisa lembrar nenhum comando.
+> 💡 **New here? Use the concierge.** Type `@ai-maturity-assistant` in Copilot Chat (Agent mode) and it will ask where you are in the process, offer clickable buttons for the next step, and warn you when something needs attention. You don't need to remember any command.
 
 ---
 
-## 📦 Parte 1 — Setup (uma vez)
+## 📦 Part 1: Setup (once)
 
-### 1.1 Instalar VS Code
+### 1.1 Install VS Code
 
-| Sistema | Como instalar |
+| System | How to install |
 |---|---|
-| **macOS** | https://code.visualstudio.com/Download → baixar `.zip` → arrastar para Applications |
-| **Windows** | https://code.visualstudio.com/Download → baixar `.exe` → Next, Next, Finish |
-| **Linux (Ubuntu/Debian)** | `sudo snap install code --classic` ou `.deb` do site |
+| **macOS** | https://code.visualstudio.com/Download → download the `.zip` → drag to Applications |
+| **Windows** | https://code.visualstudio.com/Download → download the `.exe` → Next, Next, Finish |
+| **Linux (Ubuntu/Debian)** | `sudo snap install code --classic` or the `.deb` from the site |
 
-**Confirme que funcionou:**
+**Confirm it worked:**
 ```bash
 code --version
 ```
-Se aparecer algo como `1.95.0`, está OK.
+If you see something like `1.95.0`, you are good.
 
-### 1.2 Instalar Python 3.10 ou superior
+### 1.2 Install Python 3.10 or later
 
-| Sistema | Como instalar |
+| System | How to install |
 |---|---|
-| **macOS** | Geralmente já vem. Se não: `brew install python@3.12` |
-| **Windows** | https://www.python.org/downloads/ → marcar "Add Python to PATH" durante instalação |
+| **macOS** | Usually already installed. If not: `brew install python@3.12` |
+| **Windows** | https://www.python.org/downloads/ → check "Add Python to PATH" during installation |
 | **Linux** | `sudo apt install python3 python3-pip` |
 
-**Confirme:**
+**Confirm:**
 ```bash
 python3 --version
-# Deve mostrar Python 3.10.x ou superior
+# Should show Python 3.10.x or later
 ```
 
-### 1.3 Instalar 3 bibliotecas Python (necessárias para gerar planilha + 5 PDFs)
+### 1.3 Install 3 Python libraries (needed to generate the spreadsheet + 5 PDFs)
 
 ```bash
 python3 -m pip install --user --break-system-packages openpyxl jinja2 weasyprint
 ```
 
-| Biblioteca | Para que serve |
+| Library | What it is for |
 |---|---|
-| `openpyxl` | Preencher a planilha auditável `.xlsx` (skill `/preencher-planilha`) |
-| `jinja2` | Engine de templates dos 5 PDFs (skill `/gerar-relatorio`) |
-| `weasyprint` | HTML+CSS → PDF de qualidade (skill `/gerar-relatorio`) |
+| `openpyxl` | Fill in the auditable `.xlsx` spreadsheet (skill `/preencher-planilha`) |
+| `jinja2` | Template engine for the 5 PDFs (skill `/gerar-relatorio`) |
+| `weasyprint` | HTML+CSS → high-quality PDF (skill `/gerar-relatorio`) |
 
-**Confirme:**
+**Confirm:**
 ```bash
-python3 -c "import openpyxl, jinja2, weasyprint; print('✓ Todas as 3 libs OK')"
+python3 -c "import openpyxl, jinja2, weasyprint; print('✓ All 3 libs OK')"
 ```
 
-**Mac apenas — dependências de sistema do WeasyPrint:**
+**Mac only: WeasyPrint system dependencies:**
 ```bash
 brew install cairo pango gdk-pixbuf libffi
 ```
-(Se você ver erro "library 'libgobject-2.0-0' not found" ao rodar `/gerar-relatorio`, você esqueceu este passo.)
+(If you see the error "library 'libgobject-2.0-0' not found" when running `/gerar-relatorio`, you skipped this step.)
 
-### 1.4 Instalar a extensão GitHub Copilot Chat no VS Code
+### 1.4 Install the GitHub Copilot Chat extension in VS Code
 
-1. Abra o VS Code
-2. Ícone de **Extensions** na barra lateral (ou `Cmd+Shift+X` / `Ctrl+Shift+X`)
-3. Buscar: **GitHub Copilot Chat**
-4. Clicar **Install** (vai instalar Copilot + Copilot Chat juntos)
-5. Quando pedir login, fazer com sua conta GitHub que tem **Copilot Pro / Business / Enterprise**
+1. Open VS Code
+2. **Extensions** icon in the sidebar (or `Cmd+Shift+X` / `Ctrl+Shift+X`)
+3. Search: **GitHub Copilot Chat**
+4. Click **Install** (it installs Copilot + Copilot Chat together)
+5. When prompted to sign in, use your GitHub account that has **Copilot Pro / Business / Enterprise**
 
-**Como saber se está logado e ativo?** Olhe o ícone do Copilot no canto inferior direito do VS Code — deve estar **azul aceso**, não cinza.
+**How do you know you are signed in and active?** Look at the Copilot icon in the lower-right corner of VS Code: it should be **lit blue**, not gray.
 
-### 1.5 ⚠️ CRÍTICO — Trocar para modo "Agent"
+### 1.5 ⚠️ CRITICAL: Switch to "Agent" mode
 
-Sem isso, o agente concierge (`@ai-maturity-assistant`) e as 7 skills custom **NÃO aparecem** no chat.
+Without this, the concierge agent (`@ai-maturity-assistant`) and the 7 custom skills **DO NOT appear** in the chat.
 
-1. Abra o Copilot Chat (`Cmd+Shift+I` / `Ctrl+Shift+I`)
-2. No painel do chat, procure o **dropdown de modo** (geralmente no topo do chat, mostrando "Ask")
-3. Mude para **Agent**
+1. Open Copilot Chat (`Cmd+Shift+I` / `Ctrl+Shift+I`)
+2. In the chat panel, look for the **mode dropdown** (usually at the top of the chat, showing "Ask")
+3. Change it to **Agent**
 
-> 🔍 **Como verificar:** com o cursor no chat, digite `@` — deve aparecer `@ai-maturity-assistant` no dropdown. Se aparecer só `@workspace`, ainda está em modo Ask. Digite `/` — deve listar `/pipeline-completo`, `/calcular-scores`, etc.
+> 🔍 **How to check:** with the cursor in the chat, type `@`: `@ai-maturity-assistant` should appear in the dropdown. If only `@workspace` shows up, you are still in Ask mode. Type `/`: it should list `/pipeline-completo`, `/calcular-scores`, etc.
 
 ### ✅ Checkpoint 1
-Se chegou aqui sem erro, está pronto para usar o kit. Se travou em algum passo:
-- VS Code não instala? Tente baixar o `.zip`/`.exe` direto do site
-- `pip install` dá erro de permissão? Use `pip install --user openpyxl`
-- Copilot pede pagamento? Sua conta corporativa pode não ter o plano — fale com TI
+If you got here without errors, you are ready to use the kit. If you got stuck on a step:
+- VS Code won't install? Try downloading the `.zip`/`.exe` straight from the site
+- `pip install` gives a permission error? Use `pip install --user openpyxl`
+- Copilot asks for payment? Your corporate account may not have the plan; talk to IT
 
 ---
 
-## 📂 Parte 2 — Abrir a pasta certa
+## 📂 Part 2: Open the right folder
 
-> ⚠️ **Importante:** o Copilot só detecta as skills custom (`.github/skills/`) se a pasta do kit for o **workspace root**. Não abra o repositório inteiro.
+> ⚠️ **Important:** Copilot only detects the custom skills (`.github/skills/`) if the kit folder is the **workspace root**. Do not open the whole repository.
 
-### 2.1 Abrir só o `kit-cliente/`
+### 2.1 Open only `kit-cliente/`
 
-**Pelo terminal:**
+**From the terminal:**
 ```bash
 cd caminho/para/kit-cliente
 code .
 ```
 
-**Ou pelo VS Code:**
+**Or from VS Code:**
 1. Menu **File → Open Folder**
-2. Selecione **só** a pasta `kit-cliente/`
-3. Clique **Open**
+2. Select **only** the `kit-cliente/` folder
+3. Click **Open**
 
-### 2.2 Forçar o Copilot a recarregar (importante!)
+### 2.2 Force Copilot to reload (important!)
 
-Depois de abrir, faça Reload Window:
-1. Pressione **Cmd+Shift+P** (Mac) / **Ctrl+Shift+P** (Win/Linux)
-2. Digite: **Developer: Reload Window**
+After opening, run Reload Window:
+1. Press **Cmd+Shift+P** (Mac) / **Ctrl+Shift+P** (Win/Linux)
+2. Type: **Developer: Reload Window**
 3. Enter
 
-Isso garante que o Copilot leia o `.github/copilot-instructions.md` e detecte as skills.
+This ensures Copilot reads `.github/copilot-instructions.md` and detects the skills.
 
 ### ✅ Checkpoint 2
-Verifique 3 coisas:
-- [ ] Na sidebar (Explorer), você vê: `README.md`, `respostas.json`, `framework.json`, pastas `formularios/`, `referencia/`, `saida/`, `.github/`
-- [ ] Clicando na pasta `.github/skills/`, você vê 12 subpastas de skills (assessment, wizard, survey-devs e survey-learning)
-- [ ] O ícone do Copilot no canto inferior direito está azul/ativo
+Check 3 things:
+- [ ] In the sidebar (Explorer), you see: `README.md`, `respostas.json`, `framework.json`, folders `formularios/`, `referencia/`, `saida/`, `.github/`
+- [ ] Clicking the `.github/skills/` folder, you see 12 skill subfolders (assessment, wizard, survey-devs, and survey-learning)
+- [ ] The Copilot icon in the lower-right corner is blue/active
 
-Se algo está errado, provavelmente você abriu a pasta errada. Volte para 2.1.
+If something is wrong, you probably opened the wrong folder. Go back to 2.1.
 
 ---
 
-## 🧪 Parte 3 — Primeira execução com dados de exemplo (RECOMENDADO)
+## 🧪 Part 3: First run with example data (RECOMMENDED)
 
-> Antes de digitar suas próprias respostas (que são muitas — 158!), faça um **teste rápido** com dados pré-preenchidos. Isso te mostra o que esperar e valida que tudo está funcionando.
+> Before typing your own answers (there are a lot of them: 158!), run a **quick test** with pre-filled data. This shows you what to expect and validates that everything is working.
 
-### 3.1 Usar o `respostas.json.example`
+### 3.1 Use `respostas.json.example`
 
-A pasta vem com **`respostas.json.example`** — um arquivo com **46 respostas mockadas** simulando uma "Cliente Exemplo S.A." com perfil realista (forte em Copilot, fraco em DevSecOps e Agênticos).
+The folder ships with **`respostas.json.example`**: a file with **46 mocked answers** simulating a "Cliente Exemplo S.A." with a realistic profile (strong in Copilot, weak in DevSecOps and Agentic apps).
 
-**Copie o exemplo para `respostas.json`:**
+**Copy the example to `respostas.json`:**
 
-No terminal (dentro da pasta `kit-cliente/`):
+In the terminal (inside the `kit-cliente/` folder):
 ```bash
-cp respostas.json respostas.json.template     # backup do template vazio
-cp respostas.json.example respostas.json      # usar o mockado
+cp respostas.json respostas.json.template     # backup of the empty template
+cp respostas.json.example respostas.json      # use the mocked one
 ```
 
-**Ou pelo VS Code:**
-1. Clique direito em `respostas.json` na sidebar → **Rename** → renomeie para `respostas.json.template`
-2. Clique direito em `respostas.json.example` → **Rename** → renomeie para `respostas.json`
+**Or from VS Code:**
+1. Right-click `respostas.json` in the sidebar → **Rename** → rename it to `respostas.json.template`
+2. Right-click `respostas.json.example` → **Rename** → rename it to `respostas.json`
 
-### 3.2 Abrir o Copilot Chat em modo Agent
+### 3.2 Open Copilot Chat in Agent mode
 
-1. Pressione **Cmd+Shift+I** (Mac) / **Ctrl+Shift+I** (Win/Linux) — abre o painel de chat do Copilot na lateral
-2. No **dropdown no topo do chat** (ou bottom — depende da versão do VS Code), selecione **Agent** (não Ask, não Edit)
+1. Press **Cmd+Shift+I** (Mac) / **Ctrl+Shift+I** (Win/Linux): this opens the Copilot chat panel on the side
+2. In the **dropdown at the top of the chat** (or bottom, depending on your VS Code version), select **Agent** (not Ask, not Edit)
 
-> **Como saber se está em modo Agent?** Aparece a palavra "Agent" no topo do chat. Se aparecer "Ask", troque.
+> **How do you know you are in Agent mode?** The word "Agent" appears at the top of the chat. If it says "Ask", switch it.
 
-### 3.3 Rodar o pipeline completo
+### 3.3 Run the complete pipeline
 
-No campo de chat, digite:
+In the chat field, type:
 
 ```
 /pipeline-completo
 ```
 
-Pressione Enter.
+Press Enter.
 
-**O que vai acontecer:**
-1. O Copilot vai validar `respostas.json` (~10 segundos)
-2. Vai invocar 5 skills em sequência (~2–4 minutos no total)
-3. Vai te mostrar progresso a cada passo no chat
-4. Ao final, vai listar os 6 arquivos gerados na pasta `saida/`
+**What will happen:**
+1. Copilot validates `respostas.json` (about 10 seconds)
+2. It invokes 5 skills in sequence (about 2 to 4 minutes in total)
+3. It shows progress at each step in the chat
+4. At the end, it lists the 6 files generated in the `saida/` folder
 
-> 💡 **Permissões:** o Copilot Agent vai pedir permissão para **rodar comandos de terminal** (Python) e **escrever arquivos**. Aprove cada um (ou clique "Always allow" para esta sessão).
+> 💡 **Permissions:** Copilot Agent will ask for permission to **run terminal commands** (Python) and **write files**. Approve each one (or click "Always allow" for this session).
 
 ### ✅ Checkpoint 3
-Se tudo deu certo, você verá no chat algo como:
+If everything went well, you will see something like this in the chat:
 
 ```
-🎯 Pipeline completo — AI Maturity Assessment
+🎯 Complete pipeline: AI Maturity Assessment
 
-📂 Arquivos gerados em saida/:
+📂 Files generated in saida/:
    ✓ pontuacao-preenchida-2026-05-08.xlsx
    ✓ scores.json
    ✓ gaps.json
    ✓ recomendacoes.json
-   ✓ payload.json                          (merged data — debug/customization)
+   ✓ payload.json                          (merged data, debug/customization)
    ✓ score_justification.pdf                (~330 KB)
    ✓ roadmap_part_pillar_p1.pdf             (~410 KB)
    ✓ roadmap_part_pillar_p2.pdf             (~410 KB)
    ✓ roadmap_part_pillar_p3.pdf             (~410 KB)
    ✓ roadmap_part4.pdf                      (~510 KB)
 
-📊 Resumo:
-   Overall:     1.99 (L2 — Definido)
+📊 Summary:
+   Overall:     1.99 (L2 Defined)
    Threshold:   OK (46/158)
    Pillars:     P1=2.69 L3 · P2=1.52 L2 · P3=1.92 L2
-   Gaps top:    3 P0, 0 P1, 1 P2, 6 P3
-   Estratégias: S7, S6, S5 (top 3)
+   Top gaps:    3 P0, 0 P1, 1 P2, 6 P3
+   Strategies:  S7, S6, S5 (top 3)
 ```
 
-> Se os números estiverem **próximos disso** (overall ~1.99, top estratégia S7), o algoritmo funcionou perfeitamente. Pequenas variações são normais.
+> If the numbers are **close to these** (overall ~1.99, top strategy S7), the algorithm worked correctly. Small variations are normal.
 
-### 3.4 Abrir os arquivos gerados
+### 3.4 Open the generated files
 
-| Arquivo | Como abrir | O que olhar |
+| File | How to open | What to look at |
 |---|---|---|
-| `saida/pontuacao-preenchida-*.xlsx` | Excel / Numbers / Sheets | Aba "Exemplo P1/P2/P3" — níveis preenchidos, fórmulas SUMPRODUCT calculando ao vivo |
-| `saida/scores.json` | VS Code | Estrutura completa: overall, pillars, capabilities |
-| `saida/gaps.json` | VS Code | Gaps ordenados por prioridade (top 3 são P0) |
-| `saida/recomendacoes.json` | VS Code | 6 estratégias com tecnologias e ações |
-| `saida/score_justification.pdf` | Preview de PDF | Justificativa executiva + PE Readiness |
-| `saida/roadmap_part_pillar_p{1,2,3}.pdf` | Preview de PDF | Roadmap detalhado por pilar (P1/P2/P3) |
-| `saida/roadmap_part4.pdf` | Preview de PDF | Implementation Guide consolidado (Steering Committee, RACI, ADKAR, Quick Wins) |
-| `saida/payload.json` | VS Code | Dados consolidados que alimentaram os PDFs (edite + re-renderize para customizar narrativa) |
+| `saida/pontuacao-preenchida-*.xlsx` | Excel / Numbers / Sheets | "Exemplo P1/P2/P3" tab: filled-in levels, SUMPRODUCT formulas calculating live |
+| `saida/scores.json` | VS Code | Full structure: overall, pillars, capabilities |
+| `saida/gaps.json` | VS Code | Gaps sorted by priority (top 3 are P0) |
+| `saida/recomendacoes.json` | VS Code | 6 strategies with technologies and actions |
+| `saida/score_justification.pdf` | PDF viewer | Executive justification + PE Readiness |
+| `saida/roadmap_part_pillar_p{1,2,3}.pdf` | PDF viewer | Detailed roadmap per pillar (P1/P2/P3) |
+| `saida/roadmap_part4.pdf` | PDF viewer | Consolidated Implementation Guide (Steering Committee, RACI, ADKAR, Quick Wins) |
+| `saida/payload.json` | VS Code | Consolidated data that fed the PDFs (edit + re-render to customize the narrative) |
 
-### 3.5 Restaurar o template para o uso real
+### 3.5 Restore the template for real use
 
-Quando terminar de explorar o exemplo:
+When you finish exploring the example:
 ```bash
-mv respostas.json respostas.json.exemplo-usado    # guarda o exemplo usado
-mv respostas.json.template respostas.json         # volta o template vazio
-rm -rf saida/*                                     # limpa o output do teste
+mv respostas.json respostas.json.exemplo-usado    # keep the used example
+mv respostas.json.template respostas.json         # restore the empty template
+rm -rf saida/*                                     # clean the test output
 ```
 
 ---
 
-## ✏️ Parte 4 — Preenchendo suas respostas reais
+## ✏️ Part 4: Filling in your real answers
 
-### 4.1 Entendendo a estrutura
+### 4.1 Understanding the structure
 
-Abra `respostas.json`. Você vai ver:
+Open `respostas.json`. You will see:
 
 ```jsonc
 {
-  "metadata": { ... },              // 1. Quem está respondendo
-  "target_overrides": { ... },      // 2. Targets customizados (opcional)
-  "responses": {                    // 3. As 158 respostas
+  "metadata": { ... },              // 1. Who is answering
+  "target_overrides": { ... },      // 2. Custom targets (optional)
+  "responses": {                    // 3. The 158 answers
     "P1-C1-Q1": {
-      "level": null,                //   ← 0=L0, 1=L1, ..., 4=L4, null=não respondida
-      "evidence": "",               //   ← texto livre com prova
-      "text_pt_br": "..."           //   ← pergunta (não editar — só leitura)
+      "level": null,                //   ← 0=L0, 1=L1, ..., 4=L4, null=not answered
+      "evidence": "",               //   ← free text with proof
+      "text_pt_br": "..."           //   ← question (do not edit, read only)
     },
     ...
   }
 }
 ```
 
-### 4.2 Preencher metadata (5 minutos)
+### 4.2 Fill in metadata (5 minutes)
 
 ```jsonc
 "metadata": {
-  "respondent_name": "Seu nome",
-  "respondent_email": "voce@empresa.com",
-  "respondent_role": "Engineering Manager",  // ou: Tech Lead, Diretor, etc.
-  "audience": ["all"],                       // ou específico: ["developer", "sre"]
-  "organization": "Sua Empresa",
+  "respondent_name": "Your name",
+  "respondent_email": "you@company.com",
+  "respondent_role": "Engineering Manager",  // or: Tech Lead, Director, etc.
+  "audience": ["all"],                       // or specific: ["developer", "sre"]
+  "organization": "Your Company",
   "assessment_date": "2026-05-08",
-  "language": "pt-BR"
+  "language": "en"                           // default English; "pt-BR" or "es" for other languages
 }
 ```
 
-### 4.3 (Opcional) Definir targets customizados
+> 🌐 **Output language:** generated reports, logs, and agent messages default to **English**. To get them in Portuguese (Brazil) or Spanish, set `metadata.language` to `"pt-BR"` or `"es"`.
 
-Por default, o sistema usa **target = 3.0 (L3)** para todas as capabilities. Se você quer **mirar L4 em alguma área específica** (ou L2 se for área de baixa prioridade):
+### 4.3 (Optional) Define custom targets
+
+By default, the system uses **target = 3.0 (L3)** for all capabilities. If you want to **aim for L4 in a specific area** (or L2 for a low-priority area):
 
 ```jsonc
 "target_overrides": {
-  "P3-C5": 4.0,   // Aplicações Agênticas — ambicionar L4
-  "P2-C4": 3.5,   // DevSecOps — ambicionar L3+
-  "P1-C8": 2.0    // Métricas DevEx — L2 está bom para nós
+  "P3-C5": 4.0,   // Agentic Applications: aim for L4
+  "P2-C4": 3.5,   // DevSecOps: aim for L3+
+  "P1-C8": 2.0    // DevEx Metrics: L2 is good enough for us
 }
 ```
 
-> 💡 Os IDs das capabilities estão em `framework.json` ou nos `referencia/P*.md`. Use o que faz sentido para sua estratégia.
+> 💡 The capability IDs are in `framework.json` or in `referencia/P*.md`. Use whatever makes sense for your strategy.
 
-### 4.4 Preencher cada resposta — fluxo recomendado
+### 4.4 Fill in each answer: recommended flow
 
-**Não tente preencher tudo de uma vez.** Vá em sessões de 30 minutos, capability por capability.
+**Don't try to fill in everything at once.** Work in 30-minute sessions, capability by capability.
 
-**Para cada questão:**
+**For each question:**
 
-1. **Leia a pergunta** (campo `text_pt_br`).
-2. **Consulte o documento de referência** se tiver dúvida sobre o que cada nível significa:
+1. **Read the question** (field `text_pt_br`).
+2. **Check the reference document** if you are unsure what each level means:
    - [`referencia/P1-produtividade-do-desenvolvedor.md`](referencia/P1-produtividade-do-desenvolvedor.md)
    - [`referencia/P2-ciclo-de-vida-devops.md`](referencia/P2-ciclo-de-vida-devops.md)
    - [`referencia/P3-plataforma-de-aplicações.md`](referencia/P3-plataforma-de-aplicações.md)
    
-   Cada documento tem para cada questão: KPI, contexto (o que mede / por que importa), e descrição completa de cada nível L0-L4 com evidências esperadas.
+   For each question, every document has: KPI, context (what it measures / why it matters), and a full description of each level L0-L4 with expected evidence.
 
-3. **Selecione o nível** que melhor descreve **a realidade hoje** (não a aspiracional!):
-   - **L0 (0)** — Sem prática estabelecida
-   - **L1 (1)** — Pilotos isolados (<25% cobertura)
-   - **L2 (2)** — Definido (25–50%)
-   - **L3 (3)** — Gerenciado (>75%, com métricas)
-   - **L4 (4)** — Otimizando (>95%, automação contínua)
-   - **null** — Você não sabe / não se aplica → o sistema **ignora sem penalizar**
+3. **Select the level** that best describes **reality today** (not the aspiration!):
+   - **L0 (0)**: No established practice
+   - **L1 (1)**: Isolated pilots (<25% coverage)
+   - **L2 (2)**: Defined (25-50%)
+   - **L3 (3)**: Managed (>75%, with metrics)
+   - **L4 (4)**: Optimizing (>95%, continuous automation)
+   - **null**: You don't know / not applicable → the system **ignores it without penalty**
 
-4. **Escreva uma evidência** (campo `evidence`):
-   - **Mínima** (<80 chars): "Usamos Copilot." → fraco
-   - **Adequada** (80–250): "Copilot Enterprise para 80% dos devs com governança via GHAS."
-   - **Detalhada** (250–500): "Copilot Enterprise rollout completo em 80% dos devs Q1/2026; métricas DORA mostram +18% na lead time; biblioteca de prompts compartilhada no SharePoint corporativo."
-   - **Exemplar** (>500): adicione comparativos antes/depois, links, períodos.
+4. **Write evidence** (field `evidence`):
+   - **Minimal** (<80 chars): "We use Copilot." → weak
+   - **Adequate** (80-250): "Copilot Enterprise for 80% of devs with governance via GHAS."
+   - **Detailed** (250-500): "Copilot Enterprise fully rolled out to 80% of devs in Q1/2026; DORA metrics show +18% in lead time; shared prompt library on the corporate SharePoint."
+   - **Exemplary** (>500): add before/after comparisons, links, periods.
 
-### 4.5 Quanto preencher antes de rodar?
+### 4.5 How much to fill in before running?
 
-| Respondidas | Status | O que muda |
+| Answered | Status | What changes |
 |---|---|---|
-| 0–24 | 🔴 BLOCKED | Sistema recusa scoring (cobertura insuficiente) |
-| 25–39 | 🟡 WARNING | Scoring calculado, mas marcado "preliminar" |
-| ≥ 40 | 🟢 OK | Scoring confiável |
-| 158 | 💯 Completo | Todas as capabilities têm score |
+| 0-24 | 🔴 BLOCKED | System refuses scoring (insufficient coverage) |
+| 25-39 | 🟡 WARNING | Scoring calculated, but marked "preliminary" |
+| ≥ 40 | 🟢 OK | Reliable scoring |
+| 158 | 💯 Complete | Every capability has a score |
 
-**Recomendado:** **mínimo 60 respostas distribuídas pelos 3 pillars** para um relatório útil. Você pode rodar `/pipeline-completo` várias vezes ao longo do preenchimento (cada execução sobrescreve `saida/`).
+**Recommended:** **at least 60 answers spread across the 3 pillars** for a useful report. You can run `/pipeline-completo` several times while filling in (each run overwrites `saida/`).
 
-### 4.6 Validar o JSON antes de rodar
+### 4.6 Validate the JSON before running
 
-Erros de JSON (vírgula a mais, aspas faltando) quebram tudo. Valide:
+JSON errors (extra comma, missing quotes) break everything. Validate:
 
 ```bash
-python3 -m json.tool respostas.json > /dev/null && echo "JSON válido" || echo "JSON inválido — corrija"
+python3 -m json.tool respostas.json > /dev/null && echo "Valid JSON" || echo "Invalid JSON: fix it"
 ```
 
-Ou no VS Code: se houver erro, aparece um sublinhado vermelho na linha problemática.
+Or in VS Code: if there is an error, a red underline appears on the problematic line.
 
 ### ✅ Checkpoint 4
-Antes de rodar o pipeline real:
-- [ ] Metadata preenchida com seus dados
-- [ ] Pelo menos 40 respostas com `level != null`
-- [ ] JSON valida sem erros
-- [ ] Pasta `saida/` está vazia (ou você não se importa de sobrescrever)
+Before running the real pipeline:
+- [ ] Metadata filled in with your data
+- [ ] At least 40 answers with `level != null`
+- [ ] JSON validates without errors
+- [ ] The `saida/` folder is empty (or you don't mind overwriting it)
 
 ---
 
-## 🎬 Parte 5 — Rodando o pipeline real
+## 🎬 Part 5: Running the real pipeline
 
-Você tem **3 caminhos** para rodar — escolha o que combina mais com seu nível de familiaridade.
+You have **3 paths** to run it; pick the one that best matches your familiarity level.
 
-### 5.1 Caminho A — Concierge guiado (recomendado para 1ª vez) 🤖
+### 5.1 Path A: Guided concierge (recommended the 1st time) 🤖
 
-No Copilot Chat (modo Agent):
+In Copilot Chat (Agent mode):
 ```
 @ai-maturity-assistant
 ```
 
-O agente:
-1. Faz uma saudação em PT-BR
-2. **Lê o estado do seu workspace** (que arquivos existem) e descobre onde você está no funil
-3. Pergunta o mínimo necessário (idioma, se já preencheu respostas, etc.)
-4. Invoca a skill certa **com botões clicáveis** ("Sim, rodar /calcular-scores")
-5. Após cada passo, mostra o resultado e oferece o próximo
-6. Te avisa quando algo precisa atenção (ex.: "Threshold abaixo de 25, quer prosseguir mesmo assim?")
+The agent:
+1. Greets you (in English by default, or in PT-BR/ES according to `metadata.language`)
+2. **Reads the state of your workspace** (which files exist) and figures out where you are in the funnel
+3. Asks the bare minimum (language, whether you already filled in answers, etc.)
+4. Invokes the right skill **with clickable buttons** ("Yes, run /calcular-scores")
+5. After each step, shows the result and offers the next one
+6. Warns you when something needs attention (e.g., "Threshold below 25, do you want to proceed anyway?")
 
-> 💡 **Vantagem:** você não precisa lembrar nenhum comando. Se errar, ele te corrige.
+> 💡 **Advantage:** you don't need to remember any command. If you make a mistake, it corrects you.
 
-### 5.2 Caminho B — Comando único (você sabe o que faz) 🚀
+### 5.2 Path B: Single command (you know what you are doing) 🚀
 
 ```
 /pipeline-completo
 ```
 
-Roda as 6 skills em sequência (auto-detecta `respostas-forms.xlsx` se existir e oferece o wizard de implementação antes do gerar-relatorio).
+Runs the 6 skills in sequence (auto-detects `respostas-forms.xlsx` if it exists and offers the implementation wizard before gerar-relatorio).
 
-### 5.3 Caminho C — Comandos individuais (controle granular) 🔧
+### 5.3 Path C: Individual commands (granular control) 🔧
 
-Se preferir rodar passo a passo (ou refazer só uma parte):
+If you prefer to run step by step (or redo only one part):
 
 ```
-/importar-respostas-excel    ← (opcional) Excel do Forms → respostas.json
-/preencher-planilha          ← copia template e preenche níveis no .xlsx
-/calcular-scores             ← gera saida/scores.json
-/gap-analysis                ← gera saida/gaps.json
-/recomendar-estrategias      ← gera saida/recomendacoes.json
-/wizard-implementacao        ← (opcional) personaliza Parte 4
-/gerar-relatorio             ← gera 5 PDFs production-quality
+/importar-respostas-excel    ← (optional) Forms Excel → respostas.json
+/preencher-planilha          ← copies the template and fills in levels in the .xlsx
+/calcular-scores             ← generates saida/scores.json
+/gap-analysis                ← generates saida/gaps.json
+/recomendar-estrategias      ← generates saida/recomendacoes.json
+/wizard-implementacao        ← (optional) customizes Part 4
+/gerar-relatorio             ← generates 5 production-quality PDFs
 ```
 
-A ordem importa (cada um depende do anterior).
+The order matters (each one depends on the previous one).
 
-### 5.4 Iterando
+### 5.4 Iterating
 
-Mudou alguma resposta? Mudou um target? Basta:
-- **Caminho A (concierge):** `@ai-maturity-assistant` — ele detecta o estado novo e refaz o que mudou
-- **Caminho B (direto):** `/pipeline-completo` — roda tudo de novo, arquivos em `saida/` são sobrescritos
-- **Caminho C (cirúrgico):** rode só a skill afetada (ex.: editou `target_overrides`? só rode `/gap-analysis` em diante)
+Changed an answer? Changed a target? Just:
+- **Path A (concierge):** `@ai-maturity-assistant`: it detects the new state and redoes what changed
+- **Path B (direct):** `/pipeline-completo`: runs everything again, files in `saida/` are overwritten
+- **Path C (surgical):** run only the affected skill (e.g., edited `target_overrides`? run only `/gap-analysis` onward)
 
 ---
 
-## 📊 Parte 6 — Lendo os resultados
+## 📊 Part 6: Reading the results
 
-Após `/gerar-relatorio` (ou conclusão do `@ai-maturity-assistant`), você terá **6 outputs principais** em `saida/`:
+After `/gerar-relatorio` (or when `@ai-maturity-assistant` finishes), you will have **6 main outputs** in `saida/`:
 
-### 6.1 Os 5 PDFs production-quality (entregáveis para liderança)
+### 6.1 The 5 production-quality PDFs (deliverables for leadership)
 
-Estes são **idênticos** aos PDFs que a plataforma web vai gerar quando ficar pronta — branding limpo, gráficos, tabelas profissionais:
+These are **identical** to the PDFs the web platform will generate once it is ready: clean branding, charts, professional tables:
 
-| PDF | Tamanho | O que contém |
+| PDF | Size | What it contains |
 |---|---|---|
-| **`score_justification.pdf`** | ~330 KB | Justificativa do score: overall, breakdown por pillar, PE Readiness com recomendação de path (Three Horizons / Open Horizons) |
-| **`roadmap_part_pillar_p1.pdf`** | ~410 KB | Pillar P1 (Produtividade) deep-dive: 9 capabilities com rubric, gaps, evidências, ações por horizonte |
+| **`score_justification.pdf`** | ~330 KB | Score justification: overall, breakdown per pillar, PE Readiness with path recommendation (Three Horizons / Open Horizons) |
+| **`roadmap_part_pillar_p1.pdf`** | ~410 KB | Pillar P1 (Productivity) deep-dive: 9 capabilities with rubric, gaps, evidence, actions per horizon |
 | **`roadmap_part_pillar_p2.pdf`** | ~410 KB | Pillar P2 (DevOps) deep-dive: 10 capabilities |
-| **`roadmap_part_pillar_p3.pdf`** | ~410 KB | Pillar P3 (Plataforma) deep-dive: 9 capabilities |
-| **`roadmap_part4.pdf`** | ~510 KB | Implementation Guide consolidado: Three Horizons (H1/H2/H3), tecnologias, success metrics, riscos, **Steering Committee + RACI + ADKAR + Quick Wins** (esta parte usa dados do `/wizard-implementacao` se rodou) |
+| **`roadmap_part_pillar_p3.pdf`** | ~410 KB | Pillar P3 (Platform) deep-dive: 9 capabilities |
+| **`roadmap_part4.pdf`** | ~510 KB | Consolidated Implementation Guide: Three Horizons (H1/H2/H3), technologies, success metrics, risks, **Steering Committee + RACI + ADKAR + Quick Wins** (this part uses data from `/wizard-implementacao` if you ran it) |
 
-**Como abrir:** duplo clique no Finder/Explorer → abre no Preview/Acrobat. Ou no VS Code: clique no `.pdf` na sidebar.
+**How to open:** double-click in Finder/Explorer → opens in Preview/Acrobat. Or in VS Code: click the `.pdf` in the sidebar.
 
-**Como compartilhar:**
-- **Email/Teams/SharePoint:** anexar diretamente (PDFs ~330 KB-510 KB cada)
-- **Apresentar:** abrir em fullscreen (`Cmd+Ctrl+F` no Preview do Mac)
-- **Imprimir:** branding limpo, paginação correta — pronto para impressão
+**How to share:**
+- **Email/Teams/SharePoint:** attach directly (PDFs are ~330 KB to 510 KB each)
+- **Present:** open in fullscreen (`Cmd+Ctrl+F` in Mac Preview)
+- **Print:** clean branding, correct pagination, ready to print
 
-> 💡 **Antes de compartilhar:** confira se a Parte 4 (`roadmap_part4.pdf`) tem os nomes/dados da SUA organização. Se ainda mostrar "Maria Santos / James Carter / Acme", você esqueceu de rodar `/wizard-implementacao` para personalizar.
+> 💡 **Before sharing:** check that Part 4 (`roadmap_part4.pdf`) has the names/data of YOUR organization. If it still shows "Maria Santos / James Carter / Acme", you forgot to run `/wizard-implementacao` to customize it.
 
-### 6.2 A planilha auditável (`saida/pontuacao-preenchida-*.xlsx`)
+### 6.2 The auditable spreadsheet (`saida/pontuacao-preenchida-*.xlsx`)
 
-Para quando alguém perguntar **"como esse score foi calculado?"** — abra no Excel/Numbers/Sheets:
+For when someone asks **"how was this score calculated?"**, open it in Excel/Numbers/Sheets:
 
-- **Aba "Exemplo P1/P2/P3"** — fórmulas SUMPRODUCT visíveis célula por célula, células coloridas por nível
-- **Aba "Resumo"** — pillar scores + overall consolidado
-- **Aba "Como ler"** — legenda completa
+- **"Exemplo P1/P2/P3" tab**: SUMPRODUCT formulas visible cell by cell, cells colored by level
+- **"Resumo" tab**: pillar scores + consolidated overall
+- **"Como ler" tab**: full legend
 
-### 6.3 Os JSONs (intermediários + payload final)
+### 6.3 The JSONs (intermediate + final payload)
 
-Para integração com outras ferramentas (Power BI, Tableau, scripts custom):
+For integration with other tools (Power BI, Tableau, custom scripts):
 
-| Arquivo | O que contém |
+| File | What it contains |
 |---|---|
-| `scores.json` | Overall, 3 pillars, 28 capabilities — scores brutos |
-| `gaps.json` | Lista de gaps ordenados por prioridade (P0/P1/P2/P3) |
-| `recomendacoes.json` | 7 estratégias rankeadas com tecnologias e ações |
-| `payload.json` | **Payload completo** enviado ao Jinja2 para renderizar os PDFs — útil para customização profunda |
+| `scores.json` | Overall, 3 pillars, 28 capabilities: raw scores |
+| `gaps.json` | List of gaps sorted by priority (P0/P1/P2/P3) |
+| `recomendacoes.json` | 7 ranked strategies with technologies and actions |
+| `payload.json` | **Full payload** sent to Jinja2 to render the PDFs, useful for deep customization |
 
-**Quando o app web ficar pronto:** esses JSONs migram para o backend via `POST /api/responses/bulk` (mesmo schema).
+**When the web app is ready:** these JSONs migrate to the backend via `POST /api/responses/bulk` (same schema).
 
-### 6.4 Personalizar narrativa profunda dos PDFs
+### 6.4 Customize the PDFs' deep narrative
 
-Algumas seções dos PDFs (ex.: `scoring_rationale` por capability, `risks_per_pillar`, detalhes de `technology_resources_per_pillar`) usam **placeholders profissionais** do `sample_payload.json` (Acme Insurance Group). Para personalizar:
+Some PDF sections (e.g., `scoring_rationale` per capability, `risks_per_pillar`, details of `technology_resources_per_pillar`) use **professional placeholders** from `sample_payload.json` (Acme Insurance Group). To customize:
 
 ```bash
-# Edite saida/payload.json substituindo os placeholders pelos seus dados
+# Edit saida/payload.json replacing the placeholders with your data
 code saida/payload.json
 
-# Re-renderize só os PDFs (pula a etapa de merge):
+# Re-render only the PDFs (skips the merge step):
 python3 relatorios/scripts/render_reports.py --payload saida/payload.json --out saida
 ```
 
-### 6.5 Comparar com exemplo
+### 6.5 Compare with the example
 
-Quer ver como ficaram os PDFs de um cliente fictício antes de rodar com seus dados? Veja **[`referencia/exemplo-saida/`](referencia/exemplo-saida/)** — 5 PDFs do "Cliente Exemplo S.A." (PT-BR) + 5 em EN, gerados a partir do `respostas.json.example`.
+Want to see what the PDFs look like for a fictional client before running with your data? See **[`referencia/exemplo-saida/`](referencia/exemplo-saida/)**: 5 PDFs from "Cliente Exemplo S.A." (PT-BR) + 5 in EN, generated from `respostas.json.example`.
 
 ---
 
-## 🔁 Parte 7 — Múltiplos respondentes via Microsoft Forms (RECOMENDADO)
+## 🔁 Part 7: Multiple respondents via Microsoft Forms (RECOMMENDED)
 
-Para coletar respostas de **múltiplas pessoas** (recomendado para reduzir viés), use o **Microsoft Forms** ou um **Excel compartilhado no SharePoint**. O kit tem uma skill dedicada que **agrega automaticamente via média** por questão.
+To collect answers from **multiple people** (recommended to reduce bias), use **Microsoft Forms** or a **shared Excel on SharePoint**. The kit has a dedicated skill that **automatically aggregates via the mean** per question.
 
-### Fluxo recomendado (3 caminhos)
+### Recommended flow (3 paths)
 
-| Caminho | Tempo setup | Quando usar |
+| Path | Setup time | When to use |
 |---|---|---|
-| **A. Forms manual** (158 perguntas) | 4-6h | Roll-out organização (10+ respondentes), branding profissional |
-| **B. Forms enxuto** (1 capability piloto) | 30 min | PoC ou validação do fluxo |
-| **C. Excel/SharePoint direto** ⭐ | 5 min | **Default** — usa template pronto que vem no kit |
+| **A. Manual Forms** (158 questions) | 4-6h | Organization roll-out (10+ respondents), professional branding |
+| **B. Lean Forms** (1 pilot capability) | 30 min | PoC or flow validation |
+| **C. Excel/SharePoint directly** ⭐ | 5 min | **Default**: uses the ready-made template that ships with the kit |
 
-> 📋 **Guia completo:** [`coleta/INSTRUCOES-FORMS.md`](coleta/INSTRUCOES-FORMS.md) tem passo-a-passo detalhado dos 3 caminhos com screenshots verbais, configuração de permissões, formato exato das opções de resposta (`L0 — Inicial`, etc.) e troubleshooting.
+> 📋 **Full guide:** [`coleta/INSTRUCOES-FORMS.md`](coleta/INSTRUCOES-FORMS.md) has a detailed step-by-step for the 3 paths with verbal screenshots, permission configuration, the exact format of the answer options (`L0 — Inicial`, etc.), and troubleshooting.
 
-### Resumo do caminho mais rápido (Caminho C — Excel direto)
+### Summary of the fastest path (Path C: Excel directly)
 
-**Passo 7.1** — Pegar o template Excel:
+**Step 7.1**: Get the Excel template:
 ```bash
 cp coleta/template-export-forms.xlsx respostas-forms.xlsx
 ```
 
-**Passo 7.2** — Limpar dados mockados e subir no SharePoint/OneDrive:
-- Abrir `respostas-forms.xlsx` no Excel
-- Apagar linhas 2, 3, 4 (3 respondentes mockados)
-- Manter linha 1 (headers)
-- Salvar e subir no SharePoint com link "Anyone can edit"
+**Step 7.2**: Clear the mocked data and upload to SharePoint/OneDrive:
+- Open `respostas-forms.xlsx` in Excel
+- Delete rows 2, 3, 4 (3 mocked respondents)
+- Keep row 1 (headers)
+- Save and upload to SharePoint with an "Anyone can edit" link
 
-**Passo 7.3** — Cada pessoa preenche uma linha:
-- Compartilhe o link da planilha com a equipe
-- Cada respondente preenche **uma linha** no Excel
-- Para cada coluna de pergunta, escolher uma opção (`L0 — Inicial`, `L1 — Em Desenvolvimento`, ..., `L4 — Otimizando`, `NA — Não sei`)
-- Coluna ao lado = evidência (texto livre opcional)
+**Step 7.3**: Each person fills in one row:
+- Share the spreadsheet link with the team
+- Each respondent fills in **one row** in the Excel
+- For each question column, choose an option (`L0 — Inicial`, `L1 — Em Desenvolvimento`, ..., `L4 — Otimizando`, `NA — Não sei`)
+- Column next to it = evidence (optional free text)
 
-**Passo 7.4** — Quando todos preencherem:
-- Baixar o Excel atualizado
-- Renomear para `respostas-forms.xlsx`
-- Colocar na raiz do `kit-cliente/`
+**Step 7.4**: When everyone has filled it in:
+- Download the updated Excel
+- Rename it to `respostas-forms.xlsx`
+- Place it at the root of `kit-cliente/`
 
-**Passo 7.5** — Importar no kit:
+**Step 7.5**: Import into the kit:
 ```
 /importar-respostas-excel
 ```
 
-A skill:
-- Detecta automaticamente `respostas-forms.xlsx`
-- Faz backup do `respostas.json` atual (`.backup-<timestamp>`)
-- Lê todas as linhas (cada uma = um respondente)
-- **Agrega via média** por questão (alinhado com algoritmo `repos/scoring.rs:354-368` da plataforma)
-- Sobrescreve `respostas.json`
-- Gera `saida/import-log-<DATA>.md` com cobertura por respondente e alertas
+The skill:
+- Automatically detects `respostas-forms.xlsx`
+- Backs up the current `respostas.json` (`.backup-<timestamp>`)
+- Reads all rows (each one = one respondent)
+- **Aggregates via the mean** per question (aligned with the platform algorithm `repos/scoring.rs:354-368`)
+- Overwrites `respostas.json`
+- Generates `saida/import-log-<DATA>.md` with coverage per respondent and alerts
 
-**Passo 7.6** — Continuar normal:
+**Step 7.6**: Continue as usual:
 ```
 /pipeline-completo
 ```
 
-> 💡 **Dica:** o `/pipeline-completo` **detecta automaticamente** se há `respostas-forms.xlsx` mais recente que `respostas.json` e roda `/importar-respostas-excel` antes — você pode pular o Passo 7.5 e ir direto.
+> 💡 **Tip:** `/pipeline-completo` **automatically detects** whether there is a `respostas-forms.xlsx` newer than `respostas.json` and runs `/importar-respostas-excel` first, so you can skip Step 7.5 and go straight ahead.
 
-### Smoke test rápido com o template mockado
+### Quick smoke test with the mocked template
 
-Quer testar o fluxo completo de coleta sem criar Forms?
+Want to test the full collection flow without creating a Forms?
 
 ```bash
 cp coleta/template-export-forms.xlsx respostas-forms.xlsx
-# (template já vem com 3 respondentes mockados: Maria, Joao, Ana)
+# (the template already ships with 3 mocked respondents: Maria, Joao, Ana)
 ```
 
-No Copilot Chat:
+In Copilot Chat:
 ```
 /pipeline-completo
 ```
 
-Você verá o pipeline rodando com **3 respondentes** sendo agregados → vai gerar relatório com média ponderada de Maria + Joao + Ana.
+You will see the pipeline running with **3 respondents** being aggregated → it will generate a report with the weighted mean of Maria + Joao + Ana.
 
 ---
 
 ---
 
-## 🧙 Parte 7B — Personalizar a Parte 4 do PDF (Implementation Guide)
+## 🧙 Part 7B: Customize Part 4 of the PDF (Implementation Guide)
 
-> A Parte 4 do roadmap (`roadmap_part4.pdf`) é o **Guia de Implementação consolidado**: comitês, RACI, plano de comunicação, treinamento, ADKAR, quick wins. Por padrão usa placeholders profissionais. Para personalizar com seus dados reais, há **3 caminhos**.
+> Part 4 of the roadmap (`roadmap_part4.pdf`) is the **consolidated Implementation Guide**: committees, RACI, communication plan, training, ADKAR, quick wins. By default it uses professional placeholders. To customize it with your real data, there are **3 paths**.
 
-### ⭐ Atalho: Mode D (auto-fill do Learning Survey)
+### ⭐ Shortcut: Mode D (auto-fill from the Learning Survey)
 
-Se você já rodou `/plano-capacitacao` (Parte 10), o Copilot Agent **detecta automaticamente** o `saida/plano-capacitacao-*.md` e oferece:
+If you already ran `/plano-capacitacao` (Part 10), Copilot Agent **automatically detects** `saida/plano-capacitacao-*.md` and offers:
 
 ```
-🎓 Detectei plano de capacitação. Posso EXTRAIR automaticamente:
-   Champions, training_plan, communication_plan (calendário), quick wins.
-   Você só precisa preencher: TPO + RACI Matrix.
+🎓 Capacitation plan detected. I can EXTRACT automatically:
+   Champions, training_plan, communication_plan (calendar), quick wins.
+   You only need to fill in: TPO + RACI Matrix.
 
-   [a] Auto-fill (Mode D — recomendado, preenche 6 dos 9 inputs)
-   [b] Modo HTML / JSON / Chat (preencher tudo manualmente)
+   [a] Auto-fill (Mode D, recommended, fills 6 of the 9 inputs)
+   [b] HTML / JSON / Chat mode (fill in everything manually)
 ```
 
-**Mode D economiza 30-45 min** porque os dados do learning survey já mapeiam para:
-- `executive_steering_committee` ← Champions Network "ativos"
-- `communication_plan` ← Calendário de workshops
-- `training_plan` ← Cohorts por dimensão
-- `adkar_notes` ← Workshops top 5
-- `quick_wins_w1_4/5_8/9_12` ← Calendário 90 dias
+**Mode D saves 30 to 45 min** because the learning survey data already maps to:
+- `executive_steering_committee` ← "Active" Champions Network
+- `communication_plan` ← Workshop calendar
+- `training_plan` ← Cohorts per dimension
+- `adkar_notes` ← Top 5 workshops
+- `quick_wins_w1_4/5_8/9_12` ← 90-day calendar
 
-Se você ainda não rodou `/plano-capacitacao`, use modos A/B/C abaixo.
+If you have not run `/plano-capacitacao` yet, use modes A/B/C below.
 
-### 7B.1 · Os 9 inputs que vão para a Parte 4
+### 7B.1 · The 9 inputs that go into Part 4
 
-| # | Input | O que é |
+| # | Input | What it is |
 |---|---|---|
-| 1 | **Steering Committee** | 5-8 nomes — Sponsor, Programa Lead, CFO, CISO, Change Champion |
-| 2 | **TPO** (Technology Product Owner) | Programa Manager + escritório (3-5 pessoas) + autoridade |
-| 3 | **RACI Matrix** | 5-8 atividades × R/A/C/I |
-| 4 | **Plano de Comunicação** | Audiência × canal × frequência × owner |
-| 5 | **Plano de Treinamento** | Cohort × formato × cadência × critério |
+| 1 | **Steering Committee** | 5-8 names: Sponsor, Program Lead, CFO, CISO, Change Champion |
+| 2 | **TPO** (Technology Product Owner) | Program Manager + office (3-5 people) + authority |
+| 3 | **RACI Matrix** | 5-8 activities × R/A/C/I |
+| 4 | **Communication Plan** | Audience × channel × frequency × owner |
+| 5 | **Training Plan** | Cohort × format × cadence × criterion |
 | 6 | **ADKAR** | Awareness · Desire · Knowledge · Ability · Reinforcement |
-| 7 | **Quick Wins W1-4** | 4-6 iniciativas do primeiro mês |
-| 8 | **Quick Wins W5-8** | Segunda onda |
-| 9 | **Quick Wins W9-12** | Terceira onda |
+| 7 | **Quick Wins W1-4** | 4-6 initiatives in the first month |
+| 8 | **Quick Wins W5-8** | Second wave |
+| 9 | **Quick Wins W9-12** | Third wave |
 
-Output: `implementation-guide-inputs.json` na raiz do kit.
+Output: `implementation-guide-inputs.json` at the kit root.
 
-### 7B.2 · Modo A — Wizard HTML standalone (RECOMENDADO)
+### 7B.2 · Mode A: Standalone HTML wizard (RECOMMENDED)
 
-**Caminho mais visual** — espelha o wizard do app web.
+**The most visual path**: it mirrors the web app wizard.
 
 ```bash
 open wizard/implementation-guide-wizard.html
-# ou clique direito no arquivo no VS Code → "Reveal in Finder" → duplo-clique
+# or right-click the file in VS Code → "Reveal in Finder" → double-click
 ```
 
-**Como funciona:**
-1. Browser abre uma página com 9 steps (cada um com helper + textarea grande)
-2. Salva automaticamente no `localStorage` — pode pausar e voltar depois
-3. Stepper no topo mostra progresso (✓ verde quando preenchido)
-4. Ao final, clique **💾 Baixar JSON**
-5. Mova `implementation-guide-inputs.json` para a raiz do `kit-cliente/`
+**How it works:**
+1. The browser opens a page with 9 steps (each with a helper + a large textarea)
+2. It saves automatically to `localStorage`, so you can pause and come back later
+3. The stepper at the top shows progress (green ✓ when filled in)
+4. At the end, click **💾 Download JSON**
+5. Move `implementation-guide-inputs.json` to the root of `kit-cliente/`
 
-**Tempo estimado:** 30-60 min para preencher todos os 9 (ou 15 min se for rascunho rápido).
+**Estimated time:** 30 to 60 min to fill in all 9 (or 15 min for a quick draft).
 
-### 7B.3 · Modo B — Editar JSON direto no VS Code
+### 7B.3 · Mode B: Edit the JSON directly in VS Code
 
-**Caminho para devs** que preferem código.
+**The path for devs** who prefer code.
 
 ```bash
 cp wizard/implementation-guide-inputs.template.json implementation-guide-inputs.json
 code implementation-guide-inputs.json
-# Editar cada um dos 9 campos (vêm com instruções inline + exemplos)
+# Edit each of the 9 fields (they ship with inline instructions + examples)
 ```
 
-O template tem placeholders ricos com instruções (`_help`, `_dicas`, exemplos por campo). Apague os exemplos quando substituir pelo seu conteúdo.
+The template has rich placeholders with instructions (`_help`, `_dicas`, examples per field). Delete the examples when you replace them with your content.
 
-### 7B.4 · Modo C — Conversa via Copilot Chat
+### 7B.4 · Mode C: Conversation via Copilot Chat
 
-**Caminho rápido para rascunho colaborativo.**
+**The quick path for a collaborative draft.**
 
-No Copilot Chat (modo Agent):
+In Copilot Chat (Agent mode):
 ```
 /wizard-implementacao
 ```
 
-O Copilot vai oferecer 3 modos. Escolha **C** (chat). Ele vai:
-1. Te fazer 9 perguntas, uma por vez
-2. Você responde livremente em PT-BR
-3. No fim, ele monta o JSON e te pede confirmação para salvar
-4. Salva automaticamente em `implementation-guide-inputs.json`
+Copilot will offer 3 modes. Choose **C** (chat). It will:
+1. Ask you 9 questions, one at a time
+2. You answer freely (in English, PT-BR, or ES)
+3. At the end, it assembles the JSON and asks you to confirm saving it
+4. Saves it automatically to `implementation-guide-inputs.json`
 
-> 💡 **Dica:** o modo C é ótimo para iteração inicial. Depois você abre o JSON e refina manualmente.
+> 💡 **Tip:** mode C is great for the initial iteration. Afterwards you open the JSON and refine it manually.
 
-### 7B.5 · Re-renderizar PDFs com a Parte 4 personalizada
+### 7B.5 · Re-render the PDFs with the customized Part 4
 
-Depois de qualquer um dos 3 modos:
+After any of the 3 modes:
 
 ```
 /gerar-relatorio
 ```
 
-A skill detecta automaticamente o `implementation-guide-inputs.json` na raiz e mescla no payload — a Parte 4 do `roadmap_part4.pdf` agora reflete seus dados reais.
+The skill automatically detects `implementation-guide-inputs.json` at the root and merges it into the payload, so Part 4 of `roadmap_part4.pdf` now reflects your real data.
 
 ### ✅ Checkpoint 7B
 
-Antes de seguir:
-- [ ] `implementation-guide-inputs.json` existe na raiz do kit
-- [ ] Pelo menos 5 dos 9 campos preenchidos (idealmente 9/9)
-- [ ] Re-rodou `/gerar-relatorio` e o `roadmap_part4.pdf` mostra seus nomes/dados (não mais "Maria Santos / James Carter" do sample)
+Before moving on:
+- [ ] `implementation-guide-inputs.json` exists at the kit root
+- [ ] At least 5 of the 9 fields filled in (ideally 9/9)
+- [ ] You re-ran `/gerar-relatorio` and `roadmap_part4.pdf` shows your names/data (no longer "Maria Santos / James Carter" from the sample)
 
 ---
 
 ---
 
-## 👥 Parte 9 — Developer Survey (anônimo, comportamental)
+## 👥 Part 9: Developer Survey (anonymous, behavioral)
 
-> **Survey complementar #1** — diferente do assessment principal. Mede **como devs realmente usam IA** no dia-a-dia (anônimo, individual). Output: **insights agregados + maturidade calculada por rubrica determinística L0-L4 em 7 dimensões D2-D8**.
+> **Complementary survey #1**: different from the main assessment. It measures **how devs really use AI** day to day (anonymous, individual). Output: **aggregated insights + maturity calculated by a deterministic L0-L4 rubric in 7 dimensions D2-D8**.
 
-### 9.1 · Por que rodar este survey?
+### 9.1 · Why run this survey?
 
-O assessment principal (Partes 4-6) captura a **percepção da liderança** (L0-L4 declarado). O Developer Survey valida com a **realidade comportamental anônima**:
+The main assessment (Parts 4-6) captures **leadership's perception** (declared L0-L4). The Developer Survey validates it against **anonymous behavioral reality**:
 
-- Liderança avalia P1-C1 (Copilot) como L3? Survey revela 60% dos devs usa raramente → **dissonância detectada**
-- Identifica **gaps reais** (não percebidos pela liderança)
-- Anonimato → respostas mais honestas
+- Leadership rates P1-C1 (Copilot) as L3? The survey reveals 60% of devs rarely use it → **dissonance detected**
+- Identifies **real gaps** (not perceived by leadership)
+- Anonymity → more honest answers
 
-**Quando rodar:** ANTES do assessment principal, para informar a avaliação de capabilities.
+**When to run:** BEFORE the main assessment, to inform the capability evaluation.
 
-### 9.2 · Como criar o Microsoft Forms
+### 9.2 · How to create the Microsoft Forms
 
-1. Leia **[`survey-devs/INSTRUCOES-FORMS-DEVS.md`](survey-devs/INSTRUCOES-FORMS-DEVS.md)** (passo-a-passo completo)
-2. Ponto crítico: **MARCAR "Anonymous Responses"** nas Settings (sem isso captura email!)
-3. 75 perguntas em 9 seções (Perfil, Copilot, MS/GH tools, práticas, agentes, instructions, usabilidade, **segurança e governança**)
-4. Tempo por dev: **22-28 min**
-5. Compartilhe link com TODOS os devs
+1. Read **[`survey-devs/INSTRUCOES-FORMS-DEVS.md`](survey-devs/INSTRUCOES-FORMS-DEVS.md)** (full step-by-step)
+2. Critical point: **CHECK "Anonymous Responses"** in Settings (without it, email is captured!)
+3. 75 questions in 9 sections (Profile, Copilot, MS/GH tools, practices, agents, instructions, usability, **security and governance**)
+4. Time per dev: **22-28 min**
+5. Share the link with ALL devs
 
-### 9.3 · Atalho: testar com mocks (sem coletar)
+### 9.3 · Shortcut: test with mocks (no collection)
 
 ```bash
 cp survey-devs/respostas-mock-devs.json survey-devs/respostas-devs.json
 ```
 
-5 respondentes mockados (Senior Backend, Mid Frontend, Junior, SRE, Tech Lead) prontos para o pipeline.
+5 mocked respondents (Senior Backend, Mid Frontend, Junior, SRE, Tech Lead) ready for the pipeline.
 
-### 9.4 · Importar e gerar insights
+### 9.4 · Import and generate insights
 
-No Copilot Chat (modo Agent):
+In Copilot Chat (Agent mode):
 
 ```
-/importar-survey-devs            ← se tem respostas-survey-devs.xlsx
-/insights-developer-survey       ← gera relatório + calcula maturidade
+/importar-survey-devs            ← if you have respostas-survey-devs.xlsx
+/insights-developer-survey       ← generates the report + calculates maturity
 ```
 
-**Output em `saida/`:**
-- `insights-developer-survey-DATE.md` — relatório PT-BR de ~14 páginas equivalentes
-- `maturidade-developer-survey-DATE.json` — **scores L0-L4 por dimensão** (rubrica determinística)
+**Output in `saida/`:**
+- `insights-developer-survey-DATE.md`: report (English by default, PT-BR/ES via `metadata.language`) of about 14 equivalent pages
+- `maturidade-developer-survey-DATE.json`: **L0-L4 scores per dimension** (deterministic rubric)
   - D2 Copilot Adoption · D3 MS/GH Tooling · D4 AI Dev Practices · D5 Agent Concepts · D6 Instructions · D7 Best Practices · D8 Security & Governance
 
-### 9.5 · Rubrica determinística — como funciona
+### 9.5 · Deterministic rubric: how it works
 
-Modelo de scoring em **[`survey-devs/RUBRICA-MATURIDADE.md`](survey-devs/RUBRICA-MATURIDADE.md)** — 7 dimensões mapeadas para L0-L4 (mesma escala do assessment principal). Determinística (sem LLM, auditável). Score por time (não individual — preserva anonimato no relatório).
+Scoring model in **[`survey-devs/RUBRICA-MATURIDADE.md`](survey-devs/RUBRICA-MATURIDADE.md)**: 7 dimensions mapped to L0-L4 (same scale as the main assessment). Deterministic (no LLM, auditable). Score per team (not individual, which preserves anonymity in the report).
 
-Exemplo de output:
+Output example:
 
 ```
-🎯 MATURIDADE DO TIME: 2.22 (L2 — Definido) — 12 devs anônimos
+🎯 TEAM MATURITY: 2.22 (L2 Defined), 12 anonymous devs
 
 D2 Copilot Adoption       0.80  L1   ⚠️
 D3 MS/GH Tooling          2.40  L2
@@ -767,332 +771,332 @@ D8 Security & Governance  1.92  L2
 
 ### ✅ Checkpoint 9
 
-Antes de seguir:
-- [ ] Forms criado com **Anonymous ON** (validar abrindo em janela anônima)
-- [ ] Mínimo 5 respondentes (ideal ≥15 para representatividade)
-- [ ] `respostas-survey-devs.xlsx` na raiz do kit
-- [ ] `/insights-developer-survey` rodou e gerou os 2 outputs em `saida/`
+Before moving on:
+- [ ] Forms created with **Anonymous ON** (validate by opening it in a private window)
+- [ ] At least 5 respondents (ideally ≥15 for representativeness)
+- [ ] `respostas-survey-devs.xlsx` at the kit root
+- [ ] `/insights-developer-survey` ran and generated the 2 outputs in `saida/`
 
 ---
 
-## 🎓 Parte 10 — Learning & Growth Survey (identificado, capacitação)
+## 🎓 Part 10: Learning & Growth Survey (identified, capacitation)
 
-> **Survey complementar #2** — IDENTIFICADO (precisa nome+email). Foca em **o que devs querem aprender** + formato preferido + barreiras + Champions Network. Output: **plano de capacitação personalizado** com listas de inscritos pré-validados.
+> **Complementary survey #2**: IDENTIFIED (requires name+email). It focuses on **what devs want to learn** + preferred format + barriers + Champions Network. Output: **personalized capacitation plan** with pre-validated attendee lists.
 
-### 10.1 · Por que rodar este survey?
+### 10.1 · Why run this survey?
 
-Os 2 surveys anteriores **diagnosticam**. Este **prescreve o roadmap de capacitação**:
+The 2 previous surveys **diagnose**. This one **prescribes the capacitation roadmap**:
 
-- Top 10 tópicos demandados com **lista de inscritos por nome** (não "70% querem workshop X" — isso é a lista das 10 pessoas que vão pro workshop)
-- **Champions Network** identificado (3 tiers: ativos, com suporte, maybe)
-- Mentor↔mentee pairs mapeados
-- Calendário de workshops próximos 90 dias
-- Plano alimenta automaticamente o **wizard** Mode D (Parte 7B)
+- Top 10 requested topics with an **attendee list by name** (not "70% want workshop X", but the list of the 10 people who will attend the workshop)
+- **Champions Network** identified (3 tiers: active, with support, maybe)
+- Mentor↔mentee pairs mapped
+- Workshop calendar for the next 90 days
+- The plan automatically feeds the **wizard** Mode D (Part 7B)
 
-**Quando rodar:** depois do survey-devs (anônimo) ou em paralelo. Antes do `/wizard-implementacao`.
+**When to run:** after survey-devs (anonymous) or in parallel. Before `/wizard-implementacao`.
 
-### 10.2 · ⚠️ Diferença crítica: IDENTIFICADO
+### 10.2 · ⚠️ Critical difference: IDENTIFIED
 
-Diferente do survey-devs, este precisa nome+email:
+Unlike survey-devs, this one requires name+email:
 
 | Setting | Survey-devs | Learning Survey |
 |---|---|---|
 | Anonymous Responses | **ON** | **OFF** ⚠️ |
-| Email captured | Não | Sim |
-| Por quê? | Honestidade comportamental | Convidar pessoas para workshops |
+| Email captured | No | Yes |
+| Why? | Behavioral honesty | Invite people to workshops |
 
-**Comunicação ética com o time:** "Este survey é IDENTIFICADO. Vamos usar nome+email para CONVIDAR vocês para workshops específicos. **NÃO** será usado em performance review."
+**Ethical communication with the team:** "This survey is IDENTIFIED. We will use name+email to INVITE you to specific workshops. It will **NOT** be used in performance reviews."
 
-### 10.3 · Como criar o Microsoft Forms
+### 10.3 · How to create the Microsoft Forms
 
-1. Leia **[`survey-learning/INSTRUCOES-FORMS-LEARNING.md`](survey-learning/INSTRUCOES-FORMS-LEARNING.md)**
-2. Settings → **Anonymous Responses DESMARCADO**
-3. 32 perguntas em 7 seções (Perfil, Auto-percepção L2, Onde quer crescer L3, Tópicos L4, Formato L5, Champions L6, Barreiras L7)
-4. Tempo: **5-8 min**
-5. Compartilhar com TODOS os devs
+1. Read **[`survey-learning/INSTRUCOES-FORMS-LEARNING.md`](survey-learning/INSTRUCOES-FORMS-LEARNING.md)**
+2. Settings → **Anonymous Responses UNCHECKED**
+3. 32 questions in 7 sections (Profile, Self-perception L2, Where you want to grow L3, Topics L4, Format L5, Champions L6, Barriers L7)
+4. Time: **5-8 min**
+5. Share with ALL devs
 
-### 10.4 · Atalho: testar com mocks
+### 10.4 · Shortcut: test with mocks
 
 ```bash
 cp survey-learning/respostas-mock-learning.json survey-learning/respostas-learning.json
 ```
 
-5 respondentes IDENTIFICADOS mockados (Maria Tech Leader, João SRE, Ana Security, Pedro Junior, Sofia Frontend).
+5 mocked IDENTIFIED respondents (Maria Tech Leader, João SRE, Ana Security, Pedro Junior, Sofia Frontend).
 
-### 10.5 · Importar e gerar plano de capacitação
+### 10.5 · Import and generate the capacitation plan
 
 ```
-/importar-survey-learning      ← se tem respostas-survey-learning.xlsx
-/plano-capacitacao             ← gera plano de capacitação personalizado
+/importar-survey-learning      ← if you have respostas-survey-learning.xlsx
+/plano-capacitacao             ← generates the personalized capacitation plan
 ```
 
-**Output:** `saida/plano-capacitacao-DATA.md` — 12 seções incluindo:
-- Top 10 tópicos com **lista de inscritos pré-validados** (nome+email)
-- Cohorts sugeridos por dimensão (D2-D8)
+**Output:** `saida/plano-capacitacao-DATA.md`, 12 sections including:
+- Top 10 topics with a **pre-validated attendee list** (name+email)
+- Suggested cohorts per dimension (D2-D8)
 - Champions Network (3 tiers)
-- Calendário 90 dias de workshops
-- 5 ações priorizadas (impacto × facilidade)
-- Apêndice com tabela de respondentes (visível só para liderança)
+- 90-day workshop calendar
+- 5 prioritized actions (impact × ease)
+- Appendix with the respondent table (visible to leadership only)
 
-### 10.6 · ⭐ Auto-fill do wizard (Mode D)
+### 10.6 · ⭐ Wizard auto-fill (Mode D)
 
-Depois de gerar o plano, ao rodar `/wizard-implementacao` o agente vai detectar `saida/plano-capacitacao-*.md` e oferecer **Mode D — Auto-fill** que preenche automaticamente 6 dos 9 inputs do wizard:
+After generating the plan, when you run `/wizard-implementacao` the agent will detect `saida/plano-capacitacao-*.md` and offer **Mode D: Auto-fill**, which automatically fills 6 of the 9 wizard inputs:
 
-| Input do wizard | Vem de |
+| Wizard input | Comes from |
 |---|---|
-| `executive_steering_committee` | Champions Network "ativos" |
-| `communication_plan` | Calendário sugerido |
-| `training_plan` | Cohorts por dimensão |
-| `adkar_notes` | Workshops top 5 (Knowledge stage) |
-| `quick_wins_w1_4/5_8/9_12` | Calendário 90 dias |
+| `executive_steering_committee` | "Active" Champions Network |
+| `communication_plan` | Suggested calendar |
+| `training_plan` | Cohorts per dimension |
+| `adkar_notes` | Top 5 workshops (Knowledge stage) |
+| `quick_wins_w1_4/5_8/9_12` | 90-day calendar |
 
-Você só precisa preencher manualmente: TPO + RACI Matrix.
+You only need to fill in manually: TPO + RACI Matrix.
 
 ### ✅ Checkpoint 10
 
-- [ ] Forms criado com **Anonymous OFF** + L1-Q1 (nome) + L1-Q2 (email) **required**
-- [ ] Comunicado claramente que é IDENTIFICADO + uso ético
-- [ ] Mínimo 5 respondentes (ideal >50% do time)
-- [ ] `/plano-capacitacao` rodou e gerou `saida/plano-capacitacao-DATA.md`
-- [ ] Você confirmou Champions identificados + workshops sugeridos antes de convidar
+- [ ] Forms created with **Anonymous OFF** + L1-Q1 (name) + L1-Q2 (email) **required**
+- [ ] Clearly communicated that it is IDENTIFIED + ethical use
+- [ ] At least 5 respondents (ideally >50% of the team)
+- [ ] `/plano-capacitacao` ran and generated `saida/plano-capacitacao-DATA.md`
+- [ ] You confirmed the identified Champions + suggested workshops before sending invitations
 
 ---
 
-## 🔄 Parte 11 — Fluxo combinado dos 3 surveys (recomendado para consultoria séria)
+## 🔄 Part 11: Combined flow of the 3 surveys (recommended for serious consulting)
 
-> Os 3 surveys são **complementares, não substitutos**. Quando rodar os 3, a ordem importa.
+> The 3 surveys are **complementary, not substitutes**. When you run all 3, the order matters.
 
-### 11.1 · Por que os 3?
+### 11.1 · Why all 3?
 
-| Survey | Pergunta que responde | Quem responde |
+| Survey | Question it answers | Who answers |
 |---|---|---|
-| **Survey-devs** | "Como vocês USAM IA hoje?" (comportamental anônimo) | Devs individuais (anônimo) |
-| **Learning** | "O que vocês QUEREM aprender?" (aspiracional identificado) | Devs individuais (com nome+email) |
-| **Assessment** | "Onde estamos como organização?" (Likert L0-L4 declarado) | Liderança (1-3 pessoas) |
+| **Survey-devs** | "How do you USE AI today?" (anonymous behavioral) | Individual devs (anonymous) |
+| **Learning** | "What do you WANT to learn?" (identified aspirational) | Individual devs (with name+email) |
+| **Assessment** | "Where are we as an organization?" (declared Likert L0-L4) | Leadership (1-3 people) |
 
-**Sem os 3:** liderança avalia maturidade no escuro, capacitação genérica, dissonância invisível.
-**Com os 3:** assessment **informado** pelo comportamento real + plano de capacitação **com nomes** + cross-validation.
+**Without all 3:** leadership rates maturity in the dark, capacitation is generic, dissonance stays invisible.
+**With all 3:** an assessment **informed** by real behavior + a capacitation plan **with names** + cross-validation.
 
-### 11.2 · Ordem recomendada
+### 11.2 · Recommended order
 
 ```
-SEMANA 1
+WEEK 1
    ↓
-1. Lance Survey-devs (anônimo, 22-28 min)  + Learning Survey (identificado, 5-8 min)
-   • Pode rodar em paralelo
-   • Comunicar diferenças (anonimato vs identificação)
-   • Deadline: 2 semanas
+1. Launch Survey-devs (anonymous, 22-28 min)  + Learning Survey (identified, 5-8 min)
+   • Can run in parallel
+   • Communicate the differences (anonymity vs identification)
+   • Deadline: 2 weeks
    ↓
-SEMANA 3-4
+WEEK 3-4
    ↓
 2. /importar-survey-devs       → /insights-developer-survey
    /importar-survey-learning   → /plano-capacitacao
-   • Liderança recebe insights ANTES de avaliar capabilities
-   • Identifica gaps comportamentais reais
+   • Leadership receives insights BEFORE rating capabilities
+   • Identifies real behavioral gaps
    ↓
-SEMANA 4-5
+WEEK 4-5
    ↓
-3. Liderança preenche respostas.json (assessment) INFORMADA pelos surveys
-   • Use insights como evidência por capability
-   • Evita L3 declarado quando survey mostra L1 real
+3. Leadership fills in respostas.json (assessment) INFORMED by the surveys
+   • Use insights as evidence per capability
+   • Avoids a declared L3 when the survey shows a real L1
    ↓
-SEMANA 5
+WEEK 5
    ↓
-4. /pipeline-completo (assessment) — calcula scores, gaps, recomendações
+4. /pipeline-completo (assessment): calculates scores, gaps, recommendations
    ↓
-SEMANA 5
+WEEK 5
    ↓
-5. /wizard-implementacao em Mode D (auto-fill do plano-capacitacao)
-   • 6 dos 9 inputs preenchidos automaticamente
-   • Você só completa: TPO + RACI Matrix
+5. /wizard-implementacao in Mode D (auto-fill from plano-capacitacao)
+   • 6 of the 9 inputs filled in automatically
+   • You only complete: TPO + RACI Matrix
    ↓
-SEMANA 5
+WEEK 5
    ↓
 6. /gerar-relatorio
-   • 5 PDFs finais do assessment
-   • `saida/payload.json` inclui referências aos artefatos cross-survey quando eles existem
-   • `roadmap_part4.pdf` consome dados do Learning Survey quando o wizard Mode D gerou `implementation-guide-inputs.json`
+   • 5 final assessment PDFs
+   • `saida/payload.json` includes references to the cross-survey artifacts when they exist
+   • `roadmap_part4.pdf` consumes Learning Survey data when wizard Mode D generated `implementation-guide-inputs.json`
    ↓
-SEMANA 6
+WEEK 6
    ↓
-7. Apresentar PDFs para liderança + plano para devs
-   • Validação cruzada (survey vs assessment)
-   • Workshops já agendados com inscritos pré-validados
+7. Present the PDFs to leadership + the plan to devs
+   • Cross-validation (survey vs assessment)
+   • Workshops already scheduled with pre-validated attendees
 ```
 
-### 11.3 · Atalho com agente concierge
+### 11.3 · Shortcut with the concierge agent
 
 ```
 @ai-maturity-assistant
-> escolher [D] OS TRÊS — Pacote completo
+> choose [D] ALL THREE: Complete package
 ```
 
-Agente conduz pelos 3 surveys + assessment + wizard + relatório, **com handoffs clicáveis** entre cada passo. Você nunca precisa lembrar comando.
+The agent guides you through the 3 surveys + assessment + wizard + report, **with clickable handoffs** between each step. You never need to remember a command.
 
 ### 11.4 · Cross-survey validations
 
-Após rodar os 3 + `/gerar-relatorio`, o **`score_justification.pdf`** inclui a seção **Sinais Complementares dos Surveys**, e o arquivo **`saida/payload.json`** mantém os ponteiros estruturados para auditoria. Use esses dados para comparar a maturidade declarada pela liderança com a maturidade comportamental dos devs:
+After running all 3 + `/gerar-relatorio`, **`score_justification.pdf`** includes the **Complementary Survey Signals** section, and the **`saida/payload.json`** file keeps the structured pointers for auditing. Use this data to compare the maturity declared by leadership with the behavioral maturity of the devs:
 
 ```
-| Capability | Liderança avalia | Survey rubric | Dissonância |
+| Capability | Leadership rates | Survey rubric | Dissonance |
 |---|---|---|---|
-| P1-C1 Copilot     | L3 (3.2)        | D2 = L1 (0.80)  | 🚨 ALERTA |
+| P1-C1 Copilot     | L3 (3.2)        | D2 = L1 (0.80)  | 🚨 ALERT |
 | P3-C5 Apps Agent  | L1 (1.0)        | D5 = L3 (2.56)  | ⚠ Underconf |
 ```
 
-**Insight:** dissonâncias revelam onde investigar (gap entre estratégia e prática).
+**Insight:** dissonances reveal where to investigate (the gap between strategy and practice).
 
 > [!NOTE]
-> Quando `cross_survey_data` existe no payload, o `score_justification.pdf` renderiza a seção **Sinais Complementares dos Surveys**. O Learning Survey também entra no `roadmap_part4.pdf` quando você roda `/wizard-implementacao` em Mode D antes de `/gerar-relatorio`.
+> When `cross_survey_data` exists in the payload, `score_justification.pdf` renders the **Complementary Survey Signals** section. The Learning Survey also feeds `roadmap_part4.pdf` when you run `/wizard-implementacao` in Mode D before `/gerar-relatorio`.
 
-### ✅ Checkpoint 11 (após fluxo dos 3)
+### ✅ Checkpoint 11 (after the 3-survey flow)
 
-- [ ] Os 2 surveys (devs + learning) coletados antes do assessment
-- [ ] `saida/insights-developer-survey-*.md` + `saida/maturidade-developer-survey-*.json` existem
-- [ ] `saida/plano-capacitacao-*.md` existe
-- [ ] `respostas.json` preenchido informado pelos surveys
-- [ ] `/wizard-implementacao` rodou em Mode D (auto-fill detectou plano)
-- [ ] `/gerar-relatorio` gerou 5 PDFs, `saida/payload.json` contém `cross_survey_data` e o `score_justification.pdf` inclui a seção de sinais complementares
-- [ ] Apresentou para liderança + devs
+- [ ] The 2 surveys (devs + learning) collected before the assessment
+- [ ] `saida/insights-developer-survey-*.md` + `saida/maturidade-developer-survey-*.json` exist
+- [ ] `saida/plano-capacitacao-*.md` exists
+- [ ] `respostas.json` filled in, informed by the surveys
+- [ ] `/wizard-implementacao` ran in Mode D (auto-fill detected the plan)
+- [ ] `/gerar-relatorio` generated 5 PDFs, `saida/payload.json` contains `cross_survey_data`, and `score_justification.pdf` includes the complementary signals section
+- [ ] Presented to leadership + devs
 
 ---
 
-## 🅿️ Parte 12 — Quando usar cada formato de input (assessment principal)
+## 🅿️ Part 12: When to use each input format (main assessment)
 
-> Esta parte trata só dos formatos de input para o **assessment principal** (Parte 5). Para os surveys complementares, ver Partes 9 e 10.
+> This part covers only the input formats for the **main assessment** (Part 5). For the complementary surveys, see Parts 9 and 10.
 
-| Cenário | Input recomendado | Por quê |
+| Scenario | Recommended input | Why |
 |---|---|---|
-| 1 pessoa preenchendo (você ou consultor) | `respostas.json` direto | Simples, sem overhead |
-| 3-5 pessoas do mesmo time | `respostas-forms.xlsx` (Caminho C) | Template Excel pronto, 5 min setup |
-| 10+ pessoas, multi-time, multi-localidade | Microsoft Forms (Caminho A) | UX mobile, validação nativa, audit trail |
-| Cliente exigente / branding corporativo | Microsoft Forms (Caminho A) | Aparência profissional do Forms |
-| Iteração rápida durante workshop | `respostas.json` editado ao vivo | Resultado imediato, sem rodada de coleta |
+| 1 person filling in (you or a consultant) | `respostas.json` directly | Simple, no overhead |
+| 3-5 people from the same team | `respostas-forms.xlsx` (Path C) | Ready-made Excel template, 5 min setup |
+| 10+ people, multi-team, multi-location | Microsoft Forms (Path A) | Mobile UX, native validation, audit trail |
+| Demanding client / corporate branding | Microsoft Forms (Path A) | Professional look of Forms |
+| Fast iteration during a workshop | `respostas.json` edited live | Immediate result, no collection round |
 
 ---
 
-## 🆘 Troubleshooting expandido
+## 🆘 Expanded troubleshooting
 
-> 💡 **Dica geral:** quando algo der errado, sua primeira tentativa deve ser **`@ai-maturity-assistant`** no Copilot Chat. O concierge **lê o estado do workspace** (que arquivos existem, em que estágio você parou) e geralmente identifica o problema sem você precisar diagnosticar. Os itens abaixo são para quando o concierge não está disponível ou você quer entender o problema em detalhe.
+> 💡 **General tip:** when something goes wrong, your first attempt should be **`@ai-maturity-assistant`** in Copilot Chat. The concierge **reads the state of the workspace** (which files exist, at which stage you stopped) and usually identifies the problem without you having to diagnose it. The items below are for when the concierge is not available or you want to understand the problem in detail.
 
-### "O comando `/pipeline-completo` não aparece no menu"
+### "The `/pipeline-completo` command does not appear in the menu"
 
-**Causa provável:** workspace errado, modo errado ou cache do Copilot.
+**Probable cause:** wrong workspace, wrong mode, or Copilot cache.
 
-**Tente em ordem:**
-1. Confirme que o root do workspace é `kit-cliente/` (na sidebar Explorer, o nome no topo deve ser "KIT-CLIENTE")
+**Try in order:**
+1. Confirm that the workspace root is `kit-cliente/` (in the Explorer sidebar, the name at the top should be "KIT-CLIENTE")
 2. **Cmd+Shift+P** → **Developer: Reload Window**
-3. Confirme que o dropdown do Copilot Chat está em **Agent**
-4. Confirme que existe `.github/skills/` na pasta (deve ter 12 subpastas)
+3. Confirm that the Copilot Chat dropdown is set to **Agent**
+4. Confirm that `.github/skills/` exists in the folder (it should have 12 subfolders)
 
-### "Skills aparecem mas dão erro 'cannot find file framework.json'"
+### "Skills appear but fail with 'cannot find file framework.json'"
 
-**Causa:** caminhos relativos. Geralmente acontece se você abriu uma pasta pai por engano.
+**Cause:** relative paths. It usually happens if you opened a parent folder by mistake.
 
-**Solução:** feche, reabra **só** a pasta `kit-cliente/` (não a pai).
+**Solution:** close and reopen **only** the `kit-cliente/` folder (not the parent).
 
-### "Copilot pede aprovação a cada comando, é chato"
+### "Copilot asks for approval on every command, it's annoying"
 
-Quando aparecer o popup de "Allow command", clique **Always allow for this session**. Ou ajuste em **Settings → Search "copilot agent allow"**.
+When the "Allow command" popup appears, click **Always allow for this session**. Or adjust it in **Settings → Search "copilot agent allow"**.
 
-### "JSON inválido" ao rodar
+### "Invalid JSON" when running
 
 ```bash
 python3 -m json.tool respostas.json
 ```
-Vai mostrar a linha exata do erro. Causas comuns:
-- Vírgula extra antes de `}` ou `]`
-- Aspas trocadas (`"` vs `"`)
-- `level: 3,` (faltou aspas em string) vs `"level": 3,` (correto)
+It will show the exact line of the error. Common causes:
+- Extra comma before `}` or `]`
+- Swapped quotes (`"` vs `"`)
+- `level: 3,` (missing quotes on the key) vs `"level": 3,` (correct)
 
-### "Threshold sempre BLOCKED"
+### "Threshold always BLOCKED"
 
-Você tem menos de 25 respostas com `level != null`. Conte:
+You have fewer than 25 answers with `level != null`. Count them:
 ```bash
 python3 -c "
 import json
 r = json.load(open('respostas.json'))
 n = sum(1 for v in r['responses'].values() if v['level'] is not None)
-print(f'Respondidas: {n} / 158')
+print(f'Answered: {n} / 158')
 "
 ```
 
-### "Excel não recalcula fórmulas"
+### "Excel does not recalculate formulas"
 
-Excel está em modo manual. Pressione **F9** (Win) ou **Cmd+=** (Mac) para forçar recálculo. Ou: Excel → Fórmulas → Opções de cálculo → Automático.
+Excel is in manual mode. Press **F9** (Win) or **Cmd+=** (Mac) to force recalculation. Or: Excel → Formulas → Calculation Options → Automatic.
 
-### "openpyxl não encontrado"
+### "openpyxl not found"
 
 ```bash
 python3 -m pip install --user openpyxl
-# Se ainda falhar:
+# If it still fails:
 which python3
-# Confirme que o Copilot está usando o mesmo Python (configurar em Settings)
+# Confirm that Copilot is using the same Python (configure it in Settings)
 ```
 
-### "Custom skills não funcionam no meu Copilot Free"
+### "Custom skills don't work on my Copilot Free"
 
-Skills custom requerem **Copilot Pro/Business/Enterprise** com modo Agent. Alternativa para Free:
-- Use Claude.ai web ou ChatGPT
-- Faça upload do zip do kit
-- Cole manualmente o conteúdo de `.github/copilot-instructions.md` como contexto
-- Peça: "execute o pipeline conforme `.github/prompts/pipeline-completo.prompt.md`"
-
----
-
-## 🎓 Para aprender mais
-
-- **Algoritmo completo** (fórmulas, edge cases, exemplos): [`referencia/pontuacao-e-calculo.md`](referencia/pontuacao-e-calculo.md)
-- **Calculadora interativa** (brincar com níveis e ver scores ao vivo): abra [`referencia/calculadora-pontuacao.html`](referencia/calculadora-pontuacao.html) no navegador
-- **Documentação das 158 questões** (KPI, contexto, evidências esperadas): `referencia/P1-…md`, `P2-…md`, `P3-…md`
-- **Visual da plataforma** (como vai ficar quando o app estiver pronto): abra `formularios/P1-…html` no navegador
-- **README principal**: [`README.md`](README.md)
+Custom skills require **Copilot Pro/Business/Enterprise** with Agent mode. Alternative for Free:
+- Use Claude.ai web or ChatGPT
+- Upload the kit zip
+- Manually paste the content of `.github/copilot-instructions.md` as context
+- Ask: "run the pipeline as described in `.github/prompts/pipeline-completo.prompt.md`"
 
 ---
 
-## 📞 Suporte
+## 🎓 To learn more
 
-| Tipo de dúvida | Onde buscar |
+- **Full algorithm** (formulas, edge cases, examples): [`referencia/pontuacao-e-calculo.md`](referencia/pontuacao-e-calculo.md)
+- **Interactive calculator** (play with levels and see scores live): open [`referencia/calculadora-pontuacao.html`](referencia/calculadora-pontuacao.html) in the browser
+- **Documentation of the 158 questions** (KPI, context, expected evidence): `referencia/P1-…md`, `P2-…md`, `P3-…md`
+- **Platform visuals** (what it will look like when the app is ready): open `formularios/P1-…html` in the browser
+- **Main README**: [`README.md`](README.md)
+
+---
+
+## 📞 Support
+
+| Type of question | Where to look |
 |---|---|
-| Como uma questão deve ser interpretada | `referencia/P1-…md`, `P2-…md`, `P3-…md` |
-| Por que um score é X (entender o cálculo) | `referencia/pontuacao-e-calculo.md` ou abrir o `.xlsx` em saida/ |
-| O kit não está funcionando | Seção Troubleshooting acima |
-| Bug ou feature request | Contato Microsoft GBB |
+| How a question should be interpreted | `referencia/P1-…md`, `P2-…md`, `P3-…md` |
+| Why a score is X (understand the calculation) | `referencia/pontuacao-e-calculo.md` or open the `.xlsx` in saida/ |
+| The kit is not working | Troubleshooting section above |
+| Bug or feature request | Microsoft GBB contact |
 
 ---
 
-**Versão do guia:** 1.0 · **Data:** 2026-05-08 · **Idioma:** PT-BR
+**Guide version:** 1.0 · **Date:** 2026-05-08 · **Language:** EN (also available in [PT-BR](GUIA-PASSO-A-PASSO.pt-br.md) and [ES](kit-es/PASO-A-PASO.md))
 
 ---
 
-## Travou em algum desses passos?
+## Stuck on one of these steps?
 
 <details>
-<summary><strong>FAQ — situações comuns nos primeiros 15 minutos</strong></summary>
+<summary><strong>FAQ: common situations in the first 15 minutes</strong></summary>
 
-| Sintoma | Causa provável | Como resolver |
+| Symptom | Probable cause | How to fix |
 |---|---|---|
-| O comando `/calcular-scores` não aparece quando digito `/` | Copilot Chat não está em **modo Agent** | Abra o Chat → clique no dropdown ao lado do ícone do Copilot → escolha **Agent** |
-| Erro `framework_version mismatch` | Você abriu o kit em uma versão antiga do framework | Atualize `respostas.json::metadata.framework_version` para `1.0.0` |
-| `make smoke` falha com `ModuleNotFoundError` | Faltam dependências Python | Rode `make install-deps` (instala jinja2 + weasyprint + openpyxl) |
-| PDFs ficam com `GERADO EM` na data errada | Comportamento esperado | A data reflete a data de geração; não é bug |
-| `respostas-forms.xlsx` não é detectado | Arquivo está em pasta errada | Mova para a **raiz** do kit (não dentro de `coleta/`) |
-| Modo Agent diz "não tenho essa skill" | VS Code não recarregou as skills | Cmd/Ctrl+Shift+P → "Developer: Reload Window" |
+| The `/calcular-scores` command does not appear when I type `/` | Copilot Chat is not in **Agent mode** | Open Chat → click the dropdown next to the Copilot icon → choose **Agent** |
+| Error `framework_version mismatch` | You opened the kit with an old framework version | Update `respostas.json::metadata.framework_version` to `1.0.0` |
+| `make smoke` fails with `ModuleNotFoundError` | Python dependencies are missing | Run `make install-deps` (installs jinja2 + weasyprint + openpyxl) |
+| PDFs show `Generated On` (`GERADO EM` in PT-BR) with the wrong date | Expected behavior | The date reflects the generation date; it is not a bug |
+| `respostas-forms.xlsx` is not detected | The file is in the wrong folder | Move it to the kit **root** (not inside `coleta/`) |
+| Agent mode says "I don't have that skill" | VS Code did not reload the skills | Cmd/Ctrl+Shift+P → "Developer: Reload Window" |
 
 </details>
 
 ---
 
-## Continuar a leitura
+## Continue reading
 
-| ← ANTERIOR | PRÓXIMO → |
+| ← PREVIOUS | NEXT → |
 |:---|---:|
-| **[🏠 Índice (README)](README.md)** | **[Coleta via Microsoft Forms](coleta/INSTRUCOES-FORMS.md)** |
-| Hub principal: visão geral, 3 surveys, pré-requisitos. | 3 caminhos para coletar respostas em equipe (Forms / Excel / SharePoint). |
+| **[🏠 Index (README)](README.md)** | **[Collection via Microsoft Forms](coleta/INSTRUCOES-FORMS.md)** |
+| Main hub: overview, 3 surveys, prerequisites. | 3 paths to collect answers as a team (Forms / Excel / SharePoint). |
 
-↑ [Voltar ao Índice do kit](README.md)
+↑ [Back to the kit Index](README.md)
 
 ---
 
 <sub>**Paula Silva** | Software Global Black Belt · [LinkedIn](https://linkedin.com/in/paulanunes)</sub>
-<sub>Identidade visual paulasilva-ms aplicada nos HTMLs interativos (calculadora, formulários, wizard) e nos 5 PDFs production. Veja [referencia/branding/](referencia/branding/).</sub>
+<sub>paulasilva-ms visual identity applied to the interactive HTMLs (calculator, forms, wizard) and to the 5 production PDFs. See [referencia/branding/](referencia/branding/).</sub>
