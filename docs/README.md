@@ -1,65 +1,67 @@
-# `docs/` — Mini-site (GitHub Pages)
+# `docs/`: Mini-site (GitHub Pages)
 
-📖 **Navegação:** [🏠 Índice](../README.md)
+🌐 English · [Português (Brasil)](README.pt-br.md)
 
-Site estático que apresenta o kit. O conteúdo da landing agora é centralizado em [`content.json`](content.json) e renderizado por [`app.js`](app.js), com três rotas públicas:
+📖 **Navigation:** [🏠 Index](../README.md)
 
-| Rota | Idioma | Shell |
+Static site that presents the kit. Landing content is centralized in [`content.json`](content.json) and rendered by [`app.js`](app.js), with three public routes:
+
+| Route | Language | Shell |
 | --- | --- | --- |
 | `/` | PT-BR | [`index.html`](index.html) |
 | `/en/` | English | [`en/index.html`](en/index.html) |
 | `/es/` | Español | [`es/index.html`](es/index.html) |
 
-## URL pública
+## Public URL
 
 ```text
 https://paulasilvatech.github.io/ai-maturity-client-kit/
 ```
 
-## Arquitetura
+## Architecture
 
-| Arquivo | Propósito |
+| File | Purpose |
 | --- | --- |
-| [`content.json`](content.json) | Fonte única dos textos PT-BR, EN e ES, incluindo hero, pipeline, cards, FAQ, skills e downloads |
-| [`app.js`](app.js) | Renderer estático: carrega o JSON, seleciona idioma pela rota e monta a página |
-| [`index.html`](index.html) | Shell PT-BR com autodetecção de idioma do navegador |
-| [`en/index.html`](en/index.html) | Shell EN |
-| [`es/index.html`](es/index.html) | Shell ES |
-| [`styles.css`](styles.css) | CSS compartilhado com tokens paulasilva-ms |
+| [`content.json`](content.json) | Single source for PT-BR, EN, and ES text, including hero, pipeline, cards, FAQ, skills, and downloads |
+| [`app.js`](app.js) | Static renderer: loads the JSON, picks the language from the route, and builds the page |
+| [`index.html`](index.html) | PT-BR shell with browser language auto-detection |
+| [`en/index.html`](en/index.html) | EN shell |
+| [`es/index.html`](es/index.html) | ES shell |
+| [`styles.css`](styles.css) | Shared CSS with paulasilva-ms tokens |
 
-## Idioma automático
+## Automatic language
 
-A rota `/` usa o idioma do navegador para redirecionar automaticamente para `/en/` ou `/es/` quando apropriado. PT-BR continua sendo o padrão.
+The `/` route uses the browser language to redirect to `/en/` or `/es/` when appropriate. PT-BR remains the default for this route.
 
-O seletor PT · EN · ES grava a escolha em `localStorage`, então visitas futuras respeitam a última seleção.
+The PT · EN · ES selector stores the choice in `localStorage`, so future visits respect the last selection.
 
-## Como editar conteúdo
+## Editing content
 
-Edite apenas [`content.json`](content.json) para alterar textos e traduções. Evite editar manualmente os três HTMLs, eles são apenas shells mínimos.
+Edit only [`content.json`](content.json) to change text and translations. Avoid hand-editing the three HTML files; they are minimal shells.
 
-Valide o JSON antes de publicar:
+Validate the JSON before publishing:
 
 ```bash
 python3 -m json.tool docs/content.json >/dev/null
 ```
 
-## Preview local
+## Local preview
 
-Como o site carrega `content.json` via `fetch`, use um servidor local:
+The site loads `content.json` through `fetch`, so use a local server:
 
 ```bash
 cd docs
 python3 -m http.server 8000
-# abrir http://localhost:8000
+# open http://localhost:8000
 ```
 
-Abrir `index.html` diretamente via `file://` não é recomendado, porque navegadores bloqueiam `fetch()` de arquivos locais.
+Opening `index.html` directly via `file://` is not recommended, because browsers block `fetch()` for local files.
 
-## Downloads públicos com repo privado
+## Public downloads with a private repo
 
-Sim, é possível manter o repositório privado e o site público, desde que o GitHub Pages esteja habilitado como público no plano/organização.
+Yes, the repository can stay private while the site is public, as long as GitHub Pages is enabled as public in the plan or organization.
 
-O detalhe importante: assets de GitHub Releases em repositório privado exigem autenticação. Por isso o workflow de Pages gera os ZIPs e os publica dentro do próprio artefato do site:
+The important detail: GitHub Releases assets in a private repository require authentication. That is why the Pages workflow builds the ZIPs and publishes them inside the site artifact itself:
 
 ```text
 https://paulasilvatech.github.io/ai-maturity-client-kit/downloads/ai-maturity-kit-pt.zip
@@ -67,26 +69,28 @@ https://paulasilvatech.github.io/ai-maturity-client-kit/downloads/ai-maturity-ki
 https://paulasilvatech.github.io/ai-maturity-client-kit/downloads/ai-maturity-kit-es.zip
 ```
 
-Esses links continuam públicos junto com o site, mesmo se o repositório voltar a ser privado.
+These links stay public with the site, even if the repository goes back to private.
+
+Package languages: the PT ZIP ships the Portuguese copies (`*.pt-br.md`, `*.pt-br.html`) under their base names; the EN and ES ZIPs ship the English repository docs plus the `kit-en/` or `kit-es/` guides. Generated reports default to English in every package (set `metadata.language` to `"pt-BR"` or `"es"` to change it).
 
 ## Deploy
 
-O workflow [`.github/workflows/pages.yml`](../.github/workflows/pages.yml):
+The workflow [`.github/workflows/pages.yml`](../.github/workflows/pages.yml):
 
-1. Faz checkout do repositório.
-2. Gera os três ZIPs em `docs/downloads/`.
-3. Faz upload da pasta `docs/` como artefato do GitHub Pages.
-4. Publica o site.
+1. Checks out the repository.
+2. Builds the three ZIPs in `docs/downloads/`.
+3. Uploads the `docs/` folder as the GitHub Pages artifact.
+4. Publishes the site.
 
-Qualquer push que toque `docs/**` ou o workflow de Pages dispara novo deploy.
+Any push that touches `docs/**` or the Pages workflow triggers a new deploy.
 
 ## Branding
 
-Tokens MS 4 cores aplicados via CSS variables:
+MS 4-color tokens applied through CSS variables:
 
 - `--c-blue: #00A4EF`
 - `--c-green: #7FBA00`
 - `--c-yellow: #FFB900`
 - `--c-red: #F25022`
 
-Logo SVG inline, Inter + JetBrains Mono via Google Fonts, e dark mode automático via `prefers-color-scheme`.
+Inline SVG logo, Inter + JetBrains Mono via Google Fonts, and automatic dark mode via `prefers-color-scheme`.

@@ -1,26 +1,28 @@
-# `scripts/` — Utilitários do kit
+# `scripts/`: Kit utilities
 
-📖 **Navegação:** [🏠 Índice](../README.md)
+🌐 English · [Português (Brasil)](README.pt-br.md)
 
-Scripts auxiliares de manutenção e validação do kit (não invocados pelo cliente final no fluxo normal — são para contribuidores).
+📖 **Navigation:** [🏠 Index](../README.md)
 
-## Conteúdo
+Maintenance and validation helpers for the kit. The client does not run them in the normal flow; they are for contributors.
 
-| Arquivo | Propósito |
+## Contents
+
+| File | Purpose |
 | --- | --- |
-| [`smoke_test.py`](smoke_test.py) | Teste end-to-end automatizado: copia `respostas.json.example` → roda `build_payload_and_render.py --no-render` → valida shape do `payload.json` → restaura workspace. Stdlib puro (sem pytest). |
-| [`build_language_kits.py`](build_language_kits.py) | Gera os ZIPs públicos PT-BR, EN e ES e valida que os assets referenciados pelos pacotes existem. |
-| [`check_language_coverage.py`](check_language_coverage.py) | Reporta cobertura multilíngue obrigatória e lacunas consultivas. Hoje Developer Survey e Learning Survey têm bancos EN/ES; o Assessment principal ainda usa banco canônico PT-BR até revisão humana das traduções. |
+| [`smoke_test.py`](smoke_test.py) | Automated end-to-end test: copies `respostas.json.example`, runs `build_payload_and_render.py --no-render`, validates the `payload.json` shape, and restores the workspace. Pure stdlib (no pytest). |
+| [`build_language_kits.py`](build_language_kits.py) | Builds the public PT-BR, EN, and ES ZIPs and validates that every asset referenced by the packages exists. The PT ZIP ships the `X.pt-br.md` / `X.pt-br.html` copies under their base names; no ZIP contains `*.pt-br.*` names. |
+| [`check_language_coverage.py`](check_language_coverage.py) | Reports multilingual coverage: required package files, translated doc pairs (`X.md` and `X.pt-br.md`, fails when the EN base is missing), and advisory gaps in the localized question banks. |
 
-## Como usar
+## Usage
 
 ```bash
 make smoke          # assessment only
 make smoke-cross    # + cross-survey enrichment (developer + learning surveys)
-make validate-docs  # content.json + package source validation
+make validate-docs  # content.json + language coverage + package sources
 make build-kits     # dist/ai-maturity-kit-{pt,en,es}.zip
 
-# ou direto:
+# or directly:
 python3 scripts/smoke_test.py
 python3 scripts/smoke_test.py --with-cross-survey
 python3 scripts/check_language_coverage.py
@@ -28,4 +30,4 @@ python3 scripts/build_language_kits.py --out dist --clean
 ```
 
 > [!TIP]
-> Rode `make smoke` antes de abrir PR que toca o pipeline (`relatorios/scripts/*.py` ou qualquer SKILL.md em `.github/skills/`).
+> Run `make smoke` before opening a PR that touches the pipeline (`relatorios/scripts/*.py` or any SKILL.md under `.github/skills/`).

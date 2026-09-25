@@ -4,17 +4,23 @@
 Packaging rule:
 - Copilot customization files under .github/ stay in English in every package.
 - Client-facing documentation in each package must match the selected language.
+- Repository docs are English; the Portuguese copy of `X.md` / `X.html` lives
+  next to it as `X.pt-br.md` / `X.pt-br.html`. The PT package ships those
+  copies under the base names, and no package ships `*.pt-br.*` names.
 - Shared scripts, templates, JSON schemas, workbooks, and renderers are reused.
 """
 
 from __future__ import annotations
 
 import argparse
+import re
 import shutil
 import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+
+PT_BR_TAG = ".pt-br"
 
 COMMON_EXCLUDED_PARTS = {
     ".git",
@@ -109,41 +115,50 @@ LANGUAGE_DOCS = {
 }
 
 LANGUAGE_NOTES = {
-        "pt": """# Notas de idioma do pacote PT-BR
+    "pt": """# Notas de idioma do pacote PT-BR
 
-- Documentacao de cliente: Portugues (Brasil).
-- Arquivos de customizacao do Copilot em `.github/`: mantidos em ingles
-    por design, para economizar contexto e melhorar compatibilidade.
-- Arquivos JSON, scripts, templates e workbooks sao recursos executaveis
-    ou estruturados compartilhados.
+- Documentação de cliente: Português (Brasil). No repositório os documentos
+  são em inglês, com cópias `.pt-br`; este pacote entrega as versões em
+  português com os nomes base (`README.md`, `GUIA-PASSO-A-PASSO.md` etc.).
+- Relatórios são gerados em inglês por padrão. Para PT-BR, defina
+  `metadata.language` como `"pt-BR"` em `respostas.json`. Os relatórios dos
+  surveys aceitam `--lang pt-br`.
+- Arquivos de customização do Copilot em `.github/`: mantidos em inglês por
+  design, para economizar contexto e melhorar compatibilidade.
+- JSONs, scripts, templates e workbooks são recursos executáveis ou
+  estruturados compartilhados por todos os idiomas.
 """,
-        "en": """# Language Notes for the English Package
+    "en": """# Language Notes for the English Package
 
-- Client-facing documentation: English.
+- Client-facing documentation: English. Repository docs are English, with
+  Portuguese copies kept as `.pt-br` files; those copies ship only in the
+  PT-BR package.
+- Reports default to English. Set `metadata.language` to `"pt-BR"` or `"es"`
+  in `respostas.json` for other languages. Survey reports accept
+  `--lang pt-br`.
 - Copilot customization files in `.github/`: intentionally kept in English
-    across every language package.
+  across every language package.
 - Shared JSON files, scripts, templates, and workbooks are executable or
-    structured assets reused by all languages.
-- Canonical Portuguese question banks are included under `coleta/`,
-    `survey-devs/`, and `survey-learning/` so Microsoft Forms can be built
-    without missing files. Translate respondent-facing text as needed, but
-    keep question IDs unchanged.
+  structured assets reused by all languages.
 - Canonical question IDs and some internal field names remain in Portuguese
-    where required by the scoring framework and production platform mapping.
+  where required by the scoring framework and production platform mapping.
 """,
-        "es": """# Notas de idioma del paquete Espanol
+    "es": """# Notas de idioma del paquete Español
 
-- Documentacion orientada al cliente: Espanol.
-- Archivos de customizacion de Copilot en `.github/`: se mantienen en ingles
-    intencionalmente en todos los paquetes.
+- Documentación orientada al cliente: Español (`README.md`,
+  `PASO-A-PASO.md`, `INSTRUCCIONES-FORMS.md`). Las guías de apoyo
+  compartidas (`coleta/`, `survey-devs/`, `survey-learning/`, `wizard/`)
+  y los asistentes HTML están en inglés.
+- Los reportes se generan en inglés por defecto. Define `metadata.language`
+  como `"es"` en `respostas.json` para español. Los reportes de los surveys
+  aceptan `--lang pt-br`.
+- Archivos de customización de Copilot en `.github/`: se mantienen en inglés
+  intencionalmente en todos los paquetes.
 - JSONs, scripts, templates y workbooks compartidos son activos ejecutables
-    o estructurados reutilizados por todos los idiomas.
-- Los bancos canonicos de preguntas en Portugues se incluyen en `coleta/`,
-    `survey-devs/` y `survey-learning/` para crear Microsoft Forms sin
-    archivos faltantes. Traduce el texto visible para respondentes segun sea
-    necesario, manteniendo los IDs sin cambios.
-- IDs canonicos de preguntas y algunos nombres internos permanecen en Portugues
-    cuando el framework de scoring y el mapeo de plataforma lo requieren.
+  o estructurados reutilizados por todos los idiomas.
+- IDs canónicos de preguntas y algunos nombres internos permanecen en
+  portugués cuando el framework de scoring y el mapeo de plataforma lo
+  requieren.
 """,
 }
 
@@ -153,9 +168,28 @@ ARCHIVE_NAMES = {
     "es": "ai-maturity-kit-es.zip",
 }
 
+LOCALIZED_TEXT_SUFFIXES = {".md", ".html"}
+UNTRANSFORMED_PREFIXES = (".github/", "relatorios/templates/")
+# Only link targets: Markdown `](...)` and HTML `href="..."`.
+PT_BR_LINK_RE = re.compile(
+    r'((?:\]\(|href=")[^)"\s]*?)\.pt-br\.(md|html)'
+)
+MD_SWITCHER_MARKER = "Português (Brasil)"
+HTML_SWITCHER_RE = re.compile(
+    r'^\s*<a href="[^"]*" hreflang="[^"]*"[^>]*>[^<]*</a>\s*$'
+)
+
 
 def normalized(path: Path) -> str:
     return path.as_posix()
+
+
+def is_pt_br_copy(rel: str) -> bool:
+    return f"{PT_BR_TAG}." in Path(rel).name
+
+
+def pt_br_sibling(source: Path) -> Path:
+    return source.with_name(f"{source.stem}{PT_BR_TAG}{source.suffix}")
 
 
 def is_common_excluded(rel: str) -> bool:
@@ -163,6 +197,9 @@ def is_common_excluded(rel: str) -> bool:
     if parts & COMMON_EXCLUDED_PARTS:
         return True
     if Path(rel).name in COMMON_EXCLUDED_NAMES:
+        return True
+    # PT copies are shipped under their base names by write_source().
+    if is_pt_br_copy(rel):
         return True
     if rel.startswith(".github/workflows/"):
         return True
@@ -184,18 +221,72 @@ def should_include_runtime_file(rel: str) -> bool:
     return True
 
 
+def is_switcher_line(line: str, suffix: str) -> bool:
+    if suffix == ".md":
+        stripped = line.strip()
+        return stripped.startswith("🌐 ") and MD_SWITCHER_MARKER in stripped
+    return bool(HTML_SWITCHER_RE.match(line))
+
+
+def strip_language_switchers(text: str, suffix: str) -> str:
+    # The other-language file is not shipped, so switcher links would break.
+    kept: list[str] = []
+    drop_next_blank = False
+    for line in text.splitlines(keepends=True):
+        if is_switcher_line(line, suffix):
+            drop_next_blank = bool(kept) and not kept[-1].strip()
+            continue
+        if drop_next_blank and not line.strip():
+            drop_next_blank = False
+            continue
+        drop_next_blank = False
+        kept.append(line)
+    return "".join(kept)
+
+
+def localize_text(text: str, suffix: str, lang: str) -> str:
+    if lang == "pt":
+        text = PT_BR_LINK_RE.sub(r"\1.\2", text)
+    return strip_language_switchers(text, suffix)
+
+
+def write_source(
+    zf: zipfile.ZipFile,
+    source: Path,
+    arcname: str,
+    lang: str,
+) -> None:
+    if arcname in zf.NameToInfo:
+        return
+    rel = normalized(source.relative_to(ROOT))
+    if rel.startswith(UNTRANSFORMED_PREFIXES):
+        zf.write(source, arcname)
+        return
+    if lang == "pt":
+        sibling = pt_br_sibling(source)
+        if sibling.is_file():
+            source = sibling
+    suffix = source.suffix.lower()
+    if suffix not in LOCALIZED_TEXT_SUFFIXES:
+        zf.write(source, arcname)
+        return
+    text = source.read_text(encoding="utf-8")
+    zf.writestr(arcname, localize_text(text, suffix, lang))
+
+
 def add_file(
     zf: zipfile.ZipFile,
     source_rel: str,
     dest_rel: str | None = None,
+    *,
+    lang: str,
 ) -> None:
     source = ROOT / source_rel
     if not source.exists() or not source.is_file():
         return
-    arcname = dest_rel or source_rel
-    if arcname in zf.NameToInfo:
+    if is_pt_br_copy(source_rel):
         return
-    zf.write(source, arcname)
+    write_source(zf, source, dest_rel or source_rel, lang)
 
 
 def iter_source_files(source: Path) -> list[Path]:
@@ -227,6 +318,7 @@ def add_tree(
     source_rel: str,
     dest_rel: str | None = None,
     *,
+    lang: str,
     runtime_filter: bool = False,
 ) -> None:
     source = ROOT / source_rel
@@ -238,24 +330,22 @@ def add_tree(
         if not should_add_tree_file(rel, runtime_filter):
             continue
         dest = destination_for(file_path, source, dest_rel)
-        if dest in zf.NameToInfo:
-            continue
-        zf.write(file_path, dest)
+        write_source(zf, file_path, dest, lang)
 
 
-def add_copilot_customizations(zf: zipfile.ZipFile) -> None:
+def add_copilot_customizations(zf: zipfile.ZipFile, lang: str) -> None:
     for root in COPILOT_CUSTOMIZATION_ROOTS:
-        add_tree(zf, root)
+        add_tree(zf, root, lang=lang)
 
 
-def add_shared_runtime(zf: zipfile.ZipFile) -> None:
+def add_shared_runtime(zf: zipfile.ZipFile, lang: str) -> None:
     for root in SHARED_RUNTIME_ROOTS:
-        add_tree(zf, root, runtime_filter=True)
+        add_tree(zf, root, lang=lang, runtime_filter=True)
 
 
-def add_shared_client_assets(zf: zipfile.ZipFile) -> None:
+def add_shared_client_assets(zf: zipfile.ZipFile, lang: str) -> None:
     for root in SHARED_CLIENT_ASSETS:
-        add_tree(zf, root, runtime_filter=False)
+        add_tree(zf, root, lang=lang)
 
 
 def validate_packaging_sources() -> None:
@@ -268,7 +358,9 @@ def validate_packaging_sources() -> None:
     missing = [path for path in required if not (ROOT / path).exists()]
     if missing:
         joined = "\n  - ".join(missing)
-        raise FileNotFoundError(f"Missing packaging source files:\n  - {joined}")
+        raise FileNotFoundError(
+            f"Missing packaging source files:\n  - {joined}"
+        )
 
 
 def add_reference_examples(zf: zipfile.ZipFile, lang: str) -> None:
@@ -281,26 +373,32 @@ def add_reference_examples(zf: zipfile.ZipFile, lang: str) -> None:
         "referencia/exemplo-saida/maturidade-developer-survey-EXEMPLO.json",
         "referencia/exemplo-saida/implementation-guide-inputs-EXEMPLO.json",
     ]:
-        add_file(zf, source)
+        add_file(zf, source, lang=lang)
 
     if lang == "pt":
         example_dir = ROOT / "referencia/exemplo-saida"
         for file_path in sorted(example_dir.glob("*.pdf")):
-            add_file(zf, normalized(file_path.relative_to(ROOT)))
+            add_file(zf, normalized(file_path.relative_to(ROOT)), lang=lang)
         add_file(
             zf,
             "referencia/exemplo-saida/pontuacao-preenchida-2026-05-08.xlsx",
+            lang=lang,
         )
-        add_file(zf, "referencia/exemplo-saida/README.md")
+        add_file(zf, "referencia/exemplo-saida/README.md", lang=lang)
         add_file(
             zf,
             "referencia/exemplo-saida/insights-developer-survey-EXEMPLO.md",
+            lang=lang,
         )
-        add_file(zf, "referencia/exemplo-saida/plano-capacitacao-EXEMPLO.md")
+        add_file(
+            zf,
+            "referencia/exemplo-saida/plano-capacitacao-EXEMPLO.md",
+            lang=lang,
+        )
     elif lang == "en":
-        add_tree(zf, "referencia/exemplo-saida/en", runtime_filter=False)
+        add_tree(zf, "referencia/exemplo-saida/en", lang=lang)
     elif lang == "es":
-        add_tree(zf, "referencia/exemplo-saida/es", runtime_filter=False)
+        add_tree(zf, "referencia/exemplo-saida/es", lang=lang)
 
 
 def add_pt_documentation(zf: zipfile.ZipFile) -> None:
@@ -317,20 +415,29 @@ def add_pt_documentation(zf: zipfile.ZipFile) -> None:
         rel = normalized(file_path.relative_to(ROOT))
         if rel.startswith(excluded_prefixes) or is_common_excluded(rel):
             continue
-        add_file(zf, rel)
+        add_file(zf, rel, lang="pt")
 
     # PT-BR visual guides are intentionally included only in the PT package.
-    add_tree(zf, "formularios", runtime_filter=False)
-    add_file(zf, "wizard/implementation-guide-wizard.html")
-    add_file(zf, "referencia/calculadora-pontuacao.html")
+    add_tree(zf, "formularios", lang="pt")
+    add_file(zf, "wizard/implementation-guide-wizard.html", lang="pt")
+    add_file(zf, "referencia/calculadora-pontuacao.html", lang="pt")
 
 
 def add_localized_docs(zf: zipfile.ZipFile, lang: str) -> None:
     if lang == "pt":
         add_pt_documentation(zf)
     for source, dest in LANGUAGE_DOCS[lang]:
-        add_file(zf, source, dest)
+        add_file(zf, source, dest, lang=lang)
     zf.writestr("PACKAGE-LANGUAGE-NOTES.md", LANGUAGE_NOTES[lang])
+
+
+def assert_no_pt_br_names(zf: zipfile.ZipFile, archive_path: Path) -> None:
+    leaked = [name for name in zf.namelist() if is_pt_br_copy(name)]
+    if leaked:
+        joined = "\n  - ".join(leaked)
+        raise RuntimeError(
+            f"{archive_path.name} contains .pt-br names:\n  - {joined}"
+        )
 
 
 def build_archive(lang: str, output_dir: Path) -> Path:
@@ -344,11 +451,12 @@ def build_archive(lang: str, output_dir: Path) -> Path:
         "w",
         compression=zipfile.ZIP_DEFLATED,
     ) as zf:
-        add_copilot_customizations(zf)
-        add_shared_runtime(zf)
-        add_shared_client_assets(zf)
+        add_copilot_customizations(zf, lang)
+        add_shared_runtime(zf, lang)
+        add_shared_client_assets(zf, lang)
         add_reference_examples(zf, lang)
         add_localized_docs(zf, lang)
+        assert_no_pt_br_names(zf, archive_path)
 
     return archive_path
 
