@@ -1,6 +1,6 @@
 ---
 name: importar-respostas-excel
-description: Converts an Excel exported from Microsoft Forms (or Google Forms / multi-respondent spreadsheet) into structured respostas.json for the AI Maturity Assessment, aggregating multiple respondents via mean per question. Use when the client collected responses via Forms and wants to run the pipeline. Trigger on "importar respostas", "import Forms", "converter Excel para JSON", "respostas-forms.xlsx", "Microsoft Forms para o assessment", "agregar respondentes". Looks for respostas-forms.xlsx at workspace root or path passed by the user.
+description: Converts an Excel exported from Microsoft Forms (or Google Forms / multi-respondent spreadsheet) into structured respostas.json for the AI Maturity Assessment, aggregating multiple respondents via mean per question. Use when the client collected responses via Forms and wants to run the pipeline. Trigger on "importar respostas", "import Forms", "converter Excel para JSON", "respostas-forms.xlsx", "Microsoft Forms para o assessment", "agregar respondentes", "import responses", "import Excel responses", "convert Excel to JSON", "aggregate respondents". Looks for respostas-forms.xlsx at workspace root or path passed by the user.
 argument-hint: optional path of the .xlsx (default: respostas-forms.xlsx at root)
 ---
 
@@ -33,6 +33,7 @@ argument-hint: optional path of the .xlsx (default: respostas-forms.xlsx at root
 - **Rows 2+** = one respondent per row
 - **Columns F+** alternate: question (Choice) → evidence (Long Text) → next question...
 - **Question header** ALWAYS starts with `qid` in pattern `P[1-3]-C[1-9][0-9]?-Q[1-9][0-9]?:`
+- **Evidence header** is `Evidência (<qid>)` in the PT-BR form, `Evidence (<qid>)` in the EN form, or `Evidencia (<qid>)` in the ES form. Answer options are parsed by their `L0`..`L4` / `NA` prefix, so any form language works.
 
 ## Procedure
 
@@ -40,7 +41,7 @@ argument-hint: optional path of the .xlsx (default: respostas-forms.xlsx at root
 
 ```python
 path = user_argument or "respostas-forms.xlsx"
-if not exists → error: "Não encontrei o arquivo. Verifique o caminho ou rode com /importar-respostas-excel <caminho>"
+if not exists → error: "File not found. Check the path or run /importar-respostas-excel <path>"
 ```
 
 ### 2. Extract column → qid mapping
@@ -50,6 +51,7 @@ import re, openpyxl
 wb = openpyxl.load_workbook(path)
 ws = wb.active
 qid_pattern = re.compile(r"^(P[1-3]-C\d+-Q\d+):")
+evidence_pattern = re.compile(r"^Evid(?:ência|ence|encia) \(([^)]+)\)")
 col_to_qid = {}
 col_to_evidence_qid = {}
 for col_idx, header_cell in enumerate(ws[1], start=1):
@@ -57,10 +59,8 @@ for col_idx, header_cell in enumerate(ws[1], start=1):
     m = qid_pattern.match(val)
     if m:
         col_to_qid[col_idx] = m.group(1)
-    elif val.startswith("Evidência ("):
-        em = re.match(r"Evidência \(([^)]+)\)", val)
-        if em:
-            col_to_evidence_qid[col_idx] = em.group(1)
+    elif em := evidence_pattern.match(val):
+        col_to_evidence_qid[col_idx] = em.group(1)
 ```
 
 Validate: `len(col_to_qid)` should be close to 158. If < 100, alert and stop.
@@ -79,7 +79,7 @@ def parse_level(cell_value):
     if s.startswith("L2"): return 2
     if s.startswith("L3"): return 3
     if s.startswith("L4"): return 4
-    if s.startswith("NA") or s.lower() in ("não sei", "n/a", "na"):
+    if s.startswith("NA") or s.lower() in ("não sei", "no sé", "i do not know", "n/a", "na"):
         return None  # explicit not applicable
     return None  # unknown — log warning
 ```
@@ -148,14 +148,15 @@ if (KIT / "respostas.json").exists():
     shutil.copy(KIT / "respostas.json", KIT / f"respostas.json.backup-{ts}")
 
 template = json.load(open(KIT / "respostas.json"))
+previous_language = template.get("metadata", {}).get("language", "en")
 template["metadata"] = {
-    "respondent_name": f"Agregado de {len(respondents)} respondentes",
+    "respondent_name": f"Aggregate of {len(respondents)} respondents",
     "respondent_email": "—",
-    "respondent_role": "Multi-respondente",
+    "respondent_role": "Multi-respondent",
     "audience": ["all"],
     "organization": "<extracted from Forms or filled manually>",
     "assessment_date": datetime.date.today().isoformat(),
-    "language": "pt-BR",
+    "language": previous_language,  # keep the report language: "en", "pt-BR", or "es"
     "source": "microsoft-forms-import",
     "respondents": [{"name": r["name"], "email": r["email"]} for r in respondents],
 }
@@ -167,46 +168,48 @@ for qid, body in agg.items():
 json.dump(template, open(KIT / "respostas.json", "w"), ensure_ascii=False, indent=2)
 ```
 
-### 7. Generate import log (in PT-BR, written to saida/)
+### 7. Generate import log (written to saida/)
+
+Write the log in English by default; write it in Portuguese when the user works in Portuguese or `metadata.language` is `pt-BR`.
 
 ```markdown
-# Import log — {DATE}
+# Import log: {DATE}
 
-## Resumo
-- Arquivo importado: respostas-forms.xlsx
-- Respondentes: {N} ({names})
-- Questões processadas: {X} / 158
-- Questões com pelo menos 1 resposta: {Y}
-- Backup do respostas.json anterior: respostas.json.backup-{TS}
+## Summary
+- Imported file: respostas-forms.xlsx
+- Respondents: {N} ({names})
+- Questions processed: {X} / 158
+- Questions with at least 1 answer: {Y}
+- Backup of the previous respostas.json: respostas.json.backup-{TS}
 
-## Cobertura por respondente
-| Respondente       | Email            | Respondidas | Evidências |
+## Coverage per respondent
+| Respondent        | Email            | Answered    | Evidence   |
 |-------------------|------------------|-------------|------------|
 | Maria Tech Leader | maria@...com.br  | 46 / 158    | 46         |
 
-## Alertas
-- {row N: unrecognized value at P2-C4-Q3 → "talvez" — treated as null}
-- {question P3-C5-Q4 with no answer from any respondent — stays null in respostas.json}
+## Alerts
+- {row N: unrecognized value at P2-C4-Q3 → "talvez", treated as null}
+- {question P3-C5-Q4 with no answer from any respondent, stays null in respostas.json}
 
-## Próximo passo
-Rode `/pipeline-completo` para calcular scores e gerar relatório.
+## Next step
+Run `/pipeline-completo` to compute scores and generate the report.
 ```
 
-## Report in chat (PT-BR)
+## Report in chat (English by default, or the user's language)
 
 ```
-✓ Importação concluída → respostas.json (atualizado)
+✓ Import complete → respostas.json (updated)
 ✓ Backup: respostas.json.backup-20260508T144523
 ✓ Log: saida/import-log-2026-05-08.md
 
-📥 Importados:
-   • 3 respondentes: Maria Tech Leader, Joao Backend SRE, Ana Security Lead
-   • 142 / 158 questões com pelo menos 1 resposta
-   • 117 evidências capturadas
+📥 Imported:
+   • 3 respondents: Maria Tech Leader, Joao Backend SRE, Ana Security Lead
+   • 142 / 158 questions with at least 1 answer
+   • 117 evidence entries captured
 
-⚠️ 4 alertas (ver log) — valores não reconhecidos foram tratados como null
+⚠️ 4 alerts (see log): unrecognized values were treated as null
 
-🎯 Próximo: /pipeline-completo
+🎯 Next: /pipeline-completo
 ```
 
 ## Constraints

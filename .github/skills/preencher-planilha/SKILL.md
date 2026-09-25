@@ -17,7 +17,7 @@ argument-hint: optional path different from respostas.json
 
 ## Expected output
 - `saida/pontuacao-preenchida-<YYYY-MM-DD>.xlsx`
-- Brief chat message (in PT-BR): how many questions answered, threshold status, relative link to generated file.
+- Brief chat message (English by default, or the user's language): how many questions answered, threshold status, relative link to generated file.
 
 ## Procedure (follow in order)
 
@@ -37,14 +37,14 @@ argument-hint: optional path different from respostas.json
    - **DO NOT manually recalculate** — the SUMPRODUCT formulas in the xlsx do this when client opens in Excel.
 
 4. **(Optional) Append raw responses**:
-   - Add a "Respostas brutas" sheet with the full table: `qid | nível | rótulo | evidência`.
+   - Add a "Raw responses" sheet with the full table: `qid | level | label | evidence`.
 
-5. **Report in chat (PT-BR)**:
+5. **Report in chat (English by default, or the user's language)**:
    ```
-   ✓ Planilha preenchida: saida/pontuacao-preenchida-2026-05-08.xlsx
-   • Respondidas: 45 / 158 (28%)
-   • Threshold: WARNING (25–39 — resultado preliminar)
-   • Próximo passo sugerido: rodar /calcular-scores para gerar scores.json
+   ✓ Spreadsheet populated: saida/pontuacao-preenchida-2026-05-08.xlsx
+   • Answered: 45 / 158 (28%)
+   • Threshold: WARNING (25-39, preliminary result)
+   • Suggested next step: run /calcular-scores to generate scores.json
    ```
 
 ## Error handling

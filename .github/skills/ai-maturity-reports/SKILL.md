@@ -67,6 +67,8 @@ If client wants to go straight from existing scores to PDFs:
 python3 relatorios/scripts/build_payload_and_render.py
 ```
 
+PDFs render in English with `"language": "en"` in `respostas.json::metadata`. For Portuguese, set `"language": "pt-BR"` (or `"es"` for Spanish) and rerun the same command.
+
 The script:
 - Loads `relatorios/sample_payload.json` as base structure
 - Overrides only fields with client data (organization, scores, capabilities, gaps)
@@ -137,7 +139,7 @@ The folder `referencia/exemplo-saida/` contains the 5 PDFs rendered from `respos
 - **DO NOT skip** the script — running Jinja2 manually misses i18n, CSS, and WeasyPrint setup.
 - WeasyPrint dependencies: `pip install --user --break-system-packages weasyprint jinja2 openpyxl`
 - Mac: `brew install cairo pango gdk-pixbuf libffi`
-- Output language follows `respostas.json::metadata.language` (en / es / pt-br).
+- Output language follows `respostas.json::metadata.language`: `en` (default), `pt-BR`, or `es`.
 
 ## Related skills (in this kit)
 

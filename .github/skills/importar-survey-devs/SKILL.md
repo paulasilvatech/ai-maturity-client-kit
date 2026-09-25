@@ -1,6 +1,6 @@
 ---
 name: importar-survey-devs
-description: Imports the Developer Survey results (Microsoft Forms export .xlsx) into structured JSON. The survey has 75 questions across 9 sections (Profile, Copilot adoption + modes, MS/GitHub tools, AI dev practices, Agent concepts, Markdown/Instructions, Usability, Security/Governance, Pain points). Different from /importar-respostas-excel which handles the maturity assessment. Use when user has respostas-survey-devs.xlsx and wants to analyze it.
+description: Imports the Developer Survey results (Microsoft Forms export .xlsx) into structured JSON. The survey has 75 questions across 9 sections (Profile, Copilot adoption + modes, MS/GitHub tools, AI dev practices, Agent concepts, Markdown/Instructions, Usability, Security/Governance, Pain points). Different from /importar-respostas-excel which handles the maturity assessment. Use when user has respostas-survey-devs.xlsx and wants to analyze it, or asks "import developer survey", "import survey-devs", "importar survey de devs", "importar respostas do survey".
 argument-hint: optional path to .xlsx (default: respostas-survey-devs.xlsx at root)
 ---
 
@@ -29,7 +29,7 @@ argument-hint: optional path to .xlsx (default: respostas-survey-devs.xlsx at ro
 | 2   | ...        | ...             |       |      | "SRE"            | "11-15 anos"     |
 ```
 
-Headers MUST start with `S[1-9]-Q\d+:` pattern. Email/Name are typically empty (anonymous form).
+Headers MUST start with `S[1-9]-Q\d+:` pattern. Email/Name are typically empty (anonymous form). Answer values (for example `"6-10 anos"`) are canonical Forms option labels that the rubric matches verbatim; store them as exported, never translate them.
 
 ## Procedure
 
@@ -38,7 +38,7 @@ Headers MUST start with `S[1-9]-Q\d+:` pattern. Email/Name are typically empty (
 ```python
 caminho = arg or "respostas-survey-devs.xlsx"
 if not (KIT / caminho).exists():
-    error: "Arquivo não encontrado. Veja survey-devs/INSTRUCOES-FORMS-DEVS.md"
+    error: "File not found. See survey-devs/INSTRUCOES-FORMS-DEVS.md"
 ```
 
 ### 2. Parse headers
@@ -58,7 +58,7 @@ for col_idx, header_cell in enumerate(ws[1], start=1):
 
 # Validate: should be ~75 questions
 if len(col_to_qid) < 50:
-    warn(f"Apenas {len(col_to_qid)} questões detectadas (esperado ~69). Verifique formato dos headers.")
+    warn(f"Only {len(col_to_qid)} questions detected (expected ~75). Check the header format.")
 ```
 
 ### 3. Detect question types from `survey-devs/perguntas-para-forms-devs.md`
@@ -117,39 +117,41 @@ for row_idx in range(2, ws.max_row + 1):
 
 ### 6. Generate log `saida/import-survey-log-<DATE>.md`
 
+English by default; Portuguese when the user works in Portuguese.
+
 ```markdown
-# Import log — Developer Survey ({DATE})
+# Import log: Developer Survey ({DATE})
 
-## Resumo
-- Arquivo: respostas-survey-devs.xlsx
-- Respondentes: 12 (anônimos)
-- Questões detectadas: 69 / 69 (100%)
-- Saída: survey-devs/respostas-devs.json
+## Summary
+- File: respostas-survey-devs.xlsx
+- Respondents: 12 (anonymous)
+- Questions detected: 69 / 69 (100%)
+- Output: survey-devs/respostas-devs.json
 
-## Cobertura por seção
-| Seção | Respostas | % |
+## Coverage per section
+| Section | Answers | % |
 |---|---|---|
-| S1 (Perfil) | 84/84 | 100% |
+| S1 (Profile) | 84/84 | 100% |
 | S2 (Copilot) | 105/108 | 97% |
 ...
 
-## Alertas
-- (nenhum) ou listagem de problemas
+## Alerts
+- (none) or a list of problems
 
-## Próximo
-Rode `/insights-developer-survey` para gerar relatório agregado.
+## Next
+Run `/insights-developer-survey` to generate the aggregated report.
 ```
 
-## Report in chat (PT-BR)
+## Report in chat (English by default, or the user's language)
 
 ```
-✓ Survey importado → survey-devs/respostas-devs.json
-   12 respondentes anônimos, 69 questões processadas
+✓ Survey imported → survey-devs/respostas-devs.json
+   12 anonymous respondents, 69 questions processed
 
-📊 Cobertura: 95% (algumas perguntas pulada por respondentes)
-⚠️ 0 alertas
+📊 Coverage: 95% (some questions skipped by respondents)
+⚠️ 0 alerts
 
-🎯 Próximo: /insights-developer-survey  → gera relatório consolidado
+🎯 Next: /insights-developer-survey  → generates the consolidated report
 ```
 
 ## Constraints

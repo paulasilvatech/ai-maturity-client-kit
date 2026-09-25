@@ -1,6 +1,6 @@
 ---
 name: calcular-scores
-description: Computes capability/pillar/overall scores from respostas.json applying the official SUMPRODUCT algorithm from the platform. Generates saida/scores.json. Use when the user asks to "calcular scores", "computar pontuação", "rodar o scoring".
+description: Computes capability/pillar/overall scores from respostas.json applying the official SUMPRODUCT algorithm from the platform. Generates saida/scores.json. Use when the user asks to "calcular scores", "computar pontuação", "rodar o scoring", "compute scores", "calculate maturity scores", "run the scoring".
 ---
 
 # Skill: Compute scores (official algorithm)
@@ -16,7 +16,7 @@ description: Computes capability/pillar/overall scores from respostas.json apply
 
 ## Expected output
 - `saida/scores.json` — full structure (see schema below)
-- Brief chat message (PT-BR) with overall score + label + threshold.
+- Brief chat message (English by default, or the user's language) with overall score + label + threshold.
 
 ## Algorithm (follow EXACTLY — mirrors `referencia/pontuacao-e-calculo.md`)
 
@@ -56,6 +56,7 @@ overall = ws / wt
 **ATTENTION**: Overall is NOT mean of the 3 pillars. It's direct SUMPRODUCT over all capabilities.
 
 ### 4. Labels
+Canonical label strings (Portuguese by design, shared with the platform and `build_payload_and_render.py`); keep them verbatim in `scores.json`:
 ```
 score < 0.5  → "L0 — Inicial"
 [0.5, 1.5)   → "L1 — Em Desenvolvimento"
@@ -63,6 +64,8 @@ score < 0.5  → "L0 — Inicial"
 [2.5, 3.5)   → "L3 — Gerenciado"
 score ≥ 3.5  → "L4 — Otimizando"
 ```
+
+In chat and English reports, display them as L0 Initial, L1 Developing, L2 Defined, L3 Managed, and L4 Optimizing.
 
 ### 5. Threshold
 ```
@@ -112,20 +115,20 @@ total_answered ≥ 40  → "OK"
 - Rounding: none in computation. For display (chat / scores.json), use 3 decimals.
 - Validate levels as numeric values in `[0, 4]` or `null`. Do not require integers.
 
-## Report in chat (PT-BR)
+## Report in chat (English by default, or the user's language)
 ```
-✓ Scores calculados → saida/scores.json
-• Overall: 2.413 (L2 — Definido)
-• PE: 1.875 (L1 — Em Desenvolvimento)
-• Threshold: WARNING (32/158 respondidas)
+✓ Scores computed → saida/scores.json
+• Overall: 2.413 (L2 Defined)
+• PE: 1.875 (L1 Developing)
+• Threshold: WARNING (32/158 answered)
 • Pillars: P1=2.6 L3 · P2=2.1 L2 · P3=2.4 L2
-• Próximo: /gap-analysis
+• Next: /gap-analysis
 ```
 
 ## Constraints
 - Never round before saving (preserve `f64`).
 - Never include capabilities with `score=null` in pillar/overall SUMPRODUCT.
-- If `total_answered < 25`, still compute but mark `threshold.status="BLOCKED"` and warn the client (in PT-BR) that the executive report shouldn't be used for decisions.
+- If `total_answered < 25`, still compute but mark `threshold.status="BLOCKED"` and warn the client (English by default, or the user's language) that the executive report shouldn't be used for decisions.
 
 ## Preflight: framework_version check
 
@@ -136,9 +139,9 @@ rf = respostas.get("metadata", {}).get("framework_version")
 ff = framework.get("version")
 if rf and ff and rf != ff:
     warn(
-        f"⚠️ respostas.json foi preenchido contra o framework {rf}, "
-        f"mas framework.json está na versão {ff}. Pesos e perguntas podem "
-        f"ter mudado. Recomendado: revalidar respostas antes de publicar o relatório."
+        f"⚠️ respostas.json was filled against framework {rf}, "
+        f"but framework.json is at version {ff}. Weights and questions may "
+        f"have changed. Recommended: revalidate answers before publishing the report."
     )
 ```
 

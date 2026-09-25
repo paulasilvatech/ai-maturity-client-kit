@@ -75,7 +75,7 @@ KIT = Path.cwd()  # workspace root
 required = ["respostas.json", "saida/scores.json", "saida/gaps.json", "saida/recomendacoes.json"]
 missing = [f for f in required if not (KIT / f).exists()]
 if missing:
-    error(f"Faltando: {missing}. Rode /pipeline-completo primeiro.")
+    error(f"Missing: {missing}. Run /pipeline-completo first.")
 ```
 
 ### 2. Confirm dependencies installed
@@ -93,6 +93,8 @@ python3 relatorios/scripts/build_payload_and_render.py
 
 Script does everything: merge → write payload.json → render 5 PDFs. Reports each step.
 
+PDF language comes from `respostas.json::metadata.language`: `"en"` (default), `"pt-BR"`, or `"es"`. For Portuguese PDFs, set `"language": "pt-BR"` and run the same command.
+
 ### 4. Verify outputs
 
 ```python
@@ -107,46 +109,46 @@ expected = [
 for name in expected:
     f = KIT / "saida" / name
     if not f.exists() or f.stat().st_size < 50_000:
-        warn(f"Output suspeito: {name}")
+        warn(f"Suspicious output: {name}")
 ```
 
-## Report in chat (PT-BR)
+## Report in chat (English by default, or the user's language)
 
 ```
-✓ 5 PDFs production-quality gerados em saida/:
-   📄 score_justification.pdf       (331 KB) — Justificativa + PE Readiness
-   📄 roadmap_part_pillar_p1.pdf    (415 KB) — Pilar Produtividade
-   📄 roadmap_part_pillar_p2.pdf    (417 KB) — Pilar DevOps
-   📄 roadmap_part_pillar_p3.pdf    (419 KB) — Pilar Plataforma
-   📄 roadmap_part4.pdf             (516 KB) — Guia de Implementação
+✓ 5 production-quality PDFs generated in saida/:
+   📄 score_justification.pdf       (331 KB): Justification + PE Readiness
+   📄 roadmap_part_pillar_p1.pdf    (415 KB): Productivity pillar
+   📄 roadmap_part_pillar_p2.pdf    (417 KB): DevOps pillar
+   📄 roadmap_part_pillar_p3.pdf    (419 KB): Platform pillar
+   📄 roadmap_part4.pdf             (516 KB): Implementation Guide
 
-📊 Resumo:
-   Organização: Cliente Exemplo S.A.
-   Overall: 1.99 (L2 — Definido)
-   Locale: pt-br
-   Threshold: OK (46/158 respondidas)
+📊 Summary:
+   Organization: Cliente Exemplo S.A.
+   Overall: 1.99 (L2 Defined)
+   Locale: en
+   Threshold: OK (46/158 answered)
 
-⚠️ Personalização:
-   Algumas seções narrativas (RACI matrix, technology stack details,
-   risk register, success metrics per pillar) usam placeholders profissionais
-   do sample_payload.json. Para personalizar:
+⚠️ Personalization:
+   Some narrative sections (RACI matrix, technology stack details,
+   risk register, and success metrics per pillar) use professional
+   placeholders from sample_payload.json. To personalize:
 
-   1. Rode /wizard-implementacao para Parte 4 (Implementation Guide)
-   2. OU edite saida/payload.json diretamente e re-renderize:
+   1. Run /wizard-implementacao for Part 4 (Implementation Guide)
+   2. OR edit saida/payload.json directly and re-render:
         python3 relatorios/scripts/render_reports.py --payload saida/payload.json
 
-📋 Próximos passos:
-   1. Abrir saida/score_justification.pdf no Preview/Acrobat
-   2. Validar Cliente Exemplo S.A. e os scores aparecem corretos
-   3. Compartilhar PDFs com liderança
+📋 Next steps:
+   1. Open saida/score_justification.pdf in Preview/Acrobat
+   2. Check that Cliente Exemplo S.A. and the scores appear correctly
+   3. Share the PDFs with leadership
 ```
 
 ## Customization patterns
 
 ### Pattern 1: Personalize Implementation Guide (Part 4)
 ```
-/wizard-implementacao    # 9 steps, gera implementation-guide-inputs.json
-/gerar-relatorio         # re-renderiza com Parte 4 personalizada
+/wizard-implementacao    # 9 steps, generates implementation-guide-inputs.json
+/gerar-relatorio         # re-renders with personalized Part 4
 ```
 
 ### Pattern 2: Personalize narrative fields (capabilities, risks, etc.)
@@ -167,7 +169,7 @@ python3 relatorios/scripts/render_reports.py --payload saida/payload.json --out 
 
 ### Pattern 3: Different language
 ```bash
-# Edit respostas.json::metadata.language to "en", "es" or "pt-br"
+# Set respostas.json::metadata.language to "en" (default), "pt-BR", or "es"
 /gerar-relatorio   # re-renders in selected locale
 ```
 
@@ -228,4 +230,4 @@ The folder `referencia/exemplo-saida/` contains 5 PDFs generated from `respostas
 | `StrictUndefined: 'X' is undefined` (rare) | Sample payload missing a field — open issue or add to sample |
 | PDF still shows "Acme Insurance" | `respostas.json::metadata.organization` is empty — fix and re-run |
 | PDF still has "James Carter" in Part 4 | Run `/wizard-implementacao` to replace steering committee placeholders |
-| Wrong language | Edit `respostas.json::metadata.language` (en / es / pt-br) and re-run |
+| Wrong language | Set `respostas.json::metadata.language` (`en`, `pt-BR`, or `es`) and re-run |

@@ -70,12 +70,12 @@ Run the skills in this order, verifying each expected output before continuing:
 
 ## Final Summary
 
-Reply in PT-BR with:
+Reply in English by default, or in the user's language if they wrote in Portuguese or Spanish. PDF language follows `respostas.json::metadata.language` (`en` default, `pt-BR`, or `es`).
 
 ```text
-Pipeline completo — AI Maturity Assessment
+Full pipeline: AI Maturity Assessment
 
-Arquivos gerados em saida/:
+Files generated in saida/:
 - pontuacao-preenchida-<DATE>.xlsx
 - scores.json
 - gaps.json
@@ -87,21 +87,21 @@ Arquivos gerados em saida/:
 - roadmap_part_pillar_p3.pdf
 - roadmap_part4.pdf
 
-Resumo:
+Summary:
 - Overall: <score> (<label>)
 - Threshold: <status> (<answered>/158)
 - Pillars: P1=<score> · P2=<score> · P3=<score>
 - Gaps: P0=<n> · P1=<n> · P2=<n> · P3=<n>
-- Estratégias top 3: <Sx>, <Sy>, <Sz>
+- Top 3 strategies: <Sx>, <Sy>, <Sz>
 - Locale: <payload.locale>
 
-Complementos detectados:
+Complementary inputs detected:
 - Developer Survey: <yes/no>
 - Learning Survey: <yes/no>
-- Wizard personalizado: <yes/no>
+- Personalized wizard: <yes/no>
 
-Próximos passos:
-1. Abrir `saida/score_justification.pdf`.
-2. Validar scores e evidências com stakeholders.
-3. Completar dados faltantes ou personalizar `implementation-guide-inputs.json` se necessário.
+Next steps:
+1. Open `saida/score_justification.pdf`.
+2. Validate scores and evidence with stakeholders.
+3. Fill in missing data or personalize `implementation-guide-inputs.json` if needed.
 ```

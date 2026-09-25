@@ -7,18 +7,18 @@ description: Generates a prioritized capacitation roadmap (plano de capacitaçã
 
 ## When to use
 - After `/importar-survey-learning` (depends on `survey-learning/respostas-learning.json`)
-- When liderança quer **plano acionável** de treinamento + Champions + workshops
-- Output feeds `/wizard-implementacao` (alimenta steps de Training Plan, ADKAR, Quick Wins)
+- When leadership wants an **actionable plan** for training, Champions, and workshops
+- Output feeds `/wizard-implementacao` (Training Plan, ADKAR, and Quick Wins steps)
 
 ## Inputs
-- `survey-learning/respostas-learning.json` — respondentes identificados + respostas
-- `survey-learning/perguntas-para-forms-learning.md` — schema reference
-- (optional) `saida/maturidade-developer-survey-<DATE>.json` — para cross-reference com maturidade real
-- (optional) `saida/scores.json` — capabilities do assessment principal (P1-C1 etc.)
+- `survey-learning/respostas-learning.json`: identified respondents and their answers
+- `survey-learning/perguntas-para-forms-learning.md`: schema reference
+- (optional) `saida/maturidade-developer-survey-<DATE>.json`: cross-reference with measured maturity
+- (optional) `saida/scores.json`: capabilities from the main assessment (P1-C1, etc.)
 
 ## Expected output
-- `saida/plano-capacitacao-<DATE>.md` — plano completo PT-BR (15+ seções, ~10 páginas eq.)
-- Brief chat summary (PT-BR): N respondentes, top 5 tópicos, N Champions, top 3 workshops sugeridos
+- `saida/plano-capacitacao-<DATE>.md`: full plan (12 sections, about 10 page equivalent), English by default; `--lang pt-br` for Portuguese
+- Brief chat summary (English by default, or the user's language): N respondents, top 5 topics, N Champions, top 3 suggested workshops
 
 ## Procedure
 
@@ -28,12 +28,15 @@ The skill should INVOKE the script that aggregates and generates the full plan:
 
 ```bash
 python3 survey-learning/scripts/gerar_plano_capacitacao.py
+
+# Portuguese plan:
+python3 survey-learning/scripts/gerar_plano_capacitacao.py --lang pt-br
 ```
 
 This script:
 1. Loads `survey-learning/respostas-learning.json`
 2. Aggregates: priorities (L3-Q1), topics (L4), formats (L5), Champions (L6), barriers (L7), wishlist (L7)
-3. Generates 12-section report in PT-BR with:
+3. Generates a 12-section report (English by default) with:
    - Top 10 topics with attendee names+emails
    - Cohorts per dimension D2-D8
    - Champions Network (3 tiers)
@@ -42,7 +45,7 @@ This script:
    - 5 prioritized actions
 4. Outputs: `saida/plano-capacitacao-<DATE>.md`
 
-**DO NOT reimplement aggregation in chat** — the script handles all of it deterministically.
+**DO NOT reimplement aggregation in chat**: the script handles all of it deterministically.
 
 ### Manual fallback (if user asks)
 
@@ -51,7 +54,7 @@ import json
 data = json.load(open("survey-learning/respostas-learning.json"))
 n = data["metadata"]["total_respondents"]
 if n < 3:
-    warn(f"Apenas {n} respondentes — plano será preliminar.")
+    warn(f"Only {n} respondents: the plan is preliminary.")
 ```
 
 ### 2. Aggregate self-perception by dimension (L2)
@@ -151,7 +154,7 @@ for r in data["respondents"]:
         topic = r["responses"].get("L6-Q5", {}).get("value", "")
         mentors.append({"name": r["name"], "email": r["email"], "topic": topic})
 
-# Cross-reference with referenced people in L6-Q2 ("quem você considera referência")
+# Cross-reference people named in L6-Q2 (who they consider a reference)
 references = Counter()
 for r in data["respondents"]:
     ref = r["responses"].get("L6-Q2", {}).get("value", "").strip()
@@ -172,236 +175,236 @@ for r in data["respondents"]:
 
 ### 9. Build the report
 
-Structure (PT-BR):
+Structure (English shown; `--lang pt-br` produces the same structure in Portuguese):
 
 ```markdown
-# Plano de Capacitação IA — Roadmap Personalizado
+# AI Capacitation Plan: Personalized Roadmap
 
-**Data:** {date} · **Respondentes:** {n} (identificados)
+**Date:** {date} · **Respondents:** {n} (identified)
 
 ---
 
-## 1 · Sumário Executivo
+## 1 · Executive Summary
 
-### Maturidade IA percebida pelo time (auto-avaliação L2)
-| Dimensão | L0 | L1 | L2 | L3 | L4 | Mediana |
+### AI maturity as perceived by the team (L2 self-assessment)
+| Dimension | L0 | L1 | L2 | L3 | L4 | Median |
 |---|---|---|---|---|---|---|
 | D2 Copilot | 2 | 5 | 3 | 1 | 0 | L1 |
 | D3 Tooling | ... |
 ...
 
-### Top 3 dimensões PRIORITÁRIAS para crescer (L3-Q1)
-1. D5 Agent Concepts (8 votos)
-2. D2 Copilot Adoption (6 votos)
-3. D8 Security (5 votos)
+### Top 3 PRIORITY dimensions to grow (L3-Q1)
+1. D5 Agent Concepts (8 votes)
+2. D2 Copilot Adoption (6 votes)
+3. D8 Security (5 votes)
 
-### Top 10 tópicos mais demandados (L4)
-1. Coding Agent autônomo (10 devs)
-2. SDD com Spec Kit (8 devs)
+### Top 10 most requested topics (L4)
+1. Autonomous Coding Agent (10 devs)
+2. SDD with Spec Kit (8 devs)
 ...
 
-### Champions Network identificados
-- 3 ativos · 2 com suporte · 4 maybe
-- Top 3 referências mencionadas: {nomes}
+### Champions Network identified
+- 3 active · 2 with support · 4 maybe
+- Top 3 references mentioned: {names}
 
-### 3 quick wins recomendados
-1. **Workshop Coding Agent (4h)** — 10 inscritos pre-validados
-2. **Cohort Spec Kit (6 semanas, self-paced)** — 8 inscritos
-3. **Office hours quinzenal** — atende 100% dos respondentes
+### 3 recommended quick wins
+1. **Coding Agent workshop (4h)**: 10 pre-validated attendees
+2. **Spec Kit cohort (6 weeks, self-paced)**: 8 attendees
+3. **Biweekly office hours**: serves 100% of respondents
 
 ---
 
-## 2 · Tópicos demandados — Top 10 (com lista de inscritos pré-validados)
+## 2 · Requested topics: Top 10 (with pre-validated attendee lists)
 
-### 1. Coding Agent autônomo (D5) — 10 inscritos
-**Demanda:** 10/12 devs (83%)
-**Workshop sugerido:** 4h hands-on
-**Pré-requisito:** L1+ em D5 (Agent Concepts)
-**Inscritos pré-validados** (pré-confirmados na resposta):
+### 1. Autonomous Coding Agent (D5): 10 attendees
+**Demand:** 10/12 devs (83%)
+**Suggested workshop:** 4h hands-on
+**Prerequisite:** L1+ in D5 (Agent Concepts)
+**Pre-validated attendees** (confirmed in their answers):
 - Maria Silva (maria@...)
 - João Santos (joao@...)
 ...
 
-**Ação:** agendar workshop em ≤30 dias. Convidar Maria como Champion (já se candidatou em L6-Q1).
+**Action:** schedule the workshop within 30 days. Invite Maria as Champion (she already volunteered in L6-Q1).
 
-### 2. SDD com Spec Kit (D4) — 8 inscritos
+### 2. SDD with Spec Kit (D4): 8 attendees
 ...
 
-(Repetir para top 10)
+(Repeat for the top 10)
 
 ---
 
-## 3 · Cohorts sugeridos por dimensão da rubrica
+## 3 · Suggested cohorts per rubric dimension
 
 ### Cohort D5 (Agent Concepts)
-- 8 devs querem evoluir
-- Formato preferido por eles: workshop hands-on (5/8) + cohort (4/8)
-- Cadência: 4-6h/semana (60%)
-- **Plano:** cohort de 6 semanas com 5 sessões síncronas + lab self-paced
-- **Tópicos:** custom agents, MCP, A2A, handoffs, testes de agents
-- **Champion candidato:** Maria Silva (já se candidatou + L3 self-perceived)
+- 8 devs want to grow
+- Their preferred format: hands-on workshop (5/8) + cohort (4/8)
+- Cadence: 4-6h/week (60%)
+- **Plan:** 6-week cohort with 5 live sessions + self-paced lab
+- **Topics:** custom agents, MCP, A2A, handoffs, agent testing
+- **Champion candidate:** Maria Silva (already volunteered + L3 self-perceived)
 
-(Repetir por D2, D3, D4, D6, D7, D8 conforme demanda)
+(Repeat for D2, D3, D4, D6, D7, D8 according to demand)
 
 ---
 
 ## 4 · Champions Network
 
-### Ativos (já querem ser Champion sem precisar de suporte adicional) — 3 pessoas
-| Nome | Email | Tópicos sugeridos | Próximo passo |
+### Active (want to be Champions without extra support): 3 people
+| Name | Email | Suggested topics | Next step |
 |---|---|---|---|
-| Maria | maria@... | D5 Agents, D2 Copilot | Convidar para train-the-trainer |
+| Maria | maria@... | D5 Agents, D2 Copilot | Invite to train-the-trainer |
 | ...
 
-### Com suporte (querem ser Champions se tiverem treino dedicado) — 2 pessoas
+### With support (want to be Champions if they get dedicated training): 2 people
 ...
 
-### Mentor candidates (se ofereceram a mentorar em L6-Q4-Q5)
-| Nome | Tópico que ensina | N candidatos a mentee |
+### Mentor candidates (volunteered to mentor in L6-Q4 and L6-Q5)
+| Name | Topic they teach | N mentee candidates |
 |---|---|---|
 | ...
 
-### Mentees (querem mentoria 1:1 ou peer)
+### Mentees (want 1:1 or peer mentoring)
 ...
 
-### Referências naturais (mencionados em L6-Q2)
-- "João Santos" mencionado por 4 pessoas — Champion natural não declarado, contatar
+### Natural references (mentioned in L6-Q2)
+- "João Santos" mentioned by 4 people: undeclared natural Champion, reach out
 - ...
 
 ---
 
-## 5 · Calendário sugerido de workshops (próximos 90 dias)
+## 5 · Suggested workshop calendar (next 90 days)
 
-| Semana | Workshop | Audiência | Champion | Formato |
+| Week | Workshop | Audience | Champion | Format |
 |---|---|---|---|---|
-| W1 | Kick-off Champions Network | 5 | Você (Eng Mgr) | 2h síncrono |
-| W2 | Workshop Coding Agent | 10 | Maria | 4h hands-on |
-| W3 | Cohort SDD/Spec Kit kickoff | 8 | TBD | 1h síncrono |
+| W1 | Champions Network kickoff | 5 | You (Eng Mgr) | 2h live |
+| W2 | Coding Agent workshop | 10 | Maria | 4h hands-on |
+| W3 | SDD/Spec Kit cohort kickoff | 8 | TBD | 1h live |
 | ...
 
 ---
 
-## 6 · Formato e cadência preferidos pelo time
+## 6 · Formats and cadence preferred by the team
 
-### Formatos top
-1. Workshop hands-on 3-4h (X% pediram)
-2. Office hours semanais (Y%)
-3. Pair programming com Champion (Z%)
+### Top formats
+1. Hands-on workshop 3-4h (X% asked)
+2. Weekly office hours (Y%)
+3. Pair programming with a Champion (Z%)
 ...
 
-### Tempo disponível por semana (mediana)
-2-4h/semana
+### Time available per week (median)
+2-4h/week
 
 ### Cohort vs self-paced
-60% cohort · 40% self-paced (recomendado: híbrido)
+60% cohort · 40% self-paced (recommended: hybrid)
 
 ---
 
-## 7 · Barreiras a remover (priorizado)
+## 7 · Barriers to remove (prioritized)
 
-1. **Falta de tempo** ({N}/{total} mencionaram) → ação: bloquear 2h/semana no calendário do time
-2. **Falta de licença Copilot** ({N}) → ação: revisar licenças com TI, target 100% até Q+1
-3. **Falta de Champion** ({N}) → ação: ativar Champions Network identificados na seção 4
-4. **Não sei por onde começar** ({N}) → ação: criar learning path documentado em Copilot Space compartilhado
+1. **Lack of time** ({N}/{total} mentioned) → action: block 2h/week on the team calendar
+2. **No Copilot license** ({N}) → action: review licenses with IT, target 100% by Q+1
+3. **No Champion** ({N}) → action: activate the Champions Network identified in section 4
+4. **Do not know where to start** ({N}) → action: publish a documented learning path in a shared Copilot Space
 
 ---
 
-## 8 · Wishlist e ideias do time (L7-Q2 a Q4)
+## 8 · Team wishlist and ideas (L7-Q2 to Q4)
 
-### Workshops sugeridos pelo time (L7-Q2)
+### Workshops suggested by the team (L7-Q2)
 > "{quote 1}"
 > "{quote 2}"
 ...
 
-### Palestrantes externos sugeridos (L7-Q3)
-- {nome 1}: mencionado por X
+### Suggested external speakers (L7-Q3)
+- {name 1}: mentioned by X
 - ...
 
-### Outras sugestões livres (L7-Q4)
-> "{quote relevante}"
+### Other open suggestions (L7-Q4)
+> "{relevant quote}"
 
 ---
 
-## 9 · 🔗 Conexão com outros surveys
+## 9 · 🔗 Link to the other surveys
 
-### vs. Maturidade do team (Developer Survey - rubrica determinística)
-| Dimensão | Self-perception (L2) | Rubrica medida (D-X) | Dissonância |
+### vs. team maturity (Developer Survey, deterministic rubric)
+| Dimension | Self-perception (L2) | Measured rubric (D-X) | Dissonance |
 |---|---|---|---|
-| D2 Copilot | mediana L1 | 0.80 (L1) | ✓ alinhado |
-| D5 Agents | mediana L1 | 2.56 (L3) | ⚠ underconfidence! |
-| D8 Security | mediana L2 | 1.92 (L2) | ✓ alinhado |
+| D2 Copilot | median L1 | 0.80 (L1) | ✓ aligned |
+| D5 Agents | median L1 | 2.56 (L3) | ⚠ underconfidence! |
+| D8 Security | median L2 | 1.92 (L2) | ✓ aligned |
 ...
 
-> **Insight:** time é mais maduro em D5 do que percebe. Pode aproveitar Champions internos para mentorar.
+> **Insight:** the team is more mature in D5 than it perceives. Internal Champions can mentor others.
 
-### vs. Capabilities do assessment principal
-| Capability | Score assessment | Demanda do time | Recomendação |
+### vs. main assessment capabilities
+| Capability | Assessment score | Team demand | Recommendation |
 |---|---|---|---|
-| P1-C1 Copilot | L3 (líder) | 6 devs querem evoluir | Workshop validado pelo plano |
-| P3-C5 Apps Agênticas | L1 (gap) | 8 devs querem evoluir | **Match perfeito** — priorizar |
+| P1-C1 Copilot | L3 (leader) | 6 devs want to grow | Workshop validated by the plan |
+| P3-C5 Agentic Apps | L1 (gap) | 8 devs want to grow | **Strong match**: prioritize |
 
 ---
 
-## 10 · 🎯 Top 5 ações priorizadas
+## 10 · 🎯 Top 5 prioritized actions
 
-Ranqueadas por: impacto (n_demand) × facilidade (cohort/champion já mapeado) × alinhamento com gaps do assessment.
+Ranked by impact (n_demand) × ease (cohort/Champion already mapped) × alignment with assessment gaps.
 
-1. **Workshop Coding Agent (W2)** — 10 inscritos × Champion identificado × addresses P1-C1 gap
-2. **Cohort SDD com Spec Kit (W3-W8)** — 8 inscritos × cobre D4 + P3-C5
-3. **Champions Kickoff (W1)** — ativa rede de 5 Champions identificados
-4. **Office hours quinzenal (W2+)** — atende barreira "não sei por onde começar"
-5. **Revisão de licenças** (TI) — remove barreira de licença, eleva D2
-
----
-
-## 11 · 📅 Próximos 30 dias
-
-- **Semana 1:** Champions Kickoff + agendamento de workshops
-- **Semana 2:** Workshop Coding Agent (Maria)
-- **Semana 3:** Cohort SDD início + Office hours #1
-- **Semana 4:** Retrospectiva + ajustes do plano
+1. **Coding Agent workshop (W2)**: 10 attendees × Champion identified × addresses the P1-C1 gap
+2. **SDD with Spec Kit cohort (W3-W8)**: 8 attendees × covers D4 + P3-C5
+3. **Champions kickoff (W1)**: activates the network of 5 identified Champions
+4. **Biweekly office hours (W2+)**: addresses the "do not know where to start" barrier
+5. **License review** (IT): removes the license barrier, raises D2
 
 ---
 
-## 12 · 📋 Apêndice: respondentes (visível só para liderança)
+## 11 · 📅 Next 30 days
 
-> ⚠️ Este apêndice contém nomes/emails. **NÃO compartilhar publicamente** — só usar para convites de workshops.
+- **Week 1:** Champions kickoff + workshop scheduling
+- **Week 2:** Coding Agent workshop (Maria)
+- **Week 3:** SDD cohort start + Office hours #1
+- **Week 4:** Retrospective + plan adjustments
 
-| Nome | Email | Cargo | Self-perception média | Disponível? | Quer Champion? |
+---
+
+## 12 · 📋 Appendix: respondents (leadership only)
+
+> ⚠️ This appendix contains names and emails. **DO NOT share publicly**; use only for workshop invitations.
+
+| Name | Email | Role | Average self-perception | Available? | Wants to be Champion? |
 |---|---|---|---|---|---|
-| Maria | maria@... | Tech Lead | L2.7 | 4-6h/sem | Sim ativo |
+| Maria | maria@... | Tech Lead | L2.7 | 4-6h/week | Yes, active |
 ...
 
-(N respondentes total)
+(N respondents total)
 ```
 
-### 10. Report in chat (PT-BR)
+### 10. Report in chat (English by default, or the user's language)
 
 ```
-✓ Plano de capacitação → saida/plano-capacitacao-2026-05-08.md (~10 páginas)
+✓ Capacitation plan → saida/plano-capacitacao-2026-05-08.md (~10 pages)
 
-📊 Resumo:
-   • 12 respondentes IDENTIFICADOS
-   • Top demand: Coding Agent (10) · SDD com Spec Kit (8) · Spaces (7)
-   • Champions identificados: 3 ativos + 2 com suporte
+📊 Summary:
+   • 12 IDENTIFIED respondents
+   • Top demand: Coding Agent (10) · SDD with Spec Kit (8) · Spaces (7)
+   • Champions identified: 3 active + 2 with support
    • Mentor candidates: 4 · Mentee candidates: 6
-   • Top barreira: falta de tempo (8/12 mencionaram)
+   • Top barrier: lack of time (8/12 mentioned)
 
-🎯 5 ações priorizadas (próximos 30 dias):
-   1. Champions Kickoff (W1)
-   2. Workshop Coding Agent (W2) — 10 inscritos
-   3. Cohort SDD com Spec Kit (W3) — 8 inscritos
-   4. Office hours quinzenal (W2+)
-   5. Revisar licenças Copilot (TI)
+🎯 5 prioritized actions (next 30 days):
+   1. Champions kickoff (W1)
+   2. Coding Agent workshop (W2): 10 attendees
+   3. SDD with Spec Kit cohort (W3): 8 attendees
+   4. Biweekly office hours (W2+)
+   5. Review Copilot licenses (IT)
 
-📋 Próximo: /wizard-implementacao usa este plano em training_plan + adkar_notes + quick_wins
+📋 Next: /wizard-implementacao uses this plan in training_plan + adkar_notes + quick_wins
 ```
 
 ## Constraints
 
-- Survey é **IDENTIFICADO** — pode citar nomes/emails NO RELATÓRIO mas só na seção "Apêndice — visível para liderança"
-- **NÃO** envie emails automaticamente — apenas liste nomes para o líder convidar manualmente
-- **NÃO** invente tópicos fora do que foi respondido
-- Cross-reference com `/insights-developer-survey` e `/calcular-scores` quando ambos existirem (compara percepção vs realidade)
-- Output em `saida/plano-capacitacao-<DATE>.md` apenas
-- Se respondente não preencheu nome OU email, contar mas marcar como "anônimo (incompleto)" — não inventar
+- The survey is **IDENTIFIED**: names and emails may appear IN THE REPORT, but only in the "Appendix: leadership only" section
+- **DO NOT** send emails automatically; only list names for the leader to invite manually
+- **DO NOT** invent topics beyond what was answered
+- Cross-reference with `/insights-developer-survey` and `/calcular-scores` when both exist (compares perception vs reality)
+- Output to `saida/plano-capacitacao-<DATE>.md` only
+- If a respondent left name OR email blank, count them but mark as "anonymous (incomplete)"; do not invent

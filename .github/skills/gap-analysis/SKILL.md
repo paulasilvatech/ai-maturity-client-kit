@@ -1,6 +1,6 @@
 ---
 name: gap-analysis
-description: Computes gap (target − current) per capability and priority P0-P3 (weight × gap). Reads saida/scores.json and respostas.json::target_overrides. Generates saida/gaps.json. Use when user asks for "gap analysis", "priorização", "onde estão minhas lacunas".
+description: Computes gap (target − current) per capability and priority P0-P3 (weight × gap). Reads saida/scores.json and respostas.json::target_overrides. Generates saida/gaps.json. Use when user asks for "gap analysis", "priorização", "onde estão minhas lacunas", "prioritize gaps", "where are my gaps", "what should we fix first".
 ---
 
 # Skill: Gap analysis and prioritization
@@ -16,7 +16,7 @@ description: Computes gap (target − current) per capability and priority P0-P3
 
 ## Expected output
 - `saida/gaps.json` — list ordered by priority (P0 first)
-- Brief chat message (PT-BR): top 5 P0/P1 gaps.
+- Brief chat message (English by default, or the user's language): top 5 P0/P1 gaps.
 
 ## Algorithm
 
@@ -30,12 +30,14 @@ for each capability c in scores.capabilities (with score != null):
     if gap_size ≤ 1e-9:  # already met target
         skip c   (don't enter gaps.json)
     
-    classify:
+    classify (canonical priority labels, keep verbatim):
         priority_score ≥ 2.4  → "P0 — Crítico"
         ≥ 1.6                 → "P1 — Alto"
         ≥ 0.9                 → "P2 — Médio"
         < 0.9                 → "P3 — Baixo"
 ```
+
+In chat and English reports, display them as P0 Critical, P1 High, P2 Medium, and P3 Low.
 
 Sort `saida/gaps.json::gaps` by `priority_score` desc.
 
@@ -64,7 +66,7 @@ Sort `saida/gaps.json::gaps` by `priority_score` desc.
       "weight": 1.5,
       "priority_score": 2.94,
       "priority": "P0 — Crítico",
-      "horizon_suggested": "30 dias",
+      "horizon_suggested": "30 days",
       "strategies": ["S6", "S4"]
     }
   ]
@@ -73,29 +75,33 @@ Sort `saida/gaps.json::gaps` by `priority_score` desc.
 
 ## Horizon mapping by priority
 
-| Priority | `horizon_suggested` |
-|---|---|
-| P0 | "30 dias" |
-| P1 | "Próximo trimestre" |
-| P2 | "Semestre" |
-| P3 | "Backlog / monitorar" |
+Use the English value by default; use the PT-BR value when `respostas.json::metadata.language` is `pt-BR` (translate to Spanish for `es`).
 
-## Report in chat (PT-BR format)
+| Priority | `horizon_suggested` (`en`, default) | `pt-BR` |
+|---|---|---|
+| P0 | "30 days" | "30 dias" |
+| P1 | "Next quarter" | "Próximo trimestre" |
+| P2 | "Semester" | "Semestre" |
+| P3 | "Backlog / monitor" | "Backlog / monitorar" |
+
+## Report in chat (English by default, or the user's language)
 
 ```
 ✓ Gap analysis → saida/gaps.json
-• Total com gap: 17 capabilities
-• Distribuição: P0=3 · P1=5 · P2=7 · P3=2
+• Capabilities with a gap: 17
+• Distribution: P0=3 · P1=5 · P2=7 · P3=2
 
-Top 5 prioridades (P0/P1):
-  1. P3-C5 Aplicações Agênticas        gap 1.96 → priority 2.94 (P0) — ações S6, S4
-  2. P2-C4 DevSecOps                   gap 1.60 → priority 2.40 (P0) — S7
-  3. P1-C8 Medição de Produtividade    gap 1.50 → priority 2.25 (P1) — S5
+Top 5 priorities (P0/P1):
+  1. P3-C5 Agentic Applications                gap 1.96 → priority 2.94 (P0 Critical), strategies S6, S4
+  2. P2-C4 Security Integration (DevSecOps)    gap 1.60 → priority 2.40 (P0 Critical), S7
+  3. P1-C8 Developer Productivity Measurement  gap 1.50 → priority 2.25 (P1 High), S5
 
-Próximo: /recomendar-estrategias
+Next: /recomendar-estrategias
 ```
+
+In chat, show the English capability name from `framework.json::name`; use `name_pt_br` when replying in Portuguese. Keep `capability_name_pt_br` in `gaps.json` as stored.
 
 ## Constraints
 - Capabilities with `score=null` (no answers) **don't** enter gaps.json — should become "warning" in the report (insufficient coverage).
-- Capabilities that already passed target (`gap_size ≤ 0`) also don't enter — could appear as "Atingido" in another report section if useful.
+- Capabilities that already passed target (`gap_size ≤ 0`) also don't enter — could appear as "Target met" in another report section if useful.
 - Don't invent `target_level` — use exclusively `target_overrides` or default 3.0.

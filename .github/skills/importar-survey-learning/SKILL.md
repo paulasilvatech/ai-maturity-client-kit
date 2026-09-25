@@ -52,7 +52,7 @@ for col_idx, header_cell in enumerate(ws[1], start=1):
         col_to_qid[col_idx] = m.group(1)
 
 if len(col_to_qid) < 25:
-    warn(f"Apenas {len(col_to_qid)} questões detectadas (esperado ~32). Verifique formato dos headers.")
+    warn(f"Only {len(col_to_qid)} questions detected (expected ~32). Check the header format.")
 
 respondents = []
 for row_idx in range(2, ws.max_row + 1):
@@ -114,17 +114,19 @@ for row_idx in range(2, ws.max_row + 1):
 }
 ```
 
-## Report in chat (PT-BR)
+Answer values in `responses` are stored exactly as exported (canonical Forms option labels); never translate them.
+
+## Report in chat (English by default, or the user's language)
 
 ```
-✓ Survey de Learning importado → survey-learning/respostas-learning.json
-   12 respondentes IDENTIFICADOS, 32 questões processadas
+✓ Learning Survey imported → survey-learning/respostas-learning.json
+   12 IDENTIFIED respondents, 32 questions processed
 
-📊 Cobertura: 95%
-👥 Champions candidates (L6-Q1 = Sim): 4 pessoas
-📅 Top tópicos solicitados: ...
+📊 Coverage: 95%
+👥 Champion candidates (L6-Q1 = Sim / Yes): 4 people
+📅 Top requested topics: ...
 
-🎯 Próximo: /plano-capacitacao  → gera plano priorizado em saida/
+🎯 Next: /plano-capacitacao  → generates the prioritized plan in saida/
 ```
 
 ## Constraints

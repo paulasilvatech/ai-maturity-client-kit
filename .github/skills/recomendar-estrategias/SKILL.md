@@ -1,6 +1,6 @@
 ---
 name: recomendar-estrategias
-description: Maps gaps per capability to the 7 strategies S1-S7 and generates prioritized action plan with specific technologies. Reads saida/gaps.json + framework.json. Generates saida/recomendacoes.json. Use when user asks to "recomendar estratégias", "mapear ações", "que iniciativas devo priorizar".
+description: Maps gaps per capability to the 7 strategies S1-S7 and generates prioritized action plan with specific technologies. Reads saida/gaps.json + framework.json. Generates saida/recomendacoes.json. Use when user asks to "recomendar estratégias", "mapear ações", "que iniciativas devo priorizar", "recommend strategies", "map actions", "which initiatives should we prioritize".
 ---
 
 # Skill: Recommend strategies S1–S7
@@ -17,7 +17,7 @@ description: Maps gaps per capability to the 7 strategies S1-S7 and generates pr
 
 ## Expected output
 - `saida/recomendacoes.json` — grouped by strategy + ranking
-- Brief chat message (PT-BR): top 3 strategies by cumulative impact.
+- Brief chat message (English by default, or the user's language): top 3 strategies by cumulative impact.
 
 ## Algorithm
 
@@ -40,17 +40,17 @@ For each strategy:
 
 ### 4. Generate concrete actions (deterministic templates — DO NOT invent)
 
-Use these templates based on the strategy (output text in PT-BR):
+Use these templates based on the strategy. Write the English text by default; use the PT-BR text when `respostas.json::metadata.language` is `pt-BR` (translate faithfully for `es`).
 
-| Strategy | Recommended initial action |
-|---|---|
-| **S1** GitHub Migration | "Inventário de repositórios atuais → plano de migração para GitHub Enterprise Cloud em 3 ondas." |
-| **S2** Foundry + SRE | "Definir SLOs/SLIs para serviços críticos; implantar Azure Monitor + dashboards Grafana." |
-| **S3** App Modernization | "Selecionar 1–2 apps piloto; replatforming para Azure Container Apps + IaC com Terraform." |
-| **S4** AI Applications | "Identificar 2 casos de uso de alto ROI; PoC com Azure OpenAI + Prompt Flow." |
-| **S5** Copilot Acceleration | "Rollout Copilot Enterprise em 2 squads piloto; medir adoção e produtividade DORA por 8 semanas." |
-| **S6** Agentic Activation | "Pilot Semantic Kernel para 1 workflow interno; estabelecer guardrails e observabilidade." |
-| **S7** Security & Governance | "Habilitar GitHub Advanced Security em todos repos; gerar SBOM dos serviços críticos." |
+| Strategy | Recommended initial action (`en`, default) | `pt-BR` |
+|---|---|---|
+| **S1** GitHub Migration | "Inventory current repositories, then plan the migration to GitHub Enterprise Cloud in 3 waves." | "Inventário de repositórios atuais → plano de migração para GitHub Enterprise Cloud em 3 ondas." |
+| **S2** Foundry + SRE | "Define SLOs/SLIs for critical services; deploy Azure Monitor and Grafana dashboards." | "Definir SLOs/SLIs para serviços críticos; implantar Azure Monitor + dashboards Grafana." |
+| **S3** App Modernization | "Select 1 or 2 pilot apps; replatform to Azure Container Apps with IaC in Terraform." | "Selecionar 1–2 apps piloto; replatforming para Azure Container Apps + IaC com Terraform." |
+| **S4** AI Applications | "Identify 2 high-ROI use cases; build a PoC with Azure OpenAI and Prompt Flow." | "Identificar 2 casos de uso de alto ROI; PoC com Azure OpenAI + Prompt Flow." |
+| **S5** Copilot Acceleration | "Roll out Copilot Enterprise to 2 pilot squads; measure adoption and DORA productivity for 8 weeks." | "Rollout Copilot Enterprise em 2 squads piloto; medir adoção e produtividade DORA por 8 semanas." |
+| **S6** Agentic Activation | "Pilot Semantic Kernel for 1 internal workflow; establish guardrails and observability." | "Pilot Semantic Kernel para 1 workflow interno; estabelecer guardrails e observabilidade." |
+| **S7** Security & Governance | "Enable GitHub Advanced Security on all repos; generate SBOMs for critical services." | "Habilitar GitHub Advanced Security em todos repos; gerar SBOM dos serviços críticos." |
 
 ## `saida/recomendacoes.json` schema
 
@@ -67,7 +67,7 @@ Use these templates based on the strategy (output text in PT-BR):
       "strategy_name": "GitHub Copilot Acceleration",
       "cumulative_priority": 8.42,
       "max_priority": "P0 — Crítico",
-      "horizon": "30 dias",
+      "horizon": "30 days",
       "related_capabilities": [
         {"id": "P1-C1", "name_pt_br": "Assistentes de Codificação IA", "gap_size": 1.4, "priority": "P1 — Alto"},
         {"id": "P1-C8", "name_pt_br": "Medição de Produtividade", "gap_size": 1.5, "priority": "P1 — Alto"}
@@ -75,8 +75,8 @@ Use these templates based on the strategy (output text in PT-BR):
       "technologies": [
         {"name": "GitHub Copilot Enterprise", "purpose": "AI-assisted coding across development teams"}
       ],
-      "first_action": "Rollout Copilot Enterprise em 2 squads piloto; medir adoção e produtividade DORA por 8 semanas.",
-      "expected_outcome": "Subir capabilities P1-C1 e P1-C8 para L3 em ~2 trimestres."
+      "first_action": "Roll out Copilot Enterprise to 2 pilot squads; measure adoption and DORA productivity for 8 weeks.",
+      "expected_outcome": "Raise capabilities P1-C1 and P1-C8 to L3 in about 2 quarters."
     }
   ],
   "skipped_strategies": ["S1"]
@@ -85,25 +85,27 @@ Use these templates based on the strategy (output text in PT-BR):
 
 `skipped_strategies` = strategies that **didn't appear in any gap** (client already mature in them or related capabilities not answered).
 
-## Report in chat (PT-BR)
+Keep the canonical priority labels (`"P0 — Crítico"`) and `name_pt_br` as stored in `gaps.json`; `horizon` uses the same language rule as `/gap-analysis`.
+
+## Report in chat (English by default, or the user's language)
 
 ```
-✓ Recomendações → saida/recomendacoes.json
+✓ Recommendations → saida/recomendacoes.json
 
-Top 3 estratégias por impacto cumulativo:
-  🥇 S5 — GitHub Copilot Acceleration (priority 8.42, 4 capabilities)
-     → Rollout Copilot em 2 squads piloto, medir DORA por 8 sem.
-  🥈 S7 — Security & Governance (priority 5.10, 2 capabilities)
-     → Habilitar GHAS em todos repos + SBOM dos serviços críticos.
-  🥉 S6 — Agentic Activation (priority 2.94, 1 capability)
-     → Pilot Semantic Kernel para 1 workflow interno.
+Top 3 strategies by cumulative impact:
+  🥇 S5 GitHub Copilot Acceleration (priority 8.42, 4 capabilities)
+     → Roll out Copilot to 2 pilot squads, measure DORA for 8 weeks.
+  🥈 S7 Security & Governance (priority 5.10, 2 capabilities)
+     → Enable GHAS on all repos and generate SBOMs for critical services.
+  🥉 S6 Agentic Activation (priority 2.94, 1 capability)
+     → Pilot Semantic Kernel for 1 internal workflow.
 
-Não recomendadas (sem gaps relevantes): S1
-Próximo: /gerar-relatorio
+Not recommended (no relevant gaps): S1
+Next: /gerar-relatorio
 ```
 
 ## Constraints
-- **DO NOT INVENT** actions outside the table above — if in doubt, write "Detalhar com arquiteto Microsoft GBB".
-- Strategies with `cumulative_priority < 0.9` (only P3 gaps) → move to `skipped_strategies` with note "monitorar".
+- **DO NOT INVENT** actions outside the table above. If in doubt, write "Detail with a Microsoft GBB architect" (PT-BR: "Detalhar com arquiteto Microsoft GBB").
+- Strategies with `cumulative_priority < 0.9` (only P3 gaps) → move to `skipped_strategies` with note "monitor" (PT-BR: "monitorar").
 - Technologies must come EXCLUSIVELY from `framework.json::technologies_per_strategy`.
-- Keep PT-BR in human-facing fields; technical IDs and names can stay in English.
+- Human-facing fields follow `metadata.language` (English by default); technical IDs and names stay in English.

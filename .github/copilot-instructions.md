@@ -26,7 +26,7 @@ Contains:
 | `respostas-forms.xlsx` (optional) | Multi-respondent Excel from Microsoft Forms / SharePoint |
 | `implementation-guide-inputs.json` (optional) | Output of `/wizard-implementacao` — populates Part 4 of the PDF |
 | `referencia/pontuacao-e-calculo.xlsx` | Auditable workbook template; populated by `preencher-planilha` skill |
-| `referencia/pontuacao-e-calculo.md` | Official algorithm reference (PT-BR, mirrors `app/backend/src/scoring.rs`) |
+| `referencia/pontuacao-e-calculo.md` | Official algorithm reference (mirrors `app/backend/src/scoring.rs`; PT-BR copy in `.pt-br.md`) |
 | `referencia/exemplo-saida/` | 5 reference PDFs + JSONs from `respostas.json.example` (Cliente Exemplo S.A.) |
 | `relatorios/templates/*.html.j2` | 4 official Jinja2 templates (mirror `app/src/report-service/templates/`) |
 | `relatorios/i18n/{en,es,pt-br}.json` | String catalogs |
@@ -39,8 +39,10 @@ Contains:
 
 ## Output language convention
 
-- **Client-facing strings default to Portuguese (Brazil)** — reports, slide outlines, log messages, error summaries, agent menus, and handoff labels.
-- **Agent, prompt, and skill structure can use English** to save context tokens. Human-facing examples inside those files should stay PT-BR unless explicitly documenting EN/ES package behavior.
+- **Client-facing output defaults to English**: reports, slide outlines, log messages, error summaries, agent menus, and handoff labels.
+- **PT-BR and ES on request**: PDFs follow `respostas.json::metadata.language` (`"en"` default, `"pt-BR"`, `"es"`); survey reports (`gerar_insights.py`, `gerar_plano_capacitacao.py`) and `auto_fill_from_plano.py` accept `--lang pt-br`. In chat, reply in the user's language when they write in Portuguese or Spanish.
+- **Docs language**: every human-facing doc `X.md` (and the calculator/wizard HTMLs) is English; the Portuguese version lives next to it as `X.pt-br.md` / `X.pt-br.html`. ES package docs live in `kit-es/`. Keep both versions in sync when editing.
+- **Stays Portuguese on purpose**: canonical question wording in `framework.json`, Forms answer options (`L0 — Inicial` ... `NA — Não sei`), rubric match strings, IDs, file and folder names (`saida/`, `respostas.json`), and skill names.
 - Technical KPI strings can remain in English (universal terms like "MTTR", "lead time", "% adoption").
 
 ## Visual identity & branding (paulasilva-ms)
@@ -64,7 +66,7 @@ This kit is signed under the **Microsoft identity** of Paula Silva, Software Glo
 **What this branding does NOT cover:**
 - The 5 Jinja2 PDF templates (`relatorios/templates/*.html.j2` + `_print.css`) — these mirror the production platform CSS and stay unchanged.
 - Markdown documentation files — they follow standard markdown without special branding.
-- Output language of skills (always PT-BR for client-facing output).
+- Output language of skills (see Output language convention).
 
 ## Scoring algorithm (summary)
 
@@ -160,7 +162,7 @@ See `survey-devs/RUBRICA-MATURIDADE.md` for the deterministic L0-L4 rubric.
 - **All generated outputs go in `saida/`** except persistent inputs such as `respostas.json`, `survey-devs/respostas-devs.json`, `survey-learning/respostas-learning.json`, and `implementation-guide-inputs.json`.
 - **DO NOT modify** `framework.json`, `referencia/`, or files in `formularios/` and `coleta/`.
 - **DO NOT modify** `respostas.json` except to fill `level` and `evidence` when explicitly asked, or via the `importar-respostas-excel` skill.
-- Client-facing output text defaults to **Portuguese (Brazil)** unless the selected package/report locale is EN or ES.
+- Client-facing output text defaults to **English** unless `metadata.language` (or `--lang`) selects PT-BR or ES.
 - Never invent data: if a question wasn't answered, declare "sem resposta" — don't guess.
 
 ## Idempotency
@@ -190,7 +192,7 @@ python3 scripts/build_language_kits.py --out dist-test --clean
 
 ## When the client asks "how do I…?"
 
-Direct them to `README.md` (root) or `GUIA-PASSO-A-PASSO.md` (detailed). For algorithm questions, point to `referencia/pontuacao-e-calculo.md`. For Microsoft Forms collection, point to `coleta/INSTRUCOES-FORMS.md`. For personalizing the Implementation Guide (Part 4 PDF), point to `wizard/` or invoke `/wizard-implementacao`.
+Direct them to `README.md` (root) or `GUIA-PASSO-A-PASSO.md` (detailed); Portuguese readers use the `.pt-br.md` versions. For algorithm questions, point to `referencia/pontuacao-e-calculo.md`. For Microsoft Forms collection, point to `coleta/INSTRUCOES-FORMS.md`. For personalizing the Implementation Guide (Part 4 PDF), point to `wizard/` or invoke `/wizard-implementacao`.
 
 ## Available skills (12) + 1 prompt + 1 agent
 
@@ -198,7 +200,7 @@ Direct them to `README.md` (root) or `GUIA-PASSO-A-PASSO.md` (detailed). For alg
 
 | Command | Type | Purpose |
 |---|---|---|
-| `@ai-maturity-assistant` | **agent** | Concierge — reads state, guides client end-to-end, invokes skills via handoffs (PT-BR persona) |
+| `@ai-maturity-assistant` | **agent** | Concierge — reads state, guides client end-to-end, invokes skills via handoffs (English by default, mirrors PT-BR/ES users) |
 | `/ai-maturity-reports` | skill (orchestrator) | High-level wrapper that produces all 5 PDFs + XLSX. Mirror of the global skill `~/.github/skills/ai-maturity-reports/`. Use when client wants the full bundle |
 | `/pipeline-completo` | prompt | Orchestrates 6 steps end-to-end (auto-detects Excel + wizard) |
 | `/importar-respostas-excel` | skill | Microsoft Forms `.xlsx` → `respostas.json` (multi-respondent mean aggregation; floats are preserved) |
@@ -228,7 +230,7 @@ Direct them to `README.md` (root) or `GUIA-PASSO-A-PASSO.md` (detailed). For alg
 - **Maturity Assessment** (org level): organizational baseline, leadership-driven, produces 5 executive PDFs
 - **Developer Survey** (anonymous): behavioral baseline, surfaces real adoption + gaps. Outputs feed `/wizard-implementacao` and validate maturity capability scores
 - **Learning Survey** (identified): aspirational + capacitation roadmap. Generates concrete training plan with attendee lists. Output feeds `/wizard-implementacao::training_plan + adkar_notes + quick_wins`
-- **All three together** (recommended for serious consulting): run in this order: survey-devs (anonymous comportamental) → learning survey (identified aspirational) → assessment (leadership informed) → wizard consolidates everything
+- **All three together** (recommended for serious consulting): run in this order: survey-devs (anonymous, behavioral) → learning survey (identified aspirational) → assessment (leadership informed) → wizard consolidates everything
 
 ## Multi-respondent aggregation
 
