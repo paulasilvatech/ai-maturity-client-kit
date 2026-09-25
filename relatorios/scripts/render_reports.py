@@ -119,7 +119,7 @@ def main():
 
     print()
     if ok:
-        print(f"✓ Todos os 5 PDFs gerados em {out_dir}")
+        print(f"✓ All 5 PDFs generated in {out_dir}")
         return 0
     return 1
 

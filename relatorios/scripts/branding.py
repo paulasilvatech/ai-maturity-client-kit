@@ -48,13 +48,20 @@ def md_header() -> str:
     )
 
 
-def md_footer() -> str:
+FOOTER_IDENTITY = {
+    "en": "Visual identity: {ds} · see `referencia/branding/`",
+    "pt-br": "Identidade visual: {ds} · ver `referencia/branding/`",
+}
+
+
+def md_footer(lang: str = "pt-br") -> str:
     """Markdown footer with Paula Silva attribution (bottom of generated .md files)."""
+    identity = FOOTER_IDENTITY.get(lang, FOOTER_IDENTITY["en"])
     return (
         "\n\n---\n\n"
         f"<sub>**{AUTHOR}** | {ROLE} · {CONTACT}</sub>  \n"
         f"<sub>{TAGLINE}</sub>  \n"
-        f"<sub>Identidade visual: {DESIGN_SYSTEM} · ver `referencia/branding/`</sub>\n"
+        f"<sub>{identity.format(ds=DESIGN_SYSTEM)}</sub>\n"
     )
 
 

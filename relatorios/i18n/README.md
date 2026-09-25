@@ -1,40 +1,42 @@
 # `relatorios/i18n/`
 
-📖 **Navegação:** [🏠 Índice](../../README.md) · [« Relatórios](../README.md)
+🌐 English · [Português (Brasil)](README.pt-br.md)
 
-Catálogos de strings para localização dos 5 PDFs. Cada arquivo é um JSON plano `chave → tradução`.
+📖 **Navigation:** [🏠 Index](../../README.md) · [« Reports](../README.md)
 
-## Conteúdo
+String catalogs for localizing the 5 PDFs. Each file is a flat `key → translation` JSON.
 
-| Arquivo | Idioma | Linhas (aprox.) |
+## Contents
+
+| File | Language | Lines (approx.) |
 |---|---|---|
-| [`pt-br.json`](pt-br.json) | Português (Brasil) — **default** | base |
-| [`en.json`](en.json) | English | base |
+| [`en.json`](en.json) | English, **default** | base |
+| [`pt-br.json`](pt-br.json) | Português (Brasil) | base |
 | [`es.json`](es.json) | Español | base |
 
-## Como funciona
+## How it works
 
-O renderer (`render_reports.py`) carrega o catálogo correspondente a `payload.locale` (`pt-br`, `en` ou `es`) e injeta uma função `t()` no contexto Jinja2:
+The renderer (`render_reports.py`) loads the catalog matching `payload.locale` (`en`, `pt-br`, or `es`) and injects a `t()` function into the Jinja2 context:
 
 ```jinja2
 <h1>{{ t('score_justification.title') }}</h1>
 ```
 
-`payload.locale` é determinado por `respostas.json::metadata.language` (default: `pt-br`).
+`payload.locale` is set from `respostas.json::metadata.language` (default: `en`; `"pt-BR"` and `"es"` are also accepted).
 
-## Adicionar / alterar strings
+## Adding or changing strings
 
 > [!IMPORTANT]
-> As 3 línguas devem ter **as mesmas chaves**. Se adicionar uma chave em `pt-br.json`, adicione também em `en.json` e `es.json` (mesmo que provisoriamente em PT — é melhor que `null`).
+> All 3 languages must have **the same keys**. If you add a key to `en.json`, also add it to `pt-br.json` and `es.json` (even a provisional English value is better than `null`).
 
 ```bash
-# Validar paridade de chaves
-python3 -c "import json; a=set(json.load(open('relatorios/i18n/pt-br.json'))); b=set(json.load(open('relatorios/i18n/en.json'))); c=set(json.load(open('relatorios/i18n/es.json'))); print('faltam en:', a-b); print('faltam es:', a-c)"
+# Validate key parity
+python3 -c "import json; a=set(json.load(open('relatorios/i18n/en.json'))); b=set(json.load(open('relatorios/i18n/pt-br.json'))); c=set(json.load(open('relatorios/i18n/es.json'))); print('missing pt-br:', a-b); print('missing es:', a-c)"
 ```
 
-## Convenção de chaves
+## Key convention
 
-Hierárquica por contexto: `<arquivo>.<seção>.<elemento>`. Exemplos:
+Hierarchical by context: `<file>.<section>.<element>`. Examples:
 - `score_justification.title`
 - `roadmap_part_pillar.section.h1_initiatives`
 - `common.priority.p0`

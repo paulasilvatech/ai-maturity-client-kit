@@ -39,26 +39,58 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import branding
 
 DEFAULT_TARGET = 3.0
+DEFAULT_LOCALE = "en"
+SUPPORTED_LOCALES = ("en", "es", "pt-br")
+
+LEVEL_LABELS = {
+    "en": ("No answer", "L0 Initial", "L1 Developing", "L2 Defined",
+           "L3 Managed", "L4 Optimizing"),
+    "es": ("Sin respuesta", "L0 Inicial", "L1 En Desarrollo",
+           "L2 Definido", "L3 Gestionado", "L4 Optimizando"),
+    "pt-br": ("Sem resposta", "L0 — Inicial", "L1 — Em Desenvolvimento",
+              "L2 — Definido", "L3 — Gerenciado", "L4 — Otimizando"),
+}
+
+DEFAULT_ACTIONS = {
+    "en": {
+        "h1": "Define a baseline and establish coverage metrics.",
+        "h2": "Expand the pilot to >50% of teams; instrument OKRs.",
+        "h3": "Reach universal coverage and continuous optimization.",
+    },
+    "es": {
+        "h1": "Definir la línea base y establecer métricas de cobertura.",
+        "h2": "Expandir el piloto a >50% de los equipos; instrumentar OKRs.",
+        "h3": "Alcanzar cobertura universal y optimización continua.",
+    },
+    "pt-br": {
+        "h1": "Definir baseline e estabelecer métricas de cobertura.",
+        "h2": "Expandir piloto para >50% das equipes; instrumentar OKRs.",
+        "h3": "Atingir cobertura universal e otimização contínua.",
+    },
+}
 
 
 def load_json(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def label_from_score(score: float | None) -> str:
-    if score is None: return "Sem resposta"
-    if score < 0.5:   return "L0 — Inicial"
-    if score < 1.5:   return "L1 — Em Desenvolvimento"
-    if score < 2.5:   return "L2 — Definido"
-    if score < 3.5:   return "L3 — Gerenciado"
-    return "L4 — Otimizando"
+def label_from_score(
+    score: float | None, locale: str = DEFAULT_LOCALE
+) -> str:
+    labels = LEVEL_LABELS.get(locale, LEVEL_LABELS[DEFAULT_LOCALE])
+    if score is None:
+        return labels[0]
+    for idx, upper in enumerate((0.5, 1.5, 2.5, 3.5), start=1):
+        if score < upper:
+            return labels[idx]
+    return labels[5]
 
 
 def priority_from_ps(ps: float) -> str:
-    if ps >= 2.4: return "P0 — Crítico"
-    if ps >= 1.6: return "P1 — Alto"
-    if ps >= 0.9: return "P2 — Médio"
-    return "P3 — Baixo"
+    if ps >= 2.4: return "P0 Critical"
+    if ps >= 1.6: return "P1 High"
+    if ps >= 0.9: return "P2 Medium"
+    return "P3 Low"
 
 
 def build_payload(kit: Path) -> dict:
@@ -69,8 +101,9 @@ def build_payload(kit: Path) -> dict:
 
     scores_path = kit / "saida/scores.json"
     if not scores_path.exists():
-        print("⚠️ saida/scores.json não encontrado — gerando PDFs com dados do sample (Acme).")
-        print("   Para gerar com seus dados, rode /pipeline-completo primeiro.\n")
+        print("⚠️ saida/scores.json not found: rendering PDFs with "
+              "sample data (Acme).")
+        print("   To use your own data, run /pipeline-completo first.\n")
         _attach_cross_survey(payload, kit)
         return payload
 
@@ -84,7 +117,7 @@ def build_payload(kit: Path) -> dict:
     _apply_pillar_scores(payload, scores)
     _apply_pe_readiness(payload, scores)
     _apply_capability_scores(payload, scores, respostas)
-    _apply_gap_analysis(payload, gaps)
+    _apply_gap_analysis(payload, gaps, kit)
     _merge_implementation_guide_inputs(payload, kit / "implementation-guide-inputs.json")
     _attach_cross_survey(payload, kit)
 
@@ -120,10 +153,31 @@ def _load_client_pipeline_data(kit: Path) -> tuple[dict, dict, dict]:
 
 
 def _apply_locale(payload: dict, meta: dict) -> None:
-    locale = meta.get("language", "pt-br").lower().replace("_", "-")
-    if locale not in ("en", "es", "pt-br"):
+    locale = str(meta.get("language") or DEFAULT_LOCALE)
+    locale = locale.lower().replace("_", "-")
+    if locale == "pt":
         locale = "pt-br"
+    if locale not in SUPPORTED_LOCALES:
+        locale = DEFAULT_LOCALE
     payload["locale"] = locale
+
+
+def _locale(payload: dict) -> str:
+    return payload.get("locale", DEFAULT_LOCALE)
+
+
+def _capability_names(kit: Path) -> dict[str, dict[str, str]]:
+    path = kit / "framework.json"
+    if not path.exists():
+        return {}
+    names = {}
+    for pillar in load_json(path).get("pillars", []):
+        for cap in pillar.get("capabilities", []):
+            names[cap["id"]] = {
+                "en": cap.get("name", ""),
+                "pt-br": cap.get("name_pt_br", ""),
+            }
+    return names
 
 
 def _apply_organization(payload: dict, meta: dict) -> None:
@@ -146,7 +200,8 @@ def _apply_assessment(payload: dict, scores: dict, meta: dict) -> None:
 def _apply_overall_scores(payload: dict, scores: dict) -> None:
     overall_score = scores["overall"]["score"]
     payload["scores"]["overall"]["weighted_avg"] = round(overall_score, 2)
-    payload["scores"]["overall"]["level_label"] = label_from_score(overall_score)
+    payload["scores"]["overall"]["level_label"] = label_from_score(
+        overall_score, _locale(payload))
     target_overall = payload["scores"]["overall"].get("target", 3.0)
     payload["scores"]["overall"]["gap"] = max(0, round(target_overall - overall_score, 2))
 
@@ -159,7 +214,8 @@ def _apply_pillar_scores(payload: dict, scores: dict) -> None:
         if not sample_p:
             continue
         sample_p["weighted_avg"] = round(p_client["score"], 2)
-        sample_p["level_label"] = label_from_score(p_client["score"])
+        sample_p["level_label"] = label_from_score(
+            p_client["score"], _locale(payload))
         target = sample_p.get("target", 3.0)
         sample_p["gap"] = max(0, round(target - p_client["score"], 2))
 
@@ -168,7 +224,8 @@ def _apply_pe_readiness(payload: dict, scores: dict) -> None:
     pe_score = scores["overall"].get("pe_score")
     if pe_score is not None:
         payload["scores"]["pe_readiness"]["weighted_score"] = round(pe_score, 2)
-        payload["scores"]["pe_readiness"]["level"] = label_from_score(pe_score)
+        payload["scores"]["pe_readiness"]["level"] = label_from_score(
+            pe_score, _locale(payload))
 
 
 def _apply_capability_scores(payload: dict, scores: dict, respostas: dict) -> None:
@@ -177,17 +234,23 @@ def _apply_capability_scores(payload: dict, scores: dict, respostas: dict) -> No
     for c_client in scores.get("capabilities", []):
         sample_c = sample_caps_by_id.get(c_client["id"])
         if sample_c:
-            _apply_single_capability_score(sample_c, c_client, target_overrides)
+            _apply_single_capability_score(
+                sample_c, c_client, target_overrides, _locale(payload))
 
 
-def _apply_single_capability_score(sample_c: dict, c_client: dict, target_overrides: dict) -> None:
+def _apply_single_capability_score(
+    sample_c: dict,
+    c_client: dict,
+    target_overrides: dict,
+    locale: str = DEFAULT_LOCALE,
+) -> None:
     cid = c_client["id"]
     score = c_client.get("score")
     sample_c["current_score"] = round(score, 2) if score is not None else 0.0
-    sample_c["current_level_label"] = label_from_score(score)
+    sample_c["current_level_label"] = label_from_score(score, locale)
     target = target_overrides.get(cid, DEFAULT_TARGET)
     sample_c["target_score"] = round(float(target), 2)
-    sample_c["target_level_label"] = label_from_score(float(target))
+    sample_c["target_level_label"] = label_from_score(float(target), locale)
     if score is None:
         sample_c["gap"] = 0
         sample_c["gap_priority"] = "P3"
@@ -197,13 +260,20 @@ def _apply_single_capability_score(sample_c: dict, c_client: dict, target_overri
     sample_c["gap_priority"] = priority_from_ps(ps).split(" ")[0]
 
 
-def _apply_gap_analysis(payload: dict, gaps: dict) -> None:
-    new_gap_analysis = [_gap_payload_entry(payload, gap) for gap in gaps.get("gaps", [])]
+def _apply_gap_analysis(payload: dict, gaps: dict, kit: Path) -> None:
+    names = _capability_names(kit)
+    new_gap_analysis = [
+        _gap_payload_entry(payload, gap, names)
+        for gap in gaps.get("gaps", [])
+    ]
     if new_gap_analysis:
         payload["gap_analysis"] = new_gap_analysis
 
 
-def _gap_payload_entry(payload: dict, gap: dict) -> dict:
+def _gap_payload_entry(
+    payload: dict, gap: dict, names: dict[str, dict[str, str]]
+) -> dict:
+    locale = _locale(payload)
     existing = next(
         (item for item in payload["gap_analysis"]
          if item.get("capability_code") == gap["capability_id"]),
@@ -212,16 +282,16 @@ def _gap_payload_entry(payload: dict, gap: dict) -> dict:
     recommended_actions = (
         existing.get("recommended_actions", {})
         if existing
-        else {
-            "h1": "Definir baseline e estabelecer métricas de cobertura.",
-            "h2": "Expandir piloto para >50% das equipes; instrumentar OKRs.",
-            "h3": "Atingir cobertura universal e otimização contínua.",
-        }
+        else dict(DEFAULT_ACTIONS.get(locale, DEFAULT_ACTIONS[DEFAULT_LOCALE]))
     )
+    pt_name = gap["capability_name_pt_br"]
+    # framework.json has no Spanish names; ES keeps the canonical PT-BR name
+    name_key = "en" if locale == "en" else "pt-br"
+    cap_name = names.get(gap["capability_id"], {}).get(name_key) or pt_name
     return {
         "pillar_id": gap["pillar_id"],
         "capability_code": gap["capability_id"],
-        "capability_name": gap["capability_name_pt_br"],
+        "capability_name": cap_name,
         "current": round(gap["current_score"], 2),
         "target": round(gap["target_level"], 2),
         "gap": round(gap["gap_size"], 2),
@@ -244,7 +314,7 @@ def _merge_implementation_guide_inputs(payload: dict, ig_path: Path) -> None:
             current_ig[f"{key}_raw_markdown"] = value
     payload["implementation_guide_inputs"] = current_ig
     print(f"✓ Merged implementation-guide-inputs.json "
-          f"({ig.get('metadata', {}).get('completion_pct', 0)}% completo)")
+          f"({ig.get('metadata', {}).get('completion_pct', 0)}% complete)")
 
 
 def _attach_cross_survey(payload: dict, kit: Path) -> None:
@@ -345,7 +415,7 @@ def render_pdfs(payload_path: Path, out_dir: Path, kit: Path) -> int:
     """Invoke render_reports.py to produce the 5 PDFs."""
     script = kit / "relatorios/scripts/render_reports.py"
     cmd = [sys.executable, str(script), "--payload", str(payload_path), "--out", str(out_dir)]
-    print(f"\n→ Renderizando 5 PDFs com {payload_path.name}...")
+    print(f"\n→ Rendering 5 PDFs with {payload_path.name}...")
     result = subprocess.run(cmd, capture_output=True, text=True)
     print(result.stdout)
     if result.returncode != 0:
